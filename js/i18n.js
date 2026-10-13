@@ -8,13 +8,13 @@ const translations = {
     'nav.about': 'About',
     'nav.projects': 'Projects',
     'nav.skills': 'Skills',
-    'nav.certifications': 'Certifications',
+    'nav.certifications': 'Courses',
     'nav.contact': 'Contact',
 
     // Hero
     'hero.greeting': 'Hello, I\'m',
     'hero.iam': 'I am',
-    'hero.description': 'Software Engineering student at UCB and IT intern at CAESB. Fullstack developer passionate about automation and building real-impact solutions.',
+    'hero.description': 'Software Engineering student at UCB and development intern at CAESB. Focused on Java backend development with Spring and PostgreSQL, looking for junior software development opportunities.',
     'hero.btn.projects': 'View Projects',
     'hero.btn.contact': 'Get in touch',
     'hero.btn.cv': 'Download CV',
@@ -22,7 +22,7 @@ const translations = {
     // Sobre
     'about.title': 'About <span>Me</span>',
     'about.subtitle': 'Who am I',
-    'about.description': 'Software Engineering student at Universidade Católica de Brasília, with hands-on experience in developing and maintaining Fullstack systems. Currently an IT intern at CAESB, working on improving applications with Java, JavaScript, React, XHTML, and Azure services. I constantly seek to expand my stack and explore different areas of technology to build a broad view of software development.',
+    'about.description': 'Software Engineering student at Universidade Católica de Brasília, with hands-on experience in developing and maintaining web systems. Currently a development intern at CAESB, working on improving applications with Java, JavaScript, React, XHTML, and Azure services. My main focus is Java backend development with Spring and PostgreSQL, complemented by web development and data analysis projects.',
     'about.location.title': 'Location',
     'about.location.desc': 'Brasília, DF',
     'about.internship.title': 'Internship',
@@ -32,8 +32,8 @@ const translations = {
     'about.availability.title': 'Availability',
     'about.availability.desc': 'Open to opportunities',
     'about.btn.contact': 'Get in touch',
-    'counter.projects': 'Projects',
-    'counter.technologies': 'Technologies',
+    'counter.projects': 'Featured Projects',
+    'counter.technologies': 'Skill Areas',
     'counter.years': 'Years Coding',
 
     // Linha do tempo
@@ -57,36 +57,45 @@ const translations = {
     // Projetos
     'projects.title': 'My <span>Projects</span>',
     'projects.subtitle': 'What I\'ve built',
-    'project1.title': 'CAESB Detector',
-    'project1.description': 'Detects sponsored sites (ads) on Google when someone searches for CAESB. Logs suspicious URLs and triggers automation via PowerShell (RPA).',
+    'project1.title': 'Carteira API',
+    'project1.description': 'Personal Java backend project for a digital wallet: registration, JWT login, balance, deposits and transfers. ACID transactions, idempotent retries, modular architecture and concurrency tests. Paginated statements are planned.',
     'project2.title': 'Personal Portfolio',
     'project2.description': 'Responsive landing page with dark mode, Canvas animations, typing effect, and scroll-spy. Built from scratch with HTML, CSS, and vanilla JavaScript.',
+    'project3.title': 'Academic ERP',
+    'project3.description': 'Team university project for managing students, courses and enrollments. Contributions include course selection in enrollment and authentication updates with React and Firebase.',
+    'project4.title': 'Multiplayer Minesweeper',
+    'project4.description': 'Team Operating Systems project: a terminal game written in C. Participation in a multiplayer implementation using POSIX threads and semaphores for concurrent execution.',
+    'project.source': 'Code',
     'filter.all': 'All',
     'filter.web': 'Web',
-    'filter.python': 'Python',
-    'filter.rpa': 'RPA',
+    'filter.backend': 'Backend',
+    'filter.systems': 'Systems',
 
     // Certificações
-    'certs.title': 'Certifications &amp; <span>Badges</span>',
-    'certs.subtitle': 'Continuous learning',
+    'certs.title': 'Courses &amp; <span>Learning</span>',
+    'certs.subtitle': 'Complementary training, separate from professional certifications',
     'cert1.name': 'Java Programming',
     'cert1.issuer': 'Udemy',
-    'cert2.name': 'Azure Fundamentals',
-    'cert2.issuer': 'Microsoft',
     'cert3.name': 'TypeScript/JavaScript',
     'cert3.issuer': 'Udemy',
     'cert4.name': 'React Development',
     'cert4.issuer': 'Udemy',
 
     // GitHub
-    'github.title': 'GitHub <span>Activity</span>',
-    'github.subtitle': 'Open source contributions',
+    'github.title': 'Selected <span>Repositories</span>',
+    'github.subtitle': 'Public projects with repository details from GitHub',
     'github.viewprofile': 'View Full Profile',
     'github.error': 'Could not load repositories. Visit my GitHub profile.',
 
     // Habilidades
     'skills.title': 'My <span>Skills</span>',
-    'skills.subtitle': 'Technologies I use',
+    'skills.subtitle': 'Practical examples from my projects',
+    'skill1.evidence': 'REST API with JWT authentication, deposits and atomic transfers.',
+    'skill2.evidence': 'Versioned migrations, financial constraints and pessimistic locking.',
+    'skill3.evidence': 'Academic ERP with authentication and student, course and enrollment screens.',
+    'skill4.evidence': 'Responsive bilingual portfolio with themes and GitHub API integration.',
+    'skill5.evidence': 'Data analysis projects and initial exploration of credit default data.',
+    'skill6.evidence': 'Pull requests, automated builds, architecture checks and integration tests.',
 
     // Contato
     'contact.title': 'Get in <span>Touch</span>',
@@ -119,7 +128,7 @@ const translations = {
     'footer.text': 'Built by <span>Pedro Braga</span> with HTML, CSS, and vanilla JavaScript.',
 
     // Meta
-    'meta.description': 'Pedro Braga\'s Portfolio — Fullstack Developer, intern at CAESB, Software Engineering student at UCB.',
+    'meta.description': 'Pedro Braga — Java backend developer, Spring and PostgreSQL. Software Engineering student at UCB and development intern at CAESB.',
   },
 
   'pt-br': {
@@ -127,13 +136,13 @@ const translations = {
     'nav.about': 'Sobre',
     'nav.projects': 'Projetos',
     'nav.skills': 'Skills',
-    'nav.certifications': 'Certificações',
+    'nav.certifications': 'Cursos',
     'nav.contact': 'Contato',
 
     // Hero
     'hero.greeting': 'Olá, me chamo',
     'hero.iam': 'Eu sou',
-    'hero.description': 'Estudante de Engenharia de Software na UCB e estagiário de TI na CAESB. Desenvolvedor Fullstack apaixonado por automação e por construir soluções de impacto real.',
+    'hero.description': 'Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL, buscando oportunidades como desenvolvedor de software júnior.',
     'hero.btn.projects': 'Ver Projetos',
     'hero.btn.contact': 'Entrar em contato',
     'hero.btn.cv': 'Baixar Currículo',
@@ -141,7 +150,7 @@ const translations = {
     // Sobre
     'about.title': 'Sobre <span>Mim</span>',
     'about.subtitle': 'Quem sou eu',
-    'about.description': 'Estudante de Engenharia de Software na Universidade Católica de Brasília, com experiência prática em desenvolvimento e manutenção de sistemas Fullstack. Atualmente estagiário de TI na CAESB, atuando na melhoria de aplicações com Java, JavaScript, React, XHTML e serviços na Azure. Busco constantemente expandir minha stack e explorar diferentes áreas da tecnologia para construir uma visão ampla do desenvolvimento de software.',
+    'about.description': 'Estudante de Engenharia de Software na Universidade Católica de Brasília, com experiência prática em desenvolvimento e manutenção de sistemas web. Atualmente estagiário de desenvolvimento na CAESB, atuando na melhoria de aplicações com Java, JavaScript, React, XHTML e serviços na Azure. Meu foco principal é backend Java com Spring e PostgreSQL, complementado por projetos web e de análise de dados.',
     'about.location.title': 'Localização',
     'about.location.desc': 'Brasília, DF',
     'about.internship.title': 'Estágio',
@@ -151,12 +160,12 @@ const translations = {
     'about.availability.title': 'Disponibilidade',
     'about.availability.desc': 'Aberto a oportunidades',
     'about.btn.contact': 'Entre em contato',
-    'counter.projects': 'Projetos',
-    'counter.technologies': 'Tecnologias',
+    'counter.projects': 'Projetos em destaque',
+    'counter.technologies': 'Áreas de prática',
     'counter.years': 'Anos Programando',
 
     // Linha do tempo
-    'nav.experience': 'Experience',
+    'nav.experience': 'Experiência',
     'timeline.title': 'Minha <span>Jornada</span>',
     'timeline.subtitle': 'Por onde passei',
     'timeline.item1.date': '2025 — Presente',
@@ -175,36 +184,45 @@ const translations = {
     // Projetos
     'projects.title': 'Meus <span>Projetos</span>',
     'projects.subtitle': 'O que já construí',
-    'project1.title': 'Detector CAESB',
-    'project1.description': 'Detecta sites patrocinados (anúncios) no Google quando alguém pesquisa sobre a CAESB. Registra URLs suspeitas e aciona automação via PowerShell (RPA).',
+    'project1.title': 'Carteira API',
+    'project1.description': 'Projeto pessoal de backend Java para carteira digital: cadastro, login JWT, saldo, depósitos e transferências. Transações ACID, reenvio idempotente, arquitetura modular e testes de concorrência. Extrato paginado está planejado.',
     'project2.title': 'Portfolio Pessoal',
     'project2.description': 'Landing page responsiva com dark mode, animações em Canvas, efeito typing e scroll-spy. Desenvolvido do zero com HTML, CSS e JavaScript puro.',
+    'project3.title': 'ERP Acadêmico',
+    'project3.description': 'Projeto universitário em equipe para gestão de alunos, cursos e matrículas. Contribuições incluem seleção de curso na matrícula e ajustes de autenticação com React e Firebase.',
+    'project4.title': 'Campo Minado Multiplayer',
+    'project4.description': 'Projeto em equipe de Sistemas Operacionais: jogo no terminal em C. Participação na implementação multiplayer com threads e semáforos POSIX para execução concorrente.',
+    'project.source': 'Código',
     'filter.all': 'Todos',
     'filter.web': 'Web',
-    'filter.python': 'Python',
-    'filter.rpa': 'RPA',
+    'filter.backend': 'Backend',
+    'filter.systems': 'Sistemas',
 
     // Certificações
-    'certs.title': 'Certificações &amp; <span>Badges</span>',
-    'certs.subtitle': 'Aprendizado contínuo',
+    'certs.title': 'Cursos e <span>Aprendizado</span>',
+    'certs.subtitle': 'Formação complementar, separada de certificações profissionais',
     'cert1.name': 'Programação Java',
     'cert1.issuer': 'Udemy',
-    'cert2.name': 'Azure Fundamentals',
-    'cert2.issuer': 'Microsoft',
     'cert3.name': 'TypeScript e JavaScript',
     'cert3.issuer': 'Udemy',
     'cert4.name': 'Desenvolvimento React',
     'cert4.issuer': 'Udemy',
 
     // GitHub
-    'github.title': 'Atividade no <span>GitHub</span>',
-    'github.subtitle': 'Contribuições open source',
+    'github.title': 'Repositórios em <span>Destaque</span>',
+    'github.subtitle': 'Projetos públicos com informações atualizadas pelo GitHub',
     'github.viewprofile': 'Ver Perfil Completo',
     'github.error': 'Não foi possível carregar repositórios. Visite meu perfil no GitHub.',
 
     // Habilidades
     'skills.title': 'Minhas <span>Skills</span>',
-    'skills.subtitle': 'Tecnologias que uso',
+    'skills.subtitle': 'Exemplos práticos dos meus projetos',
+    'skill1.evidence': 'API REST com autenticação JWT, depósitos e transferências atômicas.',
+    'skill2.evidence': 'Migrations versionadas, constraints financeiras e bloqueio pessimista.',
+    'skill3.evidence': 'ERP acadêmico com autenticação e telas de alunos, cursos e matrículas.',
+    'skill4.evidence': 'Portfólio responsivo e bilíngue com temas e integração com a API do GitHub.',
+    'skill5.evidence': 'Projetos de análise de dados e exploração inicial de dados de inadimplência.',
+    'skill6.evidence': 'Pull requests, builds automatizados, verificações de arquitetura e testes de integração.',
 
     // Contato
     'contact.title': 'Entre em <span>Contato</span>',
@@ -237,7 +255,7 @@ const translations = {
     'footer.text': 'Desenvolvido por <span>Pedro Braga</span> com HTML, CSS e JavaScript puro.',
 
     // Meta
-    'meta.description': 'Portfolio de Pedro Braga — Desenvolvedor Fullstack, estagiário na CAESB, estudante de Engenharia de Software na UCB.',
+    'meta.description': 'Pedro Braga — Desenvolvedor backend Java, Spring e PostgreSQL. Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB.',
   },
 };
 

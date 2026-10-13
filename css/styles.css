@@ -671,20 +671,10 @@ body {
   font-size: 0.95rem;
 }
 
-.skill-card__bar {
-  height: 6px;
-  background: var(--color-border);
-  border-radius: 50px;
-  overflow: hidden;
-}
-
-/* Começa em 0 — o JS anima até o valor de data-level */
-.skill-card__progress {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent));
-  border-radius: 50px;
-  width: 0;
-  transition: width 1s ease;
+.skill-card__description {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
 }
 
 /* ---- Contato ---- */

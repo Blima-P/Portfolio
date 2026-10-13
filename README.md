@@ -2,9 +2,9 @@
 
 # `< Pedro Braga />`
 
-### Desenvolvedor Fullstack · Estudante de Eng. de Software · Estagiário de TI @ CAESB
+### Desenvolvedor Backend Java · Spring · PostgreSQL · Estagiário de desenvolvimento @ CAESB
 
-[![Demo ao Vivo](https://img.shields.io/badge/▶_Demo_ao_Vivo-4ADE80?style=for-the-badge&logoColor=white)](https://blima-p.github.io/Portifolio)
+[![Demo ao Vivo](https://img.shields.io/badge/▶_Demo_ao_Vivo-4ADE80?style=for-the-badge&logoColor=white)](https://blima-p.github.io/Portfolio/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Blima-P)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-braga-de-lima-633717303/)
 
@@ -14,13 +14,12 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![Canvas API](https://img.shields.io/badge/Canvas_API-FF6F00?style=flat-square&logo=html5&logoColor=white)
-![EmailJS](https://img.shields.io/badge/EmailJS-5865F2?style=flat-square&logoColor=white)
 
 </div>
 
 <br>
 
-> Portfólio pessoal desenvolvido do zero com **HTML5, CSS3 e JavaScript puro** — sem frameworks, sem dependências.
+> Portfólio pessoal desenvolvido do zero com **HTML5, CSS3 e JavaScript puro** — sem frameworks e sem etapa de build.
 > Design dark-mode-first com estética tech, animações suaves e totalmente responsivo.
 
 <br>
@@ -35,12 +34,12 @@
 | 🔮 | **Sistema de Partículas** | Partículas interativas em Canvas com linhas de conexão |
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
 | 🎭 | **Animações de Scroll** | Efeitos de revelação com Intersection Observer |
-| 📊 | **Barras de Habilidade** | Barras de progresso que preenchem ao rolar |
+| 📊 | **Habilidades com Evidências** | Exemplos concretos de uso das tecnologias, sem porcentagens arbitrárias |
 | 🔢 | **Contadores Animados** | Números contam ao entrar na viewport |
-| 🗂️ | **Filtro de Projetos** | Filtragem por categoria (Todos, Web, Python, RPA) |
+| 🗂️ | **Filtro de Projetos** | Filtragem por categoria (Todos, Web, Backend, Sistemas) |
 | 📅 | **Linha do Tempo** | Timeline visual da jornada profissional |
-| 🏅 | **Certificações** | Grid de certificados com efeitos hover |
-| 🐙 | **Integração GitHub** | Repositórios em tempo real via GitHub REST API |
+| 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
+| 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
 | ✉️ | **Links de Contato** | Cards diretos para Email, GitHub, LinkedIn, Lattes |
 | 🖱️ | **Cursor Personalizado** | Brilho que segue o mouse com expansão no hover (desktop) |
 | 🧲 | **Botões Magnéticos** | Botões seguem sutilmente o cursor ao passar o mouse |
@@ -58,7 +57,7 @@
 ```
 Frontend        HTML5 (semântico) · CSS3 (Grid, Flexbox, Variáveis) · JS Vanilla (ES6+)
 Gráficos        Canvas API (sistema de partículas)
-APIs            GitHub REST API · EmailJS
+APIs            GitHub REST API
 Otimização      Intersection Observer · requestAnimationFrame · content-visibility
 Design          CSS Custom Properties · Responsivo mobile-first · Tema Claro/Escuro
 ```
@@ -68,7 +67,7 @@ Design          CSS Custom Properties · Responsivo mobile-first · Tema Claro/E
 ## 📁 Estrutura do Projeto
 
 ```
-Portifolio/
+Portfolio/
 ├── index.html                  # HTML principal — aplicação de página única
 ├── css/
 │   ├── styles.css              # Estilos principais, layout, componentes, responsivo
@@ -98,10 +97,10 @@ Portifolio/
 
 ```bash
 # Clone o repositório
-git clone https://github.com/Blima-P/Portifolio.git
+git clone https://github.com/Blima-P/Portfolio.git
 
 # Entre na pasta do projeto
-cd Portifolio
+cd Portfolio
 
 # Abra no navegador (não precisa de build!)
 # Opção 1: Abrir diretamente
@@ -122,10 +121,10 @@ python -m http.server 8000
 | **Hero** | Nome, efeito de digitação, partículas de fundo, botões de ação |
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade, contadores animados |
 | **Experiência** | Linha do tempo da jornada profissional |
-| **Projetos** | Cards de projetos filtráveis com links para o GitHub |
-| **Skills** | Barras de progresso animadas para cada tecnologia |
-| **Certificações** | Grid de certificados e badges |
-| **GitHub** | Cards de repositórios em tempo real via API do GitHub |
+| **Projetos** | Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
+| **Skills** | Tecnologias acompanhadas de exemplos práticos |
+| **Cursos** | Formação complementar, distinta de certificações profissionais |
+| **GitHub** | Cards dos quatro projetos selecionados, com dados atualizados via API do GitHub |
 | **Contato** | Links diretos para Email, GitHub, LinkedIn, Lattes |
 
 <br>
@@ -135,7 +134,7 @@ python -m http.server 8000
 Sugestões para tornar a seção "Sobre Mim" ainda mais impactante:
 
 - **Stats Dinâmicos do GitHub** — Substituir contadores fixos por dados reais da API do GitHub (total de repos, commits, contribuições)
-- **Ícones de Tecnologias** — Grid visual com ícones das tecnologias em vez de apenas barras de texto
+- **Credenciais Verificáveis** — Adicionar links públicos dos certificados de conclusão dos cursos
 - **"Estudando Atualmente"** — Badge ou chip destacando o que você está aprendendo no momento
 - **Lema Pessoal** — Uma frase de impacto curta que defina sua filosofia como dev
 - **Foto Interativa** — Ao passar o mouse, trocar para uma foto mais casual/divertida com CSS

@@ -5,21 +5,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Pedro Braga's Portfolio — Fullstack Developer, intern at CAESB, Software Engineering student at UCB." />
+    content="Pedro Braga — Java backend developer, Spring and PostgreSQL. Software Engineering student at UCB and development intern at CAESB." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Pedro Braga | Portfolio" />
-  <meta property="og:description" content="Fullstack Developer, intern at CAESB, Software Engineering student at UCB." />
-  <meta property="og:url" content="https://blima-p.github.io/Portifolio" />
-  <meta property="og:image" content="https://blima-p.github.io/Portifolio/assets/img/og-preview.png" />
-  <meta property="og:locale" content="en" />
+  <meta property="og:description" content="Java backend developer · Spring · PostgreSQL · Software Engineering at UCB." />
+  <meta property="og:url" content="https://blima-p.github.io/Portfolio/" />
+  <meta property="og:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
+  <meta property="og:image:alt" content="Pedro Braga de Lima" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="pt_BR" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Pedro Braga | Portfolio" />
-  <meta name="twitter:description" content="Fullstack Developer, intern at CAESB, Software Engineering student at UCB." />
-  <meta name="twitter:image" content="https://blima-p.github.io/Portifolio/assets/img/og-preview.png" />
+  <meta name="twitter:description" content="Java backend developer · Spring · PostgreSQL · Software Engineering at UCB." />
+  <meta name="twitter:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="canonical" href="https://blima-p.github.io/Portfolio/" />
   <title>Pedro Braga | Portfolio</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/animations.css" />
@@ -30,8 +30,8 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Pedro Braga de Lima",
-    "jobTitle": "Fullstack Developer",
-    "url": "https://blima-p.github.io/Portifolio",
+    "jobTitle": "Java Backend Developer",
+    "url": "https://blima-p.github.io/Portfolio/",
     "sameAs": [
       "https://github.com/Blima-P",
       "https://www.linkedin.com/in/pedro-braga-de-lima-633717303/"
@@ -42,8 +42,6 @@
     }
   }
   </script>
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
@@ -70,7 +68,7 @@
         <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experience</a></li>
         <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projects</a></li>
         <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Skills</a></li>
-        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Certifications</a></li>
+        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Courses</a></li>
         <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contact</a></li>
       </ul>
 
@@ -114,7 +112,8 @@
 
         <p class="hero__description" data-i18n="hero.description">
           Software Engineering student at UCB and IT intern at CAESB.
-          Fullstack developer passionate about automation and building real-impact solutions.
+          Focused on Java backend development with Spring and PostgreSQL,
+          looking for junior software development opportunities.
         </p>
 
         <div class="hero__buttons">
@@ -171,8 +170,8 @@
               with hands-on experience in developing and maintaining Fullstack systems.
               Currently an IT intern at CAESB, working on improving applications with
               Java, JavaScript, React, XHTML, and Azure services.
-              I constantly seek to expand my stack and explore different areas of technology
-              to build a broad view of software development.
+              My main focus is Java backend development with Spring and PostgreSQL,
+              complemented by web development and data analysis projects.
             </p>
 
             <div class="about__data">
@@ -196,12 +195,12 @@
 
             <div class="counters">
               <div class="counter__item">
-                <span class="counter__number" data-target="5">0</span>
-                <span class="counter__label" data-i18n="counter.projects">Projects</span>
+                <span class="counter__number" data-target="4">0</span>
+                <span class="counter__label" data-i18n="counter.projects">Featured Projects</span>
               </div>
               <div class="counter__item">
                 <span class="counter__number" data-target="6">0</span>
-                <span class="counter__label" data-i18n="counter.technologies">Technologies</span>
+                <span class="counter__label" data-i18n="counter.technologies">Skill Areas</span>
               </div>
               <div class="counter__item">
                 <span class="counter__number" data-target="2">0</span>
@@ -272,17 +271,17 @@
         <div class="projects__filters">
           <button class="projects__filter active" data-filter="all" data-i18n="filter.all">All</button>
           <button class="projects__filter" data-filter="web" data-i18n="filter.web">Web</button>
-          <button class="projects__filter" data-filter="python" data-i18n="filter.python">Python</button>
-          <button class="projects__filter" data-filter="rpa" data-i18n="filter.rpa">RPA</button>
+          <button class="projects__filter" data-filter="backend" data-i18n="filter.backend">Backend</button>
+          <button class="projects__filter" data-filter="systems" data-i18n="filter.systems">Systems</button>
         </div>
 
         <div class="projects__grid">
 
-          <article class="project-card" data-category="python rpa">
+          <article class="project-card" data-category="backend">
             <div class="project-card__header">
-              <span class="project-card__tag">Python · RPA</span>
+              <span class="project-card__tag">Java · Spring · PostgreSQL</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/Deterctor_Caesb-att" target="_blank" aria-label="Ver código">
+                <a href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" aria-label="Ver código da Carteira API">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                     height="20">
                     <path
@@ -291,17 +290,53 @@
                 </a>
               </div>
             </div>
-            <h3 class="project-card__title" data-i18n="project1.title">CAESB Detector</h3>
+            <h3 class="project-card__title" data-i18n="project1.title">Carteira API</h3>
             <p class="project-card__description" data-i18n="project1.description">
-              Detects sponsored sites (ads) on Google when someone
-              searches for CAESB. Logs suspicious URLs and triggers automation
-              via PowerShell (RPA).
+              Personal Java backend project for a digital wallet: registration, JWT login,
+              balance, deposits and transfers. ACID transactions, idempotent retries,
+              modular architecture and concurrency tests. Paginated statements are planned.
             </p>
             <div class="project-card__tags">
-              <span>Python</span>
-              <span>PowerShell</span>
-              <span>RPA</span>
-              <span>Automação</span>
+              <span>Java 21</span>
+              <span>Spring Modulith</span>
+              <span>PostgreSQL</span>
+              <span>JWT</span>
+            </div>
+          </article>
+
+          <article class="project-card" data-category="web">
+            <div class="project-card__header">
+              <span class="project-card__tag">React · Firebase</span>
+              <div class="project-card__links">
+                <a href="https://github.com/Blima-P/ERP-Academico" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Code</a>
+              </div>
+            </div>
+            <h3 class="project-card__title" data-i18n="project3.title">Academic ERP</h3>
+            <p class="project-card__description" data-i18n="project3.description">
+              Team university project for managing students, courses and enrollments.
+              Contributions include course selection in enrollment and authentication updates
+              with React and Firebase.
+            </p>
+            <div class="project-card__tags">
+              <span>React</span><span>Firebase</span><span>JavaScript</span>
+            </div>
+          </article>
+
+          <article class="project-card" data-category="systems">
+            <div class="project-card__header">
+              <span class="project-card__tag">C · POSIX</span>
+              <div class="project-card__links">
+                <a href="https://github.com/Blima-P/Campo-minado" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Code</a>
+              </div>
+            </div>
+            <h3 class="project-card__title" data-i18n="project4.title">Multiplayer Minesweeper</h3>
+            <p class="project-card__description" data-i18n="project4.description">
+              Team Operating Systems project: a terminal game written in C.
+              Participation in a multiplayer implementation using POSIX threads and
+              semaphores for concurrent execution.
+            </p>
+            <div class="project-card__tags">
+              <span>C</span><span>Threads</span><span>POSIX</span>
             </div>
           </article>
 
@@ -309,14 +344,14 @@
             <div class="project-card__header">
               <span class="project-card__tag">HTML · CSS · JS</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/portfolio" target="_blank" aria-label="Ver código">
+                <a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Ver código do portfólio">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                     height="20">
                     <path
                       d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                   </svg>
                 </a>
-                <a href="#" target="_blank" aria-label="Ver demo ao vivo">
+                <a href="https://blima-p.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Ver demo ao vivo">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" width="20" height="20">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -352,41 +387,28 @@
 
         <div class="skills__grid">
           <div class="skill-card">
-            <span class="skill-card__name">Java</span>
-            <div class="skill-card__bar">
-              <!-- Nível de habilidade em % — animado pelo main.js -->
-              <div class="skill-card__progress" data-level="90"></div>
-            </div>
+            <span class="skill-card__name">Java · Spring</span>
+            <p class="skill-card__description" data-i18n="skill1.evidence">REST API with JWT authentication, deposits and atomic transfers.</p>
           </div>
           <div class="skill-card">
-            <span class="skill-card__name">JavaScript</span>
-            <div class="skill-card__bar">
-              <div class="skill-card__progress" data-level="40"></div>
-            </div>
+            <span class="skill-card__name">PostgreSQL · Flyway</span>
+            <p class="skill-card__description" data-i18n="skill2.evidence">Versioned migrations, financial constraints and pessimistic locking.</p>
           </div>
           <div class="skill-card">
-            <span class="skill-card__name">React</span>
-            <div class="skill-card__bar">
-              <div class="skill-card__progress" data-level="65"></div>
-            </div>
+            <span class="skill-card__name">React · Firebase</span>
+            <p class="skill-card__description" data-i18n="skill3.evidence">Academic ERP with authentication and student, course and enrollment screens.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">HTML &amp; CSS</span>
-            <div class="skill-card__bar">
-              <div class="skill-card__progress" data-level="90"></div>
-            </div>
+            <p class="skill-card__description" data-i18n="skill4.evidence">Responsive bilingual portfolio with themes and GitHub API integration.</p>
           </div>
           <div class="skill-card">
-            <span class="skill-card__name">Python / RPA / PowerShell</span>
-            <div class="skill-card__bar">
-              <div class="skill-card__progress" data-level="30"></div>
-            </div>
+            <span class="skill-card__name">Python · pandas</span>
+            <p class="skill-card__description" data-i18n="skill5.evidence">Data analysis projects and initial exploration of credit default data.</p>
           </div>
           <div class="skill-card">
-            <span class="skill-card__name">Azure / MySQL / Git</span>
-            <div class="skill-card__bar">
-              <div class="skill-card__progress" data-level="60"></div>
-            </div>
+            <span class="skill-card__name">Git · GitHub Actions</span>
+            <p class="skill-card__description" data-i18n="skill6.evidence">Pull requests, automated builds, architecture checks and integration tests.</p>
           </div>
         </div>
       </div>
@@ -396,19 +418,14 @@
     <!-- Certificações -->
     <section class="certifications" id="certifications">
       <div class="container">
-        <h2 class="section__title" data-i18n="certs.title">Certifications &amp; <span>Badges</span></h2>
-        <p class="section__subtitle" data-i18n="certs.subtitle">Continuous learning</p>
+        <h2 class="section__title" data-i18n="certs.title">Courses &amp; <span>Learning</span></h2>
+        <p class="section__subtitle" data-i18n="certs.subtitle">Complementary training, separate from professional certifications</p>
 
         <div class="certs__grid">
           <div class="cert-card">
             <div class="cert-card__icon">☕</div>
             <h3 class="cert-card__name" data-i18n="cert1.name">Java Programming</h3>
             <p class="cert-card__issuer" data-i18n="cert1.issuer">Udemy</p>
-          </div>
-          <div class="cert-card">
-            <div class="cert-card__icon">☁️</div>
-            <h3 class="cert-card__name" data-i18n="cert2.name">Azure Fundamentals</h3>
-            <p class="cert-card__issuer" data-i18n="cert2.issuer">Microsoft</p>
           </div>
           <div class="cert-card">
             <div class="cert-card__icon">｡🇯‌🇸‌</div>
@@ -428,8 +445,8 @@
     <!-- Atividade no GitHub -->
     <section class="github" id="github">
       <div class="container">
-        <h2 class="section__title" data-i18n="github.title">GitHub <span>Activity</span></h2>
-        <p class="section__subtitle" data-i18n="github.subtitle">Open source contributions</p>
+        <h2 class="section__title" data-i18n="github.title">Selected <span>Repositories</span></h2>
+        <p class="section__subtitle" data-i18n="github.subtitle">Public projects with repository details from GitHub</p>
 
         <div class="github__grid" id="github-repos">
           <div class="github__loading">Loading repositories...</div>
@@ -487,6 +504,7 @@
       </div>
     </section>
     <!-- /contatos -->
+  </main>
   <!-- Rodapé -->
   <footer class="footer">
     <div class="container">

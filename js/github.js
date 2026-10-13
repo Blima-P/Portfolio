@@ -1,16 +1,20 @@
 /* ---- Integração com a API do GitHub ---- */
 (function () {
   const GITHUB_USER = 'Blima-P';
+  const SELECTED_REPOS = ['carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
   const REPOS_CONTAINER = document.getElementById('github-repos');
   if (!REPOS_CONTAINER) return;
 
   async function fetchRepos() {
     try {
-      const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=6`);
+      const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100`);
       if (!res.ok) throw new Error('API error');
       const repos = await res.json();
-      renderRepos(repos.filter(r => !r.fork).slice(0, 4));
+      const selected = SELECTED_REPOS.map(name => repos.find(repo => repo.name === name && !repo.fork && !repo.archived));
+      if (selected.some(repo => !repo)) throw new Error('Selected repository is unavailable');
+      renderRepos(selected);
     } catch (err) {
+      console.error('Could not load selected GitHub repositories:', err);
       REPOS_CONTAINER.innerHTML = '<p class="github__fallback" data-i18n="github.error">Could not load repositories. Visit my GitHub profile.</p>';
       if (typeof setLanguage === 'function') setLanguage(currentLang);
     }
