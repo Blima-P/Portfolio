@@ -6,9 +6,9 @@
   const commands = {
     en: {
       help: 'Available commands: about, skills, projects, contact, github, secret, clear, exit',
-      about: 'Pedro Braga de Lima — Software Engineering student at UCB, IT Intern at CAESB. Passionate about Fullstack development and automation.',
-      skills: 'Java • JavaScript • React • HTML/CSS • Python • PowerShell • Azure • MySQL • Git',
-      projects: '1. CAESB Detector — RPA tool (Python + PowerShell)\n2. Personal Portfolio — Vanilla HTML/CSS/JS with 18+ features',
+      about: 'Pedro Braga de Lima — Software Engineering student at UCB, development intern at CAESB. Focused on Java backend with Spring and PostgreSQL.',
+      skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
+      projects: '1. Carteira API — Java/Spring digital wallet\n2. Academic ERP — React/Firebase team project\n3. Multiplayer Minesweeper — C/POSIX\n4. Personal Portfolio — HTML/CSS/JavaScript',
       contact: 'Email: Pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
       github: 'Check out my repos → https://github.com/Blima-P',
       secret: '🎮 Konami Code? Nah, you found the terminal! You\'re a real dev. 🚀',
@@ -17,9 +17,9 @@
     },
     'pt-br': {
       help: 'Comandos disponíveis: about, skills, projects, contact, github, secret, clear, exit',
-      about: 'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, Estagiário de TI na CAESB. Apaixonado por desenvolvimento Fullstack e automação.',
-      skills: 'Java • JavaScript • React • HTML/CSS • Python • PowerShell • Azure • MySQL • Git',
-      projects: '1. Detector CAESB — Ferramenta RPA (Python + PowerShell)\n2. Portfólio Pessoal — HTML/CSS/JS vanilla com 18+ funcionalidades',
+      about: 'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL.',
+      skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
+      projects: '1. Carteira API — Carteira digital Java/Spring\n2. ERP Acadêmico — Projeto em equipe React/Firebase\n3. Campo Minado Multiplayer — C/POSIX\n4. Portfólio Pessoal — HTML/CSS/JavaScript',
       contact: 'Email: Pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
       github: 'Confira meus repos → https://github.com/Blima-P',
       secret: '🎮 Konami Code? Não, você achou o terminal! Você é um dev de verdade. 🚀',

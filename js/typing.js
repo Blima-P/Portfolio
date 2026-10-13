@@ -4,13 +4,15 @@
 
 const typingTextsMap = {
   en: [
-    'Fullstack Developer',
+    'Java Backend Developer',
+    'Spring & PostgreSQL',
     'Software Eng. Student',
     'Intern at CAESB',
     'Passionate about tech',
   ],
   'pt-br': [
-    'Desenvolvedor Fullstack',
+    'Desenvolvedor Backend Java',
+    'Spring e PostgreSQL',
     'Estudante de Eng. de Software',
     'Estagiário na CAESB',
     'Apaixonado por tecnologia 🚀',

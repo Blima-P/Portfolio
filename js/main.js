@@ -95,18 +95,6 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.animate').forEach(el => observer.observe(el));
 
-/* ---- Barras de skill: animam ao entrar na viewport ---- */
-const skillObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.width = entry.target.dataset.level + '%';
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.skill-card__progress').forEach(bar => skillObserver.observe(bar));
-
 /* ---- Animação de revelação de texto nos títulos das seções ---- */
 document.querySelectorAll('.section__title').forEach(el => {
   el.classList.add('text-reveal');
