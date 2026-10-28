@@ -6,7 +6,7 @@
 
 [![Demo ao Vivo](https://img.shields.io/badge/▶_Demo_ao_Vivo-4ADE80?style=for-the-badge&logoColor=white)](https://blima-p.github.io/Portfolio/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Blima-P)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-braga-de-lima-633717303/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedrobragadelima/)
 
 ---
 
@@ -149,7 +149,7 @@ Sugestões para tornar a seção "Sobre Mim" ainda mais impactante:
 
 [![Email](https://img.shields.io/badge/Email-pbl0812@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:pbl0812@gmail.com)
 [![GitHub](https://img.shields.io/badge/@Blima--P-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Blima-P)
-[![LinkedIn](https://img.shields.io/badge/Pedro_Braga_de_Lima-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-braga-de-lima-633717303/)
+[![LinkedIn](https://img.shields.io/badge/Pedro_Braga_de_Lima-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedrobragadelima/)
 [![Lattes](https://img.shields.io/badge/Currículo_Lattes-005A9C?style=for-the-badge)](https://lattes.cnpq.br/7355607472728751)
 
 </div>
