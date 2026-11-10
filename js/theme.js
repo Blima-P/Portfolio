@@ -1,30 +1,39 @@
-'use strict';
-
-// Alternador de tema (claro/escuro) controlado por um botão.
+// Alternador de tema (claro/escuro). O tema salvo já é aplicado por um script
+// inline no <head>, antes da primeira pintura; aqui ficam o botão e a persistência.
 
 const THEME_KEY = 'theme';
-let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
 
-function setTheme(theme) {
-  currentTheme = theme;
-  localStorage.setItem(THEME_KEY, theme);
-  document.documentElement.setAttribute('data-theme', theme);
-
-  // Atualiza as partículas do hero para combinar com o tema selecionado.
-  if (typeof updateParticlesColor === 'function') {
-    updateParticlesColor(theme === 'light' ? '21, 128, 61' : '74, 222, 128');
+function readTheme() {
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    return saved === 'light' || saved === 'dark' ? saved : 'dark';
+  } catch {
+    return 'dark';
   }
 }
 
-function toggleTheme() {
-  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+function saveTheme(theme) {
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    // Armazenamento indisponível: o tema vale só para esta visita.
+  }
 }
 
-// Aplica e salva o tema.
-document.documentElement.setAttribute('data-theme', currentTheme);
+export function initTheme({ onChange } = {}) {
+  let current = readTheme();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.addEventListener('click', toggleTheme);
-  setTheme(currentTheme);
-});
+  function apply(theme) {
+    current = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    onChange?.(theme);
+  }
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const next = current === 'dark' ? 'light' : 'dark';
+    saveTheme(next);
+    apply(next);
+  });
+
+  apply(current);
+}

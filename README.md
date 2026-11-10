@@ -31,7 +31,7 @@
 | 🎨 | **Tema Claro / Escuro** | Alternância com persistência via localStorage |
 | 🌐 | **Bilíngue (PT-BR / EN)** | PT-BR por padrão, detecção pelo idioma do navegador e troca dinâmica de conteúdo |
 | ⌨️ | **Efeito de Digitação** | Texto animado no hero com frases rotativas por idioma |
-| 🔮 | **Sistema de Partículas** | Partículas interativas em Canvas com linhas de conexão |
+| 🔮 | **Sistema de Partículas** | Canvas com linhas de conexão, densidade proporcional à tela e pausa fora da viewport |
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
 | 🎭 | **Animações de Scroll** | Efeitos de revelação com Intersection Observer |
 | 📊 | **Habilidades com Evidências** | Exemplos concretos de uso das tecnologias, sem porcentagens arbitrárias |
@@ -41,25 +41,20 @@
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
 | 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
 | ✉️ | **Links de Contato** | Cards diretos para Email, GitHub, LinkedIn, Lattes |
-| 🖱️ | **Cursor Personalizado** | Brilho que segue o mouse com expansão no hover (desktop) |
-| 🧲 | **Botões Magnéticos** | Botões seguem sutilmente o cursor ao passar o mouse |
-| 🌊 | **Formas Parallax** | Formas decorativas desfocadas que se movem no scroll |
-| 🎬 | **Transições de Página** | Efeitos de fade suaves nos cliques do menu |
-| 💻 | **Terminal (Easter Egg)** | Terminal oculto (Ctrl + \`) com comandos personalizados |
+| 💻 | **Terminal (Easter Egg)** | Terminal oculto (Ctrl + \`), carregado só quando aberto |
 | 📱 | **Totalmente Responsivo** | Menu hambúrguer para mobile + layouts adaptativos |
-| ⚡ | **Preloader** | Tela de carregamento com barra de progresso |
-| 🎞️ | **Overlay de Ruído** | Textura de grão sutil para dar profundidade |
 
 <br>
 
 ## 🛠️ Tecnologias
 
 ```
-Frontend        HTML5 (semântico) · CSS3 (Grid, Flexbox, Variáveis) · JS Vanilla (ES6+)
+Frontend        HTML5 (semântico) · CSS3 (Grid, Flexbox, Variáveis) · JS Vanilla (ES Modules)
 Gráficos        Canvas API (sistema de partículas)
 APIs            GitHub REST API
 Otimização      Intersection Observer · requestAnimationFrame · content-visibility
 Design          CSS Custom Properties · Responsivo mobile-first · Tema Claro/Escuro
+Qualidade       ESLint · Stylelint · Prettier · html-validate · Playwright · Lighthouse CI · lychee
 ```
 
 <br>
@@ -72,18 +67,23 @@ Portfolio/
 ├── css/
 │   ├── styles.css              # Estilos principais, layout, componentes, responsivo
 │   └── animations.css          # Keyframes e classes utilitárias de animação
-├── js/
-│   ├── main.js                 # Scroll, observers, contadores, filtros
-│   ├── i18n.js                 # Internacionalização (traduções PT-BR / EN)
-│   ├── typing.js               # Efeito de digitação no hero com suporte a idiomas
+├── js/                         # ES Modules, sem variáveis globais
+│   ├── main.js                 # Ponto de entrada: inicializa os módulos
+│   ├── translations.js         # Textos PT-BR / EN (dados puros)
+│   ├── i18n.js                 # Detecção, troca e persistência do idioma
+│   ├── typing.js               # Efeito de digitação no hero, sem deslocar o layout
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
-│   ├── particles.js            # Sistema de partículas em Canvas com conexões
+│   ├── particles.js            # Sistema de partículas em Canvas
+│   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, contadores, filtros
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
-│   ├── terminal.js             # Terminal easter egg (Ctrl + `)
-│   ├── cursor.js               # Efeito de brilho no cursor personalizado
-│   ├── magnetic.js             # Efeito magnético nos botões ao hover
-│   ├── parallax.js             # Formas decorativas com parallax no scroll
-│   └── page-transitions.js     # Transições suaves na navegação
+│   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
+├── scripts/
+│   ├── check-i18n.mjs          # Verifica paridade e uso das chaves de tradução
+│   └── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS
+├── tests/
+│   └── smoke.spec.mjs          # Smoke test (Playwright, desktop e mobile)
+├── docs/
+│   └── plano-implementacao.md  # Plano de melhorias com milestones
 └── assets/
     ├── favicon.svg             # Favicon do site
     └── cv/                     # Currículo (PDF)
@@ -96,19 +96,31 @@ Portfolio/
 ```bash
 # Clone o repositório
 git clone https://github.com/Blima-P/Portfolio.git
-
-# Entre na pasta do projeto
 cd Portfolio
 
-# Abra no navegador (não precisa de build!)
-# Opção 1: Abrir diretamente
-start index.html
-
-# Opção 2: Usar um servidor local (recomendado para chamadas de API)
+# Sirva por HTTP (os ES Modules não carregam via file://)
 npx serve .
 # ou
 python -m http.server 8000
 ```
+
+Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages.
+
+### Verificações de qualidade
+
+Requer Node.js 22+.
+
+```bash
+npm ci
+npx playwright install chromium   # uma vez, para o smoke test
+
+npm run verify    # lint, formatação, HTML, i18n, versões dos assets e smoke test
+npm run format    # formata com Prettier e atualiza o ?v=<hash> dos assets
+```
+
+Ao editar qualquer CSS ou JS, rode `npm run stamp` (ou `npm run format`) antes do commit: o CI
+falha se o `?v=<hash>` estiver desatualizado, o que evita misturar HTML novo com CSS/JS antigos do
+cache do navegador após um deploy.
 
 <br>
 

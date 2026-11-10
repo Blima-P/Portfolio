@@ -62,13 +62,14 @@ que resista à inspeção de um recrutador técnico que abra o código-fonte.
 | `index.html` | Estrutura, metadados, conteúdo estático | M1, M3, M4, M5 |
 | `css/styles.css` | Tokens, layout, componentes | M1, M3, M4, M5 |
 | `css/animations.css` | Keyframes, reveal | M2, M5 |
-| `js/i18n.js` | Dicionários e troca de idioma | M1, M2, M4 |
-| `js/main.js` | Preloader, header, menu, scroll-spy, contadores, filtros | M1, M2, M5 |
+| `js/translations.js` + `js/i18n.js` | Dicionários (módulo puro) e troca de idioma | M1, M2, M4 |
+| `js/main.js` | Entrada dos ES Modules (desde o M2) | M2 |
+| `js/ui.js` | Header, menu, scroll-spy, reveal, contadores, filtros (desde o M2) | M2, M5 |
 | `js/typing.js` | Frases digitadas do hero | M1, M4 |
 | `js/theme.js` + `js/particles.js` | Tema e partículas | M2, M3 |
 | `js/github.js` | Seção de repositórios via API | M4 (remoção) |
 | `js/testimonials.js`, `js/contact.js` | **Código morto** | M1 (remoção) |
-| `js/cursor.js`, `magnetic.js`, `parallax.js`, `page-transitions.js` | Efeitos | M2 |
+| `js/cursor.js`, `magnetic.js`, `parallax.js`, `page-transitions.js` | Efeitos | M2 (remoção) |
 | `js/terminal.js` | Easter egg | M1, M2 |
 | `assets/cv/*.pdf`, `Profile.jpg.png`, `favicon.svg` | Ativos | M1, M3, M4, M5 |
 | `README.md` | Vitrine do repositório | M6 |
@@ -94,7 +95,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 |---|---|---|---|---|---|
 | M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | ✅ Concluído (PR #5) | — | 10/11/2026 |
 | M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ✅ Concluído (PR #7) | M0 | 10/11/2026 |
-| M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ⬜ Pendente | M1 | |
+| M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ✅ Concluído (PR #10) | M1 | 10/11/2026 |
 | M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⬜ Pendente | M2 | |
 | M4 | Conteúdo orientado a recrutador (hero, experiência, projetos, contato) | `feat/m4-conteudo-recrutador` | ⛔ Bloqueado (informações §8 da análise) | M3 | |
 | M5 | Performance, SEO e acessibilidade (metas rígidas) | `perf/m5-performance-seo-a11y` | ⬜ Pendente | M4 | |
@@ -211,14 +212,14 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 9. **README (correção mínima)**: substituir a instrução de abrir `index.html` direto pelo uso de servidor HTTP (ES Modules não funcionam via `file://`). A reescrita completa fica no M6.
 
 **DOD**
-- [ ] `npm run verify` (lint + html-validate + i18n + smoke) passa localmente e no CI.
-- [ ] `node scripts/check-i18n.mjs` executa em Node **sem** erro de `window`/`localStorage` indefinidos.
-- [ ] Nenhuma variável global criada pelos scripts do site (verificar `Object.keys(window)` antes × depois).
-- [ ] Funcionalidades mantidas: tema, idioma, menu mobile, scroll-spy, filtros, terminal, partículas, reveal (cobertas pelo smoke test onde possível).
-- [ ] Primeira pintura sem espera artificial (sem preloader).
-- [ ] Número de arquivos JS carregados reduzido e documentado no PR.
-- [ ] README não orienta mais a abrir o site via `file://`.
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [x] `npm run verify` (lint + html-validate + i18n + smoke) passa localmente e no CI.
+- [x] `node scripts/check-i18n.mjs` executa em Node **sem** erro de `window`/`localStorage` indefinidos.
+- [x] Nenhuma variável global criada pelos scripts do site (verificar `Object.keys(window)` antes × depois).
+- [x] Funcionalidades mantidas: tema, idioma, menu mobile, scroll-spy, filtros, terminal, partículas, reveal (cobertas pelo smoke test onde possível).
+- [x] Primeira pintura sem espera artificial (sem preloader).
+- [x] Número de arquivos JS carregados reduzido e documentado no PR.
+- [x] README não orienta mais a abrir o site via `file://`.
+- [x] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
 
 ---
 
@@ -619,3 +620,11 @@ entrega, trate os apontamentos e registre-os na seção 9 (DOD).
 | 10/11/2026 | M1 | **Revisão rubber-duck do diff** (outra IA): nenhum bloqueante. Apontamento tratado: o terminal misturava idiomas (instrução inicial, erro e `aria-label` só em inglês) → mensagens por idioma. Junto, corrigido um bug encontrado nos testes: os comandos `constructor`/`__proto__` eram lidos do protótipo e quebravam o terminal (agora `hasOwnProperty`). Testes de navegador: 57 verificações (3 resoluções × 2 idiomas × 2 temas, persistência, sem JS, terminal, PDF) e verificação de que o HTML estático é idêntico ao dicionário PT. |
 | 10/11/2026 | pós-M1 | Relato do Pedro: botão direito no fundo do hero abria o menu "Salvar imagem como…", porque o `<canvas>` das partículas recebia os cliques. Correção: `pointer-events: none` + `aria-hidden="true"` (decorativo; as partículas não usam o mouse). PR #8. |
 | 10/11/2026 | pós-M1 | Relato do Pedro: o hero "dava glitch" durante o typing. Causa: a largura/altura do título acompanhava o texto digitado — no desktop o bloco centralizado deslizava até 25 px na horizontal; no mobile a frase longa alternava 1↔2 linhas (salto de 15 px). Correção: medidor invisível (`#typing-sizer`) com todas as frases do idioma sobrepostas em grid, reservando o maior tamanho. Verificado: altura e posição constantes em todos os estados da digitação, 12 larguras (320–1920 px) × 2 idiomas. PR #9. |
+| 10/11/2026 | M2 | Arquitetura: 11 `<script>` globais → 1 módulo de entrada (`main.js`) + 7 módulos importados (8 arquivos na carga); `terminal.js` só é baixado no primeiro `Ctrl + \``. Smoke test confirma **zero** globais novas (comparação com as chaves de um `iframe` limpo). |
+| 10/11/2026 | M2 | Removidos preloader (espera artificial de 1.200 ms), cursor, botões magnéticos, parallax, transições de página e overlay de ruído. Partículas: densidade proporcional à área (15–35, antes 45 fixas), recriadas só quando a largura muda e pausadas fora da tela; a cor vem do token CSS `--particles-rgb` (prepara o M3). Contador animado mantido até a decisão do M4. |
+| 10/11/2026 | M2 | Tema salvo aplicado por script inline no `<head>`, antes da primeira pintura — sem o "flash" de tema escuro que ocorreria com módulos (que executam após o parse). Testado com JS dos módulos bloqueado e com `localStorage` indisponível. |
+| 10/11/2026 | M2 | **Cache-busting** (`scripts/stamp-assets.mjs`): `?v=<hash>` do conteúdo nos CSS/JS do `index.html` e nos `import` entre módulos. O hash de um módulo inclui o de suas dependências e normaliza CRLF→LF (mesmo resultado no Windows e no CI). Motivo: o GitHub Pages serve com `max-age=600`, e após o PR #9 um F5 trouxe HTML novo com JS antigo, fazendo o "glitch" parecer não corrigido. `npm run stamp:check` no `verify` impede commit com versão desatualizada; o lychee valida os caminhos com `?v=`. |
+| 10/11/2026 | M2 | Segurança: cards do GitHub montados via DOM (`textContent`), sem interpolar dados da API em HTML; i18n usa `innerHTML` só nas chaves de `HTML_KEYS` (o verificador falha se outra chave contiver `<` ou `&`). Falha da API vira `console.warn` (limite de requisições é esperado) e mensagem traduzível. |
+| 10/11/2026 | M2 | Ferramentas: ESLint 10 depende de `minimatch` 10.x, afetado pelo GHSA-g3hv-75wg-m249 → `overrides` para `minimatch@^11.0.5` (`npm audit`: 0 vulnerabilidades). Stylelint `standard` com exceções comentadas (BEM em `selector-class-pattern`, `-webkit-background-clip` para o Safari, notação clássica de media query). Prettier não formata `index.html` (quebraria tags inline como `</a\n>`) nem Markdown. Keyframes renomeados para kebab-case. |
+| 10/11/2026 | M2 | Verificação: `npm run verify` (lint, Prettier, html-validate, i18n, versões dos assets e 21 testes Playwright em desktop e mobile); verificador de i18n testado com erros propositais; capturas de página inteira (390 e 1440 px, claro/escuro, PT/EN) **idênticas pixel a pixel** ao `main`; hero estável durante o typing (1 posição em 50+ estados, 3 larguras × 2 idiomas). |
+| 10/11/2026 | M2 | **Revisão rubber-duck do diff** (outra IA): nenhum bloqueante. Tratados: (1) partículas podiam ficar presas fora do canvas quando só a altura diminuía (mobile) → quique pela direção; (2) terminal sob demanda: promessa única de import, ignora tecla repetida e trata falha de rede; (3) i18n e verificador usam `Object.hasOwn` (não herdam `constructor` etc.) e o verificador aceita aspas simples em `data-i18n`. Mantido de propósito: o plano é marcado como concluído no próprio PR, que só recebe merge com CI verde. |
