@@ -58,7 +58,9 @@ async function stamp(file, pattern, specifierGroup) {
   let i = 0;
   const updated = text.replace(pattern, (...m) => {
     const version = versions[i++];
-    return file.endsWith('.html') ? `${m[1]}${m[2]}?v=${version}"` : `${m[1]}${m[2]}${m[3]}?v=${version}${m[2]}`;
+    return file.endsWith('.html')
+      ? `${m[1]}${m[2]}?v=${version}"`
+      : `${m[1]}${m[2]}${m[3]}?v=${version}${m[2]}`;
   });
   return { file, text, updated };
 }
@@ -66,7 +68,9 @@ async function stamp(file, pattern, specifierGroup) {
 // Percorre o grafo a partir do index.html para alcançar todos os módulos.
 const indexHtml = path.join(root, 'index.html');
 const html = await source(indexHtml);
-const queue = [...html.matchAll(HTML_ASSET)].map((m) => path.resolve(root, m[2])).filter((f) => f.endsWith('.js'));
+const queue = [...html.matchAll(HTML_ASSET)]
+  .map((m) => path.resolve(root, m[2]))
+  .filter((f) => f.endsWith('.js'));
 const modules = new Set();
 while (queue.length) {
   const file = queue.shift();
@@ -91,5 +95,7 @@ if (check) {
   console.log(`✓ Assets versionados: index.html e ${modules.size} módulos.`);
 } else {
   await Promise.all(stale.map((r) => writeFile(r.file, r.updated)));
-  console.log(stale.length ? `Atualizados: ${stale.map((r) => rel(r.file)).join(', ')}` : 'Nada a atualizar.');
+  console.log(
+    stale.length ? `Atualizados: ${stale.map((r) => rel(r.file)).join(', ')}` : 'Nada a atualizar.',
+  );
 }

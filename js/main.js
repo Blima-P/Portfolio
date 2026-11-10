@@ -1,7 +1,7 @@
 // Ponto de entrada (ES Module). Nenhuma variável global: cada funcionalidade expõe init*().
 
-import { initGithub } from './github.js?v=3785dea8';
-import { initI18n } from './i18n.js?v=254edcd8';
+import { initGithub } from './github.js?v=c6da87c8';
+import { initI18n } from './i18n.js?v=c00bf35e';
 import { initParticles } from './particles.js?v=4c50c19a';
 import { initTheme } from './theme.js?v=9162fbf3';
 import { initTyping } from './typing.js?v=ddc8d48b';
@@ -21,6 +21,6 @@ initGithub();
 document.addEventListener('keydown', (event) => {
   if (event.ctrlKey && event.key === '`') {
     event.preventDefault();
-    import('./terminal.js?v=f60b3ab6').then(({ toggleTerminal }) => toggleTerminal());
+    import('./terminal.js?v=ecda40bd').then(({ toggleTerminal }) => toggleTerminal());
   }
 });

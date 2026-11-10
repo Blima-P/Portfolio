@@ -25,7 +25,8 @@ for (const [name, dict, other] of [
     if (!(key in other)) fail(`chave só em ${name}: ${key}`);
     if (typeof value !== 'string' || !value.trim()) fail(`valor vazio em ${name}: ${key}`);
     // Só as chaves de HTML_KEYS vão para innerHTML; nas demais, "<" ou "&" apareceriam literalmente.
-    if (!htmlKeys.has(key) && /[<&]/.test(value)) fail(`${name}.${key} contém HTML mas não está em HTML_KEYS`);
+    if (!htmlKeys.has(key) && /[<&]/.test(value))
+      fail(`${name}.${key} contém HTML mas não está em HTML_KEYS`);
   }
 }
 for (const key of htmlKeys) if (!(key in pt)) fail(`HTML_KEYS cita chave inexistente: ${key}`);
@@ -62,7 +63,8 @@ for (const match of html.matchAll(openTag)) {
 const title = html.match(/<title>([^<]*)<\/title>/)?.[1];
 if (title !== pt['meta.title']) fail(`<title> difere de meta.title: "${title}"`);
 const description = html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1];
-if (normalize(description ?? '') !== pt['meta.description']) fail('meta description difere de meta.description');
+if (normalize(description ?? '') !== pt['meta.description'])
+  fail('meta description difere de meta.description');
 
 // 4. Chaves sem uso: nem no HTML nem como literal nos módulos JS (ex.: t('github.error')).
 const jsDir = `${root}js/`;
