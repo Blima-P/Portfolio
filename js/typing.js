@@ -29,6 +29,19 @@ let charIndex = 0;
 let typingTimeout = null;
 
 const typingEl = document.getElementById('typing-text');
+const sizerEl = document.getElementById('typing-sizer');
+
+// Preenche o medidor invisível com todas as frases do idioma atual.
+function updateTypingSizer() {
+  if (!sizerEl) return;
+  const iamEl = document.querySelector('[data-i18n="hero.iam"]');
+  const iam = iamEl ? iamEl.textContent : '';
+  sizerEl.replaceChildren(...typingTexts.map(text => {
+    const line = document.createElement('span');
+    line.textContent = `${iam} ${text}|`;
+    return line;
+  }));
+}
 
 function typeText() {
   if (charIndex < typingTexts[textIndex].length) {
@@ -59,6 +72,7 @@ function updateTypingLanguage(lang) {
   clearTimeout(typingTimeout);
   typingLang = nextLang;
   typingTexts = typingTextsMap[typingLang];
+  updateTypingSizer();
   textIndex = 0;
   charIndex = 0;
   typingEl.textContent = '';
@@ -66,6 +80,7 @@ function updateTypingLanguage(lang) {
 }
 
 if (typingEl) {
+  updateTypingSizer();
   typingEl.textContent = typingTexts[0];
   charIndex = typingTexts[0].length;
   typingTimeout = setTimeout(eraseText, PAUSE_AFTER_TYPING);
