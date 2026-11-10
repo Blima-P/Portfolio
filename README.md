@@ -29,7 +29,7 @@
 | | Funcionalidade | Detalhes |
 |:---:|---|---|
 | 🎨 | **Tema Claro / Escuro** | Alternância com persistência via localStorage |
-| 🌐 | **Bilíngue (EN / PT-BR)** | Sistema i18n completo com troca dinâmica de conteúdo |
+| 🌐 | **Bilíngue (PT-BR / EN)** | PT-BR por padrão, detecção pelo idioma do navegador e troca dinâmica de conteúdo |
 | ⌨️ | **Efeito de Digitação** | Texto animado no hero com frases rotativas por idioma |
 | 🔮 | **Sistema de Partículas** | Partículas interativas em Canvas com linhas de conexão |
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
@@ -74,21 +74,19 @@ Portfolio/
 │   └── animations.css          # Keyframes e classes utilitárias de animação
 ├── js/
 │   ├── main.js                 # Scroll, observers, contadores, filtros
-│   ├── i18n.js                 # Internacionalização (traduções EN / PT-BR)
+│   ├── i18n.js                 # Internacionalização (traduções PT-BR / EN)
 │   ├── typing.js               # Efeito de digitação no hero com suporte a idiomas
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
 │   ├── particles.js            # Sistema de partículas em Canvas com conexões
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
-│   ├── contact.js              # Seção de contato (cards com links diretos)
 │   ├── terminal.js             # Terminal easter egg (Ctrl + `)
 │   ├── cursor.js               # Efeito de brilho no cursor personalizado
 │   ├── magnetic.js             # Efeito magnético nos botões ao hover
 │   ├── parallax.js             # Formas decorativas com parallax no scroll
-│   ├── page-transitions.js     # Transições suaves na navegação
-│   └── testimonials.js         # Carrossel de depoimentos com autoplay
+│   └── page-transitions.js     # Transições suaves na navegação
 └── assets/
     ├── favicon.svg             # Favicon do site
-    └── cv/                     # Currículo para download (PDF)
+    └── cv/                     # Currículo (PDF)
 ```
 
 <br>

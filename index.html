@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Pedro Braga — Java backend developer, Spring and PostgreSQL. Software Engineering student at UCB and development intern at CAESB." />
+    content="Pedro Braga — Desenvolvedor backend Java, Spring e PostgreSQL. Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Pedro Braga | Portfolio" />
-  <meta property="og:description" content="Java backend developer · Spring · PostgreSQL · Software Engineering at UCB." />
+  <meta property="og:title" content="Pedro Braga | Portfólio" />
+  <meta property="og:description" content="Desenvolvedor backend Java · Spring · PostgreSQL · Engenharia de Software na UCB." />
   <meta property="og:url" content="https://blima-p.github.io/Portfolio/" />
   <meta property="og:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
   <meta property="og:image:alt" content="Pedro Braga de Lima" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:locale:alternate" content="pt_BR" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Pedro Braga | Portfolio" />
-  <meta name="twitter:description" content="Java backend developer · Spring · PostgreSQL · Software Engineering at UCB." />
+  <meta name="twitter:title" content="Pedro Braga | Portfólio" />
+  <meta name="twitter:description" content="Desenvolvedor backend Java · Spring · PostgreSQL · Engenharia de Software na UCB." />
   <meta name="twitter:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="canonical" href="https://blima-p.github.io/Portfolio/" />
-  <title>Pedro Braga | Portfolio</title>
+  <title>Pedro Braga | Portfólio</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
@@ -30,7 +30,7 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Pedro Braga de Lima",
-    "jobTitle": "Java Backend Developer",
+    "jobTitle": "Desenvolvedor Backend Java",
     "url": "https://blima-p.github.io/Portfolio/",
     "sameAs": [
       "https://github.com/Blima-P",
@@ -64,17 +64,17 @@
       <a href="#home" class="nav__logo">PBL</a>
 
       <ul class="nav__list" id="nav-list">
-        <li class="nav__item"><a href="#about" class="nav__link" data-i18n="nav.about">About</a></li>
-        <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experience</a></li>
-        <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projects</a></li>
+        <li class="nav__item"><a href="#about" class="nav__link" data-i18n="nav.about">Sobre</a></li>
+        <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experiência</a></li>
+        <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projetos</a></li>
         <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Skills</a></li>
-        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Courses</a></li>
-        <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contact</a></li>
+        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Cursos</a></li>
+        <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contato</a></li>
       </ul>
 
-      <button class="nav__lang" id="lang-toggle">PT-BR</button>
+      <button type="button" class="nav__lang" id="lang-toggle">EN</button>
 
-      <button class="nav__theme" id="theme-toggle" aria-label="Toggle theme">
+      <button type="button" class="nav__theme" id="theme-toggle" aria-label="Alternar tema" data-i18n="nav.theme.label" data-i18n-attr="aria-label">
         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
@@ -88,7 +88,7 @@
       </button>
 
       <!-- Botão hambúrguer — visível apenas no mobile -->
-      <button class="nav__toggle" id="nav-toggle" aria-label="Open menu">
+      <button type="button" class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" data-i18n="nav.menu.label" data-i18n-attr="aria-label">
         <span></span>
         <span></span>
         <span></span>
@@ -102,30 +102,26 @@
       <canvas class="hero__particles" id="particles-canvas"></canvas>
 
       <div class="hero__content container">
-        <p class="hero__greeting" data-i18n="hero.greeting">Hello, I'm</p>
+        <p class="hero__greeting" data-i18n="hero.greeting">Olá, me chamo</p>
         <h1 class="hero__name"><span class="hero__name-gradient">Pedro Braga</span></h1>
 
         <!-- Efeito de digitação — feito pelo typing.js -->
         <h2 class="hero__title">
-          <span data-i18n="hero.iam">I am</span> <span id="typing-text"></span><span class="cursor">|</span>
+          <span data-i18n="hero.iam">Eu sou</span> <span id="typing-text">desenvolvedor backend Java</span><span class="cursor">|</span>
         </h2>
 
-        <p class="hero__description" data-i18n="hero.description">
-          Software Engineering student at UCB and IT intern at CAESB.
-          Focused on Java backend development with Spring and PostgreSQL,
-          looking for junior software development opportunities.
-        </p>
+        <p class="hero__description" data-i18n="hero.description">Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL, buscando oportunidades como desenvolvedor de software júnior.</p>
 
         <div class="hero__buttons">
-          <a href="#projects" class="btn btn--primary" data-i18n="hero.btn.projects">View Projects</a>
-          <a href="#contact" class="btn btn--outline" data-i18n="hero.btn.contact">Get in touch</a>
-          <a href="assets/cv/Pedro Braga de Lima - Curriculo.pdf" class="btn btn--outline" data-i18n="hero.btn.cv" download target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <a href="#projects" class="btn btn--primary" data-i18n="hero.btn.projects">Ver Projetos</a>
+          <a href="#contact" class="btn btn--outline" data-i18n="hero.btn.contact">Entrar em contato</a>
+          <a href="assets/cv/pedro-braga-cv-ptbr.pdf" class="btn btn--outline" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            Download CV
+            <span data-i18n="hero.btn.cv">Currículo (PDF)</span>
           </a>
         </div>
 
@@ -146,7 +142,7 @@
         </div>
       </div>
 
-      <a href="#about" class="hero__scroll-down" aria-label="Rolar para baixo">
+      <a href="#about" class="hero__scroll-down" aria-label="Rolar para baixo" data-i18n="hero.scroll.label" data-i18n-attr="aria-label">
         <span></span>
         <span></span>
       </a>
@@ -156,59 +152,52 @@
     <!-- Sobre Mim -->
     <section class="about" id="about">
       <div class="container">
-        <h2 class="section__title" data-i18n="about.title">About <span>Me</span></h2>
-        <p class="section__subtitle" data-i18n="about.subtitle">Who am I</p>
+        <h2 class="section__title" data-i18n="about.title">Sobre <span>Mim</span></h2>
+        <p class="section__subtitle" data-i18n="about.subtitle">Quem sou eu</p>
 
         <div class="about__content">
           <div class="about__img-wrapper">
-            <img src="Profile.jpg.png" alt="Foto de Pedro Braga" class="about__img" />
+            <img src="Profile.jpg.png" alt="Foto de Pedro Braga" class="about__img" data-i18n="about.img.alt" data-i18n-attr="alt" />
           </div>
 
           <div class="about__info">
-            <p class="about__description" data-i18n="about.description">
-              Software Engineering student at Universidade Católica de Brasília,
-              with hands-on experience in developing and maintaining Fullstack systems.
-              Currently an IT intern at CAESB, working on improving applications with
-              Java, JavaScript, React, XHTML, and Azure services.
-              My main focus is Java backend development with Spring and PostgreSQL,
-              complemented by web development and data analysis projects.
-            </p>
+            <p class="about__description" data-i18n="about.description">Estudante de Engenharia de Software na Universidade Católica de Brasília, com experiência prática em desenvolvimento e manutenção de sistemas web. Atualmente estagiário de desenvolvimento na CAESB, atuando na melhoria de aplicações com Java, JavaScript, React, XHTML e serviços na Azure. Meu foco principal é backend Java com Spring e PostgreSQL, complementado por projetos web e de análise de dados.</p>
 
             <div class="about__data">
               <div class="about__data-item">
-                <span class="about__data-title" data-i18n="about.location.title">Location</span>
+                <span class="about__data-title" data-i18n="about.location.title">Localização</span>
                 <span class="about__data-desc" data-i18n="about.location.desc">Brasília, DF</span>
               </div>
               <div class="about__data-item">
-                <span class="about__data-title" data-i18n="about.internship.title">Internship</span>
-                <span class="about__data-desc" data-i18n="about.internship.desc">CAESB — IT</span>
+                <span class="about__data-title" data-i18n="about.internship.title">Estágio</span>
+                <span class="about__data-desc" data-i18n="about.internship.desc">CAESB — TI</span>
               </div>
               <div class="about__data-item">
-                <span class="about__data-title" data-i18n="about.degree.title">Degree</span>
-                <span class="about__data-desc" data-i18n="about.degree.desc">Software Eng. — UCB</span>
+                <span class="about__data-title" data-i18n="about.degree.title">Graduação</span>
+                <span class="about__data-desc" data-i18n="about.degree.desc">Eng. de Software — UCB</span>
               </div>
               <div class="about__data-item">
-                <span class="about__data-title" data-i18n="about.availability.title">Availability</span>
-                <span class="about__data-desc" data-i18n="about.availability.desc">Open to opportunities</span>
+                <span class="about__data-title" data-i18n="about.availability.title">Disponibilidade</span>
+                <span class="about__data-desc" data-i18n="about.availability.desc">Aberto a oportunidades</span>
               </div>
             </div>
 
             <div class="counters">
               <div class="counter__item">
                 <span class="counter__number" data-target="4">0</span>
-                <span class="counter__label" data-i18n="counter.projects">Featured Projects</span>
+                <span class="counter__label" data-i18n="counter.projects">Projetos em destaque</span>
               </div>
               <div class="counter__item">
                 <span class="counter__number" data-target="6">0</span>
-                <span class="counter__label" data-i18n="counter.technologies">Skill Areas</span>
+                <span class="counter__label" data-i18n="counter.technologies">Áreas de prática</span>
               </div>
               <div class="counter__item">
                 <span class="counter__number" data-target="2">0</span>
-                <span class="counter__label" data-i18n="counter.years">Years Coding</span>
+                <span class="counter__label" data-i18n="counter.years">Anos programando</span>
               </div>
             </div>
 
-            <a href="#contact" class="btn btn--primary" data-i18n="about.btn.contact">Get in touch</a>
+            <a href="#contact" class="btn btn--primary" data-i18n="about.btn.contact">Entre em contato</a>
           </div>
         </div>
       </div>
@@ -218,16 +207,16 @@
     <!-- Linha do Tempo / Experiência -->
     <section class="timeline" id="experience">
       <div class="container">
-        <h2 class="section__title" data-i18n="timeline.title">My <span>Journey</span></h2>
-        <p class="section__subtitle" data-i18n="timeline.subtitle">Where I've been</p>
+        <h2 class="section__title" data-i18n="timeline.title">Minha <span>Jornada</span></h2>
+        <p class="section__subtitle" data-i18n="timeline.subtitle">Por onde passei</p>
 
         <div class="timeline__line">
           <div class="timeline__item">
             <div class="timeline__dot"></div>
             <div class="timeline__card">
-              <span class="timeline__date" data-i18n="timeline.item1.date">2025 — Present</span>
-              <h3 class="timeline__card-title" data-i18n="timeline.item1.title">IT Intern — CAESB</h3>
-              <p class="timeline__card-desc" data-i18n="timeline.item1.desc">Developing and maintaining Fullstack applications with Java, JavaScript, React, XHTML, and Azure services.</p>
+              <span class="timeline__date" data-i18n="timeline.item1.date">2025 — Presente</span>
+              <h3 class="timeline__card-title" data-i18n="timeline.item1.title">Estagiário de TI — CAESB</h3>
+              <p class="timeline__card-desc" data-i18n="timeline.item1.desc">Desenvolvimento e manutenção de aplicações full stack com Java, JavaScript, React, XHTML e serviços Azure.</p>
             </div>
           </div>
 
@@ -235,26 +224,26 @@
             <div class="timeline__dot"></div>
             <div class="timeline__card">
               <span class="timeline__date" data-i18n="timeline.item2.date">2024 — 2025</span>
-              <h3 class="timeline__card-title" data-i18n="timeline.item2.title">Video Editor — Freelancer</h3>
-              <p class="timeline__card-desc" data-i18n="timeline.item2.desc">Responsible for editing audiovisual content and directly interfacing with clients to align requirements and ensure the quality of the final product.</p>
+              <h3 class="timeline__card-title" data-i18n="timeline.item2.title">Editor de Vídeo — Freelancer</h3>
+              <p class="timeline__card-desc" data-i18n="timeline.item2.desc">Responsável pela edição de conteúdo audiovisual e interface direta com clientes para alinhamento de requisitos e garantia de qualidade do produto final.</p>
             </div>
           </div>
 
           <div class="timeline__item">
             <div class="timeline__dot"></div>
             <div class="timeline__card">
-              <span class="timeline__date" data-i18n="timeline.item3.date">2024 — 2024</span>
-              <h3 class="timeline__card-title" data-i18n="timeline.item3.title">Intern — CredSolaris</h3>
-              <p class="timeline__card-desc" data-i18n="timeline.item3.desc">Optimizing workflows through process automation. Technical support and specialized customer service.</p>
+              <span class="timeline__date" data-i18n="timeline.item3.date">2024</span>
+              <h3 class="timeline__card-title" data-i18n="timeline.item3.title">Estagiário — CredSolaris</h3>
+              <p class="timeline__card-desc" data-i18n="timeline.item3.desc">Otimização de fluxos de trabalho através da automação de processos. Suporte técnico e atendimento especializado ao cliente.</p>
             </div>
           </div>
 
           <div class="timeline__item">
             <div class="timeline__dot"></div>
             <div class="timeline__card">
-              <span class="timeline__date" data-i18n="timeline.item4.date">2023 - 2024</span>
-              <h3 class="timeline__card-title" data-i18n="timeline.item4.title">Solução Acessoria Vendas/Cobranças</h3>
-              <p class="timeline__card-desc" data-i18n="timeline.item4.desc">Administrative assistant, customer service, and Excel spreadsheets.</p>
+              <span class="timeline__date" data-i18n="timeline.item4.date">2024</span>
+              <h3 class="timeline__card-title" data-i18n="timeline.item4.title">Jovem Aprendiz — Solução Assessoria Vendas/Cobranças</h3>
+              <p class="timeline__card-desc" data-i18n="timeline.item4.desc">Assistente administrativo, atendimento ao público e planilhas Excel.</p>
             </div>
           </div>
         </div>
@@ -265,14 +254,14 @@
     <!-- Projetos -->
     <section class="projects" id="projects">
       <div class="container">
-        <h2 class="section__title" data-i18n="projects.title">My <span>Projects</span></h2>
-        <p class="section__subtitle" data-i18n="projects.subtitle">What I've built</p>
+        <h2 class="section__title" data-i18n="projects.title">Meus <span>Projetos</span></h2>
+        <p class="section__subtitle" data-i18n="projects.subtitle">O que já construí</p>
 
         <div class="projects__filters">
-          <button class="projects__filter active" data-filter="all" data-i18n="filter.all">All</button>
-          <button class="projects__filter" data-filter="web" data-i18n="filter.web">Web</button>
-          <button class="projects__filter" data-filter="backend" data-i18n="filter.backend">Backend</button>
-          <button class="projects__filter" data-filter="systems" data-i18n="filter.systems">Systems</button>
+          <button type="button" class="projects__filter active" data-filter="all" data-i18n="filter.all">Todos</button>
+          <button type="button" class="projects__filter" data-filter="web" data-i18n="filter.web">Web</button>
+          <button type="button" class="projects__filter" data-filter="backend" data-i18n="filter.backend">Backend</button>
+          <button type="button" class="projects__filter" data-filter="systems" data-i18n="filter.systems">Sistemas</button>
         </div>
 
         <div class="projects__grid">
@@ -281,7 +270,7 @@
             <div class="project-card__header">
               <span class="project-card__tag">Java · Spring · PostgreSQL</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" aria-label="Ver código da Carteira API">
+                <a href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" aria-label="Ver código da Carteira API" data-i18n="project1.code.label" data-i18n-attr="aria-label">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                     height="20">
                     <path
@@ -291,11 +280,7 @@
               </div>
             </div>
             <h3 class="project-card__title" data-i18n="project1.title">Carteira API</h3>
-            <p class="project-card__description" data-i18n="project1.description">
-              Personal Java backend project for a digital wallet: registration, JWT login,
-              balance, deposits and transfers. ACID transactions, idempotent retries,
-              modular architecture and concurrency tests. Paginated statements are planned.
-            </p>
+            <p class="project-card__description" data-i18n="project1.description">Projeto pessoal de backend Java para carteira digital: cadastro, login JWT, saldo, depósitos, transferências e extrato paginado por cursor. Transações ACID, reenvio idempotente, arquitetura modular e testes de concorrência.</p>
             <div class="project-card__tags">
               <span>Java 21</span>
               <span>Spring Modulith</span>
@@ -308,15 +293,11 @@
             <div class="project-card__header">
               <span class="project-card__tag">React · Firebase</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/ERP-Academico" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Code</a>
+                <a href="https://github.com/Blima-P/ERP-Academico" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Código</a>
               </div>
             </div>
-            <h3 class="project-card__title" data-i18n="project3.title">Academic ERP</h3>
-            <p class="project-card__description" data-i18n="project3.description">
-              Team university project for managing students, courses and enrollments.
-              Contributions include course selection in enrollment and authentication updates
-              with React and Firebase.
-            </p>
+            <h3 class="project-card__title" data-i18n="project3.title">ERP Acadêmico</h3>
+            <p class="project-card__description" data-i18n="project3.description">Projeto universitário em equipe para gestão de alunos, cursos e matrículas. Contribuições incluem seleção de curso na matrícula e ajustes de autenticação com React e Firebase.</p>
             <div class="project-card__tags">
               <span>React</span><span>Firebase</span><span>JavaScript</span>
             </div>
@@ -326,15 +307,11 @@
             <div class="project-card__header">
               <span class="project-card__tag">C · POSIX</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/Campo-minado" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Code</a>
+                <a href="https://github.com/Blima-P/Campo-minado" target="_blank" rel="noopener noreferrer" data-i18n="project.source">Código</a>
               </div>
             </div>
-            <h3 class="project-card__title" data-i18n="project4.title">Multiplayer Minesweeper</h3>
-            <p class="project-card__description" data-i18n="project4.description">
-              Team Operating Systems project: a terminal game written in C.
-              Participation in a multiplayer implementation using POSIX threads and
-              semaphores for concurrent execution.
-            </p>
+            <h3 class="project-card__title" data-i18n="project4.title">Campo Minado Multiplayer</h3>
+            <p class="project-card__description" data-i18n="project4.description">Projeto em equipe de Sistemas Operacionais: jogo no terminal em C. Participação na implementação multiplayer com threads e semáforos POSIX para execução concorrente.</p>
             <div class="project-card__tags">
               <span>C</span><span>Threads</span><span>POSIX</span>
             </div>
@@ -344,14 +321,14 @@
             <div class="project-card__header">
               <span class="project-card__tag">HTML · CSS · JS</span>
               <div class="project-card__links">
-                <a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Ver código do portfólio">
+                <a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Ver código do portfólio" data-i18n="project2.code.label" data-i18n-attr="aria-label">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                     height="20">
                     <path
                       d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                   </svg>
                 </a>
-                <a href="https://blima-p.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Ver demo ao vivo">
+                <a href="https://blima-p.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Ver demo ao vivo" data-i18n="project2.demo.label" data-i18n-attr="aria-label">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" width="20" height="20">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -361,11 +338,8 @@
                 </a>
               </div>
             </div>
-            <h3 class="project-card__title" data-i18n="project2.title">Personal Portfolio</h3>
-            <p class="project-card__description" data-i18n="project2.description">
-              Responsive landing page with dark mode, Canvas animations,
-              typing effect, and scroll-spy. Built from scratch with HTML, CSS, and vanilla JavaScript.
-            </p>
+            <h3 class="project-card__title" data-i18n="project2.title">Portfólio Pessoal</h3>
+            <p class="project-card__description" data-i18n="project2.description">Landing page responsiva com dark mode, animações em Canvas, efeito typing e scroll-spy. Desenvolvido do zero com HTML, CSS e JavaScript puro.</p>
             <div class="project-card__tags">
               <span>HTML5</span>
               <span>CSS3</span>
@@ -382,33 +356,33 @@
     <!-- Skills -->
     <section class="skills" id="skills">
       <div class="container">
-        <h2 class="section__title" data-i18n="skills.title">My <span>Skills</span></h2>
-        <p class="section__subtitle" data-i18n="skills.subtitle">Technologies I use</p>
+        <h2 class="section__title" data-i18n="skills.title">Minhas <span>Skills</span></h2>
+        <p class="section__subtitle" data-i18n="skills.subtitle">Exemplos práticos dos meus projetos</p>
 
         <div class="skills__grid">
           <div class="skill-card">
             <span class="skill-card__name">Java · Spring</span>
-            <p class="skill-card__description" data-i18n="skill1.evidence">REST API with JWT authentication, deposits and atomic transfers.</p>
+            <p class="skill-card__description" data-i18n="skill1.evidence">API REST com autenticação JWT, depósitos e transferências atômicas.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">PostgreSQL · Flyway</span>
-            <p class="skill-card__description" data-i18n="skill2.evidence">Versioned migrations, financial constraints and pessimistic locking.</p>
+            <p class="skill-card__description" data-i18n="skill2.evidence">Migrations versionadas, constraints financeiras e bloqueio pessimista.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">React · Firebase</span>
-            <p class="skill-card__description" data-i18n="skill3.evidence">Academic ERP with authentication and student, course and enrollment screens.</p>
+            <p class="skill-card__description" data-i18n="skill3.evidence">ERP acadêmico com autenticação e telas de alunos, cursos e matrículas.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">HTML &amp; CSS</span>
-            <p class="skill-card__description" data-i18n="skill4.evidence">Responsive bilingual portfolio with themes and GitHub API integration.</p>
+            <p class="skill-card__description" data-i18n="skill4.evidence">Portfólio responsivo e bilíngue com temas e integração com a API do GitHub.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">Python · pandas</span>
-            <p class="skill-card__description" data-i18n="skill5.evidence">Data analysis projects and initial exploration of credit default data.</p>
+            <p class="skill-card__description" data-i18n="skill5.evidence">Projetos de análise de dados e exploração inicial de dados de inadimplência.</p>
           </div>
           <div class="skill-card">
             <span class="skill-card__name">Git · GitHub Actions</span>
-            <p class="skill-card__description" data-i18n="skill6.evidence">Pull requests, automated builds, architecture checks and integration tests.</p>
+            <p class="skill-card__description" data-i18n="skill6.evidence">Pull requests, builds automatizados, verificações de arquitetura e testes de integração.</p>
           </div>
         </div>
       </div>
@@ -418,13 +392,13 @@
     <!-- Certificações -->
     <section class="certifications" id="certifications">
       <div class="container">
-        <h2 class="section__title" data-i18n="certs.title">Courses &amp; <span>Learning</span></h2>
-        <p class="section__subtitle" data-i18n="certs.subtitle">Complementary training, separate from professional certifications</p>
+        <h2 class="section__title" data-i18n="certs.title">Cursos e <span>Aprendizado</span></h2>
+        <p class="section__subtitle" data-i18n="certs.subtitle">Formação complementar, separada de certificações profissionais</p>
 
         <div class="certs__grid">
           <div class="cert-card">
             <div class="cert-card__icon">☕</div>
-            <h3 class="cert-card__name" data-i18n="cert1.name">Java Programming</h3>
+            <h3 class="cert-card__name" data-i18n="cert1.name">Programação Java</h3>
             <p class="cert-card__issuer" data-i18n="cert1.issuer">Udemy</p>
           </div>
           <div class="cert-card">
@@ -434,7 +408,7 @@
           </div>
           <div class="cert-card">
             <div class="cert-card__icon">⚛️</div>
-            <h3 class="cert-card__name" data-i18n="cert4.name">React Development</h3>
+            <h3 class="cert-card__name" data-i18n="cert4.name">Desenvolvimento React</h3>
             <p class="cert-card__issuer" data-i18n="cert4.issuer">Udemy</p>
           </div>
         </div>
@@ -445,15 +419,15 @@
     <!-- Atividade no GitHub -->
     <section class="github" id="github">
       <div class="container">
-        <h2 class="section__title" data-i18n="github.title">Selected <span>Repositories</span></h2>
-        <p class="section__subtitle" data-i18n="github.subtitle">Public projects with repository details from GitHub</p>
+        <h2 class="section__title" data-i18n="github.title">Repositórios em <span>Destaque</span></h2>
+        <p class="section__subtitle" data-i18n="github.subtitle">Projetos públicos com informações atualizadas pelo GitHub</p>
 
         <div class="github__grid" id="github-repos">
-          <div class="github__loading">Loading repositories...</div>
+          <div class="github__loading" data-i18n="github.loading">Carregando repositórios…</div>
         </div>
 
         <div class="github__profile">
-          <a href="https://github.com/Blima-P" target="_blank" class="btn btn--outline" data-i18n="github.viewprofile">View Full Profile</a>
+          <a href="https://github.com/Blima-P" target="_blank" class="btn btn--outline" data-i18n="github.viewprofile">Ver Perfil Completo</a>
         </div>
       </div>
     </section>
@@ -462,8 +436,8 @@
     <!-- Contatos -->
     <section class="contact" id="contact">
       <div class="container">
-        <h2 class="section__title" data-i18n="contact.title">Get in <span>Touch</span></h2>
-        <p class="section__subtitle" data-i18n="contact.subtitle">Let's talk</p>
+        <h2 class="section__title" data-i18n="contact.title">Entre em <span>Contato</span></h2>
+        <p class="section__subtitle" data-i18n="contact.subtitle">Vamos conversar</p>
 
         <div class="contact__content">
           <a href="mailto:pbl0812@gmail.com" class="contact__card">
@@ -471,7 +445,7 @@
               <rect x="2" y="4" width="20" height="16" rx="2"></rect>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
-            <span class="contact__card-name">Email</span>
+            <span class="contact__card-name" data-i18n="contact.email">E-mail</span>
           </a>
 
           <a href="https://github.com/Blima-P" target="_blank" rel="noopener noreferrer" class="contact__card">
@@ -508,10 +482,8 @@
   <!-- Rodapé -->
   <footer class="footer">
     <div class="container">
-      <p class="footer__text" data-i18n="footer.text">
-        Built by <span>Pedro Braga</span> with HTML, CSS, and vanilla JavaScript.
-      </p>
-      <a href="#home" class="footer__back-top" aria-label="Voltar ao topo">↑</a>
+      <p class="footer__text" data-i18n="footer.text">Desenvolvido por <span>Pedro Braga</span> com HTML, CSS e JavaScript puro.</p>
+      <a href="#home" class="footer__back-top" aria-label="Voltar ao topo" data-i18n="footer.top.label" data-i18n-attr="aria-label">↑</a>
     </div>
   </footer>
 
@@ -521,8 +493,6 @@
   <script src="js/theme.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/contact.js"></script>
-  <script src="js/testimonials.js"></script>
   <script src="js/github.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/magnetic.js"></script>
