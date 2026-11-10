@@ -21,10 +21,22 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="canonical" href="https://blima-p.github.io/Portfolio/" />
   <title>Pedro Braga | Portfólio</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/animations.css" />
+  <script>
+    // Aplica o tema salvo antes da primeira pintura (evita o "flash" do tema escuro).
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    } catch {
+      // Armazenamento indisponível: fica o tema padrão.
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css?v=728c74e4" />
+  <link rel="stylesheet" href="css/animations.css?v=28bafc87" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
     rel="stylesheet" />
+  <script type="module" src="js/main.js?v=0b0dde0b"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,18 +58,7 @@
 
 <body>
 
-  <div class="noise-overlay" aria-hidden="true"></div>
   <div class="scroll-progress" id="scroll-progress"></div>
-
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="preloader__content">
-      <span class="preloader__logo">PBL</span>
-      <div class="preloader__bar">
-        <div class="preloader__bar-fill"></div>
-      </div>
-    </div>
-  </div>
 
   <header class="header" id="header">
     <nav class="nav container">
@@ -487,19 +488,6 @@
       <a href="#home" class="footer__back-top" aria-label="Voltar ao topo" data-i18n="footer.top.label" data-i18n-attr="aria-label">↑</a>
     </div>
   </footer>
-
-  <!-- Scripts -->
-  <script src="js/particles.js"></script>
-  <script src="js/typing.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/github.js"></script>
-  <script src="js/cursor.js"></script>
-  <script src="js/magnetic.js"></script>
-  <script src="js/parallax.js"></script>
-  <script src="js/page-transitions.js"></script>
-  <script src="js/terminal.js"></script>
 </body>
 
 </html>

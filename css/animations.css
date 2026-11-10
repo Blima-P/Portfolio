@@ -5,28 +5,18 @@
   50%       { opacity: 0; }
 }
 
-@keyframes scrollArrow {
+@keyframes scroll-arrow {
   0%   { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
   50%  { opacity: 1; }
   100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-/* ---- Classes de animação (aplicadas pelo Intersection Observer em main.js) ---- */
+/* ---- Classes de animação (aplicadas pelo Intersection Observer em ui.js) ---- */
 
 .animate {
   opacity: 0;
@@ -34,14 +24,8 @@
 }
 
 .animate--visible {
-  animation: fadeInUp 0.6s ease forwards;
+  animation: fade-in-up 0.6s ease forwards;
 }
-
-.animate--left  { transform: translateX(-40px); }
-.animate--right { transform: translateX(40px); }
-
-.animate--left.animate--visible  { animation-name: fadeInLeft; }
-.animate--right.animate--visible { animation-name: fadeInRight; }
 
 .animate--delay-1 { animation-delay: 0.1s; }
 .animate--delay-2 { animation-delay: 0.2s; }
@@ -50,41 +34,33 @@
 .animate--delay-5 { animation-delay: 0.5s; }
 
 /* ---- Animações do Hero (carregam com a página, sem esperar scroll) ---- */
-.hero__greeting    { animation: fadeInUp 0.6s ease 0.1s both; }
-.hero__name        { animation: fadeInUp 0.6s ease 0.2s both; }
-.hero__title       { animation: fadeInUp 0.6s ease 0.3s both; }
-.hero__description { animation: fadeInUp 0.6s ease 0.4s both; }
-.hero__buttons     { animation: fadeInUp 0.6s ease 0.5s both; }
-.hero__social      { animation: fadeInUp 0.6s ease 0.6s both; }
-
-@keyframes preloaderPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes preloaderFill {
-  from { width: 0; }
-  to { width: 100%; }
-}
+.hero__greeting    { animation: fade-in-up 0.6s ease 0.1s both; }
+.hero__name        { animation: fade-in-up 0.6s ease 0.2s both; }
+.hero__title       { animation: fade-in-up 0.6s ease 0.3s both; }
+.hero__description { animation: fade-in-up 0.6s ease 0.4s both; }
+.hero__buttons     { animation: fade-in-up 0.6s ease 0.5s both; }
+.hero__social      { animation: fade-in-up 0.6s ease 0.6s both; }
 
 /* ---- Revelação de Texto (clip-path) ---- */
-@keyframes textReveal {
+@keyframes text-reveal-in {
   from {
     clip-path: inset(0 100% 0 0);
     opacity: 0;
   }
+
   to {
     clip-path: inset(0 0% 0 0);
     opacity: 1;
   }
 }
 
-@keyframes subtitleReveal {
+@keyframes subtitle-reveal-in {
   from {
     clip-path: inset(0 100% 0 0);
     opacity: 0;
     letter-spacing: 0.3em;
   }
+
   to {
     clip-path: inset(0 0% 0 0);
     opacity: 1;
@@ -98,7 +74,7 @@
 }
 
 .text-reveal--visible {
-  animation: textReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: text-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .subtitle-reveal {
@@ -107,15 +83,5 @@
 }
 
 .subtitle-reveal--visible {
-  animation: subtitleReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
-}
-
-/* ---- Transições de Página ---- */
-main {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.page-transitioning {
-  opacity: 0.7;
-  transform: translateY(-5px);
+  animation: subtitle-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
 }

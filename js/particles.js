@@ -1,134 +1,127 @@
-'use strict';
+// Partículas decorativas do hero (canvas). Pausam quando o hero sai da tela.
 
-// Partículas de fundo do hero.
+const MAX_DISTANCE = 120;
+const MAX_DISTANCE_SQ = MAX_DISTANCE * MAX_DISTANCE;
+const SPEED = 0.3;
+const RADIUS = 1.5;
+// Densidade: uma partícula a cada ~30.000 px², entre 15 e 35.
+const AREA_PER_PARTICLE = 30000;
+const MIN_PARTICLES = 15;
+const MAX_PARTICLES = 35;
+const FALLBACK_RGB = '74, 222, 128';
 
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
+export function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas?.getContext('2d');
+  if (!ctx) return null;
 
-const CONFIG = {
-  count: 45,
-  maxDistance: 120,
-  speed: 0.3,
-  radius: 1.5,
-  color: '74, 222, 128',
-};
+  let particles = [];
+  let color = FALLBACK_RGB;
+  let animationId = null;
+  let isVisible = true;
 
-const maxDistSq = CONFIG.maxDistance * CONFIG.maxDistance;
-let particles = [];
-
-function resizeCanvas() {
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-}
-
-function createParticle() {
-  return {
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    vx: (Math.random() * 2 - 1) * CONFIG.speed,
-    vy: (Math.random() * 2 - 1) * CONFIG.speed,
-    radius: CONFIG.radius,
-  };
-}
-
-function initParticles() {
-  particles = [];
-  for (let i = 0; i < CONFIG.count; i++) {
-    particles.push(createParticle());
+  // A cor vem do token CSS --particles-rgb, definido por tema.
+  function refreshColor() {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--particles-rgb').trim();
+    color = value || FALLBACK_RGB;
   }
-}
 
-function updateParticles() {
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-  });
-}
+  function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
 
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function createParticles() {
+    const area = canvas.width * canvas.height;
+    const count = Math.min(MAX_PARTICLES, Math.max(MIN_PARTICLES, Math.round(area / AREA_PER_PARTICLE)));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() * 2 - 1) * SPEED,
+      vy: (Math.random() * 2 - 1) * SPEED,
+    }));
+  }
 
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${CONFIG.color}, 0.7)`;
-    ctx.fill();
-  });
+  function update() {
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    }
+  }
 
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const a = particles[i];
-      const b = particles[j];
-      const dx = a.x - b.x;
-      const dy = a.y - b.y;
-      const distSq = dx * dx + dy * dy;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (distSq < maxDistSq) {
-        const opacity = 1 - Math.sqrt(distSq) / CONFIG.maxDistance;
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${CONFIG.color}, ${opacity * 0.3})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+    ctx.fillStyle = `rgba(${color}, 0.7)`;
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < MAX_DISTANCE_SQ) {
+          const opacity = 1 - Math.sqrt(distSq) / MAX_DISTANCE;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${color}, ${opacity * 0.3})`;
+          ctx.stroke();
+        }
       }
     }
   }
-}
 
-let animationId = null;
-let isHeroVisible = true;
-
-function animate() {
-  if (!isHeroVisible) {
-    animationId = null;
-    return;
-  }
-
-  updateParticles();
-  drawParticles();
-  animationId = requestAnimationFrame(animate);
-}
-
-function startAnimation() {
-  if (!animationId) animationId = requestAnimationFrame(animate);
-}
-
-function stopAnimation() {
-  if (animationId) {
-    cancelAnimationFrame(animationId);
-    animationId = null;
-  }
-}
-
-resizeCanvas();
-initParticles();
-startAnimation();
-
-// Pausa quando o hero sai da tela
-const heroSection = document.getElementById('home');
-if (heroSection) {
-  const heroObserver = new IntersectionObserver(entries => {
-    isHeroVisible = entries[0].isIntersecting;
-    if (isHeroVisible) {
-      startAnimation();
-    } else {
-      stopAnimation();
+  function frame() {
+    if (!isVisible) {
+      animationId = null;
+      return;
     }
-  }, { threshold: 0 });
+    update();
+    draw();
+    animationId = requestAnimationFrame(frame);
+  }
 
-  heroObserver.observe(heroSection);
-}
+  function start() {
+    if (!animationId) animationId = requestAnimationFrame(frame);
+  }
 
-// Redimensiona e reinicializa as partículas ao redimensionar a janela.
-window.addEventListener('resize', () => {
+  function stop() {
+    if (animationId) cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
+  refreshColor();
   resizeCanvas();
-  initParticles();
-});
+  createParticles();
+  start();
 
-// Atualiza a cor das partículas de acordo com o tema.
-function updateParticlesColor(rgb) {
-  CONFIG.color = rgb;
+  const hero = document.getElementById('home');
+  if (hero) {
+    new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) start();
+      else stop();
+    }).observe(hero);
+  }
+
+  // No mobile, a barra de endereço muda só a altura ao rolar: recria as partículas
+  // apenas quando a largura muda, para não "piscar" a animação.
+  let lastWidth = canvas.offsetWidth;
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    if (canvas.width !== lastWidth) {
+      lastWidth = canvas.width;
+      createParticles();
+    }
+  });
+
+  return { refreshColor };
 }
