@@ -34,12 +34,12 @@ que resista à inspeção de um recrutador técnico que abra o código-fonte.
 | Stack | Manter **HTML + CSS + JS puro, sem build** (é um diferencial e está bom). Ferramentas de qualidade entram só como `devDependencies`/CI. | ✅ Decidido |
 | Fluxo de entrega | **Uma branch + um PR por milestone**, merge *squash* em `main`, Conventional Commits. | ✅ Decidido |
 | Publicação | GitHub Pages publica de `main` (raiz). **Todo merge vai ao ar** → `main` sempre publicável. | ✅ Fato |
-| Idioma padrão | **PT-BR** com detecção (`navigator.language`) e troca manual persistida. | 🟨 Recomendado |
-| Paleta | **A — "Metrô Noturno"** (âmbar `#F5A524` + ciano `#22D3EE`). Alternativas B/C na análise. | ⛔ Aguardando escolha |
-| Efeitos visuais | Manter **partículas (discretas), reveal e terminal**; remover cursor glow, magnético, parallax, page-transition, preloader e ruído. | ⛔ Aguardando confirmação |
-| Depoimentos | **Remover** os depoimentos sem fonte verificável; só voltar com recomendações reais do LinkedIn, com link. | 🟨 Recomendado |
-| Seção "GitHub" (API ao vivo) | **Remover** (duplica projetos, limite de API, "⭐ 0"). | 🟨 Recomendado |
-| Docs de planejamento | **Plano** versionado em `docs/` (sem nomes, notas ou críticas pessoais). **Análise crítica fica local**, excluída via `.git/info/exclude` — recrutadores leem o repositório. | 🟨 Recomendado (aguardando confirmação) |
+| Idioma padrão | **PT-BR** com detecção (`navigator.language`) e troca manual persistida. | ✅ Decidido |
+| Paleta | **A — "Metrô Noturno"** (âmbar `#F5A524` + ciano `#22D3EE`). | ✅ Decidido (10/11/2026) |
+| Efeitos visuais | **Enxuto**: manter **partículas (discretas), reveal e terminal**; remover cursor glow, magnético, parallax, page-transition, preloader e ruído. | ✅ Decidido (10/11/2026) |
+| Depoimentos | **Remover** os depoimentos sem fonte verificável; só voltar com recomendações reais do LinkedIn, com link. | ✅ Decidido |
+| Seção "GitHub" (API ao vivo) | **Remover** (duplica projetos, limite de API, "⭐ 0"). | ✅ Decidido |
+| Docs de planejamento | **Plano** versionado em `docs/` (sem nomes, notas ou críticas pessoais). **Análise crítica fica local**, excluída via `.git/info/exclude` — recrutadores leem o repositório. | ✅ Decidido (10/11/2026) |
 | Afirmações sensíveis | Nada sobre "produção na CAESB", modelo de trabalho ou datas entra no site sem aprovação explícita na **matriz de fatos** (M4). | ✅ Decidido |
 
 ---
@@ -95,7 +95,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 | M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | 🟨 Em andamento | — | |
 | M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ⬜ Pendente | M0 | |
 | M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ⬜ Pendente | M1 | |
-| M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⛔ Bloqueado (paleta) | M2 | |
+| M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⬜ Pendente | M2 | |
 | M4 | Conteúdo orientado a recrutador (hero, experiência, projetos, contato) | `feat/m4-conteudo-recrutador` | ⛔ Bloqueado (informações §8 da análise) | M3 | |
 | M5 | Performance, SEO e acessibilidade (metas rígidas) | `perf/m5-performance-seo-a11y` | ⬜ Pendente | M4 | |
 | M6 | README e vitrine (GitHub/LinkedIn) | `docs/m6-readme-e-vitrine` | ⬜ Pendente | M5 | |
@@ -136,11 +136,11 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 **Tarefas**
 1. Versionar `docs/plano-implementacao.md`. Manter `docs/analise-critica.md` **fora do Git**: adicionar `docs/analise-critica.md` em `.git/info/exclude` (exclusão local, não aparece no `.gitignore` público).
 2. Criar `.editorconfig` (UTF-8, LF, 2 espaços, newline final) e ajustar `.gitattributes` com **um padrão por linha**: `* text=auto eol=lf`, `*.png binary`, `*.jpg binary`, `*.webp binary`, `*.avif binary`, `*.pdf binary`, `*.woff2 binary`. Rodar `git add --renormalize .` e conferir que o diff só contém finais de linha.
-3. Criar `package.json` (`"private": true`, `"engines": {"node": ">=20"}`) **apenas com `devDependencies`** em versões fixas e scripts `validate:html`, `serve` e `verify` (encadeia todas as verificações com `&&` e falha no primeiro erro). **Versionar o `package-lock.json`**; adicionar `node_modules/` e `.lighthouseci/` ao `.gitignore`. O site continua sem build.
+3. Criar `package.json` (`"private": true`, `"engines": {"node": ">=22.22.0"}` — exigência do html-validate 11) **apenas com `devDependencies`** em versões fixas e scripts `validate:html`, `serve` e `verify` (encadeia todas as verificações com `&&` e falha no primeiro erro). **Versionar o `package-lock.json`**; adicionar `node_modules/` e `.lighthouseci/` ao `.gitignore`. O site continua sem build.
 4. Criar `.htmlvalidate.cjs` (formato JS para permitir comentários) com `extends: ["html-validate:recommended"]`. Regras que reprovam o código atual e serão resolvidas adiante ficam desativadas **com comentário apontando o milestone** que as reativa.
-5. Criar `.github/workflows/quality.yml` (em `pull_request` e `push` para `main`), com um job chamado **`quality`**, Node 20 e `npm ci`:
+5. Criar `.github/workflows/quality.yml` (em `pull_request` e `push` para `main`), com um job chamado **`quality`**, Node 22 e `npm ci`:
    - `npm run validate:html`;
-   - links com `lycheeverse/lychee-action` com entradas **explícitas** (`index.html README.md docs/plano-implementacao.md`), `--exclude-path node_modules` e exclusão de `linkedin.com` (responde 999 para robôs);
+   - links com `lycheeverse/lychee-action` com entradas **explícitas** (`index.html README.md docs/plano-implementacao.md`), `--exclude-path node_modules` e exclusão de `linkedin.com` (responde 999 para robôs) e `lattes.cnpq.br` (falha de TLS só no lychee);
    - Lighthouse CI (`treosh/lighthouse-ci-action`, versão fixada) com `lighthouserc.json`: `staticDistDir: "."`, `url: ["http://localhost/index.html"]` (evita auditar outros HTML), `numberOfRuns: 3`, sem `preset` (o padrão do Lighthouse já é mobile) — **somente avisos** nesta fase.
 6. Criar `.github/pull_request_template.md` com: resumo, achados resolvidos (IDs), como testar, capturas, checklist do DOD comum.
 7. (Opcional, recomendado) Após o primeiro run, proteger `main` exigindo o check `quality` (seção 7.4).
@@ -175,6 +175,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 7. **Idioma padrão (`A05`, `A06`)**: ordem de precedência `localStorage` → `navigator.language` (pt\* → `pt-br`, senão `en`). **HTML estático passa a conter o texto PT** (idêntico ao dicionário PT), com `lang="pt-BR"`. **Todos os metadados lidos por robôs** (que não executam JS) passam para PT: `<title>`, `description`, `og:title`, `og:description`, `twitter:*`, `og:locale` `pt_BR` + `og:locale:alternate` `en_US` e textos do JSON-LD. Atualizar `document.documentElement.lang` e `document.title` na troca.
 8. **CV (`B04`, `B05`)**: renomear para `assets/cv/pedro-braga-cv-ptbr.pdf`; usar `target="_blank" rel="noopener"` **sem** `download`; rótulo indica idioma ("Currículo (PDF)").
 9. **Terminal (`B10`)**: e-mail em minúsculas e igual ao do contato.
+10. **Botões**: adicionar `type="button"` a todos os `<button>` e **reativar** a regra `no-implicit-button-type` em `.htmlvalidate.cjs` (desativada no M0).
 
 **DOD**
 - [ ] `grep -riE "testimonial|depoimento|'test\." --exclude-dir=node_modules --exclude-dir=.git .` retorna **zero** ocorrências no código versionado (o plano não cita nomes de terceiros).
@@ -225,7 +226,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
 **Objetivo:** identidade própria e acessível, ligada à foto e ao posicionamento backend.
 **Achados:** `A01`, `A02`, `M01`, `M02`, `M03`, `M04` (layout), parte de `C05` (fontes).
-**Bloqueio:** escolha da paleta (seção 1).
+**Paleta escolhida:** A — "Metrô Noturno".
 
 **Escopo**
 - Inclui: tokens de cor/tipografia, temas escuro e claro, botões, header, grade de projetos, favicon.
@@ -598,6 +599,8 @@ entrega, trate os apontamentos e registre-os na seção 9 (DOD).
 | Data | Milestone | Registro |
 |---|---|---|
 | 10/11/2026 | — | Análise crítica concluída sobre o commit `efc9821`; baseline do Lighthouse registrado na análise (seção 7). |
-| 10/11/2026 | M0 | Paleta A recomendada; aguardando escolha final do Pedro (bloqueia M3). |
+| 10/11/2026 | M0 | Decisões do Pedro: paleta **A**, efeitos **enxutos**, análise crítica **privada**. |
+| 10/11/2026 | M0 | Lychee: `lattes.cnpq.br` excluído — o servidor do CNPq recusa o handshake TLS do lychee, mas o link responde 302 no navegador/curl. Verificação manual no T12. |
+| 10/11/2026 | M0 | html-validate: estilo `void-style: selfclose` adotado (padrão do código); `no-implicit-button-type` desativada até o M1. LHCI local reproduziu o baseline (Performance 74, Acessibilidade 96), auditando só `index.html`. |
 | 10/11/2026 | M0 | `cache-insight` (cabeçalho de cache do GitHub Pages) aceito como limitação da hospedagem. |
 | 10/11/2026 | M0 | **Revisão rubber-duck do plano** (outra IA). Apontamentos tratados: (1) análise crítica mantida fora do repositório público e plano sem nomes de terceiros; (2) matriz de fatos obrigatória antes do M4 e `affiliation` em vez de `alumniOf`; (3) `.gitattributes` com um padrão por linha, config do html-validate em `.cjs`, `package-lock.json` versionado; (4) LHCI com URL explícita e sem `preset`, lychee com entradas explícitas e sem `node_modules`; (5) dicionários em módulo puro `translations.js` para o verificador em Node; (6) correção mínima do README no M2; (7) script único `npm run verify`; (8) metadados de robôs em PT no M1; (9) checagem de cores do M3 aceita `rgba(var(...))`; (10) portão LHCI no CI separado da medição oficial no site publicado; (11) smoke test Playwright no M2; (12) `reduced-motion` também em JS. |
