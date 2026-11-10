@@ -10,8 +10,13 @@ export default [
     languageOptions: { sourceType: 'module', globals: globals.browser },
   },
   {
-    files: ['scripts/**/*.mjs', 'tests/**/*.mjs', '*.config.js', '*.config.mjs'],
+    files: ['scripts/**/*.mjs', '*.config.js', '*.config.mjs'],
     languageOptions: { sourceType: 'module', globals: globals.node },
+  },
+  {
+    // Testes rodam em Node, mas os callbacks de page.evaluate executam no navegador.
+    files: ['tests/**/*.mjs'],
+    languageOptions: { sourceType: 'module', globals: { ...globals.node, ...globals.browser } },
   },
   {
     files: ['**/*.cjs'],
