@@ -4,19 +4,42 @@
   "private": true,
   "description": "Portfólio pessoal de Pedro Braga de Lima — HTML, CSS e JavaScript puro, sem etapa de build.",
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": ">=22.22.0"
   },
   "scripts": {
     "serve": "serve . -l 3000",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"css/**/*.css\"",
+    "format": "prettier --write . && npm run stamp",
+    "format:check": "prettier --check .",
     "validate:html": "html-validate index.html",
-    "verify": "npm run validate:html"
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "stamp": "node scripts/stamp-assets.mjs",
+    "stamp:check": "node scripts/stamp-assets.mjs --check",
+    "test:smoke": "playwright test",
+    "verify": "npm run lint && npm run format:check && npm run validate:html && npm run check:i18n && npm run stamp:check && npm run test:smoke"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.65.0",
+    "eslint": "10.14.0",
+    "globals": "17.14.0",
     "html-validate": "11.21.0",
-    "serve": "14.2.7"
+    "prettier": "3.9.10",
+    "serve": "14.2.7",
+    "stylelint": "18.0.0",
+    "stylelint-config-standard": "41.0.0"
   },
   "overrides": {
-    "compression": "^1.8.2"
+    "compression": "^1.8.2",
+    "eslint": {
+      "minimatch": "^11.0.5"
+    },
+    "@eslint/config-array": {
+      "minimatch": "^11.0.5"
+    }
   }
 }
