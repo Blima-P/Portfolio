@@ -40,14 +40,20 @@ export function getLanguage() {
   return currentLang;
 }
 
+// Só chaves próprias do dicionário (evita herdar "constructor", "toString"...).
+function lookup(lang, key) {
+  const dict = translations[lang];
+  return Object.hasOwn(dict, key) ? dict[key] : undefined;
+}
+
 export function t(key) {
-  return translations[currentLang][key] ?? translations[DEFAULT_LANG][key] ?? '';
+  return lookup(currentLang, key) ?? lookup(DEFAULT_LANG, key) ?? '';
 }
 
 // Traduz um elemento com data-i18n (e, opcionalmente, data-i18n-attr).
 export function translateElement(el) {
   const key = el.dataset.i18n;
-  const value = translations[currentLang][key];
+  const value = lookup(currentLang, key);
   if (value === undefined) return;
 
   const attr = el.dataset.i18nAttr;

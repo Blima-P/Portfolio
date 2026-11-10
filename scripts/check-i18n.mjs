@@ -22,22 +22,22 @@ for (const [name, dict, other] of [
   ['en', en, pt],
 ]) {
   for (const [key, value] of Object.entries(dict)) {
-    if (!(key in other)) fail(`chave só em ${name}: ${key}`);
+    if (!Object.hasOwn(other, key)) fail(`chave só em ${name}: ${key}`);
     if (typeof value !== 'string' || !value.trim()) fail(`valor vazio em ${name}: ${key}`);
     // Só as chaves de HTML_KEYS vão para innerHTML; nas demais, "<" ou "&" apareceriam literalmente.
     if (!htmlKeys.has(key) && /[<&]/.test(value))
       fail(`${name}.${key} contém HTML mas não está em HTML_KEYS`);
   }
 }
-for (const key of htmlKeys) if (!(key in pt)) fail(`HTML_KEYS cita chave inexistente: ${key}`);
+for (const key of htmlKeys) if (!Object.hasOwn(pt, key)) fail(`HTML_KEYS cita chave inexistente: ${key}`);
 
 // 2. Elementos com data-i18n: chave existe e o texto estático é o pt-br.
 const used = new Set();
-const openTag = /<(\w+)(\s[^>]*?\bdata-i18n="([^"]+)"[^>]*)>/g;
+const openTag = /<(\w+)(\s[^>]*?\bdata-i18n=["']([^"']+)["'][^>]*)>/g;
 for (const match of html.matchAll(openTag)) {
   const [whole, tag, attrs, key] = match;
   used.add(key);
-  if (!(key in pt)) {
+  if (!Object.hasOwn(pt, key)) {
     fail(`data-i18n sem tradução: ${key}`);
     continue;
   }

@@ -46,8 +46,12 @@ export function initParticles() {
     for (const p of particles) {
       p.x += p.vx;
       p.y += p.vy;
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      // Quique pela direção (não só inverter): se o canvas encolher, a partícula volta para dentro
+      // em vez de ficar oscilando do lado de fora.
+      if (p.x < 0) p.vx = Math.abs(p.vx);
+      else if (p.x > canvas.width) p.vx = -Math.abs(p.vx);
+      if (p.y < 0) p.vy = Math.abs(p.vy);
+      else if (p.y > canvas.height) p.vy = -Math.abs(p.vy);
     }
   }
 
