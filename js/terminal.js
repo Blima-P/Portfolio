@@ -9,7 +9,7 @@
       about: 'Pedro Braga de Lima — Software Engineering student at UCB, development intern at CAESB. Focused on Java backend with Spring and PostgreSQL.',
       skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
       projects: '1. Carteira API — Java/Spring digital wallet\n2. Academic ERP — React/Firebase team project\n3. Multiplayer Minesweeper — C/POSIX\n4. Personal Portfolio — HTML/CSS/JavaScript',
-      contact: 'Email: Pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
+      contact: 'Email: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
       github: 'Check out my repos → https://github.com/Blima-P',
       secret: '🎮 Konami Code? Nah, you found the terminal! You\'re a real dev. 🚀',
       clear: '__CLEAR__',
@@ -20,7 +20,7 @@
       about: 'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL.',
       skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
       projects: '1. Carteira API — Carteira digital Java/Spring\n2. ERP Acadêmico — Projeto em equipe React/Firebase\n3. Campo Minado Multiplayer — C/POSIX\n4. Portfólio Pessoal — HTML/CSS/JavaScript',
-      contact: 'Email: Pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
+      contact: 'E-mail: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
       github: 'Confira meus repos → https://github.com/Blima-P',
       secret: '🎮 Konami Code? Não, você achou o terminal! Você é um dev de verdade. 🚀',
       clear: '__CLEAR__',
@@ -28,7 +28,25 @@
     }
   };
 
+  const messages = {
+    en: {
+      intro: 'Type "help" for available commands.',
+      notFound: cmd => `Command not found: "${cmd}". Type "help" for available commands.`,
+      close: 'Close terminal',
+    },
+    'pt-br': {
+      intro: 'Digite "help" para ver os comandos disponíveis.',
+      notFound: cmd => `Comando não encontrado: "${cmd}". Digite "help" para ver os comandos disponíveis.`,
+      close: 'Fechar terminal',
+    },
+  };
+
+  function getLang() {
+    return (typeof currentLang !== 'undefined' && commands[currentLang]) ? currentLang : 'en';
+  }
+
   function createTerminal() {
+    const msg = messages[getLang()];
     overlay = document.createElement('div');
     overlay.className = 'terminal-overlay';
     overlay.innerHTML = `
@@ -38,10 +56,10 @@
           <span class="terminal__dot terminal__dot--yellow"></span>
           <span class="terminal__dot terminal__dot--green"></span>
           <span class="terminal__title">pbl@portfolio:~$</span>
-          <button class="terminal__close" aria-label="Close">✕</button>
+          <button type="button" class="terminal__close" aria-label="${msg.close}">✕</button>
         </div>
         <div class="terminal__body" id="terminal-output">
-          <p class="terminal__line terminal__line--system">Type "help" for available commands.</p>
+          <p class="terminal__line terminal__line--system">${msg.intro}</p>
         </div>
         <div class="terminal__input-line">
           <span class="terminal__prompt">→</span>
@@ -69,16 +87,17 @@
   }
 
   function processCommand(cmd) {
-    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
-    const dict = commands[lang] || commands.en;
+    const lang = getLang();
+    const dict = commands[lang];
 
     addLine(`→ ${cmd}`, 'command');
 
-    const response = dict[cmd];
-    if (!response) {
-      addLine(`Command not found: "${cmd}". Type "help" for available commands.`, 'error');
+    // hasOwnProperty evita que "constructor" ou "__proto__" sejam tratados como comandos.
+    if (!Object.prototype.hasOwnProperty.call(dict, cmd)) {
+      addLine(messages[lang].notFound(cmd), 'error');
       return;
     }
+    const response = dict[cmd];
 
     if (response === '__CLEAR__') {
       output.innerHTML = '';
@@ -103,6 +122,7 @@
 
   function openTerminal() {
     if (!overlay) createTerminal();
+    overlay.querySelector('.terminal__close').setAttribute('aria-label', messages[getLang()].close);
     overlay.classList.add('terminal-overlay--open');
     isOpen = true;
     setTimeout(() => input.focus(), 100);
