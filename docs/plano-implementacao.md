@@ -92,7 +92,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
 | # | Milestone | Branch | Status | Depende de | Data |
 |---|---|---|---|---|---|
-| M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | 🟨 Em andamento | — | |
+| M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | ✅ Concluído (PR #5) | — | 10/11/2026 |
 | M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ⬜ Pendente | M0 | |
 | M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ⬜ Pendente | M1 | |
 | M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⬜ Pendente | M2 | |
@@ -146,13 +146,13 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 7. (Opcional, recomendado) Após o primeiro run, proteger `main` exigindo o check `quality` (seção 7.4).
 
 **DOD (Definition of Done)**
-- [ ] `docs/plano-implementacao.md` versionado e renderizando no GitHub; `git status` **não** lista `docs/analise-critica.md`.
-- [ ] Plano sem nomes de terceiros, notas pessoais ou dados confidenciais.
-- [ ] `npm ci && npm run verify` roda localmente sem erro; `package-lock.json` versionado.
-- [ ] Workflow `quality` executa no PR do M0 e fica **verde**; relatório do Lighthouse CI acessível no log/artefato e auditando **apenas** `index.html`.
-- [ ] Template de PR aparece ao abrir um novo PR.
-- [ ] Nenhuma alteração visual no site publicado (comparar captura antes × depois).
-- [ ] **Revisão final (rubber-duck) com outra IA** sobre o plano e a configuração de CI; apontamentos tratados e registrados.
+- [x] `docs/plano-implementacao.md` versionado e renderizando no GitHub; `git status` **não** lista `docs/analise-critica.md`.
+- [x] Plano sem nomes de terceiros, notas pessoais ou dados confidenciais.
+- [x] `npm ci && npm run verify` roda localmente sem erro; `package-lock.json` versionado.
+- [x] Workflow `quality` executa no PR do M0 e fica **verde**; relatório do Lighthouse CI acessível no log/artefato e auditando **apenas** `index.html`.
+- [x] Template de PR aparece ao abrir um novo PR.
+- [x] Nenhuma alteração visual no site publicado (comparar captura antes × depois).
+- [x] **Revisão final (rubber-duck) com outra IA** sobre o plano e a configuração de CI; apontamentos tratados e registrados.
 
 ---
 
@@ -398,6 +398,7 @@ Executar com `npx serve .` (ou `python -m http.server 8000`) e, após o merge, n
 
 - **Texto em PT-BR com acentuação correta**; arquivos em **UTF-8 sem BOM**, finais de linha **LF**.
 - **Conventional Commits** (`feat`, `fix`, `refactor`, `perf`, `style`, `docs`, `chore`, `ci`), escopo opcional, mensagem no imperativo.
+- **Commits sempre com a conta Blima-P** (`pbl0812@gmail.com`, configurado localmente no repositório) — **nunca** com o e-mail corporativo.
 - **`main` sempre publicável**: nada vai para `main` sem PR e CI verde.
 - **Sem framework e sem etapa de build** para o site; `package.json` é só para ferramentas de qualidade.
 - **Nenhum conteúdo inventado**; nenhum dado interno da CAESB (nomes de sistemas internos, telas, dados, código).
@@ -417,6 +418,12 @@ Exige `git` e `gh` autenticado (`gh auth status`).
 ### 7.1 Fluxo padrão (substituir `<branch>`, `<tipo>` e textos)
 
 ```powershell
+# 0. (uma única vez) Identidade da conta GitHub Blima-P — somente neste repositório,
+#    para não usar o e-mail corporativo da máquina
+git config user.name "Pedro Braga de Lima"
+git config user.email "pbl0812@gmail.com"
+gh auth status                 # deve mostrar: Logged in to github.com account Blima-P
+
 # 1. Partir de main atualizada
 git switch main
 git pull --ff-only
@@ -452,7 +459,7 @@ gh run list --limit 3                         # "pages build and deployment" con
 
 | # | Branch | Título do PR (vira o commit do squash) | Commits sugeridos |
 |---|---|---|---|
-| M0 | `chore/m0-plano-e-qualidade` | `chore: M0 — plano, padrões e CI de qualidade` | `docs: adiciona análise crítica e plano de implementação` · `chore: adiciona editorconfig e normaliza gitattributes` · `ci: adiciona validação de HTML, links e Lighthouse` · `chore: adiciona template de PR` |
+| M0 | `chore/m0-plano-e-qualidade` | `chore: M0 — plano, padrões e CI de qualidade` | `docs: adiciona plano de implementação do portfólio v2` · `chore: adiciona editorconfig e normaliza gitattributes` · `ci: adiciona validação de HTML, links e Lighthouse` · `chore: adiciona template de PR` |
 | M1 | `fix/m1-integridade-e-bugs` | `fix: M1 — integridade do conteúdo e correções críticas` | `fix: remove depoimentos sem fonte` · `chore: remove código morto` · `fix(hero): preserva ícone do botão de currículo` · `fix(i18n): corrige ortografia, datas e frases do typing` · `feat(i18n): define PT-BR como padrão com detecção do navegador` · `fix(cv): renomeia arquivo e corrige link` |
 | M2 | `refactor/m2-codigo-e-efeitos` | `refactor: M2 — ES Modules, lint e auditoria de efeitos` | `refactor(js): migra scripts para ES Modules` · `refactor: remove efeitos sem propósito e preloader` · `chore: adiciona ESLint, Stylelint e Prettier` · `ci: verifica paridade de chaves do i18n` |
 | M3 | `feat/m3-identidade-visual` | `feat: M3 — nova identidade visual acessível` | `refactor(css): centraliza cores em tokens semânticos` · `feat(theme): aplica paleta Metrô Noturno` · `perf(fonts): hospeda fontes localmente` · `fix(header): agrupa ações à direita` · `fix(projects): remove card órfão da grade` |
