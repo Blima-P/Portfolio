@@ -93,7 +93,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 | # | Milestone | Branch | Status | Depende de | Data |
 |---|---|---|---|---|---|
 | M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | ✅ Concluído (PR #5) | — | 10/11/2026 |
-| M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ⬜ Pendente | M0 | |
+| M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ✅ Concluído (PR #7) | M0 | 10/11/2026 |
 | M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ⬜ Pendente | M1 | |
 | M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⬜ Pendente | M2 | |
 | M4 | Conteúdo orientado a recrutador (hero, experiência, projetos, contato) | `feat/m4-conteudo-recrutador` | ⛔ Bloqueado (informações §8 da análise) | M3 | |
@@ -178,13 +178,13 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 10. **Botões**: adicionar `type="button"` a todos os `<button>` e **reativar** a regra `no-implicit-button-type` em `.htmlvalidate.cjs` (desativada no M0).
 
 **DOD**
-- [ ] `grep -riE "testimonial|depoimento|'test\." --exclude-dir=node_modules --exclude-dir=.git .` retorna **zero** ocorrências no código versionado (o plano não cita nomes de terceiros).
-- [ ] Ícone de download visível no botão de CV nos 2 idiomas e 3 resoluções.
-- [ ] Navegador em PT abre em PT; em EN abre em EN; a escolha manual persiste após recarregar.
-- [ ] Com JavaScript desabilitado, a página aparece **inteira em PT** e coerente.
-- [ ] Nenhum texto "planned/planejado" sobre funcionalidade já pronta.
-- [ ] Link do CV abre o PDF (sem 404) no site publicado.
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [x] `grep -riE "testimonial|depoimento|'test\." --exclude-dir=node_modules --exclude-dir=.git .` retorna **zero** ocorrências no código versionado (o plano não cita nomes de terceiros).
+- [x] Ícone de download visível no botão de CV nos 2 idiomas e 3 resoluções.
+- [x] Navegador em PT abre em PT; em EN abre em EN; a escolha manual persiste após recarregar.
+- [x] Com JavaScript desabilitado, a página aparece **inteira em PT** e coerente.
+- [x] Nenhum texto "planned/planejado" sobre funcionalidade já pronta.
+- [x] Link do CV abre o PDF (sem 404) no site publicado.
+- [x] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
 
 ---
 
@@ -611,3 +611,9 @@ entrega, trate os apontamentos e registre-os na seção 9 (DOD).
 | 10/11/2026 | M0 | html-validate: estilo `void-style: selfclose` adotado (padrão do código); `no-implicit-button-type` desativada até o M1. LHCI local reproduziu o baseline (Performance 74, Acessibilidade 96), auditando só `index.html`. |
 | 10/11/2026 | M0 | `cache-insight` (cabeçalho de cache do GitHub Pages) aceito como limitação da hospedagem. |
 | 10/11/2026 | M0 | **Revisão rubber-duck do plano** (outra IA). Apontamentos tratados: (1) análise crítica mantida fora do repositório público e plano sem nomes de terceiros; (2) matriz de fatos obrigatória antes do M4 e `affiliation` em vez de `alumniOf`; (3) `.gitattributes` com um padrão por linha, config do html-validate em `.cjs`, `package-lock.json` versionado; (4) LHCI com URL explícita e sem `preset`, lychee com entradas explícitas e sem `node_modules`; (5) dicionários em módulo puro `translations.js` para o verificador em Node; (6) correção mínima do README no M2; (7) script único `npm run verify`; (8) metadados de robôs em PT no M1; (9) checagem de cores do M3 aceita `rgba(var(...))`; (10) portão LHCI no CI separado da medição oficial no site publicado; (11) smoke test Playwright no M2; (12) `reduced-motion` também em JS. |
+| 10/11/2026 | — | Alerta Dependabot (`compression` < 1.8.2, DoS) corrigido com `overrides` no `package.json` (PR #6) — `serve@14.2.7` fixa a versão vulnerável. |
+| 10/11/2026 | M1 | Fatos confirmados pelo Pedro: grafia **"Solução Assessoria Vendas/Cobranças"** e período **2024** (o site dizia 2023 — 2024). CredSolaris também em 2024 (out–nov, segundo o CV). Meses ficam para o M4. |
+| 10/11/2026 | M1 | Idioma: a chave do `localStorage` passou de `lang` para `portfolio-lang`, porque a versão anterior gravava `en` em **toda** visita (sem escolha do usuário) e prenderia visitantes antigos no inglês. Agora só a troca manual é salva; a detecção pelo navegador não grava nada. |
+| 10/11/2026 | M1 | Padrão de grafia: "full stack" em PT e "full-stack" em EN (adjetivo composto). O HTML estático traz a primeira frase do typing, então a página fica completa sem JS. Também foram traduzidos `aria-label`/`alt` que estavam fixos (tema, menu, rolar, topo, foto, links de projeto). |
+| 10/11/2026 | M1 | O nome antigo do PDF (`Pedro Braga de Lima - Curriculo.pdf`) deixou de existir: links externos que apontavam direto para ele (ex.: LinkedIn) precisam ser atualizados para `assets/cv/pedro-braga-cv-ptbr.pdf`. |
+| 10/11/2026 | M1 | **Revisão rubber-duck do diff** (outra IA): nenhum bloqueante. Apontamento tratado: o terminal misturava idiomas (instrução inicial, erro e `aria-label` só em inglês) → mensagens por idioma. Junto, corrigido um bug encontrado nos testes: os comandos `constructor`/`__proto__` eram lidos do protótipo e quebravam o terminal (agora `hasOwnProperty`). Testes de navegador: 57 verificações (3 resoluções × 2 idiomas × 2 temas, persistência, sem JS, terminal, PDF) e verificação de que o HTML estático é idêntico ao dicionário PT. |
