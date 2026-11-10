@@ -365,6 +365,19 @@ body {
   font-weight: 400;
   color: var(--color-text-muted);
   margin-bottom: 1.5rem;
+  display: grid;
+}
+
+/* Todas as frases do typing ficam invisíveis na mesma célula: o título
+   reserva a altura da mais alta e não "pula" ao quebrar linha. */
+.hero__title > *,
+.hero__title-sizer > * {
+  grid-area: 1 / 1;
+}
+
+.hero__title-sizer {
+  display: grid;
+  visibility: hidden;
 }
 
 .cursor {
