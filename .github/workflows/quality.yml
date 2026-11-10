@@ -1,0 +1,57 @@
+name: Qualidade
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificações (npm run verify)
+        run: npm run verify
+
+      - name: Links quebrados (lychee)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          # linkedin.com responde 999 para robôs; lattes.cnpq.br falha no handshake TLS do lychee
+          # (o link funciona no navegador). Ambos são verificados manualmente no roteiro de testes.
+          args: >-
+            --no-progress
+            --exclude 'linkedin\.com'
+            --exclude 'lattes\.cnpq\.br'
+            --exclude-path node_modules
+            --root-dir ${{ github.workspace }}
+            index.html README.md docs/plano-implementacao.md
+
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
