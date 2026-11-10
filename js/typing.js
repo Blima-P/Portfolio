@@ -1,31 +1,29 @@
 'use strict';
 
 // Efeito de digitação animado na seção hero.
+// As frases completam "Eu sou …" / "I am …".
 
 const typingTextsMap = {
   en: [
-    'Java Backend Developer',
-    'Spring & PostgreSQL',
-    'Software Eng. Student',
-    'Intern at CAESB',
-    'Passionate about tech',
+    'a Java backend developer',
+    'a Software Engineering student',
+    'an intern at CAESB',
   ],
   'pt-br': [
-    'Desenvolvedor Backend Java',
-    'Spring e PostgreSQL',
-    'Estudante de Eng. de Software',
-    'Estagiário na CAESB',
-    'Apaixonado por tecnologia 🚀',
+    'desenvolvedor backend Java',
+    'estudante de Engenharia de Software',
+    'estagiário na CAESB',
   ],
 };
-
-let typingTexts = typingTextsMap[localStorage.getItem('lang') || 'en'];
 
 const TYPING_SPEED         = 80;
 const ERASING_SPEED        = 40;
 const PAUSE_AFTER_TYPING   = 2000;
 const PAUSE_BEFORE_NEXT    = 400;
 
+// O HTML estático já traz a primeira frase em PT-BR (visível mesmo sem JavaScript).
+let typingLang = 'pt-br';
+let typingTexts = typingTextsMap[typingLang];
 let textIndex = 0;
 let charIndex = 0;
 let typingTimeout = null;
@@ -53,14 +51,22 @@ function eraseText() {
   }
 }
 
-// A função updateTypingLanguage só é chamada quando o idioma é alterado.
+// Chamada pelo i18n.js; só reinicia a animação se o idioma realmente mudou.
 function updateTypingLanguage(lang) {
+  const nextLang = typingTextsMap[lang] ? lang : 'en';
+  if (!typingEl || nextLang === typingLang) return;
+
   clearTimeout(typingTimeout);
-  typingTexts = typingTextsMap[lang] || typingTextsMap['en'];
+  typingLang = nextLang;
+  typingTexts = typingTextsMap[typingLang];
   textIndex = 0;
   charIndex = 0;
   typingEl.textContent = '';
   typingTimeout = setTimeout(typeText, PAUSE_BEFORE_NEXT);
 }
 
-typingTimeout = setTimeout(typeText, 500);
+if (typingEl) {
+  typingEl.textContent = typingTexts[0];
+  charIndex = typingTexts[0].length;
+  typingTimeout = setTimeout(eraseText, PAUSE_AFTER_TYPING);
+}

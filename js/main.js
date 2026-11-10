@@ -132,17 +132,6 @@ document.querySelectorAll('.skill-card').forEach((card, i) => {
   observer.observe(card);
 });
 
-document.querySelectorAll('.contact__info-item').forEach((item, i) => {
-  item.classList.add('animate', 'animate--left', `animate--delay-${i + 1}`);
-  observer.observe(item);
-});
-
-const form = document.querySelector('.contact__form');
-if (form) {
-  form.classList.add('animate', 'animate--right');
-  observer.observe(form);
-}
-
 /* ---- Contadores animados ---- */
 const counterObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
