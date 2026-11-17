@@ -1,89 +1,100 @@
-# Plano de Implementação — Portfólio v2 (posicionamento para recrutadores de TI)
+# Plano de Implementação — Portfólio v3 ("fazer brilhar os olhos")
 
-> Documento de planejamento para evoluir o portfólio `Blima-P/Portfolio` a partir da análise
-> crítica (`docs/analise-critica.md` — **arquivo pessoal, mantido fora do Git**; os IDs `C01`, `A01`…
-> citados aqui referem-se a ela). Cada **milestone** foi desenhado para ser implementado
-> em uma **nova sessão de chat** independente, usando o prompt indicado na seção
-> "Prompts por milestone", e entregue em **uma branch + um Pull Request** próprios.
+> Documento de planejamento para levar o portfólio `Blima-P/Portfolio` de "site bem-feito por
+> dentro" a **peça de candidatura que impressiona por fora e por dentro**. Parte da análise crítica
+> v3 (`docs/analise-critica.md` — **arquivo pessoal, fora do Git**; os IDs `R01…R44` citados aqui
+> referem-se a ela). Cada **milestone** é implementado em uma **nova sessão de chat**, com o prompt
+> da seção 9, e entregue como **vários PRs pequenos** (um por fatia), cada um com issue própria.
+>
+> Histórico: o plano v2 (M0–M2 concluídos, PRs #5–#10) está arquivado em
+> [`docs/historico/plano-v2.md`](historico/plano-v2.md). Este plano **continua a numeração** (M3 em
+> diante) e absorve os milestones M3–M7 que estavam pendentes no v2.
 
 ---
 
 ## 1. Objetivo
 
-Transformar o portfólio de um "template dev bonito" em uma **peça de candidatura** para vagas de
-**estágio/júnior backend Java**, que em até 6 segundos comunique: *quem é Pedro, o que ele já
-entrega e onde estão as provas*. Ao mesmo tempo, elevar o site a um padrão técnico
-que resista à inspeção de um recrutador técnico que abra o código-fonte.
+1. **Recrutador (6 segundos, celular):** entender *quem é Pedro, para qual vaga serve, o que já
+   entregou e onde estão as provas* — sem rolar.
+2. **Recrutador técnico (DevTools + repositório):** encontrar um site acessível, rápido, seguro,
+   testado, com histórico de PRs, issues, ADRs e releases que contam a história do projeto.
+3. **Perfil GitHub:** cada entrega gera PRs reais, pequenos e revisáveis, com coautoria — o que
+   alimenta as conquistas **Pair Extraordinaire (ouro)** e **Pull Shark** sem nenhum PR artificial
+   (seção 10).
 
-### Metas mensuráveis (comparar com o baseline da análise, seção 7)
+### Metas mensuráveis (baseline medido em 17/11/2026 no site publicado, `cc6002f`)
 
-| Métrica | Baseline (`efc9821`) | Meta v2 |
+| Métrica | Baseline | Meta v3 |
 |---|:---:|:---:|
-| Lighthouse mobile — Performance | 71 | **≥ 95** |
-| Lighthouse mobile — Acessibilidade / Boas práticas / SEO | 96 / 100 / 100 | **100 / 100 / 100** |
-| LCP mobile (Lighthouse, 4G simulado) | 8,8 s | **< 2,0 s** |
-| Peso total da página inicial | ~1,26 MB | **< 400 KB** |
-| Contraste mínimo de texto | 1,74:1 | **≥ 4,5:1** (AA) |
-| Achados críticos/altos abertos (análise) | 15 | **0** |
-| Conteúdo inventado/desatualizado no repositório | sim | **não** |
+| Títulos de seção visíveis | **0 de 7** (R01) | 7 de 7, com teste automatizado |
+| Lighthouse mobile — Performance | 74 | **≥ 95** |
+| Lighthouse mobile — Acessibilidade / Boas práticas / SEO | 95 / 100 / 100 | **100 / 100 / 100** |
+| LCP mobile (4G simulado) | 8,1 s | **< 2,0 s** |
+| Peso total da página inicial | 1.254 KiB | **< 400 KiB** |
+| Contraste mínimo de texto | ≈ 1,7:1 | **≥ 4,5:1** (AA) nos 2 temas |
+| Violações axe-core (2 temas × 2 idiomas) | não medido | **0** |
+| Achados críticos/altos abertos (R01–R17) | 17 | **0** |
+| PRs mergeados com coautoria (Pair Extraordinaire) | 32 candidatos (medidos; contagem do GitHub não confirmada) | **≥ 48** (ouro) |
 
-### Decisões já tomadas / pendentes (fonte: solicitante)
+### Decisões
 
 | Tema | Decisão | Status |
 |---|---|---|
-| Stack | Manter **HTML + CSS + JS puro, sem build** (é um diferencial e está bom). Ferramentas de qualidade entram só como `devDependencies`/CI. | ✅ Decidido |
-| Fluxo de entrega | **Uma branch + um PR por milestone**, merge *squash* em `main`, Conventional Commits. | ✅ Decidido |
-| Publicação | GitHub Pages publica de `main` (raiz). **Todo merge vai ao ar** → `main` sempre publicável. | ✅ Fato |
-| Idioma padrão | **PT-BR** com detecção (`navigator.language`) e troca manual persistida. | ✅ Decidido |
-| Paleta | **A — "Metrô Noturno"** (âmbar `#F5A524` + ciano `#22D3EE`). | ✅ Decidido (10/11/2026) |
-| Efeitos visuais | **Enxuto**: manter **partículas (discretas), reveal e terminal**; remover cursor glow, magnético, parallax, page-transition, preloader e ruído. | ✅ Decidido (10/11/2026) |
-| Depoimentos | **Remover** os depoimentos sem fonte verificável; só voltar com recomendações reais do LinkedIn, com link. | ✅ Decidido |
-| Seção "GitHub" (API ao vivo) | **Remover** (duplica projetos, limite de API, "⭐ 0"). | ✅ Decidido |
-| Docs de planejamento | **Plano** versionado em `docs/` (sem nomes, notas ou críticas pessoais). **Análise crítica fica local**, excluída via `.git/info/exclude` — recrutadores leem o repositório. | ✅ Decidido (10/11/2026) |
-| Afirmações sensíveis | Nada sobre "produção na CAESB", modelo de trabalho ou datas entra no site sem aprovação explícita na **matriz de fatos** (M4). | ✅ Decidido |
+| Stack | HTML + CSS + JS puro, **sem build**. Ferramentas só em `devDependencies`/CI. Herdado do v2. | ✅ Decidido |
+| Paleta | **A — "Metrô Noturno"** (âmbar `#F5A524` + ciano `#22D3EE`), tokens na seção M5. Herdado do v2. | ✅ Decidido |
+| Efeitos | Só com propósito; tudo desliga com `prefers-reduced-motion`. Herdado do v2. | ✅ Decidido |
+| Análise crítica | Fica **local** (`.git/info/exclude`); o plano é público e sem críticas pessoais. | ✅ Decidido |
+| Granularidade | **1 milestone = vários PRs pequenos** (uma fatia coesa e revisável por PR, ~50–400 linhas). | ✅ Decidido (17/11/2026) |
+| Coautoria | Todo commit leva `Co-authored-by` do par que realmente trabalhou (Copilot e/ou colega). | ✅ Decidido (17/11/2026) |
+| Identidade git | Commits como **Blima-P** (`Pedro Braga de Lima <pbl0812@gmail.com>`), configurado só neste repositório. | ✅ Decidido (17/11/2026) |
+| Vaga-alvo (estágio × júnior) | Pendente — define hero, CV e JSON-LD (análise §7, item 1). | ⏳ Pendente (bloqueia M6) |
+| Multipágina (estudos de caso) | Páginas estáticas em `projetos/*.html`, mesmo CSS/JS. | ✅ Proposto — confirmar no M7 |
+| Analytics sem cookie, domínio próprio, Public Sponsor | Opcionais, decisão do Pedro. | ⏳ Pendente (não bloqueia) |
 
 ---
 
-## 2. Contexto técnico (resumo da análise)
+## 2. Contexto técnico
 
-### Estado atual
-- Página única `index.html` (~527 linhas) + `css/styles.css` (~1.300 linhas) + `css/animations.css`
-  + **13 scripts** clássicos carregados no fim do `<body>` (sem `defer`, com variáveis globais).
-- Textos duplicados em **duas fontes**: HTML estático (EN) e dicionário `js/i18n.js` (EN + PT), que
-  já divergem (`A06`). O i18n aplica `innerHTML`, o que apaga o ícone do botão de CV (`A03`).
-- Paleta em tokens CSS (`:root` e `[data-theme="light"]`), **mas** com várias cores fixas fora dos
-  tokens e na cor das partículas em JS (`M02`).
-- Foto `Profile.jpg.png` de 1,2 MB usada no "Sobre" e como `og:image` (`C05`, `M15`).
-- Sem `package.json`, sem lint, sem CI (`M14`).
+### Estado atual (pós-M2)
+- `index.html` (página única, PT estático) + `css/styles.css` + `css/animations.css` + 8 ES Modules
+  (`main.js` de entrada; `terminal.js` sob demanda). Sem globais (testado).
+- Qualidade: ESLint, Stylelint, Prettier, html-validate, `check-i18n`, `stamp-assets` (cache-busting
+  por hash), Playwright (smoke, desktop + mobile), lychee e LHCI (**só avisos**) no job `quality`.
+- Publicação: GitHub Pages "legacy" a partir de `main` (raiz). **Todo merge vai ao ar.**
+
+### Problemas de raiz que orientam a ordem dos milestones
+1. **R01 em produção** (títulos invisíveis) → hotfix antes de qualquer outra coisa (M3).
+2. Não há portão entre CI e deploy (R33) nem proteção da `main` (R32) → governança cedo (M4),
+   antes das mudanças grandes.
+3. Visual (M5) antes de conteúdo (M6): o conteúdo novo já nasce nos tokens novos.
+4. Regressão visual (M12) só depois que o design estabiliza — antes disso geraria retrabalho.
 
 ### Arquivos-chave
 | Arquivo | Papel | Milestones |
 |---|---|---|
-| `index.html` | Estrutura, metadados, conteúdo estático | M1, M3, M4, M5 |
-| `css/styles.css` | Tokens, layout, componentes | M1, M3, M4, M5 |
-| `css/animations.css` | Keyframes, reveal | M2, M5 |
-| `js/translations.js` + `js/i18n.js` | Dicionários (módulo puro) e troca de idioma | M1, M2, M4 |
-| `js/main.js` | Entrada dos ES Modules (desde o M2) | M2 |
-| `js/ui.js` | Header, menu, scroll-spy, reveal, contadores, filtros (desde o M2) | M2, M5 |
-| `js/typing.js` | Frases digitadas do hero | M1, M4 |
-| `js/theme.js` + `js/particles.js` | Tema e partículas | M2, M3 |
-| `js/github.js` | Seção de repositórios via API | M4 (remoção) |
-| `js/testimonials.js`, `js/contact.js` | **Código morto** | M1 (remoção) |
-| `js/cursor.js`, `magnetic.js`, `parallax.js`, `page-transitions.js` | Efeitos | M2 (remoção) |
-| `js/terminal.js` | Easter egg | M1, M2 |
-| `assets/cv/*.pdf`, `Profile.jpg.png`, `favicon.svg` | Ativos | M1, M3, M4, M5 |
-| `README.md` | Vitrine do repositório | M6 |
+| `index.html` | Estrutura, metadados, conteúdo | M3, M5–M11 |
+| `projetos/*.html` (novo) | Estudos de caso | M7, M9–M11 |
+| `css/styles.css`, `css/animations.css` | Tokens, layout, animações (unificados no M10) | M3, M5, M8–M10 |
+| `js/ui.js` | Header, menu, scroll-spy, reveal, filtros | M3, M7–M9 |
+| `js/translations.js`, `js/i18n.js` | Dicionários e troca de idioma | M6–M9 |
+| `js/terminal.js` | Terminal (vira recurso acessível e descobrível) | M8 |
+| `js/github.js` | Seção GitHub (removida) | M6 |
+| `tests/*.spec.mjs` | Smoke, visibilidade, a11y, visual, fluxo do recrutador | M3, M9, M12 |
+| `.github/` | Workflows, templates, Dependabot, CODEOWNERS | M4, M10, M12 |
+| `docs/adr/` (novo) | Registros de decisão | M13 |
+| `README.md`, `CHANGELOG.md` | Vitrine do repositório | M13, M15 |
 
 ### Riscos e mitigação
 | Risco | Mitigação |
 |---|---|
-| Merge quebra o site em produção (Pages publica `main`) | CI obrigatório no PR (M0) + teste local via servidor HTTP antes do merge. |
-| ES Modules não funcionam via `file://` | Sempre testar com `npx serve .` ou `python -m http.server`. |
-| Expor informação confidencial da CAESB | Revisar todo texto sobre a CAESB com o próprio Pedro; nada de nomes internos, dados ou telas. |
-| Conteúdo inventado para "preencher" | Regra: **todo fato precisa de fonte** (repo, certificado, confirmação do Pedro). Sem fonte → não entra. |
-| Regressão de i18n (chave faltando em um idioma) | Script de paridade de chaves no CI (M2). |
-| Refatoração quebra interações (tema, idioma, menu, filtros, terminal) | Smoke test automatizado com Playwright no CI a partir do M2. |
-| Lighthouse oscila entre execuções / CI não reflete o GitHub Pages | LHCI local (3 execuções, mediana, versões fixadas) como **portão de regressão**; metas finais medidas **no site publicado** (M5/M7). |
+| Merge quebra produção | M4 publica pelo GitHub Actions **só depois do job `quality` completo** (verify + lychee + LHCI); proteção da `main` exige `quality`, inclusive para administradores. |
+| Teste verde com página visualmente quebrada (caso R01) | M3 adiciona teste de visibilidade; M9 axe; M12 regressão visual. |
+| Conteúdo inventado para "preencher" | **Matriz de fatos** (análise §7) obrigatória antes do M6. Sem fonte → não entra. |
+| Dado confidencial da CAESB | Todo texto sobre a CAESB aprovado pelo Pedro no PR. |
+| PRs "inflados" para conquistas (recrutador abre a lista de PRs) | Regras da seção 10.3: cada PR tem objetivo, issue, teste e descrição; nada vazio ou artificial. |
+| Coautoria não reconhecida | Trailer no corpo de **cada** commit; squash do GitHub preserva (configuração `COMMIT_MESSAGES`); conferir após o merge (seção 7). |
+| ES Modules não funcionam via `file://` | Sempre `npm run serve`. |
+| Multipágina quebra i18n/cache-busting | M7 começa por um PR de infraestrutura que estende `check-i18n` e `stamp-assets` a `projetos/*.html`. |
 
 ---
 
@@ -91,151 +102,151 @@ que resista à inspeção de um recrutador técnico que abra o código-fonte.
 
 Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
-| # | Milestone | Branch | Status | Depende de | Data |
-|---|---|---|---|---|---|
-| M0 | Fundação: docs, padrões e CI de qualidade | `chore/m0-plano-e-qualidade` | ✅ Concluído (PR #5) | — | 10/11/2026 |
-| M1 | Integridade e correções críticas (bugs, textos, conteúdo sem fonte, código morto) | `fix/m1-integridade-e-bugs` | ✅ Concluído (PR #7) | M0 | 10/11/2026 |
-| M2 | Refatoração do código + auditoria de efeitos | `refactor/m2-codigo-e-efeitos` | ✅ Concluído (PR #10) | M1 | 10/11/2026 |
-| M3 | Identidade visual: paleta, tipografia, header e grade | `feat/m3-identidade-visual` | ⬜ Pendente | M2 | |
-| M4 | Conteúdo orientado a recrutador (hero, experiência, projetos, contato) | `feat/m4-conteudo-recrutador` | ⛔ Bloqueado (informações §8 da análise) | M3 | |
-| M5 | Performance, SEO e acessibilidade (metas rígidas) | `perf/m5-performance-seo-a11y` | ⬜ Pendente | M4 | |
-| M6 | README e vitrine (GitHub/LinkedIn) | `docs/m6-readme-e-vitrine` | ⬜ Pendente | M5 | |
-| M7 | QA final, release `v2.0.0` | `chore/m7-qa-e-release` | ⬜ Pendente | M0–M6 | |
+| # | Milestone | PRs | Status | Depende de | Data |
+|---|---|:---:|---|---|---|
+| M0–M2 | Fundação, integridade e refatoração (plano v2) | 6 | ✅ Concluído (#5–#10) | — | 10/11/2026 |
+| M3 | Plano v3 + hotfix dos títulos invisíveis | 3 | 🟨 Em andamento (PR do plano) | — | |
+| M4 | Governança do repositório e portão de deploy | 6 | ⬜ Pendente | M3 | |
+| M5 | Identidade visual "Metrô Noturno" | 6 | ⬜ Pendente | M4 | |
+| M6 | Conteúdo orientado a recrutador | 9 | ⛔ Bloqueado (análise §7) | M5 | |
+| M7 | Projetos como estudos de caso | 5 | ⬜ Pendente | M6 | |
+| M8 | Interações com propósito (terminal, tema, impressão, 404) | 6 | ⬜ Pendente | M7 | |
+| M9 | Acessibilidade WCAG 2.2 AA | 5 | ⬜ Pendente | M8 | |
+| M10 | Performance (metas rígidas) | 4 | ⬜ Pendente | M9 | |
+| M11 | SEO, compartilhamento e segurança | 4 | ⬜ Pendente | M10 | |
+| M12 | Testes e CI avançados | 4 | ⬜ Pendente | M11 | |
+| M13 | Documentação, ADRs e história do projeto | 6 | ⬜ Pendente | M12 | |
+| M14 | Vitrine no GitHub (perfil e outros repositórios) | 6 | ⬜ Pendente | M6 (pode correr em paralelo a M7–M13) | |
+| M15 | QA final, release `v3.0.0` e divulgação | 2 | ⬜ Pendente | M3–M14 | |
+| | **Total previsto** | **66** | | | |
 
-> Ao concluir um milestone, atualize esta tabela (status + data) e marque o DOD correspondente.
-> A ordem foi escolhida para **minimizar retrabalho**: primeiro limpar e corrigir (M1), depois
-> organizar o código (M2), só então trocar visual (M3) e reescrever conteúdo (M4) sobre uma base
-> estável; a otimização fina (M5) vem por último, quando o conteúdo final já existe.
+> Ao concluir **cada PR**, marque-o na tabela do milestone; ao concluir o milestone, atualize esta
+> tabela e o placar de conquistas (seção 10.4). O plano é atualizado **no próprio PR** que conclui a fatia.
 
 ---
 
 ## 4. Milestones detalhados
 
-### DOD comum a todos os milestones (vale para M1–M7)
+### DOD comum (vale para todo PR de M3 a M15)
 
-- [ ] Branch criada a partir de `main` atualizada; commits em **Conventional Commits**, em PT-BR com acentuação correta.
-- [ ] **CI verde** no PR (html-validate, verificação de links e Lighthouse CI; a partir do M2 também lint, paridade i18n e smoke test Playwright). Localmente: `npm run verify`.
-- [ ] Testado localmente via servidor HTTP em **390 px, 820 px e 1440 px**, nos **2 temas** e nos **2 idiomas** (roteiro da seção 5).
-- [ ] **Zero erros** no console do navegador e zero requisições 404.
+- [ ] Issue criada (template do M4 a partir dele), com label e milestone do GitHub; PR com `Closes #<n>`.
+- [ ] Branch a partir de `main` atualizada; **Conventional Commits** em PT-BR com acentuação.
+- [ ] **Todo commit** com trailer `Co-authored-by:` de quem realmente pareou (seção 7).
+- [ ] `npm run verify` verde localmente e **CI verde** no PR.
+- [ ] Testado via `npm run serve` em **390, 820 e 1440 px**, **2 temas**, **2 idiomas**; zero erro de console e zero 404.
 - [ ] Nenhum conteúdo inventado; nenhum dado confidencial da CAESB.
-- [ ] Tabela de status (seção 3) e checklist do milestone atualizados **no próprio PR**.
-- [ ] PR aberto com descrição (o quê / por quê / como testar / capturas antes × depois quando visual) e IDs dos achados resolvidos.
-- [ ] **Revisão final (rubber-duck) com outra IA** sobre o diff do milestone; apontamentos tratados e registrados na seção 9.
-- [ ] Após o merge: site publicado conferido em https://blima-p.github.io/Portfolio/ (aguardar o deploy do Pages).
+- [ ] Descrição do PR: o quê / por quê / como testar / capturas antes × depois (se visual) / IDs `Rxx`.
+- [ ] **Revisão rubber-duck com outra IA** sobre o diff; apontamentos tratados e registrados na seção 11.
+- [ ] Merge *squash*; conferido que o commit em `main` manteve o trailer; branch apagada.
+- [ ] Site publicado conferido após o deploy (https://blima-p.github.io/Portfolio/).
+- [ ] Tabela do milestone, tabela da seção 3 e placar da seção 10.4 atualizados.
 
 ---
 
-### M0 — Fundação: docs, padrões e CI de qualidade
+### M3 — Plano v3 + hotfix dos títulos invisíveis
 
-**Objetivo:** criar a rede de segurança antes de qualquer mudança — todo PR seguinte passa por validação automática.
-**Achados:** `M14` (parcial).
+**Objetivo:** registrar o plano e **parar o sangramento**: hoje nenhum título de seção aparece em produção.
+**Achados:** `R01`, `R29` (parcial).
 
-**Escopo**
-- Inclui: documentos de planejamento, padrões de editor, template de PR, workflow de CI com avisos.
-- Não inclui: nenhuma mudança visual ou de conteúdo do site.
-
-**Tarefas**
-1. Versionar `docs/plano-implementacao.md`. Manter `docs/analise-critica.md` **fora do Git**: adicionar `docs/analise-critica.md` em `.git/info/exclude` (exclusão local, não aparece no `.gitignore` público).
-2. Criar `.editorconfig` (UTF-8, LF, 2 espaços, newline final) e ajustar `.gitattributes` com **um padrão por linha**: `* text=auto eol=lf`, `*.png binary`, `*.jpg binary`, `*.webp binary`, `*.avif binary`, `*.pdf binary`, `*.woff2 binary`. Rodar `git add --renormalize .` e conferir que o diff só contém finais de linha.
-3. Criar `package.json` (`"private": true`, `"engines": {"node": ">=22.22.0"}` — exigência do html-validate 11) **apenas com `devDependencies`** em versões fixas e scripts `validate:html`, `serve` e `verify` (encadeia todas as verificações com `&&` e falha no primeiro erro). **Versionar o `package-lock.json`**; adicionar `node_modules/` e `.lighthouseci/` ao `.gitignore`. O site continua sem build.
-4. Criar `.htmlvalidate.cjs` (formato JS para permitir comentários) com `extends: ["html-validate:recommended"]`. Regras que reprovam o código atual e serão resolvidas adiante ficam desativadas **com comentário apontando o milestone** que as reativa.
-5. Criar `.github/workflows/quality.yml` (em `pull_request` e `push` para `main`), com um job chamado **`quality`**, Node 22 e `npm ci`:
-   - `npm run validate:html`;
-   - links com `lycheeverse/lychee-action` com entradas **explícitas** (`index.html README.md docs/plano-implementacao.md`), `--exclude-path node_modules` e exclusão de `linkedin.com` (responde 999 para robôs) e `lattes.cnpq.br` (falha de TLS só no lychee);
-   - Lighthouse CI (`treosh/lighthouse-ci-action`, versão fixada) com `lighthouserc.json`: `staticDistDir: "."`, `url: ["http://localhost/index.html"]` (evita auditar outros HTML), `numberOfRuns: 3`, sem `preset` (o padrão do Lighthouse já é mobile) — **somente avisos** nesta fase.
-6. Criar `.github/pull_request_template.md` com: resumo, achados resolvidos (IDs), como testar, capturas, checklist do DOD comum.
-7. (Opcional, recomendado) Após o primeiro run, proteger `main` exigindo o check `quality` (seção 7.4).
-
-**DOD (Definition of Done)**
-- [x] `docs/plano-implementacao.md` versionado e renderizando no GitHub; `git status` **não** lista `docs/analise-critica.md`.
-- [x] Plano sem nomes de terceiros, notas pessoais ou dados confidenciais.
-- [x] `npm ci && npm run verify` roda localmente sem erro; `package-lock.json` versionado.
-- [x] Workflow `quality` executa no PR do M0 e fica **verde**; relatório do Lighthouse CI acessível no log/artefato e auditando **apenas** `index.html`.
-- [x] Template de PR aparece ao abrir um novo PR.
-- [x] Nenhuma alteração visual no site publicado (comparar captura antes × depois).
-- [x] **Revisão final (rubber-duck) com outra IA** sobre o plano e a configuração de CI; apontamentos tratados e registrados.
-
----
-
-### M1 — Integridade e correções críticas
-
-**Objetivo:** remover tudo que pode **custar credibilidade** e corrigir bugs visíveis, sem mudar o design.
-**Achados:** `C02`, `A03`, `A04`, `A05`, `A06`, `M11`, `B01`, `B02`, `B03`, `B04` (CV), `B05`, `B10`, `C01` (correção textual mínima).
-
-**Escopo**
-- Inclui: remoção de conteúdo sem fonte e código morto, correções de texto/bug, idioma padrão.
-- Não inclui: nova paleta (M3), reescrita de conteúdo (M4), otimização de imagem (M4/M5).
+| PR | Branch | Título (vira o commit do squash) | Status |
+|---|---|---|---|
+| 3.1 | `docs/m3-plano-v3` | `docs: M3 — plano de implementação v3` | 🟨 |
+| 3.2 | `fix/m3-titulos-invisiveis` | `fix(reveal): títulos e subtítulos de seção voltam a aparecer` | ⬜ |
+| 3.3 | `test/m3-visibilidade` | `test(smoke): falha se conteúdo de seção ficar invisível` | ⬜ |
 
 **Tarefas**
-1. **Depoimentos sem fonte (`C02`)**: remover `js/testimonials.js`, chaves `test.*` (EN/PT), CSS `.testimonials*` e a menção no README.
-2. **Código morto (`M11`)**: remover `js/contact.js`, `.contact__form*`, `.contact__info-item*`, `.btn--full`, chaves `contact.form.*` e as tags `<script>` correspondentes. Confirmar com `grep` que nada mais os referencia.
-3. **Ícone do CV (`A03`)**: mover `data-i18n="hero.cv"` para um `<span>` dentro do `<a>`, preservando o `<svg>`. Varrer **todos** os `data-i18n` em elementos que contenham filhos (mesmo padrão de bug).
-4. **Typing (`A04`)**: frases com sentido e gramática, ex.: EN "a Java backend developer", "a Software Engineering student", "an intern at CAESB"; PT "desenvolvedor backend Java", "estudante de Engenharia de Software", "estagiário na CAESB". Remover a frase de tecnologia isolada.
-5. **Carteira API (`C01`, mínimo)**: trocar "Paginated statements are planned" pela descrição correta (extrato paginado por cursor **implementado**). A reescrita completa é do M4.
-6. **Ortografia e padrão (`B01`–`B03`)**: Assessoria, Estágio, Vídeo, público; travessão `—` em intervalos de datas; "2024" em vez de "2024 — 2024"; padronizar "full stack".
-7. **Idioma padrão (`A05`, `A06`)**: ordem de precedência `localStorage` → `navigator.language` (pt\* → `pt-br`, senão `en`). **HTML estático passa a conter o texto PT** (idêntico ao dicionário PT), com `lang="pt-BR"`. **Todos os metadados lidos por robôs** (que não executam JS) passam para PT: `<title>`, `description`, `og:title`, `og:description`, `twitter:*`, `og:locale` `pt_BR` + `og:locale:alternate` `en_US` e textos do JSON-LD. Atualizar `document.documentElement.lang` e `document.title` na troca.
-8. **CV (`B04`, `B05`)**: renomear para `assets/cv/pedro-braga-cv-ptbr.pdf`; usar `target="_blank" rel="noopener"` **sem** `download`; rótulo indica idioma ("Currículo (PDF)").
-9. **Terminal (`B10`)**: e-mail em minúsculas e igual ao do contato.
-10. **Botões**: adicionar `type="button"` a todos os `<button>` e **reativar** a regra `no-implicit-button-type` em `.htmlvalidate.cjs` (desativada no M0).
+1. (3.1) Arquivar o plano v2 em `docs/historico/`, publicar este plano; análise crítica fora do Git.
+   **Bootstrap:** criar os milestones do GitHub M3–M15 (`gh api repos/Blima-P/Portfolio/milestones -f title=M<N>`)
+   para que o comando de issue da seção 7.2 funcione antes do M4; até o 4.2, usar só as labels padrão
+   (`bug`, `enhancement`, `documentation`).
+2. **Ordem de merge (o `verify` precisa estar verde em todo merge):** escrever o teste do 3.3 primeiro e
+   registrar no PR a evidência de que ele **falha** contra `cc6002f` (saída do Playwright); mergear o 3.2
+   (correção); depois rebasear o 3.3 sobre a `main` corrigida e mergear com o teste verde.
+3. (3.2) **Causa raiz:** `.text-reveal`/`.subtitle-reveal` começam com `clip-path: inset(0 100% 0 0)`,
+   o que zera a área visível do elemento; o `IntersectionObserver` com `threshold: 0.3` mede
+   `intersectionRatio = 0` e nunca dispara. Correção: observar a **seção** (ou o `.container`) e
+   aplicar a classe nos títulos dela; manter a animação apenas como enfeite (o estado final não
+   pode depender dela). Sem JS, títulos visíveis (as classes já são adicionadas por JS — manter).
+4. (3.3) Teste Playwright (desktop e mobile): para cada `main section[id]` **com título** (o hero não
+   tem `.section__title` e fica de fora), rolar até ela e esperar que `.section__title` e
+   `.section__subtitle` tenham `opacity` = 1 e `clip-path` sem recorte — aceitar `none` ou qualquer
+   `inset` com todos os valores zero (o Chromium serializa como `inset(0px 0% 0px 0px)`). Teste também
+   a navegação por âncora (clicar no menu e conferir o título da seção de destino).
 
 **DOD**
-- [x] `grep -riE "testimonial|depoimento|'test\." --exclude-dir=node_modules --exclude-dir=.git .` retorna **zero** ocorrências no código versionado (o plano não cita nomes de terceiros).
-- [x] Ícone de download visível no botão de CV nos 2 idiomas e 3 resoluções.
-- [x] Navegador em PT abre em PT; em EN abre em EN; a escolha manual persiste após recarregar.
-- [x] Com JavaScript desabilitado, a página aparece **inteira em PT** e coerente.
-- [x] Nenhum texto "planned/planejado" sobre funcionalidade já pronta.
-- [x] Link do CV abre o PDF (sem 404) no site publicado.
-- [x] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] Plano v3 publicado; `git status` não lista `docs/analise-critica.md`.
+- [ ] Os 7 títulos e 7 subtítulos visíveis em 390/820/1440 px, nos 2 temas e idiomas, inclusive ao navegar pelo menu (âncora).
+- [ ] Teste de visibilidade comprovadamente vermelho contra `cc6002f` e verde depois do 3.2 (evidência no PR 3.3).
+- [ ] Milestones M3–M15 existem no GitHub; issues do M3 vinculadas a `M3`.
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M2 — Refatoração do código + auditoria de efeitos
+### M4 — Governança do repositório e portão de deploy
 
-**Objetivo:** deixar o código à altura de quem se candidata a backend (organizado, sem globais, com lint) e reduzir efeitos ao que tem propósito.
-**Achados:** `M10`, `M12`, `M14` (lint), `A06` (verificação automática), `C05` (preloader).
+**Objetivo:** o repositório passa a se comportar como um projeto profissional — e a `main` só vai ao ar com CI verde.
+**Achados:** `R31`, `R32`, `R33`.
 
-**Escopo**
-- Inclui: ES Modules, lint/format, checagem de i18n, remoção de efeitos acordados.
-- Não inclui: mudanças de paleta ou conteúdo.
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 4.1 | `chore/m4-templates-de-issue` | `chore(github): templates de issue e formulários` | ⬜ |
+| 4.2 | `chore/m4-labels-como-codigo` | `chore(github): labels versionadas e sincronizadas por Action` | ⬜ |
+| 4.3 | `ci/m4-titulo-do-pr` | `ci: valida título do PR em Conventional Commits` | ⬜ |
+| 4.4 | `chore/m4-dependabot` | `chore(deps): Dependabot para npm e GitHub Actions` | ⬜ |
+| 4.5 | `docs/m4-contribuicao-e-seguranca` | `docs: CONTRIBUTING, SECURITY e CODEOWNERS` | ⬜ |
+| 4.6 | `ci/m4-deploy-pelo-actions` | `ci(pages): publica pelo GitHub Actions somente com CI verde` | ⬜ |
 
 **Tarefas**
-1. Converter os scripts para **ES Modules**: um `js/main.js` de entrada com `<script type="module" src="js/main.js">` (implícito `defer`), cada funcionalidade exportando uma função `init*()`; nenhuma variável global.
-2. **Separar os dicionários** em `js/translations.js` — módulo **puro** (só `export const translations = {…}`), sem acesso a `window`, `document` ou `localStorage`, importado tanto pelo `i18n.js` do navegador quanto pelo verificador em Node.
-3. **Auditoria de efeitos (`M10`)** conforme decisão registrada na seção 1:
-   - remover **preloader** (e a espera artificial de 1.200 ms), `cursor.js`, `magnetic.js`, `parallax.js`, `page-transitions.js`, overlay de ruído e CSS associado;
-   - manter partículas (densidade reduzida, pausadas fora da tela), reveal on scroll e terminal.
-4. Remover o **contador animado** apenas se a decisão do M4 já estiver confirmada; caso contrário, manter até o M4.
-5. Adicionar ESLint (flat config, `eslint:recommended`), Stylelint (`stylelint-config-standard`) e Prettier; scripts `lint`, `format`; incluir no `verify` e no CI.
-6. Criar `scripts/check-i18n.mjs`: importa `js/translations.js` e falha se houver chave presente em um idioma e ausente no outro, ou `data-i18n` no HTML sem chave correspondente. Incluir no `verify` e no CI.
-7. Trocar `innerHTML` do i18n por `textContent`, exceto chaves explicitamente marcadas como HTML (ex.: títulos com `<span>`), mantidas numa lista branca.
-8. **Smoke test com Playwright** (`tests/smoke.spec.mjs`, Chromium, servidor estático): página carrega sem erros de console; troca de tema e idioma (com persistência); menu mobile abre/fecha; filtros de projeto; terminal abre com `Ctrl + \`` e responde `help`; link do CV responde 200. Incluir no CI.
-9. **README (correção mínima)**: substituir a instrução de abrir `index.html` direto pelo uso de servidor HTTP (ES Modules não funcionam via `file://`). A reescrita completa fica no M6.
+1. (4.1) `.github/ISSUE_TEMPLATE/` em formulários YAML: `bug.yml`, `melhoria.yml`, `conteudo.yml`
+   (pede fonte da afirmação — reforça a matriz de fatos) e `config.yml` (`blank_issues_enabled: false`).
+2. (4.2) `.github/labels.yml` (tipo: `bug`, `feat`, `docs`, `a11y`, `perf`, `seo`, `test`, `ci`, `conteúdo`;
+   área; prioridade) + workflow que sincroniza em push na `main` (ação com versão fixada). Os
+   milestones do GitHub já existem desde o 3.1 (bootstrap); aqui só passam a ter descrição e data.
+3. (4.3) Workflow `pr-title` com ação de validação semântica (tipos permitidos = Conventional Commits).
+4. (4.4) `.github/dependabot.yml`: `npm` e `github-actions`, semanal, **agrupado** (um PR por ecossistema), prefixo `chore(deps)`.
+5. (4.5) `CONTRIBUTING.md` (fluxo da seção 7, padrões da seção 8), `SECURITY.md` (como reportar),
+   `.github/CODEOWNERS` (`* @Blima-P`).
+6. (4.6) Job `deploy` **no mesmo workflow** `quality.yml`, com `needs: quality` — ou seja, só publica
+   depois de verify **+ lychee + Lighthouse** — e `if: github.event_name == 'push' && github.ref == 'refs/heads/main'`.
+   O próprio job `quality` monta o artefato (`actions/upload-pages-artifact`, **sem** `node_modules`,
+   `tests`, `docs`, `scripts`) a partir do SHA testado; `deploy` só roda `actions/deploy-pages`.
+   `permissions: { pages: write, id-token: write }` só no `deploy`, `environment: github-pages` (com a URL),
+   `concurrency: { group: pages, cancel-in-progress: false }`. Trocar Pages para "GitHub Actions"
+   (`gh api -X PUT repos/Blima-P/Portfolio/pages -f build_type=workflow`) **no mesmo dia** do merge.
+7. **Configurações (sem PR, registrar na seção 11):** proteção da `main` (seção 7.4) exigindo PR,
+   `quality` e `pr-title`, com **0 aprovações** (projeto solo) e **valendo também para administradores**;
+   `delete_branch_on_merge=true`; só *squash* habilitado; *auto-merge* habilitado; **Discussions** habilitado (seção 10.2).
 
 **DOD**
-- [x] `npm run verify` (lint + html-validate + i18n + smoke) passa localmente e no CI.
-- [x] `node scripts/check-i18n.mjs` executa em Node **sem** erro de `window`/`localStorage` indefinidos.
-- [x] Nenhuma variável global criada pelos scripts do site (verificar `Object.keys(window)` antes × depois).
-- [x] Funcionalidades mantidas: tema, idioma, menu mobile, scroll-spy, filtros, terminal, partículas, reveal (cobertas pelo smoke test onde possível).
-- [x] Primeira pintura sem espera artificial (sem preloader).
-- [x] Número de arquivos JS carregados reduzido e documentado no PR.
-- [x] README não orienta mais a abrir o site via `file://`.
-- [x] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] "New issue" mostra só os formulários; labels idênticas ao `labels.yml`.
+- [ ] PR com título fora do padrão é bloqueado (testar com um título errado e corrigir).
+- [ ] Primeiro PR do Dependabot aberto e agrupado.
+- [ ] `gh api repos/Blima-P/Portfolio/pages -q .build_type` = `workflow`; um *push* com CI vermelho **não** publica (simulado em branch de teste ou documentado com o grafo de `needs`).
+- [ ] `gh api repos/Blima-P/Portfolio/branches/main/protection` lista os checks exigidos e `enforce_admins.enabled = true`; um `git push` direto na `main` é recusado.
+- [ ] PRs do Dependabot passam no `pr-title` (prefixo `chore(deps)`).
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M3 — Identidade visual: paleta, tipografia, header e grade
+### M5 — Identidade visual "Metrô Noturno"
 
-**Objetivo:** identidade própria e acessível, ligada à foto e ao posicionamento backend.
-**Achados:** `A01`, `A02`, `M01`, `M02`, `M03`, `M04` (layout), parte de `C05` (fontes).
-**Paleta escolhida:** A — "Metrô Noturno".
+**Objetivo:** identidade própria, ligada à foto (metrô à noite) e ao posicionamento backend, com contraste AA.
+**Achados:** `R04`, `R05` (fontes), `R13`, `R14`, `R21`, `R22`, `R23`, `R24`, `R37`, `R38`, `R42`.
 
-**Escopo**
-- Inclui: tokens de cor/tipografia, temas escuro e claro, botões, header, grade de projetos, favicon.
-- Não inclui: textos novos (M4).
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 5.1 | `refactor/m5-tokens` | `refactor(css): centraliza cores em tokens semânticos` | ⬜ |
+| 5.2 | `feat/m5-paleta` | `feat(theme): aplica a paleta Metrô Noturno nos dois temas` | ⬜ |
+| 5.3 | `perf/m5-fontes-locais` | `perf(fonts): hospeda Inter e JetBrains Mono localmente` | ⬜ |
+| 5.4 | `fix/m5-header` | `fix(header): agrupa ações, alvos de 44 px e theme-color` | ⬜ |
+| 5.5 | `feat/m5-botoes-e-foco` | `feat(ui): botões acessíveis e foco visível` | ⬜ |
+| 5.6 | `fix/m5-hero-layout` | `fix(hero): partículas fora do texto e hierarquia de CTAs no mobile` | ⬜ |
 
 **Tarefas**
-1. **Tokens semânticos**: `--color-accent`, `--color-accent-hover`, `--color-accent-ink` (texto sobre acento), `--color-accent-rgb` (para `rgba()`), `--color-secondary`, `--color-focus`. **Eliminar todas as cores fixas** fora de `:root`/tema (inclusive `#fff` em botões e a cor das partículas em JS, que passa a ler `getComputedStyle`).
-2. Aplicar a paleta escolhida nos **dois temas**; gradiente do nome sem azul residual. Tokens da **paleta A — "Metrô Noturno"** (contraste verificado, WCAG 2.2):
+1. (5.1) Tokens: `--color-accent`, `--color-accent-hover`, `--color-accent-ink`, `--color-accent-rgb`,
+   `--color-secondary`, `--color-focus`, `--color-terminal-*`. **Zero cores fixas** fora de `:root`/`[data-theme]`
+   (inclusive terminal e gradientes). **Sem mudança visual** (capturas idênticas).
+2. (5.2) Paleta (contraste verificado, WCAG 2.2):
 
    | Token | Escuro | Claro |
    |---|---|---|
@@ -247,384 +258,696 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
    | `--color-secondary` | `#22D3EE` | `#0E7490` |
 
    Gradiente do nome (escuro): `linear-gradient(90deg, #F4F4F5 0%, #FFC24D 55%, #F5A524 100%)`.
-3. **Botões (`A01`, `A02`)**: texto `--color-accent-ink`; hover com `--color-accent-hover` + leve elevação; foco visível com `--color-focus`.
-4. **Tipografia**: Inter 400/600/800 + JetBrains Mono 400/600 **self-hosted** (`assets/fonts/*.woff2`, subset latin), `font-display: swap`, `<link rel="preload">` só das 2 fontes da primeira dobra; remover Google Fonts. Mono em datas, tags, logo e terminal.
-5. **Header (`M03`)**: agrupar idioma + tema à direita, alinhados ao menu; mesmo tamanho de alvo (≥ 44 × 44 px).
-6. **Grade de projetos (`M04`)**: layout com card em destaque (largura total) + grade de 2/3 colunas sem órfãos.
-7. `favicon.svg` na nova cor; `<meta name="theme-color">` com a cor do tema padrão, **atualizado por JS** na troca manual de tema; `color-scheme` coerente com o tema ativo.
+3. (5.3) Inter 400/600/800 + JetBrains Mono 400/600 em `assets/fonts/*.woff2` (subset latin),
+   `font-display: swap`, `preload` só das 2 da primeira dobra; remover Google Fonts. Mono em datas,
+   tags, logo e terminal.
+4. (5.4) Idioma + tema agrupados à direita; alvos ≥ 44 × 44 px; logo legível (ex.: `pedro.braga` em
+   mono) em vez de "PBL"; ícone do tema indica a **ação**; `meta theme-color` atualizado por JS;
+   `color-scheme` coerente; "Skills" → "Competências" (PT).
+5. (5.5) Botões com `--color-accent-ink`; hover com elevação sutil; `:focus-visible` com anel
+   `--color-focus` (≥ 3:1) em **todos** os interativos.
+6. (5.6) Partículas não passam sob texto/botões (máscara radial no canvas ou fundo sólido nos botões
+   *outline*); no mobile, 1 CTA primário + 1 secundário, CV como link; ícones sociais não colidem com a
+   seta (R21); *breakpoint* intermediário em 820 px (R24).
 
 **DOD**
-- [ ] Nenhum literal de cor fora dos blocos de tokens: `grep -nE "#[0-9a-fA-F]{3,8}\b|rgba?\(\s*[0-9]" css/*.css js/*.js` só encontra linhas dentro de `:root`/`[data-theme]` (usos como `rgba(var(--color-accent-rgb), .2)` são permitidos; exceções justificadas no PR).
-- [ ] Contraste ≥ 4,5:1 para todo texto e ≥ 3:1 para componentes/foco, nos **dois temas** (Lighthouse `color-contrast` aprovado + conferência manual dos pares da tabela acima).
+- [ ] `grep -nE "#[0-9a-fA-F]{3,8}\b|rgba?\(\s*[0-9]" css/*.css js/*.js` só encontra tokens (exceções justificadas no PR).
+- [ ] Contraste ≥ 4,5:1 (texto) e ≥ 3:1 (componentes/foco) nos 2 temas; Lighthouse `color-contrast` aprovado.
 - [ ] Nenhuma requisição a `fonts.googleapis.com`/`fonts.gstatic.com`.
-- [ ] Capturas antes × depois (3 resoluções × 2 temas) anexadas ao PR.
-- [ ] Sem card órfão em 820 px e 1440 px.
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] Capturas antes × depois (390/820/1440 × 2 temas) em cada PR visual.
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M4 — Conteúdo orientado a recrutador
+### M6 — Conteúdo orientado a recrutador
 
-**Objetivo:** fazer o site **vender o que você já tem**, com provas verificáveis.
-**Achados:** `C01`, `C03`, `C04`, `A04`, `A05` (CV EN), `A07`, `A08`, `A09`, `A10`, `M05`, `M06`, `M13`, `B02` (meses), `B06` (alt bilíngue), `B07`, `B09`.
-**Bloqueio:** informações pendentes do Pedro — meses das experiências; o que pode ser dito sobre a CAESB; semestre e previsão de formatura; links dos certificados; CV em inglês; recomendações reais (se houver); cidade e modelo de trabalho. Itens sem informação **não são inventados**: ficam fora e registrados na seção 9.
+**Objetivo:** o site vende o que você **já tem**, com provas verificáveis e posicionamento claro.
+**Achados:** `R03`, `R07`, `R08`, `R09`, `R10`, `R11`, `R17`, `R18`, `R19`, `R20`, `R25`, `R40`, `R44`.
+**Bloqueio:** respostas da análise §7 (vaga-alvo, CAESB, meses, SocialTech, certificados, CV EN, cidade, foto).
+**Regra:** toda afirmação passa antes pela **matriz de fatos** (análise §7) — sem fonte, não entra.
 
-**Escopo**
-- Inclui: textos (PT e EN), estrutura das seções, foto no hero, CVs, remoção da seção GitHub.
-- Não inclui: SEO/a11y fino e metas de Lighthouse rígidas (M5).
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 6.1 | `feat/m6-hero` | `feat(hero): cargo, proposta de valor, foto e disponibilidade` | ⬜ |
+| 6.2 | `refactor/m6-remove-github-e-contadores` | `refactor: remove seção GitHub e contadores de vaidade` | ⬜ |
+| 6.3 | `feat/m6-faixa-de-provas` | `feat(about): faixa de provas e formação com previsão` | ⬜ |
+| 6.4 | `feat/m6-experiencia` | `feat(experience): CAESB em destaque com bullets de impacto` | ⬜ |
+| 6.5 | `feat/m6-competencias` | `feat(skills): competências agrupadas com evidências` | ⬜ |
+| 6.6 | `feat/m6-cursos` | `feat(courses): certificados com link, ano e carga horária` | ⬜ |
+| 6.7 | `feat/m6-contato` | `feat(contact): e-mail visível com cópia e CV em PT e EN` | ⬜ |
+| 6.8 | `fix/m6-links-canonicos` | `fix: URL canônica do LinkedIn em todos os canais` | ⬜ |
+| 6.9 | `refactor/m6-copy` | `refactor(copy): títulos diretos e rodapé "feito à mão"` | ⬜ |
 
 **Tarefas**
-0. **Matriz de fatos (antes de escrever qualquer texto)**: preencher a tabela "Matriz de fatos" do arquivo local `docs/analise-critica.md` (seção 9) com cada afirmação que irá ao site, sua fonte (link do repo/certificado ou "confirmado pelo Pedro em dd/mm") e status (aprovado/reprovado). Afirmações sensíveis — "em produção", resultados na CAESB, modelo de trabalho, datas — só entram com aprovação explícita.
-1. **Hero**: título estático com cargo ("Desenvolvedor Backend Java · Estagiário na CAESB"); proposta de valor em 1 frase; CTAs "Ver projetos" e "Currículo"; **foto na primeira dobra** já otimizada (`<picture>` AVIF + WebP + fallback JPG, `width`/`height`, ≤ 80 KB, em `assets/img/`), substituindo `Profile.jpg.png`. O typing sai ou vira detalhe secundário que não carrega informação essencial.
-2. **Faixa de provas** no lugar dos contadores (`A08`): ex. "Estágio na CAESB · 7 ADRs · CI/CD com Docker · Testes de concorrência · Mantenedor em projeto com 10 pessoas" — cada item com link para a evidência e **somente itens aprovados na matriz de fatos**.
-3. **Formação (`A09`)**: Engenharia de Software — UCB, semestre atual e **previsão de conclusão**.
-4. **Experiência (`C04`)**: CAESB em destaque com 3–4 bullets **ação → como → resultado** (somente o que Pedro aprovar); "Outras experiências" compactas destacando habilidades transferíveis; datas com mês.
-5. **Projetos como estudos de caso (`C01`, `C03`)**:
-   - **Carteira API** (destaque): problema, decisões (ACID, idempotência, lock pessimista ordenado, cursor), provas (15 transferências simultâneas, `ArquiteturaTest`, JaCoCo, CI/CD com aprovação, 7 ADRs), stack, links (código, ADRs, Swagger se houver demo);
-   - **SocialTech**: mantenedor, time de 10, site em produção via QR Code, CI, acessibilidade; link para o site e para o repo;
-   - **InvestStart** ou **painel-semanal** (escolha do Pedro) + ERP Acadêmico/Campo Minado compactos;
-   - remover o card "Personal Portfolio".
-6. **Remover a seção GitHub (`A07`, `M13`)**: `js/github.js`, HTML, CSS e chaves; link "ver todos os repositórios" no contato.
-7. **Skills**: agrupar em Backend · Dados · Front-end · DevOps/Ferramentas com nível honesto ("em produção", "em projetos", "estudando"), mantendo as evidências.
-8. **Cursos (`M06`, `M05`)**: link do certificado, ano e carga horária; ícones SVG ou sem ícone.
-9. **Contato (`A10`)**: e-mail visível em texto + botão "Copiar" (Clipboard API com fallback), LinkedIn e GitHub, cidade/modelo de trabalho (se aprovados na matriz), CVs **PT e EN**.
-10. **Copy (`B07`)**: remover clichês; títulos de seção diretos. **Footer (`B09`)**: `© 2026 Pedro Braga de Lima`, links e "feito à mão, sem frameworks".
-11. Atualizar o terminal (`projects`, `about`) para refletir os mesmos projetos.
+1. (6.1) Hero: `h1` nome + cargo **estático** conforme a vaga-alvo (ex.: "Desenvolvedor Backend Java ·
+   Estagiário na CAESB"); proposta de valor em 1 frase; CTAs "Ver projetos" (primário) e "Currículo";
+   **foto na primeira dobra** (`<picture>` AVIF/WebP/JPG ≤ 80 KB, `width`/`height`, `fetchpriority="high"`,
+   em `assets/img/`); **uma prova com link já no hero** (ex.: "SocialTech · 131 PRs em time de 5 → ver
+   caso"), para o teste dos 6 segundos não depender da faixa do About; selo "Disponível para
+   estágio/júnior · Brasília/remoto" (se aprovado). Typing sai ou vira detalhe decorativo `aria-hidden`
+   (R20) — **no mesmo PR**, ajustar o smoke test "animação de digitação" (removê-lo ou trocar a asserção).
+2. (6.2) Remover `js/github.js`, HTML/CSS/chaves da seção GitHub e os contadores (R07, R08); atualizar smoke test.
+3. (6.3) Faixa de provas com link para a evidência (somente itens aprovados), ex.: "131 PRs no SocialTech
+   (time de 5)", "7 ADRs na Carteira API", "testes de concorrência", "CI/CD com Docker". Formação:
+   Engenharia de Software — UCB, semestre atual e previsão de conclusão.
+4. (6.4) CAESB com 3–4 bullets **ação → como → resultado** (aprovados pelo Pedro); demais experiências
+   compactas destacando habilidades transferíveis; datas com mês (`<time datetime>`).
+5. (6.5) Grupos Backend · Dados · Front-end · DevOps/Ferramentas, cada item com nível honesto
+   ("em produção", "em projeto", "estudando") e link de evidência.
+6. (6.6) Cursos com link do certificado, ano e carga; ícones SVG ou nenhum (fim do `｡🇯‌🇸‌`); subtítulo neutro.
+7. (6.7) E-mail visível em texto + botão "Copiar" (Clipboard API com *fallback* e anúncio `aria-live`),
+   LinkedIn, GitHub, Lattes (secundário), cidade/modelo; CV PT e EN servido conforme o idioma.
+8. (6.8) Uma URL de LinkedIn em `index.html`, JSON-LD, README, terminal **e** no perfil do GitHub (configuração).
+9. (6.9) Títulos diretos ("Sobre", "Experiência", "Projetos", "Competências", "Cursos", "Contato");
+   rodapé `© 2026 Pedro Braga de Lima · feito à mão, sem frameworks · código-fonte · atualizado em <mês/ano>`
+   (data carimbada pelo `stamp-assets`, R25) com ícone SVG para o topo.
+10. Terminal (`about`, `projects`, `contact`) atualizado no PR que mudar o respectivo conteúdo.
 
 **DOD**
-- [ ] Toda afirmação do site consta como **aprovada** na matriz de fatos, com fonte rastreável (repo, certificado ou confirmação do Pedro).
-- [ ] Teste dos 6 segundos: em 390 px e 1440 px, a primeira dobra mostra **nome, cargo, foto, proposta de valor e CTA**.
-- [ ] Carteira API e SocialTech com links funcionando; nenhuma informação desatualizada.
-- [ ] E-mail visível e botão copiar funcionando (inclusive em navegador sem Clipboard API).
-- [ ] CV em PT e EN, cada um servido conforme o idioma ativo.
-- [ ] Seção GitHub e `github.js` removidos; nenhuma chamada a `api.github.com`.
-- [ ] Textos PT e EN revisados (ortografia e gramática) e com paridade (`check-i18n` verde).
-- [ ] Nenhum dado confidencial da CAESB (revisado e aprovado pelo Pedro no PR).
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] Toda afirmação do site está **aprovada** na matriz de fatos, com fonte rastreável.
+- [ ] **Teste dos 6 segundos** em 390×844 e 1366×768 (largura × **altura**): sem rolar, a tela mostra nome, cargo, foto, proposta de valor, 1 prova com link e CTA.
+- [ ] Nenhuma chamada a `api.github.com`; nenhum contador.
+- [ ] E-mail copiável inclusive sem Clipboard API; CV PT/EN conforme o idioma.
+- [ ] `check-i18n` verde; textos PT/EN revisados.
+- [ ] Nenhum dado confidencial da CAESB (aprovado pelo Pedro no PR).
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M5 — Performance, SEO e acessibilidade (metas rígidas)
+### M7 — Projetos como estudos de caso
 
-**Objetivo:** atingir as metas da seção 1 e travá-las no CI.
-**Achados:** `C05`, `M07`, `M08`, `M09`, `M15`, `B04` (foto), `B06`.
+**Objetivo:** cada projeto responde "qual problema, que decisões, que prova" — e o SocialTech, sua maior prova, assume o destaque.
+**Achados:** `R02`, `R06`, `R35`, `R36` (parcial).
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 7.1 | `feat/m7-socialtech-em-destaque` | `feat(projects): grade com destaque e card do SocialTech` | ⬜ |
+| 7.2 | `feat/m7-projetos-compactos` | `feat(projects): painel-semanal e InvestStart; remove card do portfólio` | ⬜ |
+| 7.3 | `refactor/m7-multipagina` | `refactor: i18n, cache-busting e testes para páginas de estudo de caso` | ⬜ |
+| 7.4 | `feat/m7-caso-carteira-api` | `feat(case): estudo de caso da Carteira API` | ⬜ |
+| 7.5 | `feat/m7-caso-socialtech` | `feat(case): estudo de caso do SocialTech` | ⬜ |
 
 **Tarefas**
-1. **Performance**: confirmar imagens com `width`/`height` e `loading="lazy"` abaixo da dobra e `fetchpriority="high"` na foto do hero; CSS crítico enxuto (avaliar unir `animations.css` em `styles.css`); remover `content-visibility` se atrapalhar âncoras.
-2. **Social card (`M15`)**: `assets/img/og-image.png` 1200 × 630 (< 150 KB) com nome, cargo e paleta; `twitter:card=summary_large_image`; `og:image:width/height/alt`.
-3. **SEO**: `link rel="canonical"`; `hreflang` não se aplica (mesma URL) — documentar; `sitemap.xml`, `robots.txt`, `404.html` no estilo do site; JSON-LD `Person` enriquecido (`affiliation` com a UCB enquanto estudante — `alumniOf` só após a formatura; `worksFor`, `knowsAbout`, `sameAs`).
-4. **Acessibilidade**: *skip link*; `aria-expanded`/`aria-controls` no menu e `inert` quando fechado; `aria-label` no botão de idioma com o idioma de destino; `alt` traduzido; `:focus-visible` em todos os interativos; `scroll-margin-top` igual à altura do header (`M07`); `rel="noopener noreferrer"` em todos os `target="_blank"` (`B06`).
-5. **Movimento (`M08`)**: CSS `@media (prefers-reduced-motion: reduce)` desliga transições, reveal e rolagem suave; em JS, `matchMedia('(prefers-reduced-motion: reduce)')` **interrompe o loop das partículas** (não basta esconder o canvas) e os timers do typing, exibindo o texto final; reagir a mudanças da preferência em tempo real.
-6. **LHCI rígido (portão de regressão)**: `lighthouserc.json` com `assert` em **erro** sobre o servidor estático do CI: `categories:performance` ≥ 0,9 (folga para a variação dos runners), `categories:accessibility`, `categories:best-practices` e `categories:seo` = 1, `largest-contentful-paint` ≤ 2.500 ms, `cumulative-layout-shift` ≤ 0,05, `total-byte-weight` ≤ 409.600 (bytes). Versões do Node e do Lighthouse fixadas.
-7. **Medição oficial no site publicado**: após o merge, rodar Lighthouse mobile 3× contra https://blima-p.github.io/Portfolio/ (mesma versão e configuração do baseline) e registrar a mediana na seção 9 — é essa medição que valida as metas da seção 1.
+1. (7.1) Grade: 1 card de destaque em largura total (SocialTech ou Carteira API — decidir pela vaga-alvo)
+   + grade de 2/3 colunas sem órfãos. SocialTech: site em produção via QR Code, time, seu papel, CI, a11y.
+2. (7.2) Cards compactos: painel-semanal (PWA offline, demo), InvestStart, ERP Acadêmico, Campo Minado.
+   Remover "Portfólio Pessoal" (o site é a prova). Filtros: remover se < 6 projetos; se mantidos,
+   `aria-pressed` e comparação exata de categoria (R35), sem a animação *inline* atribuída no clique
+   (classe CSS no lugar). Links "Código"/"Demo" padronizados com ícone + texto.
+3. (7.3) Infraestrutura multipágina, **antes** de qualquer página nova:
+   - `check-i18n`, `stamp-assets`, lychee e html-validate varrem `index.html`, `projetos/*.html` e
+     (a partir do 8.5) `404.html`; o `stamp-assets` resolve `src`/`href` **relativos ao arquivo HTML**
+     (ex.: `../css/styles.css`), não só a partir da raiz.
+   - `i18n.js` ciente da página: título, descrição, `og:*` e `canonical` vêm de chaves por página
+     (`page.<id>.title`…), não mais da home — hoje a troca de idioma sobrescreve o `<title>` de qualquer página.
+   - Smoke test parametrizado por página e servido sob o prefixo **`/Portfolio/`** (igual ao Pages),
+     para pegar caminhos absolutos que só funcionam em `localhost/`.
+4. (7.4) `projetos/carteira-api.html`: contexto → problema → decisões (ACID, idempotência, lock
+   pessimista ordenado, paginação por cursor, Spring Modulith) → **diagrama de arquitetura em SVG
+   inline acessível** (`<title>`/`<desc>`) → provas (teste de 15 transferências simultâneas,
+   `ArquiteturaTest`, JaCoCo, 7 ADRs com link) → stack → o que faria diferente.
+5. (7.5) `projetos/socialtech.html`: problema (descarte de orgânicos), solução (QR Code → site mobile-first),
+   time e seu papel, processo (131 PRs, CI, revisão), acessibilidade, resultados aprovados na matriz.
 
 **DOD**
-- [ ] Portão LHCI do CI (asserções em erro) passando.
-- [ ] Medição oficial no site publicado (mediana de 3, mobile): Performance ≥ 95; Acessibilidade, Boas práticas e SEO = 100; LCP < 2 s; peso < 400 KB — registrada na seção 9 (desvio justificado se houver).
-- [ ] Navegação completa só por teclado (Tab/Shift+Tab/Enter/Esc) com foco sempre visível; menu fechado não recebe foco.
-- [ ] NVDA (ou Narrador) lê hero, navegação e botões com nomes corretos nos 2 idiomas.
-- [ ] Com `reduced-motion` ativo, nada se move e o loop das partículas não roda (conferir no painel Performance do DevTools).
-- [ ] Prévia do link correta no [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) e no WhatsApp.
-- [ ] `/Portfolio/qualquer-coisa` exibe a página 404 personalizada.
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] SocialTech visível na primeira tela de Projetos (390 e 1440 px).
+- [ ] Cada estudo de caso: nos 2 idiomas, navegável por teclado, com "voltar" e links de código/demo funcionando.
+- [ ] `verify` cobre as páginas novas (provar com um erro proposital de i18n em `projetos/`); trocar o idioma num estudo de caso mantém o título **daquela** página.
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M6 — README e vitrine (GitHub e LinkedIn)
+### M8 — Interações com propósito
 
-**Objetivo:** coerência em todos os pontos de contato que o recrutador visita.
-**Achados:** `B08`, `B11`, `C02` (README).
+**Objetivo:** os detalhes que fazem sorrir quem explora — sem sacrificar acessibilidade ou performance.
+**Achados:** `R15` (terminal), `R27` (404), `R30`, `R34`, `R39`.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 8.1 | `feat/m8-terminal-acessivel` | `feat(terminal): diálogo acessível com histórico e autocompletar` | ⬜ |
+| 8.2 | `feat/m8-terminal-descobrivel` | `feat(terminal): botão visível, atalho compatível com ABNT2 e novos comandos` | ⬜ |
+| 8.3 | `feat/m8-transicao-de-tema` | `feat(theme): transição de tema com View Transitions` | ⬜ |
+| 8.4 | `feat/m8-impressao` | `feat(print): página impressa vira currículo de 1 a 2 folhas` | ⬜ |
+| 8.5 | `feat/m8-pagina-404` | `feat: página 404 no estilo do terminal` | ⬜ |
+| 8.6 | `perf/m8-scroll-spy` | `perf(ui): scroll-spy com IntersectionObserver` | ⬜ |
 
 **Tarefas**
-1. **README do Portfolio** reescrito: captura do site (`docs/screenshot.png`), link do site, decisões técnicas (sem framework, ES Modules, tokens, i18n), métricas do Lighthouse com data, estrutura de pastas atual, como rodar localmente, qualidade (CI, lint), licença. Sem a seção "Ideias" e sem funcionalidade inexistente.
-2. **Perfil GitHub** (repo `Blima-P/Blima-P`, PR separado lá): mesma proposta de valor; link do portfólio; destaques Carteira API e SocialTech.
-3. **Repositórios fixados (6)**: carteira-api, SocialTech, InvestStart, painel-semanal, ERP-Academico, Campo-minado (ajustável). Descrições limpas (ex.: remover "Terça-feira - Noturno").
-4. **Higiene do perfil**: arquivar ou tornar privados repositórios de exercício sem descrição; avaliar `WalletBackend01` e `Spike-A-…` (versões anteriores da Carteira API) — arquivar com nota apontando para `carteira-api`.
-5. **LinkedIn** (manual, checklist no PR): título, "Sobre" e experiências coerentes com o site; link do portfólio na seção "Destaque".
+1. (8.1) `<dialog>` nativo (`showModal`) com rótulo, foco preso e devolvido ao gatilho; histórico ↑/↓;
+   `Tab` autocompleta **só** quando há prefixo com correspondência (senão, Tab/Shift+Tab seguem o foco
+   normal do diálogo); saída com `aria-live="polite"`; título traduzível.
+2. (8.2) Botão `>_` no header/rodapé (também no mobile) como **acesso principal**; atalhos `Ctrl + \``
+   **e** `Ctrl + K` (o \` é tecla morta no ABNT2; o Ctrl+K substitui a busca do navegador, como no GitHub,
+   e é ignorado quando o foco está em campo de texto); comandos `cv`, `email` (copia), `theme`, `lang`,
+   `open <projeto>`, `whoami`.
+3. (8.3) Troca de tema com `document.startViewTransition` (revelação circular a partir do botão);
+   *fallback* instantâneo sem suporte e com `prefers-reduced-motion`.
+4. (8.4) `@media print`: fundo branco, sem header/partículas/terminal, URLs dos links impressas,
+   quebra de página controlada — imprimir/salvar como PDF gera um CV legível.
+5. (8.5) `404.html` com o visual do terminal ("comando não encontrado"), links para início e projetos, nos 2 idiomas.
+6. (8.6) Scroll-spy por `IntersectionObserver` (sem ler `offsetTop` a cada frame), `aria-current` no link ativo.
 
 **DOD**
-- [ ] README renderiza corretamente, sem links quebrados (lychee verde) e com captura atual.
-- [ ] Perfil GitHub com 6 repositórios fixados e descrições revisadas (captura no PR).
-- [ ] Mesma proposta de valor no site, README, perfil GitHub e LinkedIn.
-- [ ] DOD comum atendido, incluindo **revisão final (rubber-duck) com outra IA** sobre o diff.
+- [ ] Terminal operável só por teclado e por leitor de tela; abre no ABNT2 e no celular.
+- [ ] Transição de tema sem *flash* e desligada com reduced-motion.
+- [ ] Impressão (Chrome, A4) ≤ 2 folhas, legível e sem elementos decorativos.
+- [ ] `/Portfolio/qualquer-coisa` mostra a 404 estilizada no site publicado.
+- [ ] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
-### M7 — QA final e release `v2.0.0`
+### M9 — Acessibilidade WCAG 2.2 AA
 
-**Objetivo:** validar o conjunto e marcar a versão.
+**Objetivo:** acessibilidade 100 e zero violações automáticas — verificadas no CI.
+**Achados:** `R14`, `R15`, `R20`, `R43`.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 9.1 | `feat/m9-skip-link-e-landmarks` | `feat(a11y): skip link, landmarks e hierarquia de títulos` | ⬜ |
+| 9.2 | `fix/m9-menu-mobile` | `fix(a11y): menu mobile com aria-expanded, Esc e inert` | ⬜ |
+| 9.3 | `feat/m9-reduced-motion` | `feat(a11y): respeita prefers-reduced-motion em CSS e JS` | ⬜ |
+| 9.4 | `fix/m9-rotulos` | `fix(a11y): rótulos de idioma e tema, rel noopener e alt bilíngue` | ⬜ |
+| 9.5 | `test/m9-axe` | `test(a11y): axe-core nos 2 temas e 2 idiomas` | ⬜ |
 
 **Tarefas**
-1. Executar o **roteiro de testes manuais** (seção 5) completo em Chrome, Edge, Firefox e um iPhone/Safari (ou BrowserStack) e um Android.
-2. Rodar Lighthouse final (mobile e desktop) e atualizar a tabela de metas da seção 1 com os valores obtidos.
-3. Revisar a análise crítica: marcar cada achado como resolvido (com o PR) ou aceito (com justificativa).
-4. Criar `CHANGELOG.md` (v2.0.0) e a release no GitHub com capturas antes × depois.
+1. (9.1) *Skip link* para `#main`; `main` com `id`; `scroll-margin-top` = altura do header; um `h1`
+   por página e títulos sem saltos.
+2. (9.2) `aria-expanded`/`aria-controls` no hambúrguer, `inert` no menu fechado, Esc fecha e devolve o foco.
+3. (9.3) CSS: `@media (prefers-reduced-motion: reduce)` desliga transições, reveal e rolagem suave.
+   JS: `matchMedia` **interrompe o loop das partículas** e os timers do typing (mostra o texto final),
+   reagindo à mudança em tempo real.
+4. (9.4) `aria-label` do idioma com o destino ("Mudar para inglês"); `rel="noopener noreferrer"` em
+   todo `target="_blank"`; `alt` traduzido; `lang="en"` em trechos em inglês na página PT.
+5. (9.5) `@axe-core/playwright` (versão fixada) em todas as páginas × 2 temas × 2 idiomas, regras WCAG 2.2 AA,
+   falha com qualquer violação — varrendo também os estados **abertos** (menu mobile e terminal), não só o inicial.
 
 **DOD**
-- [ ] Roteiro de testes 100% executado, sem falhas abertas.
-- [ ] Todas as metas da seção 1 atingidas (ou desvio justificado na seção 9).
-- [ ] Todos os achados `C`, `A` e `M` resolvidos; `B` resolvidos ou justificados.
-- [ ] Tag `v2.0.0` e release publicadas.
-- [ ] **Revisão final (rubber-duck) com outra IA** sobre o conjunto da entrega; apontamentos tratados e registrados.
+- [ ] axe: 0 violações no CI, inclusive com menu e terminal abertos.
+- [ ] *Reflow* a 320 px de largura e zoom de 200%/400% sem rolagem horizontal nem conteúdo cortado (WCAG 1.4.10).
+- [ ] Navegação completa por teclado com foco sempre visível; menu fechado não recebe foco.
+- [ ] NVDA (ou Narrador) lê hero, navegação, botões e terminal com nomes corretos nos 2 idiomas.
+- [ ] Com reduced-motion ativo, nada se move e o loop das partículas não roda (painel Performance).
+- [ ] DOD comum atendido, incluindo rubber-duck.
+
+---
+
+### M10 — Performance (metas rígidas)
+
+**Objetivo:** atingir as metas da seção 1 e **travá-las** no CI.
+**Achados:** `R05`, `R29` (LHCI). (`R26` passou para o 11.1 — a imagem ainda é o `og:image`.)
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 10.1 | `perf/m10-imagens` | `perf(img): imagens responsivas em AVIF/WebP` | ⬜ |
+| 10.2 | `perf/m10-css` | `perf(css): une folhas, remove CSS morto e reduz o crítico` | ⬜ |
+| 10.3 | `perf/m10-particulas` | `perf(particles): inicia ocioso, respeita DPR e economia de dados` | ⬜ |
+| 10.4 | `ci/m10-lighthouse-rigido` | `ci(lighthouse): asserções de desempenho como erro` | ⬜ |
+
+**Tarefas**
+1. (10.1) `srcset`/`sizes`; `loading="lazy"` abaixo da dobra; `decoding="async"`. **Não** apagar
+   `Profile.jpg.png` aqui: ele ainda é o `og:image`/`twitter:image` — a remoção (R26) acontece no 11.1,
+   depois que as metatags apontarem para a imagem nova.
+2. (10.2) Unir `animations.css` em `styles.css`; remover seletores mortos (GitHub, contadores, filtros se removidos).
+3. (10.3) Partículas agendadas com `requestIdleCallback` **quando existir** (senão `setTimeout`), depois do
+   evento `load`; `devicePixelRatio` limitado a 2; desligadas com `navigator.connection?.saveData`
+   (API ausente no Firefox/Safari = segue normal). Medir o LCP antes/depois — ocioso não garante "após o LCP".
+4. (10.4) `lighthouserc.json` com asserções em **erro**: performance ≥ 0,9 (folga do runner), a11y/BP/SEO = 1,
+   LCP ≤ 2.500 ms, CLS ≤ 0,05, `total-byte-weight` ≤ 409.600; versões fixadas.
+5. Após o merge: Lighthouse mobile 3× no site publicado; mediana registrada na seção 11.
+
+**DOD**
+- [ ] Portão LHCI em erro passando no CI.
+- [ ] Medição oficial (mediana de 3, mobile, site publicado): Performance ≥ 95, A11y/BP/SEO = 100, LCP < 2 s, peso < 400 KB.
+- [ ] DOD comum atendido, incluindo rubber-duck.
+
+---
+
+### M11 — SEO, compartilhamento e segurança
+
+**Objetivo:** o link colado no LinkedIn/WhatsApp impressiona antes do clique; o site resiste a uma olhada no DevTools > Security.
+**Achados:** `R11`, `R12`, `R26`, `R27`, `R28`.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 11.1 | `feat/m11-og-image` | `feat(seo): imagem de compartilhamento 1200×630` | ⬜ |
+| 11.2 | `fix/m11-json-ld` | `fix(seo): JSON-LD Person com affiliation e sameAs coerentes` | ⬜ |
+| 11.3 | `feat/m11-sitemap` | `feat(seo): sitemap.xml e verificação no Search Console` | ⬜ |
+| 11.4 | `feat/m11-csp` | `feat(security): Content-Security-Policy e Referrer-Policy via meta` | ⬜ |
+
+**Tarefas**
+1. (11.1) `assets/img/og-image.png` (< 150 KB) com nome, cargo e paleta; `og:image:width/height/alt`;
+   `twitter:card=summary_large_image`; uma por estudo de caso (opcional). Validar no LinkedIn Post Inspector.
+   Só então **remover `Profile.jpg.png`** (R26) e conferir com lychee que nada mais o referencia.
+2. (11.2) `Person` com `affiliation` (UCB, enquanto estudante), `worksFor` (se aprovado), `knowsAbout`,
+   `sameAs` com as URLs canônicas; `CreativeWork` nos estudos de caso.
+3. (11.3) `sitemap.xml` (index + estudos de caso) e verificação de propriedade no Google Search Console
+   (meta tag), com o sitemap enviado por lá. **`robots.txt` não entra:** num site de projeto
+   (`/Portfolio/`) os buscadores só leem `https://blima-p.github.io/robots.txt`, que pertence ao
+   repositório `Blima-P/blima-p.github.io` — limitação registrada na seção 11.
+4. (11.4) `<meta http-equiv="Content-Security-Policy">` com `default-src 'self'`, `script-src 'self' 'sha256-…'`
+   (hash do script inline de tema, calculado pelo `stamp-assets` e verificado no CI), `object-src 'none'`,
+   `base-uri 'self'`; `<meta name="referrer" content="strict-origin-when-cross-origin">`.
+
+**DOD**
+- [ ] Prévia correta no LinkedIn Post Inspector e no WhatsApp (captura no PR).
+- [ ] JSON-LD sem erros no **Schema Markup Validator** (validator.schema.org); "nenhum resultado aprimorado" no Rich Results Test não é erro.
+- [ ] Nenhuma referência a `Profile.jpg.png` no repositório.
+- [ ] Zero violações de CSP no console em todas as páginas; CI falha se o hash do script inline divergir.
+- [ ] DOD comum atendido, incluindo rubber-duck.
+
+---
+
+### M12 — Testes e CI avançados
+
+**Objetivo:** a pirâmide de testes que um avaliador técnico procura — e que teria pegado o R01.
+**Achados:** `R29`.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 12.1 | `test/m12-unitarios` | `test(unit): node:test para as funções puras` | ⬜ |
+| 12.2 | `test/m12-regressao-visual` | `test(visual): regressão visual em 3 larguras e 2 temas` | ⬜ |
+| 12.3 | `test/m12-fluxo-recrutador` | `test(e2e): fluxo do recrutador de ponta a ponta` | ⬜ |
+| 12.4 | `ci/m12-resumo-do-job` | `ci: resumo do job com métricas e badges no README` | ⬜ |
+
+**Tarefas**
+1. (12.1) `node --test`: detecção de idioma, *lookup* do i18n, parser/autocompletar do terminal,
+   funções de `check-i18n` e `stamp-assets` (extrair funções puras se necessário). Script `test:unit` no `verify`.
+2. (12.2) `toHaveScreenshot` **só no CI**, num ambiente Linux fixado (imagem `mcr.microsoft.com/playwright`
+   na mesma versão do `@playwright/test`), projeto `visual` separado e fora do `verify` local (Windows
+   gera pixels diferentes). Baselines: job `workflow_dispatch` com `--update-snapshots` publica um
+   artefato → baixar, **revisar** e commitar; nunca regenerar automaticamente numa checagem comum.
+   390/820/1440 × 2 temas; animações e partículas desligadas no teste.
+3. (12.3) Hero → projeto em destaque → estudo de caso → voltar → CV abre (200) → copiar e-mail → troca de
+   idioma persiste. Smoke + e2e rodam no CI em **Chromium, Firefox e WebKit** (Safari).
+4. (12.4) `GITHUB_STEP_SUMMARY` com resultados (testes, Lighthouse, axe); badges de CI e licença no README.
+
+**DOD**
+- [ ] `npm run verify` inclui unit + smoke + a11y + e2e e passa local e no CI; `test:visual` passa no CI (Linux fixado).
+- [ ] Smoke + e2e verdes em Chromium, Firefox e WebKit.
+- [ ] Provar que a regressão visual reprova uma mudança de cor proposital.
+- [ ] DOD comum atendido, incluindo rubber-duck.
+
+---
+
+### M13 — Documentação, ADRs e história do projeto
+
+**Objetivo:** o repositório conta *por que* cada decisão foi tomada — sinal de maturidade que recrutador técnico valoriza.
+**Achados:** `R16`, `R31`, `R41`.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 13.1 | `docs/m13-readme` | `docs(readme): reescreve com captura, métricas e arquitetura` | ⬜ |
+| 13.2 | `docs/m13-adr-sem-framework` | `docs(adr): 0001 — HTML, CSS e JS puro, sem build` | ⬜ |
+| 13.3 | `docs/m13-adr-modulos-e-cache` | `docs(adr): 0002 — ES Modules e cache-busting por hash` | ⬜ |
+| 13.4 | `docs/m13-adr-i18n` | `docs(adr): 0003 — i18n com HTML estático e verificador de paridade` | ⬜ |
+| 13.5 | `docs/m13-adr-movimento` | `docs(adr): 0004 — animações com propósito e reduced-motion` | ⬜ |
+| 13.6 | `docs/m13-changelog` | `docs: CHANGELOG retroativo (v1 → v3)` | ⬜ |
+
+**Tarefas**
+1. (13.1) README: captura/GIF atual (claro e escuro), métricas reais (Lighthouse, axe, testes),
+   diagrama dos módulos, decisões (link para ADRs), como rodar/testar, fluxo de contribuição. **Remover**
+   "Ideias para a Seção Sobre" (R16) e features que não existem mais. Atualizar descrição/topics do repositório (R41).
+2. (13.2–13.5) `docs/adr/NNNN-*.md` no formato contexto → decisão → consequências → alternativas, com links para os PRs.
+3. (13.6) `CHANGELOG.md` (Keep a Changelog): v1.0.0 (site original), v2.0.0 (M0–M2), v3.0.0 (em aberto);
+   `package.json` com a versão correspondente (R31).
+
+**DOD**
+- [ ] README sem nenhuma feature inexistente; captura atual; links verificados pelo lychee.
+- [ ] 4 ADRs com links para os PRs que os implementaram.
+- [ ] DOD comum atendido, incluindo rubber-duck.
+
+---
+
+### M14 — Vitrine no GitHub (perfil e outros repositórios)
+
+**Objetivo:** o recrutador que sai do portfólio para o GitHub encontra o mesmo padrão em todo lugar.
+**Achados:** `R11`, `R36`. **Pode rodar em paralelo** a M7–M13 depois do M6 (conteúdo aprovado),
+**exceto** 14.2 (depende do 7.4) e 14.3 (depende do 7.5): eles linkam estudos de caso que precisam existir.
+
+| PR | Repositório | Título | Status |
+|---|---|---|---|
+| 14.1 | `Blima-P/Blima-P` | `docs: perfil com projetos, provas e links canônicos` | ⬜ |
+| 14.2 | `Blima-P/carteira-api` | `docs(readme): diagrama, como rodar e link para o estudo de caso` | ⬜ |
+| 14.3 | `Blima-P/SocialTech` | `docs(readme): créditos do time, métricas e link para o estudo de caso` | ⬜ |
+| 14.4 | `Blima-P/painel-semanal` | `docs(readme): captura, recursos offline e link da demo` | ⬜ |
+| 14.5 | `Blima-P/InvestStart` | `docs(readme): status, arquitetura e como rodar` | ⬜ |
+| 14.6 | `Blima-P/credit-default-prediction` | `docs(readme): status honesto, dados e próximos passos` | ⬜ |
+
+**Tarefas**
+1. Cada PR segue o fluxo da seção 7 **no respectivo repositório** (issue, branch, coautoria, squash).
+2. **Configurações (sem PR):** descrição e *topics* profissionais em todos os públicos (ex.: ERP sem
+   "Terça-feira - Noturno"); `homepage` onde houver demo; **fixar 6 repositórios** (SocialTech,
+   carteira-api, Portfolio, painel-semanal, InvestStart, Campo-minado); arquivar o que não representa
+   mais seu nível; URL do LinkedIn do perfil = canônica (R11).
+3. Checklist do LinkedIn (manual, registrar na seção 11): título igual ao hero, link do portfólio
+   na seção "Destaques", CV atualizado, projetos SocialTech e Carteira API com link.
+
+**DOD**
+- [ ] Os 6 repositórios fixados têm README com captura ou diagrama, como rodar e link de volta ao portfólio.
+- [ ] Nenhuma descrição informal ou desatualizada nos repositórios públicos.
+- [ ] Mesma URL de LinkedIn em site, CV, GitHub e README.
+- [ ] DOD comum atendido (adaptado a cada repositório), incluindo rubber-duck.
+
+---
+
+### M15 — QA final, release `v3.0.0` e divulgação
+
+**Objetivo:** fechar o ciclo com evidência — e colocar o resultado na frente de pessoas.
+
+| PR | Branch | Título | Status |
+|---|---|---|---|
+| 15.1 | `chore/m15-release-v3` | `chore(release): v3.0.0` | ⬜ |
+| 15.2 | `docs/m15-resultados` | `docs: resultados finais e fechamento dos achados` | ⬜ |
+
+**Tarefas**
+1. Roteiro completo da seção 5; Lighthouse final (mobile e desktop, mediana de 3, site publicado).
+2. Atualizar a tabela de metas (seção 1) com os valores finais; marcar cada `Rxx` como resolvido (PR) ou aceito (justificativa).
+3. `CHANGELOG` v3.0.0, `package.json` 3.0.0, tag anotada e GitHub Release com capturas (seção 7.3).
+4. Divulgação: post no LinkedIn (antes × depois, o que aprendeu, link do repositório); anúncio em
+   Discussions do repositório; pedir feedback a 2–3 devs — **estrelas vêm daqui, não de troca** (seção 10.2).
+
+**DOD**
+- [ ] Todas as metas da seção 1 atingidas ou com desvio justificado.
+- [ ] Release `v3.0.0` publicada com notas e capturas.
+- [ ] Placar de conquistas (seção 10.4) atualizado com os números finais.
+- [ ] Revisão rubber-duck com outra IA sobre **o conjunto da entrega**; registrada na seção 11.
 
 ---
 
 ## 5. Roteiro de testes manuais
 
-Executar com `npx serve .` (ou `python -m http.server 8000`) e, após o merge, no site publicado.
+Executar via `npm run serve` (e no site publicado após o merge). Larguras: 390, 820, 1440 px.
 
-| # | Cenário | Passos | Resultado esperado |
+| ID | Teste | Esperado | Milestones |
 |---|---|---|---|
-| T01 | Primeira dobra | Abrir em 390, 820 e 1440 px | Nome, cargo, foto, proposta de valor e CTA visíveis sem rolar (a partir do M4). |
-| T02 | Idioma automático | Navegador em PT, depois em EN, com `localStorage` limpo | Abre no idioma do navegador; `<html lang>` correto. |
-| T03 | Troca de idioma | Alternar PT/EN e recarregar | Todo o texto troca (incl. `alt`, `aria-label`, `title`); escolha persiste; ícones preservados. |
-| T04 | Tema | Alternar escuro/claro e recarregar | Persistência; contraste ok; partículas na cor do tema. |
-| T05 | Navegação | Clicar em cada item do menu | Rola até a seção sem esconder o título; item ativo destacado. |
-| T06 | Menu mobile | 390 px: abrir, navegar, fechar com Esc | `aria-expanded` alterna; foco não vai para o menu fechado. |
-| T07 | Teclado | Percorrer a página só com Tab | Ordem lógica, foco visível, skip link funciona. |
-| T08 | Leitor de tela | NVDA/Narrador no hero, menu, projetos e contato | Nomes e papéis corretos. |
-| T09 | Movimento reduzido | Ativar "reduzir movimento" no SO | Sem animações; texto do typing aparece completo. |
-| T10 | CV | Clicar em "Currículo" em PT e em EN | Abre o PDF do idioma correspondente em nova aba. |
-| T11 | Contato | Clicar em "Copiar e-mail" | E-mail copiado e feedback visível/anunciado. |
-| T12 | Links externos | Clicar em todos os links de projetos e redes | Sem 404; abrem em nova aba com `rel` seguro. |
-| T13 | Terminal | `Ctrl + \`` → `help`, `projects`, `exit` | Funciona nos 2 idiomas; conteúdo coerente com o site. |
-| T14 | Sem JavaScript | Desabilitar JS | Conteúdo PT completo e legível. |
-| T15 | Compartilhamento | Colar a URL no LinkedIn/WhatsApp | Card grande com imagem, título e descrição corretos. |
-| T16 | 404 | Acessar `/Portfolio/nao-existe` | Página 404 no estilo do site com link de volta. |
-| T17 | Console/Rede | DevTools aberto durante T01–T13 | Zero erros, zero 404. |
+| T01 | **6 segundos** em 390×844 e 1366×768: abrir e contar até 6 | Nome, cargo, foto, proposta de valor, 1 prova com link e CTA visíveis sem rolar | M5, M6 |
+| T02 | Rolar a página inteira devagar e depressa | Todo título/subtítulo aparece; nada fica invisível | M3 |
+| T03 | Clicar em cada item do menu (desktop e mobile) | Rola até a seção, título não fica sob o header, link ativo correto | M3, M8, M9 |
+| T04 | Trocar tema e recarregar | Persiste; sem *flash*; contraste ok; `theme-color` acompanha | M5, M8 |
+| T05 | Trocar idioma e recarregar; navegador em EN na 1ª visita | Persiste; tudo traduzido, inclusive `aria-label`, `alt`, título da aba e terminal | M6–M9 |
+| T06 | JavaScript desabilitado | Página inteira em PT, legível, títulos visíveis | M3, M6 |
+| T07 | Só teclado (Tab, Shift+Tab, Enter, Esc) | Skip link, foco sempre visível, menu e terminal operáveis | M8, M9 |
+| T08 | NVDA/Narrador | Nomes corretos em hero, menu, botões, terminal; sem leitura do typing parcial | M9 |
+| T09 | `prefers-reduced-motion: reduce` (DevTools > Rendering) | Nada se move; loop das partículas parado | M9 |
+| T10 | Terminal: `Ctrl+K` no teclado ABNT2, botão `>_` no celular, `help`, `cv`, `email`, ↑/↓, Tab | Funciona; foco volta ao gatilho ao fechar | M8 |
+| T11 | Copiar e-mail (com e sem Clipboard API) | Copia e anuncia "copiado" | M6 |
+| T12 | Abrir CV PT e EN; links LinkedIn e Lattes no navegador | 200; abre em nova aba; lychee não cobre esses dois | M6 |
+| T13 | Estudos de caso: abrir, trocar idioma, voltar | Conteúdo nos 2 idiomas; "voltar" leva à seção Projetos | M7 |
+| T14 | Imprimir (Ctrl+P, A4) | ≤ 2 folhas, fundo branco, URLs visíveis | M8 |
+| T15 | URL inexistente no site publicado | 404 estilizada com links úteis | M8 |
+| T16 | Colar o link no LinkedIn Post Inspector e no WhatsApp | Card grande com nome, cargo e paleta | M11 |
+| T17 | DevTools > Console/Network em todas as páginas | 0 erros, 0 404, 0 violações de CSP, nenhuma chamada a terceiros | M5, M6, M11 |
+| T18 | Lighthouse mobile 3× no site publicado | Metas da seção 1 | M10, M15 |
+| T19 | Firefox, Safari (macOS/iOS, se disponível) e um Android real | Mesmo layout, tema, idioma, terminal e menu funcionando | M5, M8, M15 |
+| T20 | Largura 320 px e zoom 200%/400% no desktop | Sem rolagem horizontal; nada cortado ou sobreposto | M5, M9 |
 
 ---
 
 ## 6. Padrões e cuidados do projeto (lembrar em cada sessão)
 
-- **Texto em PT-BR com acentuação correta**; arquivos em **UTF-8 sem BOM**, finais de linha **LF**.
-- **Conventional Commits** (`feat`, `fix`, `refactor`, `perf`, `style`, `docs`, `chore`, `ci`), escopo opcional, mensagem no imperativo.
-- **Commits sempre com a conta Blima-P** (`pbl0812@gmail.com`, configurado localmente no repositório) — **nunca** com o e-mail corporativo.
-- **`main` sempre publicável**: nada vai para `main` sem PR e CI verde.
-- **Sem framework e sem etapa de build** para o site; `package.json` é só para ferramentas de qualidade.
-- **Nenhum conteúdo inventado**; nenhum dado interno da CAESB (nomes de sistemas internos, telas, dados, código).
-- **Tokens de design**: nenhuma cor/tamanho mágico fora de `:root`/tema.
-- **i18n**: toda string visível existe nos dois idiomas; o HTML estático é o texto PT.
-- **Acessibilidade primeiro**: contraste AA, alvos ≥ 44 px, foco visível, `reduced-motion`.
-- Testar sempre por **servidor HTTP** (ES Modules não funcionam via `file://`).
-- Imagens otimizadas (AVIF/WebP) com dimensões declaradas; nomes de arquivo em minúsculas e com hífen.
+- **Idioma:** UI e commits em **PT-BR com acentuação**; identificadores em ASCII; EN com paridade (`check-i18n`).
+- **Encoding:** UTF-8, **LF**, 2 espaços (`.editorconfig`, `.gitattributes`).
+- **Sem build:** o que está no repositório é o que vai ao ar. Ao mudar CSS/JS: `npm run stamp`.
+- **ES Modules:** testar sempre com `npm run serve` (nunca `file://`). Nenhuma variável global.
+- **Conteúdo:** toda afirmação com fonte (matriz de fatos). Nada confidencial da CAESB.
+- **Acessibilidade e movimento:** nada essencial depende de animação; tudo respeita reduced-motion.
+- **Segurança:** dados externos via `textContent`/DOM, nunca interpolados em HTML; `innerHTML` só nas `HTML_KEYS`.
+- **Diagnosticar antes de alterar**; não corrigir itens fora do escopo do PR sem registrar na seção 11.
 
 ---
 
-## 7. Fluxo Git e PR (comandos por milestone)
+## 7. Fluxo Git e PR (vale para todos os PRs)
 
-Comandos para **PowerShell** na pasta `C:\Users\pedroblima\Desktop\Portifolio`.
-Exige `git` e `gh` autenticado (`gh auth status`).
-
-### 7.1 Fluxo padrão (substituir `<branch>`, `<tipo>` e textos)
+### 7.1 Uma vez por máquina/repositório
 
 ```powershell
-# 0. (uma única vez) Identidade da conta GitHub Blima-P — somente neste repositório,
-#    para não usar o e-mail corporativo da máquina
-git config user.name "Pedro Braga de Lima"
-git config user.email "pbl0812@gmail.com"
-gh auth status                 # deve mostrar: Logged in to github.com account Blima-P
+git config user.name "Pedro Braga de Lima"     # só neste repositório (sem --global)
+git config user.email "pbl0812@gmail.com"      # e-mail vinculado à conta Blima-P
+gh auth status                                 # deve mostrar: Logged in to github.com account Blima-P
+```
 
-# 1. Partir de main atualizada
-git switch main
-git pull --ff-only
+### 7.2 Fluxo por PR (fatia)
 
-# 2. Criar a branch do milestone
+```powershell
+# 1. Issue da fatia (formulários e labels próprias a partir do M4; antes, labels padrão)
+gh issue create --title "<título da fatia>" --label "<bug|enhancement|documentation>" --milestone "M<N>" --body "<contexto e critério de aceite>"
+
+# 2. Branch a partir de main atualizada
+git switch main; git pull --ff-only
 git switch -c <branch>
 
-# 3. Commits pequenos durante o trabalho (repetir quantas vezes precisar)
-git add -A
-git status            # conferir o que entra no commit
+# 3. Commits pequenos, TODOS com o trailer de coautoria. Todos os trailers ficam JUNTOS no ÚLTIMO
+#    parágrafo (um único -m); um segundo -m criaria outro parágrafo e o Git só leria o último.
+git add -A; git status
 git commit -m "<tipo>(escopo): descrição no imperativo" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+#    Pareou com um colega? Mesmo -m, trailers em linhas seguidas:
+#    -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`nCo-authored-by: Nome <id+login@users.noreply.github.com>"
 
-# 4. Validar localmente antes de publicar (falha no primeiro erro)
+# 4. Validar localmente
 npm run verify
-npx serve .                                  # testar em http://localhost:3000
 
-# 5. Publicar a branch e abrir o PR
+# 5. Publicar e abrir o PR vinculado à issue
 git push -u origin <branch>
-gh pr create --base main --title "<título do PR>" --body-file .github/pull_request_template.md
-gh pr view --web                             # completar a descrição e anexar capturas
+gh pr create --base main --title "<título do PR>" --body "Closes #<issue>`n`n<descrição no formato do template>"
 
-# 6. Acompanhar o CI e fazer o merge (squash) quando estiver verde
+# 6. CI verde → merge squash (a mensagem padrão do repositório inclui os commits e seus trailers)
 gh pr checks --watch
 gh pr merge --squash --delete-branch
 
-# 7. Voltar para main e conferir o deploy
-git switch main
-git pull --ff-only
-gh run list --limit 3                         # "pages build and deployment" concluído
+# 7. Conferir coautoria no commit final (trailers PARSEADOS pelo Git, não só o texto) e o deploy
+git switch main; git pull --ff-only
+git log -1 --format="%(trailers:key=Co-authored-by)"   # deve listar cada coautor
+gh run list --limit 3
 ```
 
-### 7.2 Branches, títulos de PR e commits sugeridos
-
-| # | Branch | Título do PR (vira o commit do squash) | Commits sugeridos |
-|---|---|---|---|
-| M0 | `chore/m0-plano-e-qualidade` | `chore: M0 — plano, padrões e CI de qualidade` | `docs: adiciona plano de implementação do portfólio v2` · `chore: adiciona editorconfig e normaliza gitattributes` · `ci: adiciona validação de HTML, links e Lighthouse` · `chore: adiciona template de PR` |
-| M1 | `fix/m1-integridade-e-bugs` | `fix: M1 — integridade do conteúdo e correções críticas` | `fix: remove depoimentos sem fonte` · `chore: remove código morto` · `fix(hero): preserva ícone do botão de currículo` · `fix(i18n): corrige ortografia, datas e frases do typing` · `feat(i18n): define PT-BR como padrão com detecção do navegador` · `fix(cv): renomeia arquivo e corrige link` |
-| M2 | `refactor/m2-codigo-e-efeitos` | `refactor: M2 — ES Modules, lint e auditoria de efeitos` | `refactor(js): migra scripts para ES Modules` · `refactor: remove efeitos sem propósito e preloader` · `chore: adiciona ESLint, Stylelint e Prettier` · `ci: verifica paridade de chaves do i18n` |
-| M3 | `feat/m3-identidade-visual` | `feat: M3 — nova identidade visual acessível` | `refactor(css): centraliza cores em tokens semânticos` · `feat(theme): aplica paleta Metrô Noturno` · `perf(fonts): hospeda fontes localmente` · `fix(header): agrupa ações à direita` · `fix(projects): remove card órfão da grade` |
-| M4 | `feat/m4-conteudo-recrutador` | `feat: M4 — conteúdo orientado a recrutadores` | `feat(hero): cargo, proposta de valor e foto otimizada` · `feat(about): faixa de provas e formação` · `feat(experience): bullets de impacto` · `feat(projects): estudos de caso Carteira API e SocialTech` · `refactor: remove seção GitHub` · `feat(contact): e-mail visível com cópia e CV em inglês` |
-| M5 | `perf/m5-performance-seo-a11y` | `perf: M5 — performance, SEO e acessibilidade` | `perf: otimiza carregamento e imagens` · `feat(seo): og-image, sitemap, robots e 404` · `fix(a11y): skip link, ARIA do menu e foco visível` · `feat(a11y): respeita prefers-reduced-motion` · `ci: torna limites do Lighthouse obrigatórios` |
-| M6 | `docs/m6-readme-e-vitrine` | `docs: M6 — README e vitrine` | `docs: reescreve README com métricas e captura` |
-| M7 | `chore/m7-qa-e-release` | `chore: M7 — QA final e release v2.0.0` | `docs: registra resultados finais e changelog` |
-
-### 7.3 Release (ao final do M7)
+### 7.3 Release (M15)
 
 ```powershell
-git switch main
-git pull --ff-only
-git tag -a v2.0.0 -m "Portfólio v2.0.0"
-git push origin v2.0.0
-gh release create v2.0.0 --title "Portfólio v2.0.0" --notes-file CHANGELOG.md
+git switch main; git pull --ff-only
+git tag -a v3.0.0 -m "Portfólio v3.0.0"
+git push origin v3.0.0
+gh release create v3.0.0 --title "Portfólio v3.0.0" --notes-file CHANGELOG.md
 ```
 
-### 7.4 Proteção da `main` (opcional, recomendado no M0 — após o primeiro run do CI)
+### 7.4 Proteção da `main` (M4)
 
 ```powershell
-gh api -X PUT repos/Blima-P/Portfolio/branches/main/protection `
-  -H "Accept: application/vnd.github+json" `
-  -F "required_status_checks[strict]=true" `
-  -f "required_status_checks[contexts][]=quality" `
-  -F "enforce_admins=false" `
-  -F "required_pull_request_reviews=null" `
-  -F "restrictions=null"
+@'
+{
+  "required_status_checks": { "strict": true, "contexts": ["quality", "pr-title"] },
+  "enforce_admins": true,
+  "required_pull_request_reviews": { "required_approving_review_count": 0 },
+  "restrictions": null
+}
+'@ | gh api -X PUT repos/Blima-P/Portfolio/branches/main/protection -H "Accept: application/vnd.github+json" --input -
+gh repo edit Blima-P/Portfolio --delete-branch-on-merge --enable-merge-commit=false --enable-rebase-merge=false --enable-auto-merge --enable-discussions
 ```
 
-> O nome do contexto (`quality`) deve ser igual ao nome do job exibido em `gh pr checks`.
+> Os nomes dos contextos devem ser iguais aos nomes dos jobs exibidos em `gh pr checks`.
+> `enforce_admins: true` vale para você também: nada entra na `main` sem PR e CI verde (0 aprovações
+> mantém o fluxo solo viável). Nos outros repositórios (M14), conferir `squash_merge_commit_message`
+> = `COMMIT_MESSAGES` antes do primeiro merge, senão os trailers podem sumir no squash.
 
 ---
 
-## 8. Prompts por milestone
+## 8. Como cada sessão trabalha
 
-> **Como usar:** abra uma **nova sessão** na pasta `C:\Users\pedroblima\Desktop\Portifolio` e cole o
-> prompt do milestone. Cada sessão deve ler primeiro `docs/plano-implementacao.md` e
-> `docs/analise-critica.md`.
->
-> **Revisão obrigatória (DOD):** antes de concluir qualquer milestone, submeta o resultado a uma
-> **revisão rubber-duck com OUTRA IA** (ex.: subagente `rubber-duck` ou outro modelo). Trate os
-> apontamentos relevantes e registre-os na seção 9.
+1. Ler este plano, a análise local (`docs/analise-critica.md`) e o registro da seção 11.
+2. Marcar o milestone como 🟨 na seção 3.
+3. Para **cada PR** da tabela do milestone, em ordem: issue → branch → implementação → testes →
+   rubber-duck → PR → CI verde → merge → conferência do trailer e do deploy → marcar ✅ na tabela.
+4. Ao final: DOD do milestone, tabela da seção 3, placar da seção 10.4 e seção 11 atualizados (no último PR do milestone).
 
-### Prompt — M0
-```
-Leia docs/plano-implementacao.md e docs/analise-critica.md (este último é local e NUNCA deve ser
-versionado). Implemente o milestone M0 (Fundação: docs, padrões e CI de qualidade) exatamente
-como descrito nas tarefas, na branch chore/m0-plano-e-qualidade. Não altere o visual nem o
-conteúdo do site. Valide localmente (npm ci, npm run verify) e garanta que o workflow fique verde
-no PR. Ao final, atualize o DOD e a tabela de status no plano, forneça os comandos git/gh do
-fluxo da seção 7 e o texto do PR.
-Antes de concluir, faça uma revisão rubber-duck com OUTRA IA sobre o diff, trate os apontamentos e
-registre-os na seção 9 (DOD).
-```
+---
 
-### Prompt — M1
-```
-Leia docs/plano-implementacao.md e docs/analise-critica.md. Implemente o milestone M1
-(Integridade e correções críticas) na branch fix/m1-integridade-e-bugs, cobrindo os achados
-listados (C02, A03, A04, A05, A06, M11, B01-B05, B10 e a correção mínima de C01). Não mude a
-paleta nem reescreva conteúdo além do necessário. Teste com servidor HTTP em 390/820/1440 px, nos
-2 temas e 2 idiomas, inclusive com JavaScript desabilitado. Atualize o DOD e a tabela de status,
-forneça os commits, os comandos git/gh e o texto do PR. Antes de concluir, faça uma revisão
-rubber-duck com OUTRA IA sobre o diff, trate os apontamentos e registre-os na seção 9 (DOD).
-```
+## 9. Prompts por milestone
 
-### Prompt — M2
-```
-Leia docs/plano-implementacao.md (seção 1: decisão sobre efeitos visuais) e implemente o milestone
-M2 (ES Modules, lint e auditoria de efeitos) na branch refactor/m2-codigo-e-efeitos. Nenhuma
-variável global; preserve tema, idioma, menu, scroll-spy, filtros, terminal, partículas e reveal.
-Extraia os dicionários para js/translations.js (módulo puro, sem window/document/localStorage),
-crie scripts/check-i18n.mjs e o smoke test Playwright, e inclua lint + i18n + smoke no
-npm run verify e no CI. Corrija no README a instrução de abrir via file://.
-Valide com npm run verify e servidor HTTP.
-Atualize o DOD e a tabela de status, forneça commits, comandos git/gh e texto do PR. Antes de
-concluir, faça uma revisão rubber-duck com OUTRA IA sobre o diff, trate os apontamentos e
-registre-os na seção 9 (DOD).
-```
+> Abra uma **nova sessão** em `C:\Users\Braga\Desktop\Portfolio\Portfolio` e cole o prompt.
+> **Revisão obrigatória (DOD):** cada PR passa por revisão **rubber-duck com OUTRA IA** antes do merge;
+> apontamentos tratados e registrados na seção 11.
 
-### Prompt — M3
+### Prompt — M3 (restante: PRs 3.2 e 3.3)
 ```
-Leia docs/plano-implementacao.md e a seção 6 de docs/analise-critica.md. Aplique a paleta
-escolhida (registrada na seção 1 do plano) no milestone M3 na branch feat/m3-identidade-visual:
-tokens semânticos sem cores fixas, temas escuro e claro, botões acessíveis, fontes self-hosted,
-header agrupado e grade de projetos sem órfãos. Verifique contraste (>= 4,5:1 texto, >= 3:1
-componentes) nos dois temas e gere capturas antes x depois em 390/820/1440 px. Atualize o DOD e a
-tabela de status, forneça commits, comandos git/gh e texto do PR. Antes de concluir, faça uma
-revisão rubber-duck com OUTRA IA sobre o diff, trate os apontamentos e registre-os na seção 9 (DOD).
+Leia docs/plano-implementacao.md (seções 4-M3, 6, 7 e 8) e docs/analise-critica.md (R01). Execute os
+PRs 3.2 e 3.3 do M3: escreva primeiro o teste de visibilidade e registre a evidência de que ele FALHA
+contra cc6002f; mergeie a correção do reveal (3.2; causa: clip-path inset(0 100% 0 0) zera a área e o
+IntersectionObserver nunca dispara) e só então rebaseie e mergeie o teste (3.3) já verde. Um PR por fatia, cada um com issue, commits com trailer
+Co-authored-by, npm run verify verde, revisão rubber-duck com OUTRA IA, merge squash e conferência do
+trailer e do site publicado. Atualize DOD, tabelas e seção 11 no último PR.
 ```
 
 ### Prompt — M4
 ```
-Leia docs/plano-implementacao.md, docs/analise-critica.md (seções 4, 5, 8 e 9) e os READMEs de
-Blima-P/carteira-api e Blima-P/SocialTech. Implemente o milestone M4 (conteúdo orientado a
-recrutador) na branch feat/m4-conteudo-recrutador. Comece preenchendo a matriz de fatos (seção 9
-da análise local) com as informações que eu fornecer nesta sessão e use APENAS afirmações
-aprovadas nela; pergunte o que faltar em vez de inventar e nunca inclua
-dados confidenciais da CAESB. Textos em PT e EN com paridade. Foto do hero otimizada (AVIF/WebP,
-<= 80 KB, width/height). Teste o "teste dos 6 segundos" em 390 e 1440 px. Atualize o DOD e a
-tabela de status, forneça commits, comandos git/gh e texto do PR. Antes de concluir, faça uma
-revisão rubber-duck com OUTRA IA sobre o diff, trate os apontamentos e registre-os na seção 9 (DOD).
+Leia docs/plano-implementacao.md (M4, seções 6, 7 e 8). Execute os 6 PRs do M4 (templates de issue,
+labels como código + milestones do GitHub, validação do título do PR, Dependabot, CONTRIBUTING/SECURITY/
+CODEOWNERS e job de deploy do Pages no quality.yml com needs: quality — verify + lychee + Lighthouse). Depois aplique as
+configurações da seção 7.4 e registre-as na seção 11. Fluxo da seção 7.2 para cada PR, rubber-duck com
+OUTRA IA antes de cada merge. Atualize DOD, tabelas e placar de conquistas.
 ```
 
 ### Prompt — M5
 ```
-Leia docs/plano-implementacao.md e implemente o milestone M5 (performance, SEO e acessibilidade)
-na branch perf/m5-performance-seo-a11y. Configure o portão LHCI da tarefa 6 (asserções em erro)
-e, após o merge, meça o site publicado (tarefa 7: mediana de 3, mobile; metas Performance >= 95,
-A11y/Boas práticas/SEO = 100, LCP < 2 s, peso < 400 KB). Inclua og-image 1200x630, sitemap, robots, 404, skip link, ARIA do
-menu com inert, focus-visible, scroll-margin-top e prefers-reduced-motion (CSS + parada do loop
-de partículas em JS). JSON-LD com affiliation (não alumniOf). Execute o roteiro de
-testes T05-T09 e T15-T17. Atualize o DOD e a tabela de status, forneça commits, comandos git/gh e
-texto do PR. Antes de concluir, faça uma revisão rubber-duck com OUTRA IA sobre o diff, trate os
-apontamentos e registre-os na seção 9 (DOD).
+Leia docs/plano-implementacao.md (M5) e docs/analise-critica.md (R04, R05, R13, R14, R21-R24, R37,
+R38, R42). Execute os 6 PRs do M5: tokens sem mudança visual (prove com capturas idênticas), paleta
+Metrô Noturno nos 2 temas com contraste verificado, fontes self-hosted, header, botões/foco e layout do
+hero. Capturas antes x depois em 390/820/1440 x 2 temas em cada PR visual. Fluxo da seção 7.2 e
+rubber-duck com OUTRA IA em cada PR. Atualize DOD, tabelas e placar.
 ```
 
 ### Prompt — M6
 ```
-Leia docs/plano-implementacao.md e implemente o milestone M6 (README e vitrine) na branch
-docs/m6-readme-e-vitrine: reescreva o README com captura atual, métricas reais do Lighthouse,
-decisões técnicas e instruções locais. Depois, gere a lista de ações para o perfil GitHub
-(repositórios fixados, descrições, arquivamentos) e o checklist do LinkedIn, e proponha o PR
-separado para o repositório Blima-P/Blima-P. Atualize o DOD e a tabela de status, forneça commits,
-comandos git/gh e texto do PR. Antes de concluir, faça uma revisão rubber-duck com OUTRA IA, trate
-os apontamentos e registre-os na seção 9 (DOD).
+Leia docs/plano-implementacao.md (M6) e docs/analise-critica.md (seções 4 e 7). ANTES de escrever
+qualquer texto, preencha comigo a matriz de fatos (análise §7) com as respostas que eu der nesta
+sessão — pergunte o que faltar, nunca invente, nada confidencial da CAESB. Depois execute os 9 PRs do
+M6 usando apenas afirmações aprovadas, textos PT e EN com paridade, foto otimizada (AVIF/WebP <= 80 KB).
+Faça o teste dos 6 segundos em 390 e 1440 px. Fluxo da seção 7.2 e rubber-duck com OUTRA IA em cada PR.
 ```
 
 ### Prompt — M7
 ```
-Leia docs/plano-implementacao.md e execute o milestone M7 (QA final e release v2.0.0) na branch
-chore/m7-qa-e-release: rode todo o roteiro de testes da seção 5, o Lighthouse final (mobile e
-desktop), atualize a tabela de metas da seção 1 e marque cada achado da análise como resolvido
-(com PR) ou aceito (com justificativa). Crie o CHANGELOG.md e forneça os comandos de tag e release
-da seção 7.3. Antes de concluir, faça uma revisão rubber-duck com OUTRA IA sobre o conjunto da
-entrega, trate os apontamentos e registre-os na seção 9 (DOD).
+Leia docs/plano-implementacao.md (M7), os READMEs de Blima-P/carteira-api e Blima-P/SocialTech e a
+matriz de fatos local. Execute os 5 PRs do M7: SocialTech em destaque, cards compactos, infraestrutura
+multipágina (i18n, stamp, lychee, html-validate e testes cobrindo projetos/*.html) ANTES das páginas, e
+os estudos de caso da Carteira API (com diagrama SVG acessível) e do SocialTech. Fluxo da seção 7.2 e
+rubber-duck com OUTRA IA em cada PR.
+```
+
+### Prompt — M8
+```
+Leia docs/plano-implementacao.md (M8). Execute os 6 PRs: terminal em <dialog> acessível com histórico e
+Tab; botão visível, Ctrl+K (ABNT2) e novos comandos; transição de tema com View Transitions (com
+fallback e reduced-motion); folha de impressão que vira CV; 404 estilizada; scroll-spy com
+IntersectionObserver. Testes automatizados para cada interação nova. Fluxo da seção 7.2 e rubber-duck
+com OUTRA IA em cada PR.
+```
+
+### Prompt — M9
+```
+Leia docs/plano-implementacao.md (M9). Execute os 5 PRs de acessibilidade (skip link/landmarks, menu
+mobile com aria-expanded/inert/Esc, reduced-motion em CSS e JS parando o loop das partículas, rótulos e
+rel noopener, axe-core no Playwright em 2 temas x 2 idiomas com zero violações). Rode T07-T09 da seção 5.
+Fluxo da seção 7.2 e rubber-duck com OUTRA IA em cada PR.
+```
+
+### Prompt — M10
+```
+Leia docs/plano-implementacao.md (M10). Execute os 4 PRs de performance e torne o LHCI rígido. Após o
+merge, meça o site publicado (Lighthouse mobile, mediana de 3) e registre na seção 11. Metas:
+Performance >= 95, A11y/BP/SEO = 100, LCP < 2 s, peso < 400 KB. Fluxo da seção 7.2 e rubber-duck com
+OUTRA IA em cada PR.
+```
+
+### Prompt — M11
+```
+Leia docs/plano-implementacao.md (M11). Execute os 4 PRs: og-image 1200x630 (e só depois remova
+Profile.jpg.png), JSON-LD com affiliation e sameAs canônicos, sitemap + Search Console (sem robots.txt
+— ver 11.3) e CSP via meta com hash do script inline verificado no CI. Valide no LinkedIn Post
+Inspector e no Schema Markup Validator (capturas no PR). Fluxo da seção 7.2 e rubber-duck com
+OUTRA IA em cada PR.
+```
+
+### Prompt — M12
+```
+Leia docs/plano-implementacao.md (M12). Execute os 4 PRs: testes unitários com node:test, regressão
+visual só no CI em Linux fixado (baselines revisados e commitados), fluxo do recrutador em Chromium,
+Firefox e WebKit e resumo do job com badges. Prove que a
+regressão visual reprova uma mudança de cor proposital. Fluxo da seção 7.2 e rubber-duck com OUTRA IA
+em cada PR.
+```
+
+### Prompt — M13
+```
+Leia docs/plano-implementacao.md (M13) e docs/historico/plano-v2.md (seção 9, decisões). Execute os 6
+PRs: README reescrito (sem a lista de ideias, com captura e métricas reais), ADRs 0001-0004 com links
+para os PRs, CHANGELOG retroativo e versão no package.json. Fluxo da seção 7.2 e rubber-duck com OUTRA
+IA em cada PR.
+```
+
+### Prompt — M14
+```
+Leia docs/plano-implementacao.md (M14) e a matriz de fatos local. Execute os 6 PRs nos outros
+repositórios (perfil Blima-P/Blima-P, carteira-api, SocialTech, painel-semanal, InvestStart,
+credit-default-prediction), cada um com issue, coautoria e rubber-duck. Depois aplique as configurações
+(descrições, topics, homepage, 6 repositórios fixados, URL canônica do LinkedIn) e gere o checklist do
+LinkedIn. Registre tudo na seção 11 do plano do Portfolio.
+```
+
+### Prompt — M15
+```
+Leia docs/plano-implementacao.md (M15). Rode o roteiro completo da seção 5 e o Lighthouse final no
+site publicado, atualize as metas da seção 1, feche cada achado Rxx (resolvido com PR ou aceito com
+justificativa), publique a release v3.0.0 (seção 7.3) e redija o post do LinkedIn. Faça a revisão
+rubber-duck com OUTRA IA sobre o conjunto da entrega e registre na seção 11.
 ```
 
 ---
 
-## 9. Observações / registro de decisões (atualizar durante a execução)
+## 10. Trilha de conquistas do GitHub
+
+### 10.1 Situação em 17/11/2026 e alvo
+
+| Conquista | Critério (níveis) | Hoje | Alvo neste plano |
+|---|---|---|---|
+| **Pair Extraordinaire** | PRs mergeados com commit em coautoria: 1 · 10 · 24 · **48** | Base exibido; **32 candidatos** medidos (não confirmados pelo GitHub — o selo pode estar atrasado ou ter regras que não conhecemos) | **Ouro (48)** — se os 32 contarem, faltam ~16 PRs (≈ **M6**); senão, a conta segue pelo placar real (10.4) |
+| **Pull Shark** | PRs mergeados: 2 · 16 · 128 · **1.024** | Prata (171) | +66 neste plano (≈ 237). Ouro é meta de **longo prazo** (ver abaixo) |
+| Starstruck | Estrelas em um repositório: 16 · 128 · 512 · 4.096 | Base (SocialTech, 21 ⭐) | Orgânico, via M13–M15 |
+| Galaxy Brain | Respostas aceitas em Discussions: 2 · 8 · 16 · 32 | — | **Base (2)** |
+| Public Sponsor | Patrocinar alguém pelo GitHub Sponsors | — | Opcional (decisão do Pedro, custo ≥ US$ 1) |
+| Quickdraw · YOLO | Nível único | ✅ | — |
+
+> Selos que não podem mais ser obtidos (Arctic Code Vault, Mars 2020) e selos não lançados
+> oficialmente não entram no plano.
+
+### 10.2 Como cada conquista é alimentada — sem atalhos artificiais
+
+- **Pair Extraordinaire:** todo PR deste plano tem commits com `Co-authored-by` (seção 7.2). Só conta
+  coautor **diferente de você** (7 PRs antigos do SocialTech tinham você como coautor de si mesmo e não
+  contam). Recomendado: parear de verdade com colegas do SocialTech em pelo menos alguns PRs (coautor humano).
+- **Pull Shark:** 66 PRs neste plano (60 no Portfolio + 6 em outros repositórios). PRs abertos pelo
+  **Dependabot** não contam (o autor é o bot). O ouro (1.024) exige ~850 PRs a mais — **não é atingível de forma
+  honesta só com o portfólio**. Caminho sustentável: manter a granularidade "1 fatia = 1 PR" em
+  **todos** os seus projetos (SocialTech, carteira-api, InvestStart), e contribuir para projetos open
+  source que você usa (documentação, testes, *good first issues* de Astro, Spring, Playwright,
+  html-validate…). Contribuição externa vale mais para o recrutador do que qualquer selo.
+- **Galaxy Brain:** responder dúvidas reais em Discussions de projetos que você domina (ex.: Spring Boot,
+  Astro, GitHub Community) até ter 2 respostas **aceitas por quem perguntou**. Discussions habilitado
+  no Portfolio (M4) para receber feedback — respostas aceitas pelo próprio autor da pergunta não
+  devem ser forjadas.
+- **Starstruck:** README de referência (M13), estudos de caso (M7), post de lançamento (M15). **Nunca**
+  trocar estrelas.
+- **Public Sponsor:** se decidir, patrocinar o mantenedor de uma ferramenta usada no projeto.
+
+### 10.3 Regras anti-"farm" (o recrutador abre a lista de PRs)
+
+1. Cada PR resolve **uma** fatia da tabela do milestone — nada de PR vazio, de *typo* isolado criado
+   de propósito, ou de reverter e refazer.
+2. Cada PR tem issue, descrição, teste/evidência e CI verde.
+3. Coautoria só de quem realmente participou (Copilot nesta sessão de IA; colega quando parear).
+4. Não abrir e fechar PRs/issues só para obter Quickdraw/YOLO (já obtidos).
+
+### 10.4 Placar (atualizar a cada milestone)
+
+| Data | Marco | PRs mergeados (total) | PRs com coautoria elegível | Pair Extraordinaire | Pull Shark |
+|---|---|:---:|:---:|---|---|
+| 17/11/2026 | Baseline | 171 | 32 candidatos | Base exibido | Prata |
+| | Após M3 | | | | |
+| | Após M4 | | | | |
+| | Após M5 | | | | |
+| | Após M6 | | | Ouro possível (se os candidatos contarem) | |
+
+Consulta para atualizar (PowerShell):
+
+```powershell
+gh api "search/issues?q=author:Blima-P+type:pr+is:merged&per_page=1" -q .total_count
+```
+
+---
+
+## 11. Observações / registro de decisões (atualizar durante a execução)
 
 | Data | Milestone | Registro |
 |---|---|---|
-| 10/11/2026 | — | Análise crítica concluída sobre o commit `efc9821`; baseline do Lighthouse registrado na análise (seção 7). |
-| 10/11/2026 | M0 | Decisões do Pedro: paleta **A**, efeitos **enxutos**, análise crítica **privada**. |
-| 10/11/2026 | M0 | Lychee: `lattes.cnpq.br` excluído — o servidor do CNPq recusa o handshake TLS do lychee, mas o link responde 302 no navegador/curl. Verificação manual no T12. |
-| 10/11/2026 | M0 | html-validate: estilo `void-style: selfclose` adotado (padrão do código); `no-implicit-button-type` desativada até o M1. LHCI local reproduziu o baseline (Performance 74, Acessibilidade 96), auditando só `index.html`. |
-| 10/11/2026 | M0 | `cache-insight` (cabeçalho de cache do GitHub Pages) aceito como limitação da hospedagem. |
-| 10/11/2026 | M0 | **Revisão rubber-duck do plano** (outra IA). Apontamentos tratados: (1) análise crítica mantida fora do repositório público e plano sem nomes de terceiros; (2) matriz de fatos obrigatória antes do M4 e `affiliation` em vez de `alumniOf`; (3) `.gitattributes` com um padrão por linha, config do html-validate em `.cjs`, `package-lock.json` versionado; (4) LHCI com URL explícita e sem `preset`, lychee com entradas explícitas e sem `node_modules`; (5) dicionários em módulo puro `translations.js` para o verificador em Node; (6) correção mínima do README no M2; (7) script único `npm run verify`; (8) metadados de robôs em PT no M1; (9) checagem de cores do M3 aceita `rgba(var(...))`; (10) portão LHCI no CI separado da medição oficial no site publicado; (11) smoke test Playwright no M2; (12) `reduced-motion` também em JS. |
-| 10/11/2026 | — | Alerta Dependabot (`compression` < 1.8.2, DoS) corrigido com `overrides` no `package.json` (PR #6) — `serve@14.2.7` fixa a versão vulnerável. |
-| 10/11/2026 | M1 | Fatos confirmados pelo Pedro: grafia **"Solução Assessoria Vendas/Cobranças"** e período **2024** (o site dizia 2023 — 2024). CredSolaris também em 2024 (out–nov, segundo o CV). Meses ficam para o M4. |
-| 10/11/2026 | M1 | Idioma: a chave do `localStorage` passou de `lang` para `portfolio-lang`, porque a versão anterior gravava `en` em **toda** visita (sem escolha do usuário) e prenderia visitantes antigos no inglês. Agora só a troca manual é salva; a detecção pelo navegador não grava nada. |
-| 10/11/2026 | M1 | Padrão de grafia: "full stack" em PT e "full-stack" em EN (adjetivo composto). O HTML estático traz a primeira frase do typing, então a página fica completa sem JS. Também foram traduzidos `aria-label`/`alt` que estavam fixos (tema, menu, rolar, topo, foto, links de projeto). |
-| 10/11/2026 | M1 | O nome antigo do PDF (`Pedro Braga de Lima - Curriculo.pdf`) deixou de existir: links externos que apontavam direto para ele (ex.: LinkedIn) precisam ser atualizados para `assets/cv/pedro-braga-cv-ptbr.pdf`. |
-| 10/11/2026 | M1 | **Revisão rubber-duck do diff** (outra IA): nenhum bloqueante. Apontamento tratado: o terminal misturava idiomas (instrução inicial, erro e `aria-label` só em inglês) → mensagens por idioma. Junto, corrigido um bug encontrado nos testes: os comandos `constructor`/`__proto__` eram lidos do protótipo e quebravam o terminal (agora `hasOwnProperty`). Testes de navegador: 57 verificações (3 resoluções × 2 idiomas × 2 temas, persistência, sem JS, terminal, PDF) e verificação de que o HTML estático é idêntico ao dicionário PT. |
-| 10/11/2026 | pós-M1 | Relato do Pedro: botão direito no fundo do hero abria o menu "Salvar imagem como…", porque o `<canvas>` das partículas recebia os cliques. Correção: `pointer-events: none` + `aria-hidden="true"` (decorativo; as partículas não usam o mouse). PR #8. |
-| 10/11/2026 | pós-M1 | Relato do Pedro: o hero "dava glitch" durante o typing. Causa: a largura/altura do título acompanhava o texto digitado — no desktop o bloco centralizado deslizava até 25 px na horizontal; no mobile a frase longa alternava 1↔2 linhas (salto de 15 px). Correção: medidor invisível (`#typing-sizer`) com todas as frases do idioma sobrepostas em grid, reservando o maior tamanho. Verificado: altura e posição constantes em todos os estados da digitação, 12 larguras (320–1920 px) × 2 idiomas. PR #9. |
-| 10/11/2026 | M2 | Arquitetura: 11 `<script>` globais → 1 módulo de entrada (`main.js`) + 7 módulos importados (8 arquivos na carga); `terminal.js` só é baixado no primeiro `Ctrl + \``. Smoke test confirma **zero** globais novas (comparação com as chaves de um `iframe` limpo). |
-| 10/11/2026 | M2 | Removidos preloader (espera artificial de 1.200 ms), cursor, botões magnéticos, parallax, transições de página e overlay de ruído. Partículas: densidade proporcional à área (15–35, antes 45 fixas), recriadas só quando a largura muda e pausadas fora da tela; a cor vem do token CSS `--particles-rgb` (prepara o M3). Contador animado mantido até a decisão do M4. |
-| 10/11/2026 | M2 | Tema salvo aplicado por script inline no `<head>`, antes da primeira pintura — sem o "flash" de tema escuro que ocorreria com módulos (que executam após o parse). Testado com JS dos módulos bloqueado e com `localStorage` indisponível. |
-| 10/11/2026 | M2 | **Cache-busting** (`scripts/stamp-assets.mjs`): `?v=<hash>` do conteúdo nos CSS/JS do `index.html` e nos `import` entre módulos. O hash de um módulo inclui o de suas dependências e normaliza CRLF→LF (mesmo resultado no Windows e no CI). Motivo: o GitHub Pages serve com `max-age=600`, e após o PR #9 um F5 trouxe HTML novo com JS antigo, fazendo o "glitch" parecer não corrigido. `npm run stamp:check` no `verify` impede commit com versão desatualizada; o lychee valida os caminhos com `?v=`. |
-| 10/11/2026 | M2 | Segurança: cards do GitHub montados via DOM (`textContent`), sem interpolar dados da API em HTML; i18n usa `innerHTML` só nas chaves de `HTML_KEYS` (o verificador falha se outra chave contiver `<` ou `&`). Falha da API vira `console.warn` (limite de requisições é esperado) e mensagem traduzível. |
-| 10/11/2026 | M2 | Ferramentas: ESLint 10 depende de `minimatch` 10.x, afetado pelo GHSA-g3hv-75wg-m249 → `overrides` para `minimatch@^11.0.5` (`npm audit`: 0 vulnerabilidades). Stylelint `standard` com exceções comentadas (BEM em `selector-class-pattern`, `-webkit-background-clip` para o Safari, notação clássica de media query). Prettier não formata `index.html` (quebraria tags inline como `</a\n>`) nem Markdown. Keyframes renomeados para kebab-case. |
-| 10/11/2026 | M2 | Verificação: `npm run verify` (lint, Prettier, html-validate, i18n, versões dos assets e 21 testes Playwright em desktop e mobile); verificador de i18n testado com erros propositais; capturas de página inteira (390 e 1440 px, claro/escuro, PT/EN) **idênticas pixel a pixel** ao `main`; hero estável durante o typing (1 posição em 50+ estados, 3 larguras × 2 idiomas). |
-| 10/11/2026 | M2 | **Revisão rubber-duck do diff** (outra IA): nenhum bloqueante. Tratados: (1) partículas podiam ficar presas fora do canvas quando só a altura diminuía (mobile) → quique pela direção; (2) terminal sob demanda: promessa única de import, ignora tecla repetida e trata falha de rede; (3) i18n e verificador usam `Object.hasOwn` (não herdam `constructor` etc.) e o verificador aceita aspas simples em `data-i18n`. Mantido de propósito: o plano é marcado como concluído no próprio PR, que só recebe merge com CI verde. |
+| 17/11/2026 | M3 | Análise crítica v3 sobre `cc6002f` (local). Baseline do site publicado: Lighthouse mobile 74/95/100/100, LCP 8,1 s, 1.254 KiB, `color-contrast` reprovado. |
+| 17/11/2026 | M3 | **R01 confirmado em produção:** com o título de "Projetos" no centro da tela, `IntersectionObserver.intersectionRatio = 0` (1440 e 390 px) — o `clip-path: inset(0 100% 0 0)` inicial zera a área observada; títulos e subtítulos ficam com `opacity: 0`. O smoke test não cobre visibilidade. |
+| 17/11/2026 | M3 | Conquistas medidas via API: 171 PRs mergeados; 39 com mais de um autor no commit final, dos quais **32 com coautor diferente** (Copilot e colegas) — **candidatos** ao Pair Extraordinaire (o GitHub não expõe a contagem oficial). |
+| 17/11/2026 | M3 | Plano v2 arquivado em `docs/historico/plano-v2.md`; M3–M7 do v2 absorvidos por M5, M6, M9–M11, M13 e M15 deste plano. Identidade git do repositório fixada em Blima-P (`pbl0812@gmail.com`). |
+| 17/11/2026 | M3 | **Rubber-duck do plano (outra IA)** — 3 bloqueantes e 9 ajustes, todos incorporados: (1) teste do R01 não pode ser mergeado vermelho → evidência contra `cc6002f`, merge do 3.2 antes do 3.3; (2) deploy só depois do `quality` completo (lychee + LHCI), no mesmo workflow; (3) `Profile.jpg.png` só sai no 11.1, depois do novo `og:image`; (4) milestones criados no bootstrap do 3.1 e proteção com `enforce_admins`; (5) multipágina com metadados por página, caminhos relativos e teste sob `/Portfolio/`; (6) 14.2/14.3 dependem de 7.4/7.5; (7) regressão visual só em Linux fixado no CI; (8) trailers no mesmo parágrafo e conferência com `%(trailers)`; (9) 32 PRs são **candidatos**, não progresso confirmado; Dependabot não conta; (10) prova com link já no hero e teste dos 6 s com altura; (11) Firefox/WebKit, *feature detection*, axe com menu/terminal abertos e *reflow* 320 px; (12) `robots.txt` de site de projeto é ignorado → só sitemap + Search Console. Também: Ctrl+K secundário ao botão, Tab só autocompleta com prefixo, Schema Markup Validator no lugar do Rich Results, "atualizado em" no rodapé (R25) e fim da animação *inline* dos filtros (R35). Mapa R01–R44 → milestones conferido: nenhum achado descoberto; contagem de 66 PRs confirmada. |
