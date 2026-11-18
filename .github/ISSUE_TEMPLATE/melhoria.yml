@@ -1,0 +1,38 @@
+name: ✨ Melhoria
+description: Sugira uma funcionalidade ou uma melhoria de experiência, acessibilidade ou desempenho.
+title: 'feat: '
+labels: ['feat']
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema isto resolve
+      description: Quem é afetado (recrutador, visitante, leitor de tela…) e como.
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Proposta
+      description: O que deveria mudar. Alternativas consideradas são bem-vindas.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      multiple: true
+      options:
+        - Visual / layout
+        - Acessibilidade
+        - Desempenho
+        - SEO / compartilhamento
+        - Traduções
+        - Terminal
+        - Repositório / CI
+  - type: textarea
+    id: aceite
+    attributes:
+      label: Critério de aceite
+      description: Como saber que está pronto.
+      placeholder: '- [ ] ...'

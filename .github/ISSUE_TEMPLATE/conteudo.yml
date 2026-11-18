@@ -1,0 +1,38 @@
+name: 📝 Conteúdo
+description: Texto errado, desatualizado ou sem fonte; nova afirmação para o site.
+title: 'fix(copy): '
+labels: ['conteúdo']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Toda afirmação do site precisa de uma **fonte verificável** (repositório, certificado,
+        publicação). Nada de dados confidenciais de empregadores.
+  - type: input
+    id: onde
+    attributes:
+      label: Onde
+      description: Seção e idioma do trecho.
+      placeholder: 'Experiência · PT-BR'
+    validations:
+      required: true
+  - type: textarea
+    id: atual
+    attributes:
+      label: Texto atual
+      render: text
+  - type: textarea
+    id: proposto
+    attributes:
+      label: Texto proposto
+      description: Em PT-BR e, se possível, em inglês.
+    validations:
+      required: true
+  - type: input
+    id: fonte
+    attributes:
+      label: Fonte da afirmação
+      description: Link que comprova o que o texto diz.
+      placeholder: 'https://github.com/Blima-P/...'
+    validations:
+      required: true
