@@ -106,6 +106,41 @@ test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tel
   }
 });
 
+test('todo elemento alcançado pelo Tab mostra o anel de foco nos dois temas', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
+  for (const theme of ['dark', 'light']) {
+    if (theme === 'light') await page.locator('#theme-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+    await page.evaluate(() => document.activeElement?.blur());
+    const seen = new Set();
+    for (let i = 0; i < 60; i += 1) {
+      await page.keyboard.press('Tab');
+      const info = await page.evaluate(() => {
+        const el = document.activeElement;
+        if (!el || el === document.body) return null;
+        const style = getComputedStyle(el);
+        const probe = document.createElement('span');
+        probe.style.color = getComputedStyle(document.documentElement).getPropertyValue('--color-focus');
+        document.body.append(probe);
+        const focusColor = getComputedStyle(probe).color;
+        probe.remove();
+        return {
+          id: el.outerHTML.slice(0, 80),
+          ok:
+            style.outlineStyle === 'solid' &&
+            style.outlineWidth === '2px' &&
+            style.outlineColor === focusColor,
+        };
+      });
+      if (!info || seen.has(info.id)) break;
+      seen.add(info.id);
+      expect(info.ok, `${theme}: ${info.id}`).toBe(true);
+    }
+    expect(seen.size).toBeGreaterThan(10);
+  }
+});
+
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
