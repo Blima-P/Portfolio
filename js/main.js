@@ -1,6 +1,6 @@
 // Ponto de entrada (ES Module). Nenhuma variável global: cada funcionalidade expõe init*().
 
-import { initGithub } from './github.js?v=60178df1';
+import { initGithub } from './github.js?v=c3ca1b08';
 import { initI18n } from './i18n.js?v=d5b16599';
 import { initParticles } from './particles.js?v=beb22ef9';
 import { initTheme } from './theme.js?v=9162fbf3';
