@@ -7,9 +7,34 @@
   --color-accent: #4ade80;
   --color-accent-dark: #062012;
   --color-accent-glow: rgb(74 222 128 / 30%);
+
+  /* Texto sobre fundo de destaque (botões, filtro ativo). */
+  --color-accent-ink: #fff;
   --particles-rgb: 74, 222, 128;
   --color-text: #fff;
   --color-text-muted: #9ca3af;
+  --color-header-bg: rgb(5 5 5 / 95%);
+  --gradient-name: linear-gradient(90deg, #fff, #7dd3fc);
+  --color-tag-bg: rgb(74 222 128 / 10%);
+  --color-tag-border: rgb(74 222 128 / 20%);
+  --color-overlay: rgb(0 0 0 / 80%);
+  --shadow-card: 0 8px 24px rgb(0 0 0 / 12%);
+  --shadow-card-accent: 0 10px 30px rgb(74 222 128 / 15%);
+  --shadow-modal: 0 20px 60px rgb(0 0 0 / 50%);
+
+  /* Terminal: sempre escuro, nos dois temas. */
+  --color-terminal-bg: #0d1117;
+  --color-terminal-bar: #161b22;
+  --color-terminal-border: #30363d;
+  --color-terminal-text: #c9d1d9;
+  --color-terminal-muted: #8b949e;
+  --color-terminal-error: #f85149;
+  --color-terminal-close: #ff5f57;
+  --color-terminal-minimize: #febc2e;
+  --color-terminal-maximize: #28c840;
+
+  /* Linguagem sem cor conhecida nos cards de repositório (as demais seguem o GitHub, em github.js). */
+  --color-lang-fallback: #8b949e;
   --font-family: 'Inter', sans-serif;
   --font-size-base: 1rem;
   --container-max: 1100px;
@@ -31,6 +56,8 @@
   --particles-rgb: 21, 128, 61;
   --color-text: #1a1a2e;
   --color-text-muted: #4a4a6a;
+  --color-header-bg: rgb(245 245 250 / 95%);
+  --gradient-name: linear-gradient(90deg, #1a1a2e, #0e4429);
 }
 
 /* ---- Barra de progresso de scroll ---- */
@@ -133,7 +160,7 @@ body {
 
 .btn--primary {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-ink);
   border: 2px solid var(--color-accent);
 }
 
@@ -152,7 +179,7 @@ body {
 
 .btn--outline:hover {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-ink);
   transform: translateY(-2px);
 }
 
@@ -169,14 +196,10 @@ body {
 
 /* Classe adicionada pelo JS quando o usuário rola a página */
 .header.scrolled {
-  background: rgb(5 5 5 / 95%);
+  background: var(--color-header-bg);
   backdrop-filter: blur(10px);
   padding: 0.8rem 0;
   border-bottom: 1px solid var(--color-border);
-}
-
-[data-theme='light'] .header.scrolled {
-  background: rgb(245 245 250 / 95%);
 }
 
 .nav {
@@ -251,7 +274,7 @@ body {
 
 .nav__lang:hover {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-ink);
 }
 
 /* Alternador de tema */
@@ -346,13 +369,7 @@ body {
 }
 
 .hero__name-gradient {
-  background: linear-gradient(90deg, #fff, #7dd3fc);
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-[data-theme='light'] .hero__name-gradient {
-  background: linear-gradient(90deg, #1a1a2e, #0e4429);
+  background: var(--gradient-name);
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
@@ -591,7 +608,7 @@ body {
 .projects__filter.active {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-ink);
 }
 
 .project-card.hidden {
@@ -618,7 +635,7 @@ body {
 .project-card:hover {
   border-color: var(--color-accent);
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgb(74 222 128 / 15%);
+  box-shadow: var(--shadow-card-accent);
 }
 
 .project-card__header {
@@ -672,8 +689,8 @@ body {
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   border-radius: 50px;
-  background: rgb(74 222 128 / 10%);
-  border: 1px solid rgb(74 222 128 / 20%);
+  background: var(--color-tag-bg);
+  border: 1px solid var(--color-tag-border);
   color: var(--color-accent);
 }
 
@@ -740,7 +757,7 @@ body {
 .contact__card:hover {
   border-color: var(--color-accent);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  box-shadow: var(--shadow-card);
 }
 
 .contact__card:hover .contact__card-icon {
@@ -1020,7 +1037,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(0 0 0 / 80%);
+  background: var(--color-overlay);
   backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
@@ -1040,13 +1057,13 @@ body {
   width: 90%;
   max-width: 650px;
   max-height: 70vh;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--color-terminal-bg);
+  border: 1px solid var(--color-terminal-border);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgb(0 0 0 / 50%);
+  box-shadow: var(--shadow-modal);
   transform: scale(0.9) translateY(20px);
   transition: transform 0.3s ease;
 }
@@ -1060,8 +1077,8 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  background: #161b22;
-  border-bottom: 1px solid #30363d;
+  background: var(--color-terminal-bar);
+  border-bottom: 1px solid var(--color-terminal-border);
 }
 
 .terminal__dot {
@@ -1071,15 +1088,15 @@ body {
 }
 
 .terminal__dot--red {
-  background: #ff5f57;
+  background: var(--color-terminal-close);
 }
 
 .terminal__dot--yellow {
-  background: #febc2e;
+  background: var(--color-terminal-minimize);
 }
 
 .terminal__dot--green {
-  background: #28c840;
+  background: var(--color-terminal-maximize);
 }
 
 .terminal__title {
@@ -1087,13 +1104,13 @@ body {
   text-align: center;
   font-family: 'Courier New', monospace;
   font-size: 0.85rem;
-  color: #8b949e;
+  color: var(--color-terminal-muted);
 }
 
 .terminal__close {
   background: none;
   border: none;
-  color: #8b949e;
+  color: var(--color-terminal-muted);
   cursor: pointer;
   font-size: 1rem;
   padding: 0 0.25rem;
@@ -1101,7 +1118,7 @@ body {
 }
 
 .terminal__close:hover {
-  color: #ff5f57;
+  color: var(--color-terminal-close);
 }
 
 .terminal__body {
@@ -1120,7 +1137,7 @@ body {
 }
 
 .terminal__line--system {
-  color: #8b949e;
+  color: var(--color-terminal-muted);
 }
 
 .terminal__line--command {
@@ -1128,11 +1145,11 @@ body {
 }
 
 .terminal__line--response {
-  color: #c9d1d9;
+  color: var(--color-terminal-text);
 }
 
 .terminal__line--error {
-  color: #f85149;
+  color: var(--color-terminal-error);
 }
 
 .terminal__input-line {
@@ -1140,8 +1157,8 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border-top: 1px solid #30363d;
-  background: #0d1117;
+  border-top: 1px solid var(--color-terminal-border);
+  background: var(--color-terminal-bg);
 }
 
 .terminal__prompt {
@@ -1155,7 +1172,7 @@ body {
   background: none;
   border: none;
   outline: none;
-  color: #c9d1d9;
+  color: var(--color-terminal-text);
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
   caret-color: var(--color-accent);

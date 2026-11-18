@@ -4,6 +4,7 @@ import { t } from './i18n.js?v=d5b16599';
 
 const GITHUB_USER = 'Blima-P';
 const SELECTED_REPOS = ['carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
+// Cores oficiais das linguagens no GitHub (linguist): são dados, não tema — por isso ficam fora dos tokens.
 const LANG_COLORS = {
   JavaScript: '#f1e05a',
   Python: '#3572A5',
@@ -54,7 +55,7 @@ function renderRepo(repo) {
   if (repo.language) {
     const lang = el('span', 'github-card__lang');
     const dot = el('span', 'github-card__lang-dot');
-    dot.style.background = LANG_COLORS[repo.language] ?? '#8b949e';
+    dot.style.background = LANG_COLORS[repo.language] ?? 'var(--color-lang-fallback)';
     lang.append(dot, repo.language);
     footer.append(lang);
   }
