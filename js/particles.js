@@ -8,7 +8,7 @@ const RADIUS = 1.5;
 const AREA_PER_PARTICLE = 30000;
 const MIN_PARTICLES = 15;
 const MAX_PARTICLES = 35;
-const FALLBACK_RGB = '74, 222, 128';
+const FALLBACK_RGB = '245, 165, 36';
 
 export function initParticles() {
   const canvas = document.getElementById('particles-canvas');
