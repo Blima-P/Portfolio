@@ -54,6 +54,7 @@ Gráficos        Canvas API (sistema de partículas)
 APIs            GitHub REST API
 Otimização      Intersection Observer · requestAnimationFrame · content-visibility
 Design          CSS Custom Properties · Responsivo mobile-first · Tema Claro/Escuro
+Tipografia      Inter + JetBrains Mono hospedadas localmente (sem Google Fonts)
 Qualidade       ESLint · Stylelint · Prettier · html-validate · Playwright · Lighthouse CI · lychee
 ```
 
@@ -86,6 +87,7 @@ Portfolio/
 │   └── plano-implementacao.md  # Plano de melhorias com milestones
 └── assets/
     ├── favicon.svg             # Favicon do site
+    ├── fonts/                  # Inter e JetBrains Mono (woff2, latin, OFL)
     └── cv/                     # Currículo (PDF)
 ```
 
