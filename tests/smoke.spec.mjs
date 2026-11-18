@@ -115,10 +115,12 @@ test.describe('visibilidade das seções', () => {
 
     for (const id of ids) {
       const section = page.locator(`section#${id}`);
-      await section.scrollIntoViewIfNeeded();
+      // Alinha o início da seção ao topo: em seções altas, centralizar deixaria o título fora da tela.
+      await section.evaluate((s) => s.scrollIntoView({ block: 'start' }));
       for (const selector of ['.section__title', '.section__subtitle']) {
         const el = section.locator(selector).first();
         if ((await el.count()) === 0) continue;
+        await expect(el, `${id} ${selector}`).toBeInViewport();
         await expect.poll(() => revealState(el), { message: `${id} ${selector}` }).toEqual(VISIBLE);
       }
     }
@@ -129,6 +131,7 @@ test.describe('visibilidade das seções', () => {
     if (isMobile) await page.locator('#nav-toggle').click();
     await page.locator('.nav__link[href="#projects"]').click();
     const title = page.locator('#projects .section__title');
+    await expect(title).toBeInViewport();
     await expect.poll(() => revealState(title)).toEqual(VISIBLE);
   });
 });
