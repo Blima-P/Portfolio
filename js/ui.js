@@ -94,13 +94,19 @@ function initReveal() {
   });
   revealOnScroll(document.querySelectorAll('.animate'), 'animate--visible', 0.15);
 
-  const titles = document.querySelectorAll('.section__title');
-  titles.forEach((el) => el.classList.add('text-reveal'));
-  revealOnScroll(titles, 'text-reveal--visible', 0.3);
-
-  const subtitles = document.querySelectorAll('.section__subtitle');
-  subtitles.forEach((el) => el.classList.add('subtitle-reveal'));
-  revealOnScroll(subtitles, 'subtitle-reveal--visible', 0.3);
+  // Observa a seção, não o título: o clip-path inicial zera a área visível do título e o
+  // IntersectionObserver nunca o veria entrar na tela.
+  const sections = new Set();
+  document.querySelectorAll('.section__title').forEach((el) => {
+    el.classList.add('text-reveal');
+    sections.add(el.closest('section'));
+  });
+  document.querySelectorAll('.section__subtitle').forEach((el) => {
+    el.classList.add('subtitle-reveal');
+    sections.add(el.closest('section'));
+  });
+  sections.delete(null);
+  revealOnScroll(sections, 'section--revealed', 0);
 }
 
 function initCounters() {
