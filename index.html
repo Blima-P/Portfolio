@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d12" />
   <meta name="description"
     content="Pedro Braga — Desenvolvedor backend Java, Spring e PostgreSQL. Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB." />
   <meta property="og:type" content="website" />
@@ -28,15 +29,19 @@
       if (savedTheme === 'light' || savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
+      // Cor da barra do navegador já no tema certo; o theme.js a mantém em dia nas trocas.
+      if (savedTheme === 'light') {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafaf7');
+      }
     } catch {
       // Armazenamento indisponível: fica o tema padrão.
     }
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=a4fb7139" />
+  <link rel="stylesheet" href="css/styles.css?v=cc612e35" />
   <link rel="stylesheet" href="css/animations.css?v=6dab39b8" />
-  <script type="module" src="js/main.js?v=58b3eeee"></script>
+  <script type="module" src="js/main.js?v=a10b44f9"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,38 +67,40 @@
 
   <header class="header" id="header">
     <nav class="nav container">
-      <a href="#home" class="nav__logo">PBL</a>
+      <a href="#home" class="nav__logo">pedro<span class="nav__logo-dot">.</span>braga</a>
 
       <ul class="nav__list" id="nav-list">
         <li class="nav__item"><a href="#about" class="nav__link" data-i18n="nav.about">Sobre</a></li>
         <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experiência</a></li>
         <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projetos</a></li>
-        <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Skills</a></li>
+        <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Competências</a></li>
         <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Cursos</a></li>
         <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contato</a></li>
       </ul>
 
-      <button type="button" class="nav__lang" id="lang-toggle">EN</button>
+      <div class="nav__actions">
+        <button type="button" class="nav__lang" id="lang-toggle" aria-label="EN: ver o site em inglês" data-i18n="nav.lang.label" data-i18n-attr="aria-label">EN</button>
 
-      <button type="button" class="nav__theme" id="theme-toggle" aria-label="Alternar tema" data-i18n="nav.theme.label" data-i18n-attr="aria-label">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-      </button>
+        <button type="button" class="nav__theme" id="theme-toggle" aria-label="Ativar o tema claro" data-i18n="nav.theme.toLight" data-i18n-attr="aria-label">
+          <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
 
-      <!-- Botão hambúrguer — visível apenas no mobile -->
-      <button type="button" class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" data-i18n="nav.menu.label" data-i18n-attr="aria-label">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <!-- Botão hambúrguer — visível apenas no mobile -->
+        <button type="button" class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" data-i18n="nav.menu.label" data-i18n-attr="aria-label">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </nav>
   </header>
 
@@ -358,7 +365,7 @@
     <!-- Skills -->
     <section class="skills" id="skills">
       <div class="container">
-        <h2 class="section__title" data-i18n="skills.title">Minhas <span>Skills</span></h2>
+        <h2 class="section__title" data-i18n="skills.title">Minhas <span>Competências</span></h2>
         <p class="section__subtitle" data-i18n="skills.subtitle">Exemplos práticos dos meus projetos</p>
 
         <div class="skills__grid">

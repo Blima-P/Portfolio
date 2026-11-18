@@ -16,7 +16,9 @@ export const translations = {
     'nav.skills': 'Skills',
     'nav.certifications': 'Courses',
     'nav.contact': 'Contact',
-    'nav.theme.label': 'Toggle theme',
+    'nav.theme.toLight': 'Switch to light theme',
+    'nav.theme.toDark': 'Switch to dark theme',
+    'nav.lang.label': 'PT-BR: view the site in Portuguese',
     'nav.menu.label': 'Open menu',
 
     // Hero
@@ -138,10 +140,12 @@ export const translations = {
     'nav.about': 'Sobre',
     'nav.experience': 'Experiência',
     'nav.projects': 'Projetos',
-    'nav.skills': 'Skills',
+    'nav.skills': 'Competências',
     'nav.certifications': 'Cursos',
     'nav.contact': 'Contato',
-    'nav.theme.label': 'Alternar tema',
+    'nav.theme.toLight': 'Ativar o tema claro',
+    'nav.theme.toDark': 'Ativar o tema escuro',
+    'nav.lang.label': 'EN: ver o site em inglês',
     'nav.menu.label': 'Abrir menu',
 
     // Hero
@@ -217,7 +221,7 @@ export const translations = {
     'filter.systems': 'Sistemas',
 
     // Habilidades
-    'skills.title': 'Minhas <span>Skills</span>',
+    'skills.title': 'Minhas <span>Competências</span>',
     'skills.subtitle': 'Exemplos práticos dos meus projetos',
     'skill1.evidence': 'API REST com autenticação JWT, depósitos e transferências atômicas.',
     'skill2.evidence': 'Migrations versionadas, constraints financeiras e bloqueio pessimista.',
