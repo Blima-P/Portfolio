@@ -26,7 +26,7 @@
 
 | Métrica | Baseline | Meta v3 |
 |---|:---:|:---:|
-| Títulos de seção visíveis | **0 de 7** (R01) | 7 de 7, com teste automatizado |
+| Títulos de seção visíveis | **0 de 7** (R01) | 7 de 7, com teste automatizado — ✅ atingido no M3 |
 | Lighthouse mobile — Performance | 74 | **≥ 95** |
 | Lighthouse mobile — Acessibilidade / Boas práticas / SEO | 95 / 100 / 100 | **100 / 100 / 100** |
 | LCP mobile (4G simulado) | 8,1 s | **< 2,0 s** |
@@ -105,7 +105,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 | # | Milestone | PRs | Status | Depende de | Data |
 |---|---|:---:|---|---|---|
 | M0–M2 | Fundação, integridade e refatoração (plano v2) | 6 | ✅ Concluído (#5–#10) | — | 10/11/2026 |
-| M3 | Plano v3 + hotfix dos títulos invisíveis | 3 | 🟨 Em andamento (PR do plano) | — | |
+| M3 | Plano v3 + hotfix dos títulos invisíveis | 3 | ✅ Concluído (#12, #15, #16) | — | 18/11/2026 |
 | M4 | Governança do repositório e portão de deploy | 6 | ⬜ Pendente | M3 | |
 | M5 | Identidade visual "Metrô Noturno" | 6 | ⬜ Pendente | M4 | |
 | M6 | Conteúdo orientado a recrutador | 9 | ⛔ Bloqueado (análise §7) | M5 | |
@@ -150,9 +150,9 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
 | PR | Branch | Título (vira o commit do squash) | Status |
 |---|---|---|---|
-| 3.1 | `docs/m3-plano-v3` | `docs: M3 — plano de implementação v3` | 🟨 |
-| 3.2 | `fix/m3-titulos-invisiveis` | `fix(reveal): títulos e subtítulos de seção voltam a aparecer` | ⬜ |
-| 3.3 | `test/m3-visibilidade` | `test(smoke): falha se conteúdo de seção ficar invisível` | ⬜ |
+| 3.1 | `docs/m3-plano-v3` | `docs: M3 — plano de implementação v3` | ✅ #12 |
+| 3.2 | `fix/m3-titulos-invisiveis` | `fix(reveal): títulos e subtítulos de seção voltam a aparecer` | ✅ #15 |
+| 3.3 | `test/m3-visibilidade` | `test(smoke): falha se conteúdo de seção ficar invisível` | ✅ #16 |
 
 **Tarefas**
 1. (3.1) Arquivar o plano v2 em `docs/historico/`, publicar este plano; análise crítica fora do Git.
@@ -174,11 +174,11 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
    a navegação por âncora (clicar no menu e conferir o título da seção de destino).
 
 **DOD**
-- [ ] Plano v3 publicado; `git status` não lista `docs/analise-critica.md`.
-- [ ] Os 7 títulos e 7 subtítulos visíveis em 390/820/1440 px, nos 2 temas e idiomas, inclusive ao navegar pelo menu (âncora).
-- [ ] Teste de visibilidade comprovadamente vermelho contra `cc6002f` e verde depois do 3.2 (evidência no PR 3.3).
-- [ ] Milestones M3–M15 existem no GitHub; issues do M3 vinculadas a `M3`.
-- [ ] DOD comum atendido, incluindo rubber-duck.
+- [x] Plano v3 publicado; `git status` não lista `docs/analise-critica.md`.
+- [x] Os 7 títulos e 7 subtítulos visíveis em 390/820/1440 px, nos 2 temas e idiomas, inclusive ao navegar pelo menu (âncora).
+- [x] Teste de visibilidade comprovadamente vermelho contra `cc6002f` e verde depois do 3.2 (evidência no PR 3.3).
+- [x] Milestones M3–M15 existem no GitHub; issues do M3 vinculadas a `M3`.
+- [x] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
@@ -929,7 +929,7 @@ rubber-duck com OUTRA IA sobre o conjunto da entrega e registre na seção 11.
 | Data | Marco | PRs mergeados (total) | PRs com coautoria elegível | Pair Extraordinaire | Pull Shark |
 |---|---|:---:|:---:|---|---|
 | 17/11/2026 | Baseline | 171 | 32 candidatos | Base exibido | Prata |
-| | Após M3 | | | | |
+| | Após M3 (18/11/2026) | 174 | 35 candidatos | Base exibido | Prata |
 | | Após M4 | | | | |
 | | Após M5 | | | | |
 | | Após M6 | | | Ouro possível (se os candidatos contarem) | |
@@ -951,3 +951,7 @@ gh api "search/issues?q=author:Blima-P+type:pr+is:merged&per_page=1" -q .total_c
 | 17/11/2026 | M3 | Conquistas medidas via API: 171 PRs mergeados; 39 com mais de um autor no commit final, dos quais **32 com coautor diferente** (Copilot e colegas) — **candidatos** ao Pair Extraordinaire (o GitHub não expõe a contagem oficial). |
 | 17/11/2026 | M3 | Plano v2 arquivado em `docs/historico/plano-v2.md`; M3–M7 do v2 absorvidos por M5, M6, M9–M11, M13 e M15 deste plano. Identidade git do repositório fixada em Blima-P (`pbl0812@gmail.com`). |
 | 17/11/2026 | M3 | **Rubber-duck do plano (outra IA)** — 3 bloqueantes e 9 ajustes, todos incorporados: (1) teste do R01 não pode ser mergeado vermelho → evidência contra `cc6002f`, merge do 3.2 antes do 3.3; (2) deploy só depois do `quality` completo (lychee + LHCI), no mesmo workflow; (3) `Profile.jpg.png` só sai no 11.1, depois do novo `og:image`; (4) milestones criados no bootstrap do 3.1 e proteção com `enforce_admins`; (5) multipágina com metadados por página, caminhos relativos e teste sob `/Portfolio/`; (6) 14.2/14.3 dependem de 7.4/7.5; (7) regressão visual só em Linux fixado no CI; (8) trailers no mesmo parágrafo e conferência com `%(trailers)`; (9) 32 PRs são **candidatos**, não progresso confirmado; Dependabot não conta; (10) prova com link já no hero e teste dos 6 s com altura; (11) Firefox/WebKit, *feature detection*, axe com menu/terminal abertos e *reflow* 320 px; (12) `robots.txt` de site de projeto é ignorado → só sitemap + Search Console. Também: Ctrl+K secundário ao botão, Tab só autocompleta com prefixo, Schema Markup Validator no lugar do Rich Results, "atualizado em" no rodapé (R25) e fim da animação *inline* dos filtros (R35). Mapa R01–R44 → milestones conferido: nenhum achado descoberto; contagem de 66 PRs confirmada. |
+| 18/11/2026 | M3 | **3.2 (#15):** a seção passa a ser observada (`threshold: 0`) e recebe `.section--revealed`; o CSS declara o estado final (`opacity: 1`, `clip-path: inset(0)`) e a animação vira só enfeite (`fill-mode: both`). Rubber-duck: nenhum bloqueante. |
+| 18/11/2026 | M3 | **3.3 (#16):** teste vermelho **4/4** (desktop e mobile) sem a correção e suíte verde (25) com ela. Rubber-duck sugeriu alinhar a seção ao topo + `toBeInViewport` (em seções altas o título ficava fora da tela) — aplicado. Ordem de merge seguida: 3.2 antes do 3.3. |
+| 18/11/2026 | M3 | **Produção conferida** após o deploy de `3ab7352`: 7 títulos e 7 subtítulos com `opacity: 1` em 390/820/1440 × 2 temas × 2 idiomas (12 combinações). Observação: o passo Lighthouse CI levou ~10 min no PR #15 (vs. ~1 min antes) — acompanhar no M10. |
+| 18/11/2026 | M3 | Placar: 174 PRs mergeados (com o #16); Pair Extraordinaire ainda exibido no nível base — os candidatos ainda não refletiram no selo. |

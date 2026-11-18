@@ -93,6 +93,49 @@ test.describe('navegador em inglês', () => {
   });
 });
 
+// Estado visual final de um elemento: opaco e sem recorte (clip-path ausente ou inset todo zerado).
+function revealState(locator) {
+  return locator.evaluate((el) => {
+    const style = getComputedStyle(el);
+    const clip = style.clipPath;
+    const insetZero = /^inset\(/.test(clip) && (clip.match(/-?[\d.]+/g) ?? []).every((n) => Number(n) === 0);
+    return { opacity: style.opacity, clipped: clip !== 'none' && !insetZero };
+  });
+}
+
+const VISIBLE = { opacity: '1', clipped: false };
+
+test.describe('visibilidade das seções', () => {
+  test('título e subtítulo de cada seção aparecem ao rolar', async ({ page }) => {
+    await page.goto('/');
+    const ids = await page
+      .locator('main section[id]:has(.section__title)')
+      .evaluateAll((sections) => sections.map((s) => s.id));
+    expect(ids.length).toBeGreaterThan(0);
+
+    for (const id of ids) {
+      const section = page.locator(`section#${id}`);
+      // Alinha o início da seção ao topo: em seções altas, centralizar deixaria o título fora da tela.
+      await section.evaluate((s) => s.scrollIntoView({ block: 'start' }));
+      for (const selector of ['.section__title', '.section__subtitle']) {
+        const el = section.locator(selector).first();
+        if ((await el.count()) === 0) continue;
+        await expect(el, `${id} ${selector}`).toBeInViewport();
+        await expect.poll(() => revealState(el), { message: `${id} ${selector}` }).toEqual(VISIBLE);
+      }
+    }
+  });
+
+  test('título da seção aparece ao navegar pelo menu', async ({ page, isMobile }) => {
+    await page.goto('/');
+    if (isMobile) await page.locator('#nav-toggle').click();
+    await page.locator('.nav__link[href="#projects"]').click();
+    const title = page.locator('#projects .section__title');
+    await expect(title).toBeInViewport();
+    await expect.poll(() => revealState(title)).toEqual(VISIBLE);
+  });
+});
+
 test('animação de digitação escreve e muda o texto', async ({ page }) => {
   await page.goto('/');
   const typing = page.locator('#typing-text');
