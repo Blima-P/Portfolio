@@ -81,6 +81,29 @@ test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-col
   await expect(button).toHaveAttribute('aria-label', 'Switch to dark theme');
 });
 
+test('tema claro salvo já pinta o theme-color certo antes dos módulos carregarem', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+  await page.route('**/js/**', (route) => route.abort());
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#fafaf7');
+});
+
+test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tela', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('/');
+  for (const lang of ['pt-br', 'en']) {
+    if (lang === 'en') await page.locator('#lang-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('lang', lang === 'en' ? 'en' : 'pt-BR');
+    for (const selector of ['.nav__logo', '#lang-toggle', '#theme-toggle', '#nav-toggle']) {
+      const box = await page.locator(selector).boundingBox();
+      expect(box.x, `${lang} ${selector}`).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width, `${lang} ${selector}`).toBeLessThanOrEqual(320);
+      expect(box.height, `${lang} ${selector}`).toBeGreaterThanOrEqual(44);
+    }
+  }
+});
+
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');

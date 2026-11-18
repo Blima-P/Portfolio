@@ -1372,3 +1372,15 @@ body {
     text-align: center;
   }
 }
+
+/* Telas muito estreitas (320 px): menos respiro lateral para caber logo e as três ações de 44 px. */
+@media (max-width: 360px) {
+  .header .container {
+    padding: 0 0.75rem;
+  }
+
+  .nav,
+  .nav__actions {
+    gap: 0.25rem;
+  }
+}

@@ -29,13 +29,17 @@
       if (savedTheme === 'light' || savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
+      // Cor da barra do navegador já no tema certo; o theme.js a mantém em dia nas trocas.
+      if (savedTheme === 'light') {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafaf7');
+      }
     } catch {
       // Armazenamento indisponível: fica o tema padrão.
     }
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=c94a55c2" />
+  <link rel="stylesheet" href="css/styles.css?v=cc612e35" />
   <link rel="stylesheet" href="css/animations.css?v=6dab39b8" />
   <script type="module" src="js/main.js?v=a10b44f9"></script>
   <script type="application/ld+json">
