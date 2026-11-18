@@ -260,23 +260,36 @@ body {
 .nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 2rem;
 }
 
+/* Alvos de toque do header: no mínimo 44 × 44 px (WCAG 2.5.5). */
 .nav__logo {
-  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-right: auto;
+  font-size: 1.1rem;
   font-family: var(--font-mono);
   font-weight: 600;
+  color: var(--color-text);
+}
+
+.nav__logo-dot {
   color: var(--color-accent);
-  letter-spacing: 0.1em;
 }
 
 .nav__list {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
 .nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   color: var(--color-text-muted);
   font-size: 0.9rem;
   font-weight: 400;
@@ -288,7 +301,7 @@ body {
 .nav__link::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: 8px;
   left: 0;
   width: 0;
   height: 2px;
@@ -306,15 +319,30 @@ body {
   width: 100%;
 }
 
+/* Idioma, tema e menu ficam juntos, à direita — e acima do painel do menu mobile, para que o
+   botão de fechar continue visível com o menu aberto. */
+.nav__actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .nav__toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 4px;
+  width: 44px;
+  height: 44px;
 }
 
 /* Alternador de idioma */
 .nav__lang {
+  min-width: 44px;
+  min-height: 44px;
   font-size: 0.75rem;
   font-family: var(--font-mono);
   font-weight: 600;
@@ -322,7 +350,7 @@ body {
   color: var(--color-accent);
   border: 1px solid var(--color-accent);
   border-radius: 50px;
-  padding: 0.3rem 0.75rem;
+  padding: 0 0.9rem;
   background: transparent;
   cursor: pointer;
   transition: all var(--transition);
@@ -339,8 +367,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
@@ -359,20 +387,17 @@ body {
   height: 18px;
 }
 
-.nav__theme .icon-sun {
-  display: none;
-}
-
+/* O ícone mostra a ação: no tema escuro, o sol (ativar o claro); no claro, a lua. */
 .nav__theme .icon-moon {
-  display: block;
+  display: none;
 }
 
 [data-theme='light'] .nav__theme .icon-sun {
-  display: block;
+  display: none;
 }
 
 [data-theme='light'] .nav__theme .icon-moon {
-  display: none;
+  display: block;
 }
 
 .nav__toggle span {
@@ -381,6 +406,19 @@ body {
   height: 2px;
   background: var(--color-text);
   transition: all var(--transition);
+}
+
+/* Menu aberto: as três barras viram um "X" (deslocamento = altura 2px + gap 5px). */
+.nav__toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav__toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ---- Hero ---- */
@@ -1276,7 +1314,8 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+/* Menu vira hambúrguer abaixo de 960 px: os 6 links + ações não cabem numa linha antes disso (PT). */
+@media (max-width: 960px) {
   .nav__toggle {
     display: flex;
   }
@@ -1285,13 +1324,13 @@ body {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
+    width: min(70%, 360px);
     height: 100vh;
     background: var(--color-bg-2);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
     transition: right var(--transition);
     border-left: 1px solid var(--color-border);
   }
@@ -1303,7 +1342,9 @@ body {
   .nav__link {
     font-size: 1.2rem;
   }
+}
 
+@media (max-width: 640px) {
   .hero__name {
     font-size: 2.2rem;
   }

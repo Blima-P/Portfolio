@@ -65,6 +65,22 @@ test('tema alterna e persiste após recarregar', async ({ page }) => {
   await expect(html).toHaveAttribute('data-theme', 'light');
 });
 
+test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-color', async ({ page }) => {
+  await page.goto('/');
+  const button = page.locator('#theme-toggle');
+  const themeColor = page.locator('meta[name="theme-color"]');
+  await expect(button).toHaveAttribute('aria-label', 'Ativar o tema claro');
+  await expect(themeColor).toHaveAttribute('content', '#0b0d12');
+
+  await button.click();
+  await expect(button).toHaveAttribute('aria-label', 'Ativar o tema escuro');
+  await expect(themeColor).toHaveAttribute('content', '#fafaf7');
+
+  // Trocar o idioma traduz o rótulo da ação atual, não o da ação inicial.
+  await page.locator('#lang-toggle').click();
+  await expect(button).toHaveAttribute('aria-label', 'Switch to dark theme');
+});
+
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
