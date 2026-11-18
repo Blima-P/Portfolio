@@ -58,7 +58,7 @@ jobs:
             --exclude 'lattes\.cnpq\.br'
             --exclude-path node_modules
             --root-dir ${{ github.workspace }}
-            index.html README.md docs/plano-implementacao.md
+            index.html README.md CONTRIBUTING.md SECURITY.md docs/plano-implementacao.md
 
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
