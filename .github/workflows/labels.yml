@@ -27,10 +27,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # Em PRs só simula (dry-run): as labels mudam de verdade apenas depois do merge na main.
+      # Fora da main (PR ou execução manual em outra branch) só simula: as labels mudam de verdade
+      # apenas com o arquivo já mergeado.
       - name: Sincronizar labels com .github/labels.yml
         uses: crazy-max/ghaction-github-labeler@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
-          dry-run: ${{ github.event_name == 'pull_request' }}
+          dry-run: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
