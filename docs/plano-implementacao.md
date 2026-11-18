@@ -106,7 +106,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 |---|---|:---:|---|---|---|
 | M0–M2 | Fundação, integridade e refatoração (plano v2) | 6 | ✅ Concluído (#5–#10) | — | 10/11/2026 |
 | M3 | Plano v3 + hotfix dos títulos invisíveis | 3 | ✅ Concluído (#12, #15, #16) | — | 18/11/2026 |
-| M4 | Governança do repositório e portão de deploy | 6 | ⬜ Pendente | M3 | |
+| M4 | Governança do repositório e portão de deploy | 6 (+1 ajuste) | ✅ Concluído (#18–#31) | M3 | 18/11/2026 |
 | M5 | Identidade visual "Metrô Noturno" | 6 | ⬜ Pendente | M4 | |
 | M6 | Conteúdo orientado a recrutador | 9 | ⛔ Bloqueado (análise §7) | M5 | |
 | M7 | Projetos como estudos de caso | 5 | ⬜ Pendente | M6 | |
@@ -189,12 +189,16 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
 | PR | Branch | Título | Status |
 |---|---|---|---|
-| 4.1 | `chore/m4-templates-de-issue` | `chore(github): templates de issue e formulários` | ⬜ |
-| 4.2 | `chore/m4-labels-como-codigo` | `chore(github): labels versionadas e sincronizadas por Action` | ⬜ |
-| 4.3 | `ci/m4-titulo-do-pr` | `ci: valida título do PR em Conventional Commits` | ⬜ |
-| 4.4 | `chore/m4-dependabot` | `chore(deps): Dependabot para npm e GitHub Actions` | ⬜ |
-| 4.5 | `docs/m4-contribuicao-e-seguranca` | `docs: CONTRIBUTING, SECURITY e CODEOWNERS` | ⬜ |
-| 4.6 | `ci/m4-deploy-pelo-actions` | `ci(pages): publica pelo GitHub Actions somente com CI verde` | ⬜ |
+| 4.2 | `chore/m4-labels-como-codigo` | `chore(github): labels versionadas e sincronizadas por Action` | ✅ #18 |
+| 4.1 | `chore/m4-templates-de-issue` | `chore(github): formulários de issue e template de PR` | ✅ #20 |
+| 4.3 | `ci/m4-titulo-do-pr` | `ci: valida o título do PR em Conventional Commits` | ✅ #22 |
+| 4.4 | `chore/m4-dependabot` | `chore(deps): atualização semanal do Dependabot para npm e Actions` | ✅ #24 |
+| 4.5 | `docs/m4-contribuicao-e-seguranca` | `docs: guia de contribuição, política de segurança e CODEOWNERS` | ✅ #26 |
+| 4.2b | `chore/m4-labels-sem-from-name` | `chore(github): remove from_name após a migração das labels` | ✅ #29 |
+| 4.6 | `ci/m4-deploy-pelo-ci` | `ci(pages): publica pelo GitHub Actions somente com CI verde` | ✅ #31 |
+
+> Ordem real de merge: 4.2 antes do 4.1 (os formulários referenciam labels que só existem depois da
+> sincronização). O 4.2b nasceu do rubber-duck (seção 11).
 
 **Tarefas**
 1. (4.1) `.github/ISSUE_TEMPLATE/` em formulários YAML: `bug.yml`, `melhoria.yml`, `conteudo.yml`
@@ -218,13 +222,13 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
    `delete_branch_on_merge=true`; só *squash* habilitado; *auto-merge* habilitado; **Discussions** habilitado (seção 10.2).
 
 **DOD**
-- [ ] "New issue" mostra só os formulários; labels idênticas ao `labels.yml`.
-- [ ] PR com título fora do padrão é bloqueado (testar com um título errado e corrigir).
-- [ ] Primeiro PR do Dependabot aberto e agrupado.
-- [ ] `gh api repos/Blima-P/Portfolio/pages -q .build_type` = `workflow`; um *push* com CI vermelho **não** publica (simulado em branch de teste ou documentado com o grafo de `needs`).
-- [ ] `gh api repos/Blima-P/Portfolio/branches/main/protection` lista os checks exigidos e `enforce_admins.enabled = true`; um `git push` direto na `main` é recusado.
-- [ ] PRs do Dependabot passam no `pr-title` (prefixo `chore(deps)`).
-- [ ] DOD comum atendido, incluindo rubber-duck.
+- [x] "New issue" mostra só os formulários; labels idênticas ao `labels.yml`.
+- [x] PR com título fora do padrão é bloqueado (testar com um título errado e corrigir).
+- [x] Primeiro PR do Dependabot aberto e agrupado.
+- [x] `gh api repos/Blima-P/Portfolio/pages -q .build_type` = `workflow`; um *push* com CI vermelho **não** publica (simulado em branch de teste ou documentado com o grafo de `needs`).
+- [x] `gh api repos/Blima-P/Portfolio/branches/main/protection` lista os checks exigidos e `enforce_admins.enabled = true`; um `git push` direto na `main` é recusado.
+- [x] PRs do Dependabot passam no `pr-title` (prefixo `chore(deps)`).
+- [x] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
@@ -689,7 +693,8 @@ gh auth status                                 # deve mostrar: Logged in to gith
 
 ```powershell
 # 1. Issue da fatia (formulários e labels próprias a partir do M4; antes, labels padrão)
-gh issue create --title "<título da fatia>" --label "<bug|enhancement|documentation>" --milestone "M<N>" --body "<contexto e critério de aceite>"
+#    (labels em .github/labels.yml; o título do PR também passa no check pr-title: assunto em minúscula)
+gh issue create --title "<título da fatia>" --label "<bug|feat|docs|ci|…>" --milestone "M<N>" --body "<contexto e critério de aceite>"
 
 # 2. Branch a partir de main atualizada
 git switch main; git pull --ff-only
@@ -930,7 +935,7 @@ rubber-duck com OUTRA IA sobre o conjunto da entrega e registre na seção 11.
 |---|---|:---:|:---:|---|---|
 | 17/11/2026 | Baseline | 171 | 32 candidatos | Base exibido | Prata |
 | | Após M3 (18/11/2026) | 174 | 35 candidatos | Base exibido | Prata |
-| | Após M4 | | | | |
+| | Após M4 (18/11/2026) | 181 | 42 candidatos | Base exibido | Prata |
 | | Após M5 | | | | |
 | | Após M6 | | | Ouro possível (se os candidatos contarem) | |
 
@@ -955,3 +960,9 @@ gh api "search/issues?q=author:Blima-P+type:pr+is:merged&per_page=1" -q .total_c
 | 18/11/2026 | M3 | **3.3 (#16):** teste vermelho **4/4** (desktop e mobile) sem a correção e suíte verde (25) com ela. Rubber-duck sugeriu alinhar a seção ao topo + `toBeInViewport` (em seções altas o título ficava fora da tela) — aplicado. Ordem de merge seguida: 3.2 antes do 3.3. |
 | 18/11/2026 | M3 | **Produção conferida** após o deploy de `3ab7352`: 7 títulos e 7 subtítulos com `opacity: 1` em 390/820/1440 × 2 temas × 2 idiomas (12 combinações). Observação: o passo Lighthouse CI levou ~10 min no PR #15 (vs. ~1 min antes) — acompanhar no M10. |
 | 18/11/2026 | M3 | Placar: 174 PRs mergeados (com o #16); Pair Extraordinaire ainda exibido no nível base — os candidatos ainda não refletiram no selo. |
+| 18/11/2026 | M4 | **Ordem de merge:** 4.2 (#18) antes do 4.1 (#20), porque os formulários referenciam `feat` e `conteúdo`. Dry-run do #18 conferido antes do merge; depois, `gh label list` idêntico ao arquivo e a issue #17 manteve a label na renomeação `enhancement → feat`. |
+| 18/11/2026 | M4 | **Rubber-duck dos 6 diffs (outra IA)** — 1 bloqueante e 4 ajustes, todos tratados: (1) o link de Discussions do `CONTRIBUTING.md` dava 404 e o lychee reprovaria → Discussions e reporte privado habilitados **antes** do 4.5; (2) com `squash_merge_commit_title=COMMIT_OR_PR_TITLE`, PR de um commit usaria o assunto do commit, não o título validado → `PR_TITLE`; (3) `pack-site` aceitava `../README.md` (existe no checkout, 404 no ar) e recusava import com `#fragmento` → contenção no `_site` + testes `node --test` (vermelho comprovado sem a checagem); (4) `from_name` permanente faz o labeler pular a entrada → removido no 4.2b (#29); (5) `workflow_dispatch` em branch de feature aplicaria labels não revisadas → dry-run fora da `main`. Verificado sem achado: inputs das Actions, schemas dos formulários e do Dependabot, nomes dos checks exigidos (`labels` tem filtro de caminho e **não** é exigido). |
+| 18/11/2026 | M4 | **Configurações (sem PR):** só *squash* (merge commit e rebase desligados), título do squash = título do PR, mensagem = commits (mantém trailers), *auto-merge*, apagar branch no merge, Discussions e reporte privado de vulnerabilidade. Proteção da `main`: `quality` + `pr-title`, `strict`, `enforce_admins`, 0 aprovações; `git push` direto recusado (`GH006`). Branches atrás da `main` são rebaseadas (não *merge*), para não levar commits sem trailer ao squash. |
+| 18/11/2026 | M4 | **4.3 (#22):** check visto vermelho com título sem tipo e com assunto em maiúscula, verde após corrigir (runs no comentário do PR). O próprio #24 foi aberto com assunto em maiúscula e corrigido. **4.4:** o Dependabot abriu o #27 (5 pacotes npm agrupados, `chore(deps-dev)`) e passou no `pr-title`; nenhum PR de Actions (todas já na versão mais nova). |
+| 18/11/2026 | M4 | **4.6 (#31):** Pages trocado para `build_type=workflow` imediatamente antes do merge; deploy pelo job `deploy` (`needs: quality`). Desvio do plano: o `if` aceita também `workflow_dispatch` na `main` (republicar sem commit). |
+| 18/11/2026 | M4 | Placar: 181 PRs mergeados por Blima-P (#18–#31, sem contar o #27 do Dependabot); 42 candidatos a coautoria; Pair Extraordinaire ainda no nível base. |

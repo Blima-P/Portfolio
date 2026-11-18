@@ -24,7 +24,7 @@ ao ar. Abra sempre por HTTP — os ES Modules não carregam via `file://`.
 
 ```bash
 npm run stamp    # se mudou algum CSS ou JS (atualiza o ?v= que invalida o cache)
-npm run verify   # ESLint, Stylelint, Prettier, html-validate, i18n, stamp e testes Playwright
+npm run verify   # ESLint, Stylelint, Prettier, html-validate, i18n, stamp, testes de scripts e Playwright
 ```
 
 O CI (`quality`) roda o mesmo `verify`, checa links e mede Lighthouse; nada entra na `main` com ele
