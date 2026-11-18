@@ -3,6 +3,7 @@ package-lock.json
 .lighthouseci/
 test-results/
 playwright-report/
+_site/
 assets/
 # HTML fica fora: o Prettier quebra tags inline (</a\n>) para preservar espaços e troca o
 # DOCTYPE; o index.html já é validado pelo html-validate.

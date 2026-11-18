@@ -12,7 +12,8 @@ permissions:
 
 concurrency:
   group: quality-${{ github.ref }}
-  cancel-in-progress: true
+  # Em PR, um push novo cancela a execução antiga; na main, nenhum deploy é interrompido.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   quality:
@@ -66,3 +67,34 @@ jobs:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
+
+      # Roda também em PR: uma referência a arquivo fora da lista pública falha antes do merge.
+      - name: Montar o site publicado (_site)
+        run: npm run pack:site
+
+      # Só a main publica: o site sai do mesmo commit que passou em todas as verificações acima.
+      - name: Enviar artefato do GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site/
+
+  deploy:
+    name: deploy
+    needs: quality
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

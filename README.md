@@ -104,7 +104,9 @@ npx serve .
 python -m http.server 8000
 ```
 
-Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages.
+Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages. O deploy é feito
+pelo GitHub Actions, **somente depois** de todas as verificações passarem na `main`, com um artefato
+que contém apenas os arquivos públicos (`npm run pack:site`).
 
 ### Verificações de qualidade
 
@@ -114,7 +116,7 @@ Requer Node.js 22+.
 npm ci
 npx playwright install chromium   # uma vez, para o smoke test
 
-npm run verify    # lint, formatação, HTML, i18n, versões dos assets e smoke test
+npm run verify    # lint, formatação, HTML, i18n, versões dos assets, testes de scripts e smoke test
 npm run format    # formata com Prettier e atualiza o ?v=<hash> dos assets
 ```
 
