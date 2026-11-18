@@ -1,0 +1,60 @@
+name: 🐞 Bug
+description: Algo no site não funciona ou aparece errado.
+title: 'fix: '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar! Quanto mais exato, mais rápido a correção.
+        Problema de segurança? **Não abra issue pública** — veja o [SECURITY.md](https://github.com/Blima-P/Portfolio/blob/main/SECURITY.md).
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que aconteceu
+      description: O que você viu e o que esperava ver.
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: Como reproduzir
+      placeholder: |
+        1. Abrir https://blima-p.github.io/Portfolio/ em 390 px
+        2. Rolar até "Projetos"
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: dispositivo
+    attributes:
+      label: Dispositivo
+      multiple: true
+      options:
+        - Celular
+        - Tablet
+        - Desktop
+    validations:
+      required: true
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador e versão
+      placeholder: 'Chrome 140, Safari iOS 19, Firefox 145…'
+    validations:
+      required: true
+  - type: dropdown
+    id: contexto
+    attributes:
+      label: Tema e idioma
+      multiple: true
+      options:
+        - Tema escuro
+        - Tema claro
+        - Português
+        - Inglês
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Capturas ou erros do console
+      description: Arraste imagens aqui ou cole a saída do DevTools > Console.
