@@ -1,5 +1,7 @@
 # Labels do repositório como código. Sincronizadas por .github/workflows/labels.yml em push na main
-# (em PRs, só simula). Label que não estiver aqui é apagada; `from_name` renomeia preservando as issues.
+# (em PRs, só simula). Label que não estiver aqui é apagada. Para renomear preservando as issues, use
+# `from_name` só no PR da renomeação e remova depois: com o destino já existente, o labeler ignora a
+# entrada inteira e deixaria de sincronizar cor e descrição.
 
 # ---- Tipo (espelha os tipos do Conventional Commits) ----
 - name: 'bug'
@@ -8,11 +10,9 @@
 - name: 'feat'
   color: '#a2eeef'
   description: 'Funcionalidade nova ou melhoria visível'
-  from_name: 'enhancement'
 - name: 'docs'
   color: '#0075ca'
   description: 'Documentação: README, plano, ADRs, guias'
-  from_name: 'documentation'
 - name: 'refactor'
   color: '#c5def5'
   description: 'Mudança interna sem alterar o comportamento'
