@@ -19,6 +19,7 @@
     "check:i18n": "node scripts/check-i18n.mjs",
     "stamp": "node scripts/stamp-assets.mjs",
     "stamp:check": "node scripts/stamp-assets.mjs --check",
+    "pack:site": "node scripts/pack-site.mjs",
     "test:smoke": "playwright test",
     "verify": "npm run lint && npm run format:check && npm run validate:html && npm run check:i18n && npm run stamp:check && npm run test:smoke"
   },
