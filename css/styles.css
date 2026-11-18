@@ -34,6 +34,7 @@
   --color-terminal-border: #232936;
   --color-terminal-text: #f4f4f5;
   --color-terminal-muted: #a1a1aa;
+  --color-terminal-accent: #f5a524;
   --color-terminal-error: #f87171;
   --color-terminal-close: #ff5f57;
   --color-terminal-minimize: #febc2e;
@@ -1153,7 +1154,7 @@ body {
 }
 
 .terminal__line--command {
-  color: var(--color-accent);
+  color: var(--color-terminal-accent);
 }
 
 .terminal__line--response {
@@ -1174,7 +1175,7 @@ body {
 }
 
 .terminal__prompt {
-  color: var(--color-accent);
+  color: var(--color-terminal-accent);
   font-family: 'Courier New', monospace;
   font-weight: 700;
 }
@@ -1187,7 +1188,7 @@ body {
   color: var(--color-terminal-text);
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
-  caret-color: var(--color-accent);
+  caret-color: var(--color-terminal-accent);
 }
 
 /* ---- Otimização de Visibilidade de Conteúdo ---- */
