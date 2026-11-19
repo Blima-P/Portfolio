@@ -126,6 +126,9 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
   for (const theme of ['dark', 'light']) {
     await page.addInitScript((t) => localStorage.setItem('theme', t), theme);
     await page.goto('/');
+    // Sob carga (4 workers), a cadeia de rolagens suaves do Tab passava dos 5 s do poll. Aqui importa onde o
+    // foco para, não a animação. Quando o 9.3 (reduced-motion) entrar, trocar por reducedMotion: 'reduce'.
+    await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
     await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
     const ring = await focusColor('html');
@@ -144,7 +147,8 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
       if (!info || seen.has(info.id)) break;
       seen.add(info.id);
       expect(info.outline, `${theme}: ${info.id}`).toBe(`solid 2px ${ring}`);
-      // O scroll é suave: espera o elemento focado chegar inteiro à tela.
+      // O foco rola o elemento até a tela: espera ele chegar inteiro (1 px de folga: o Chrome rola em
+      // pixels inteiros e pode sobrar uma fração, como 720,03 numa janela de 720).
       await expect
         .poll(
           () =>
@@ -152,10 +156,10 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
               const box = document.activeElement.getBoundingClientRect();
               return (
                 box.width > 0 &&
-                box.left >= 0 &&
-                box.right <= innerWidth &&
-                box.top >= 0 &&
-                box.bottom <= innerHeight
+                box.left >= -1 &&
+                box.right <= innerWidth + 1 &&
+                box.top >= -1 &&
+                box.bottom <= innerHeight + 1
               );
             }),
           { message: `${theme}: fora da tela: ${info.id}` },
