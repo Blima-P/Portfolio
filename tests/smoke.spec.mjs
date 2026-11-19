@@ -192,6 +192,15 @@ test('filtro de projetos esconde e mostra cards', async ({ page }) => {
   expect(hidden).toBeGreaterThan(0);
   expect(hidden).toBeLessThan(total);
 
+  // Os filtros que deixam um card só não podem deixar meia grade vazia.
+  const gridWidth = (await page.locator('.projects__grid').boundingBox()).width;
+  for (const filter of ['backend', 'systems']) {
+    await page.locator(`.projects__filter[data-filter="${filter}"]`).click();
+    const visible = page.locator('.project-card:not(.hidden)');
+    await expect(visible).toHaveCount(1);
+    expect(Math.round((await visible.boundingBox()).width)).toBe(Math.round(gridWidth));
+  }
+
   await page.locator('.projects__filter[data-filter="all"]').click();
   await expect(page.locator('.project-card.hidden')).toHaveCount(0);
 });

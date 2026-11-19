@@ -871,6 +871,11 @@ body {
   .projects__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* Filtro com um único card visível: ele ocupa a linha inteira. */
+  .projects__grid:not(:has(.project-card:not(.hidden) ~ .project-card:not(.hidden))) {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Skills ---- */
