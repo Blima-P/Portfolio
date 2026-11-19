@@ -59,6 +59,9 @@
   --color-accent-ink: #0b0d12;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 30%);
   --color-secondary: #22d3ee;
+
+  /* Anel de foco em ciano: se distingue do âmbar dos botões e tem >= 3:1 sobre os fundos. */
+  --color-focus: #22d3ee;
   --particles-rgb: 245, 165, 36;
   --color-header-bg: rgb(11 13 18 / 92%);
   --gradient-name: linear-gradient(90deg, #f4f4f5 0%, #ffc24d 55%, #f5a524 100%);
@@ -76,6 +79,7 @@
   --color-terminal-text: #f4f4f5;
   --color-terminal-muted: #a1a1aa;
   --color-terminal-accent: #f5a524;
+  --color-terminal-focus: #22d3ee;
   --color-terminal-error: #f87171;
   --color-terminal-close: #ff5f57;
   --color-terminal-minimize: #febc2e;
@@ -109,6 +113,7 @@
   --color-accent-ink: #fff;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 20%);
   --color-secondary: #0e7490;
+  --color-focus: #0e7490;
   --particles-rgb: 161, 75, 10;
   --color-header-bg: rgb(250 250 247 / 92%);
   --gradient-name: linear-gradient(90deg, #16181d 0%, #7f3b0b 60%, #a14b0a 100%);
@@ -200,6 +205,22 @@ body {
   text-transform: uppercase;
 }
 
+/* ---- Foco visível (teclado) em todos os elementos interativos ---- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Ao rolar até o elemento focado, deixa espaço para o anel (2 px + 3 px de afastamento) não ser cortado. */
+a[href],
+button,
+input,
+textarea,
+select,
+[tabindex] {
+  scroll-margin-block: 6px;
+}
+
 /* ---- Botões ---- */
 .btn {
   display: inline-flex;
@@ -209,8 +230,24 @@ body {
   border-radius: var(--radius);
   font-size: 0.95rem;
   font-weight: 600;
-  transition: all var(--transition);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
   cursor: pointer;
+}
+
+/* Elevação sutil no hover; no clique o botão "assenta". */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--color-accent-glow);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .btn--primary {
@@ -222,8 +259,6 @@ body {
 .btn--primary:hover {
   background: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--color-accent-glow);
 }
 
 .btn--outline {
@@ -235,7 +270,6 @@ body {
 .btn--outline:hover {
   background: var(--color-accent);
   color: var(--color-accent-ink);
-  transform: translateY(-2px);
 }
 
 /* ---- Header ---- */
@@ -246,7 +280,13 @@ body {
   width: 100%;
   z-index: 100;
   padding: 1.2rem 0;
-  transition: all var(--transition);
+  border-bottom: 0 solid transparent;
+  transition:
+    background-color var(--transition),
+    padding var(--transition),
+    border-bottom-width var(--transition),
+    border-color var(--transition),
+    backdrop-filter var(--transition);
 }
 
 /* Classe adicionada pelo JS quando o usuário rola a página */
@@ -353,7 +393,10 @@ body {
   padding: 0 0.9rem;
   background: transparent;
   cursor: pointer;
-  transition: all var(--transition);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
   white-space: nowrap;
 }
 
@@ -374,7 +417,9 @@ body {
   color: var(--color-text-muted);
   background: transparent;
   cursor: pointer;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .nav__theme:hover {
@@ -405,7 +450,10 @@ body {
   width: 24px;
   height: 2px;
   background: var(--color-text);
-  transition: all var(--transition);
+  transition:
+    transform var(--transition),
+    opacity var(--transition),
+    background-color var(--transition);
 }
 
 /* Menu aberto: as três barras viram um "X" (deslocamento = altura 2px + gap 5px). */
@@ -524,7 +572,11 @@ body {
   border-radius: 50%;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .social__link:hover {
@@ -644,7 +696,7 @@ body {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  transition: all var(--transition);
+  transition: border-color var(--transition);
 }
 
 .counter__item:hover {
@@ -693,7 +745,10 @@ body {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all var(--transition);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .projects__filter:hover {
@@ -722,7 +777,10 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 1.75rem;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -935,7 +993,10 @@ body {
   border-radius: var(--radius);
   color: var(--color-text);
   text-decoration: none;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .contact__card:hover {
@@ -994,7 +1055,10 @@ body {
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
   font-size: 1rem;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
 }
 
 .footer__back-top:hover {
@@ -1052,7 +1116,9 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
 }
 
 .timeline__card:hover {
@@ -1100,7 +1166,10 @@ body {
   border-radius: var(--radius-lg);
   padding: 2rem 1.5rem;
   text-align: center;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .cert-card:hover {
@@ -1147,7 +1216,10 @@ body {
   padding: 1.5rem;
   text-decoration: none;
   color: inherit;
-  transition: all var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .github-card:hover {
@@ -1230,7 +1302,9 @@ body {
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition:
+    opacity var(--transition),
+    visibility var(--transition);
 }
 
 .terminal-overlay--open {
@@ -1239,6 +1313,8 @@ body {
 }
 
 .terminal {
+  --color-focus: var(--color-terminal-focus);
+
   width: 90%;
   max-width: 650px;
   max-height: 70vh;
@@ -1363,6 +1439,17 @@ body {
   caret-color: var(--color-terminal-accent);
 }
 
+/* O campo não tem borda própria: o anel de foco fica na linha inteira do prompt. */
+
+/* A saída do terminal rola e o contêiner corta o que passa da borda: anel por dentro. */
+.terminal__body:focus-visible {
+  outline-offset: -2px;
+}
+
+.terminal__input-line:focus-within {
+  box-shadow: inset 0 0 0 2px var(--color-focus);
+}
+
 /* ---- Responsividade ---- */
 @media (max-width: 900px) {
   .about__content {
@@ -1405,12 +1492,19 @@ body {
     justify-content: center;
     align-items: center;
     gap: 2rem;
-    transition: right var(--transition);
     border-left: 1px solid var(--color-border);
+
+    /* Fechado, o painel fica fora da tela: visibility o tira da ordem do Tab. Ao fechar, só some depois de deslizar. */
+    visibility: hidden;
+    transition:
+      right var(--transition),
+      visibility 0s linear 0.3s;
   }
 
   .nav__list.open {
     right: 0;
+    visibility: visible;
+    transition: right var(--transition);
   }
 
   .nav__link {
