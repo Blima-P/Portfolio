@@ -147,19 +147,22 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
       if (!info || seen.has(info.id)) break;
       seen.add(info.id);
       expect(info.outline, `${theme}: ${info.id}`).toBe(`solid 2px ${ring}`);
-      // O foco rola o elemento até a tela: espera ele chegar inteiro (1 px de folga: o Chrome rola em
-      // pixels inteiros e pode sobrar uma fração, como 720,03 numa janela de 720).
+      // O foco rola o elemento até a tela: espera ele chegar inteiro, com o anel (1 px de folga: o Chrome
+      // rola em pixels inteiros e pode sobrar uma fração, como 720,03 numa janela de 720).
       await expect
         .poll(
           () =>
             page.evaluate(() => {
-              const box = document.activeElement.getBoundingClientRect();
+              const el = document.activeElement;
+              const box = el.getBoundingClientRect();
+              const s = getComputedStyle(el);
+              const ring = Math.max(0, parseFloat(s.outlineWidth) + parseFloat(s.outlineOffset));
               return (
                 box.width > 0 &&
-                box.left >= -1 &&
-                box.right <= innerWidth + 1 &&
-                box.top >= -1 &&
-                box.bottom <= innerHeight + 1
+                box.left - ring >= -1 &&
+                box.right + ring <= innerWidth + 1 &&
+                box.top - ring >= -1 &&
+                box.bottom + ring <= innerHeight + 1
               );
             }),
           { message: `${theme}: fora da tela: ${info.id}` },

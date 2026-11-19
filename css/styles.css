@@ -211,6 +211,16 @@ body {
   outline-offset: 3px;
 }
 
+/* Ao rolar até o elemento focado, deixa espaço para o anel (2 px + 3 px de afastamento) não ser cortado. */
+a[href],
+button,
+input,
+textarea,
+select,
+[tabindex] {
+  scroll-margin-block: 6px;
+}
+
 /* ---- Botões ---- */
 .btn {
   display: inline-flex;
