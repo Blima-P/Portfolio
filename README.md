@@ -135,7 +135,7 @@ cache do navegador após um deploy.
 | **Hero** | Nome, efeito de digitação, partículas de fundo, botões de ação |
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade, contadores animados |
 | **Experiência** | Linha do tempo da jornada profissional |
-| **Projetos** | Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
+| **Projetos** | SocialTech em destaque (papel, números com link para a prova e site no ar), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
 | **Skills** | Tecnologias acompanhadas de exemplos práticos |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos quatro projetos selecionados, com dados atualizados via API do GitHub |
