@@ -92,6 +92,8 @@ test('tema claro salvo já pinta o theme-color certo antes dos módulos carregar
 test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tela', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.goto('/');
+  // Nenhuma seção pode alargar a página: no celular isso aumenta a viewport de layout e empurra o header.
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
   for (const lang of ['pt-br', 'en']) {
     if (lang === 'en') await page.locator('#lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', lang === 'en' ? 'en' : 'pt-BR');
@@ -167,11 +169,31 @@ test.describe('visibilidade das seções', () => {
 
   test('título da seção aparece ao navegar pelo menu', async ({ page, isMobile }) => {
     await page.goto('/');
-    if (isMobile) await page.locator('#nav-toggle').click();
-    await page.locator('.nav__link[href="#projects"]').click();
-    const title = page.locator('#projects .section__title');
-    await expect(title).toBeInViewport();
-    await expect.poll(() => revealState(title)).toEqual(VISIBLE);
+    const hrefs = await page
+      .locator('.nav__link')
+      .evaluateAll((links) => links.map((a) => a.getAttribute('href')));
+    expect(hrefs.length).toBeGreaterThan(4);
+    // Página nova a cada link: o salto parte do topo, com nenhuma seção ainda renderizada — o caso em que
+    // uma altura estimada errada faz o scroll suave parar no lugar errado.
+    for (const href of hrefs) {
+      await page.goto('/');
+      if (isMobile) await page.locator('#nav-toggle').click();
+      await page.locator(`.nav__link[href="${href}"]`).click();
+      const title = page.locator(`${href} .section__title`);
+      // Inteiro na tela e abaixo do header fixo (toBeInViewport não enxerga o header cobrindo o título).
+      await expect
+        .poll(
+          () =>
+            title.evaluate((el) => {
+              const t = el.getBoundingClientRect();
+              const header = document.querySelector('.header').getBoundingClientRect();
+              return t.top >= header.bottom && t.bottom <= window.innerHeight;
+            }),
+          { message: href },
+        )
+        .toBe(true);
+      await expect.poll(() => revealState(title)).toEqual(VISIBLE);
+    }
   });
 });
 

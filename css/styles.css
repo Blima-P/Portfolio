@@ -713,7 +713,7 @@ body {
 
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 1.5rem;
 }
 
@@ -886,7 +886,7 @@ body {
 
 .skills__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 1.5rem;
 }
 
@@ -1090,7 +1090,7 @@ body {
 
 .certs__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 1.5rem;
 }
 
@@ -1133,7 +1133,7 @@ body {
 
 .github__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -1361,18 +1361,6 @@ body {
   font-family: var(--font-mono);
   font-size: 0.9rem;
   caret-color: var(--color-terminal-accent);
-}
-
-/* ---- Otimização de Visibilidade de Conteúdo ---- */
-.about,
-.timeline,
-.projects,
-.skills,
-.certifications,
-.github,
-.contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
 }
 
 /* ---- Responsividade ---- */
