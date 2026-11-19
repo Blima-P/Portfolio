@@ -270,9 +270,11 @@ body {
   width: 100%;
   z-index: 100;
   padding: 1.2rem 0;
+  border-bottom: 0 solid transparent;
   transition:
     background-color var(--transition),
     padding var(--transition),
+    border-bottom-width var(--transition),
     border-color var(--transition),
     backdrop-filter var(--transition);
 }
@@ -1428,6 +1430,12 @@ body {
 }
 
 /* O campo não tem borda própria: o anel de foco fica na linha inteira do prompt. */
+
+/* A saída do terminal rola e o contêiner corta o que passa da borda: anel por dentro. */
+.terminal__body:focus-visible {
+  outline-offset: -2px;
+}
+
 .terminal__input-line:focus-within {
   box-shadow: inset 0 0 0 2px var(--color-focus);
 }
@@ -1474,12 +1482,19 @@ body {
     justify-content: center;
     align-items: center;
     gap: 2rem;
-    transition: right var(--transition);
     border-left: 1px solid var(--color-border);
+
+    /* Fechado, o painel fica fora da tela: visibility o tira da ordem do Tab. Ao fechar, só some depois de deslizar. */
+    visibility: hidden;
+    transition:
+      right var(--transition),
+      visibility 0s linear 0.3s;
   }
 
   .nav__list.open {
     right: 0;
+    visibility: visible;
+    transition: right var(--transition);
   }
 
   .nav__link {

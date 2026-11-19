@@ -106,41 +106,95 @@ test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tel
   }
 });
 
-test('todo elemento alcançado pelo Tab mostra o anel de foco nos dois temas', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
+test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, nos dois temas', async ({
+  page,
+}) => {
+  // Cor do token resolvida pelo navegador, para comparar com a cor computada do contorno.
+  const focusColor = (scope) =>
+    page.evaluate((selector) => {
+      const probe = document.createElement('span');
+      probe.style.color = getComputedStyle(document.querySelector(selector)).getPropertyValue(
+        '--color-focus',
+      );
+      document.body.append(probe);
+      const color = getComputedStyle(probe).color;
+      probe.remove();
+      return color;
+    }, scope);
+
+  const visited = {};
   for (const theme of ['dark', 'light']) {
-    if (theme === 'light') await page.locator('#theme-toggle').click();
+    await page.addInitScript((t) => localStorage.setItem('theme', t), theme);
+    await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
-    await page.evaluate(() => document.activeElement?.blur());
+    await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
+    const ring = await focusColor('html');
     const seen = new Set();
-    for (let i = 0; i < 60; i += 1) {
+    for (let i = 0; i < 80; i += 1) {
       await page.keyboard.press('Tab');
       const info = await page.evaluate(() => {
         const el = document.activeElement;
         if (!el || el === document.body) return null;
         const style = getComputedStyle(el);
-        const probe = document.createElement('span');
-        probe.style.color = getComputedStyle(document.documentElement).getPropertyValue('--color-focus');
-        document.body.append(probe);
-        const focusColor = getComputedStyle(probe).color;
-        probe.remove();
         return {
           id: el.outerHTML.slice(0, 80),
-          ok:
-            style.outlineStyle === 'solid' &&
-            style.outlineWidth === '2px' &&
-            style.outlineColor === focusColor,
+          outline: `${style.outlineStyle} ${style.outlineWidth} ${style.outlineColor}`,
         };
       });
       if (!info || seen.has(info.id)) break;
       seen.add(info.id);
-      expect(info.ok, `${theme}: ${info.id}`).toBe(true);
+      expect(info.outline, `${theme}: ${info.id}`).toBe(`solid 2px ${ring}`);
+      // O scroll é suave: espera o elemento focado chegar inteiro à tela.
+      await expect
+        .poll(
+          () =>
+            page.evaluate(() => {
+              const box = document.activeElement.getBoundingClientRect();
+              return (
+                box.width > 0 &&
+                box.left >= 0 &&
+                box.right <= innerWidth &&
+                box.top >= 0 &&
+                box.bottom <= innerHeight
+              );
+            }),
+          { message: `${theme}: fora da tela: ${info.id}` },
+        )
+        .toBe(true);
     }
-    expect(seen.size).toBeGreaterThan(10);
+    visited[theme] = seen.size;
   }
-});
+  expect(visited.dark).toBeGreaterThan(10);
+  expect(visited.light).toBe(visited.dark);
 
+  // Terminal: sempre escuro, com o anel do próprio token na linha de comando.
+  await page.keyboard.press('Control+Backquote');
+  const input = page.locator('.terminal__input');
+  await expect(input).toBeFocused();
+  const terminalRing = await focusColor('.terminal');
+  await expect(page.locator('.terminal__input-line')).toHaveCSS(
+    'box-shadow',
+    `${terminalRing} 0px 0px 0px 2px inset`,
+  );
+
+  // Com a saída rolável, o Chrome põe o corpo do terminal no Tab. O .terminal corta o que passa da
+  // borda, então o anel precisa ficar para dentro.
+  const body = page.locator('.terminal__body');
+  for (let i = 0; i < 8; i += 1) await input.press('Enter');
+  for (let i = 0; i < 6; i += 1) {
+    await input.fill('help');
+    await input.press('Enter');
+  }
+  expect(await body.evaluate((el) => el.scrollHeight > el.clientHeight)).toBe(true);
+  await page.keyboard.press('Shift+Tab');
+  await expect(body).toBeFocused();
+  const bodyRing = await body.evaluate((el) => {
+    const s = getComputedStyle(el);
+    return { offset: parseFloat(s.outlineOffset), width: parseFloat(s.outlineWidth), style: s.outlineStyle };
+  });
+  expect(bodyRing.style).toBe('solid');
+  expect(bodyRing.offset).toBeLessThanOrEqual(-bodyRing.width);
+});
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
