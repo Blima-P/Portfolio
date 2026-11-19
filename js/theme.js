@@ -2,7 +2,7 @@
 // inline no <head>, antes da primeira pintura; aqui ficam o botão, a persistência e a cor da
 // barra do navegador (meta theme-color), lida do token --color-bg para não duplicar a paleta.
 
-import { translateElement } from './i18n.js?v=bb540b3b';
+import { translateElement } from './i18n.js?v=57492b49';
 
 const THEME_KEY = 'theme';
 

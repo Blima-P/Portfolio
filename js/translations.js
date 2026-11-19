@@ -87,6 +87,15 @@ export const translations = {
     'project4.title': 'Multiplayer Minesweeper',
     'project4.description':
       'Team Operating Systems project: a terminal game written in C. Participation in a multiplayer implementation using POSIX threads and semaphores for concurrent execution.',
+    'project5.badge': 'Live',
+    'project5.description':
+      'Mobile-first educational website, reached through a QR Code on the UCB composting bin, that explains how to dispose of organic waste correctly. University outreach project with Enactus, with content editable without coding.',
+    'project5.role': 'My role: maintainer — architecture, CI/CD, pull request reviews and accessibility.',
+    'project5.metric.prs': 'merged PRs authored by me',
+    'project5.metric.team': 'students on the team',
+    'project5.metric.qr': 'on campus, site live',
+    'project5.code.label': 'View SocialTech source code',
+    'project5.demo.label': 'View SocialTech live',
     'project.source': 'Code',
     'filter.all': 'All',
     'filter.web': 'Web',
@@ -214,6 +223,15 @@ export const translations = {
     'project4.title': 'Campo Minado Multiplayer',
     'project4.description':
       'Projeto em equipe de Sistemas Operacionais: jogo no terminal em C. Participação na implementação multiplayer com threads e semáforos POSIX para execução concorrente.',
+    'project5.badge': 'Em produção',
+    'project5.description':
+      'Site educativo mobile-first, acessado por QR Code na lixeira de compostagem da UCB, que orienta o descarte correto de resíduos orgânicos. Projeto de extensão UCB + Enactus, com conteúdo editável sem programar.',
+    'project5.role': 'Meu papel: mantenedor — arquitetura, CI/CD, revisão de PRs e acessibilidade.',
+    'project5.metric.prs': 'PRs meus mergeados',
+    'project5.metric.team': 'estudantes no time',
+    'project5.metric.qr': 'no campus, site no ar',
+    'project5.code.label': 'Ver código do SocialTech',
+    'project5.demo.label': 'Ver o SocialTech no ar',
     'project.source': 'Código',
     'filter.all': 'Todos',
     'filter.web': 'Web',

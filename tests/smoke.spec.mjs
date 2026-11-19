@@ -196,6 +196,30 @@ test('filtro de projetos esconde e mostra cards', async ({ page }) => {
   await expect(page.locator('.project-card.hidden')).toHaveCount(0);
 });
 
+test('SocialTech abre a grade em destaque, com código, site no ar e prova linkada', async ({ page }) => {
+  await page.goto('/');
+  const featured = page.locator('.project-card').first();
+  await expect(featured).toHaveClass(/project-card--featured/);
+  await expect(featured.locator('.project-card__title')).toContainText('SocialTech');
+  const hrefs = await featured.locator('a').evaluateAll((links) => links.map((a) => a.href));
+  expect(hrefs).toEqual(
+    expect.arrayContaining([
+      'https://github.com/Blima-P/SocialTech',
+      'https://blima-p.github.io/SocialTech/',
+      expect.stringContaining('/SocialTech/pulls?q=is%3Apr+is%3Amerged+author%3ABlima-P'),
+    ]),
+  );
+  // Ocupa a linha inteira da grade.
+  const [card, grid] = await Promise.all([
+    featured.boundingBox(),
+    page.locator('.projects__grid').boundingBox(),
+  ]);
+  expect(Math.round(card.width)).toBe(Math.round(grid.width));
+
+  await page.locator('#lang-toggle').click();
+  await expect(featured.locator('.project-card__badge')).toHaveText('Live');
+});
+
 test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
   const errors = trackErrors(page);
   await page.goto('/');

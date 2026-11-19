@@ -792,6 +792,87 @@ body {
   color: var(--color-accent);
 }
 
+/* Projeto em destaque: ocupa a linha inteira e traz papel e números com prova. */
+.project-card--featured {
+  grid-column: 1 / -1;
+  border-color: var(--color-tag-border);
+  background: linear-gradient(135deg, var(--color-tag-bg), transparent 55%), var(--color-bg-card);
+}
+
+.project-card--featured .project-card__title {
+  font-size: 1.5rem;
+}
+
+.project-card--featured .project-card__description {
+  max-width: 72ch;
+}
+
+.project-card__badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  vertical-align: middle;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-tag-bg);
+  border: 1px solid var(--color-tag-border);
+  border-radius: 50px;
+}
+
+.project-card__role {
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.project-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+  gap: 0.75rem;
+}
+
+.project-card__metrics li {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.project-card__metrics strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+/* O número vira link para a evidência; o link cobre o bloco inteiro. */
+.project-card__metrics a {
+  display: block;
+  margin: -0.75rem -1rem;
+  padding: 0.75rem 1rem;
+  color: inherit;
+  border-radius: inherit;
+}
+
+.project-card__metrics a span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.project-card__metrics a:hover strong {
+  color: var(--color-accent);
+}
+
+@media (min-width: 900px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ---- Skills ---- */
 .skills {
   padding: var(--section-padding);
