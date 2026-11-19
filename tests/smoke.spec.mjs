@@ -173,13 +173,25 @@ test.describe('visibilidade das seções', () => {
       .locator('.nav__link')
       .evaluateAll((links) => links.map((a) => a.getAttribute('href')));
     expect(hrefs.length).toBeGreaterThan(4);
-    // Página nova a cada link: o salto parte do topo, com nenhuma seção ainda renderizada — o caso em que\n    // uma altura estimada errada faz o scroll suave parar no lugar errado.
+    // Página nova a cada link: o salto parte do topo, com nenhuma seção ainda renderizada — o caso em que
+    // uma altura estimada errada faz o scroll suave parar no lugar errado.
     for (const href of hrefs) {
       await page.goto('/');
       if (isMobile) await page.locator('#nav-toggle').click();
       await page.locator(`.nav__link[href="${href}"]`).click();
       const title = page.locator(`${href} .section__title`);
-      await expect(title, href).toBeInViewport();
+      // Inteiro na tela e abaixo do header fixo (toBeInViewport não enxerga o header cobrindo o título).
+      await expect
+        .poll(
+          () =>
+            title.evaluate((el) => {
+              const t = el.getBoundingClientRect();
+              const header = document.querySelector('.header').getBoundingClientRect();
+              return t.top >= header.bottom && t.bottom <= window.innerHeight;
+            }),
+          { message: href },
+        )
+        .toBe(true);
       await expect.poll(() => revealState(title)).toEqual(VISIBLE);
     }
   });
