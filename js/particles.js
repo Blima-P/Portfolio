@@ -8,7 +8,7 @@ const RADIUS = 1.5;
 const AREA_PER_PARTICLE = 30000;
 const MIN_PARTICLES = 15;
 const MAX_PARTICLES = 35;
-const FALLBACK_RGB = '245, 165, 36';
+const FALLBACK_RGB = '233, 185, 73';
 // Área livre de partículas em volta do texto e dos botões: um miolo sólido com folga e, depois
 // dele, uma borda esmaecida.
 const MASK_CORE_PADDING = 16;
