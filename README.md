@@ -39,7 +39,7 @@
 | 📅 | **Linha do Tempo** | Timeline visual da jornada profissional |
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
 | 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
-| ✉️ | **Links de Contato** | Cards diretos para Email, GitHub, LinkedIn, Lattes |
+| ✉️ | **Contato** | E-mail visível com botão "Copiar" (Clipboard API com fallback e anúncio para leitor de tela) e cards para GitHub, LinkedIn, currículo e Lattes |
 | 💻 | **Terminal (Easter Egg)** | Terminal oculto (Ctrl + \`), carregado só quando aberto |
 | 📱 | **Totalmente Responsivo** | Menu hambúrguer para mobile + layouts adaptativos |
 
@@ -75,6 +75,7 @@ Portfolio/
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
 │   ├── particles.js            # Sistema de partículas em Canvas
 │   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, filtros
+│   ├── contact.js              # Copiar e-mail (Clipboard API + fallback, aria-live)
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
 │   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
 ├── scripts/
@@ -141,7 +142,7 @@ cache do navegador após um deploy.
 | **Competências** | Agrupadas por área (Backend, Front-end, Dados, DevOps), com nível honesto ("no ar", "em projeto", "estudando") e link para a evidência |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |
-| **Contato** | Links diretos para Email, GitHub, LinkedIn, Lattes |
+| **Contato** | E-mail copiável, GitHub, LinkedIn, currículo (PDF) e Lattes |
 
 <br>
 

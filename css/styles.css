@@ -1142,6 +1142,60 @@ select,
   padding: var(--section-padding);
 }
 
+/* E-mail em texto, com botão de copiar: o recrutador não precisa de cliente de e-mail. */
+.contact__email {
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.contact__lead {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.contact__email-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.contact__email-address {
+  font-family: var(--font-mono);
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 6px;
+  overflow-wrap: anywhere;
+}
+
+.contact__email-address:hover {
+  color: var(--color-accent);
+}
+
+.contact__copy.is-copied,
+.contact__copy.is-copied:hover {
+  background: transparent;
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.contact__status {
+  min-height: 1.5em;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-success);
+}
+
+.contact__where {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
 .contact__content {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -581,6 +581,31 @@ test('currículo em PDF está disponível', async ({ page, request }) => {
   expect(res.headers()['content-type']).toContain('application/pdf');
 });
 
+test('e-mail visível copia para a área de transferência e anuncia o resultado', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/');
+  await expect(page.locator('#contact-email')).toHaveText('pbl0812@gmail.com');
+  await page.locator('#copy-email').click();
+  await expect(page.locator('#copy-email-status')).toHaveText('E-mail copiado para a área de transferência.');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('pbl0812@gmail.com');
+
+  await page.locator('#lang-toggle').click();
+  await expect(page.locator('#copy-email')).toHaveText('Copy email');
+});
+
+test('sem Clipboard API nem execCommand, o e-mail fica selecionado com instrução', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', { value: undefined });
+    document.execCommand = () => false;
+  });
+  await page.goto('/');
+  await page.locator('#copy-email').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#copy-email-status')).toContainText('Ctrl+C');
+  expect(await page.evaluate(() => window.getSelection().toString())).toBe('pbl0812@gmail.com');
+  await expect(page.locator('#copy-email')).toBeFocused();
+});
+
 test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'Menu hambúrguer só existe no mobile');
 
