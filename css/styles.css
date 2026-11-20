@@ -40,53 +40,53 @@
 }
 
 /* ---- Variáveis globais ----
- * Paleta "Metrô Noturno": grafite azulado da estação, âmbar das luzes da plataforma e ciano da
- * sinalização. Contrastes (WCAG 2.2) conferidos no PR que introduziu a paleta. */
+ * Paleta "Marinho & Ouro": azul-marinho profundo nos fundos, dourado nos destaques e azul-céu no
+ * anel de foco. Contrastes (WCAG 2.2) conferidos no PR que introduziu a paleta (#52). */
 :root {
   color-scheme: dark;
 
-  --color-bg: #0b0d12;
-  --color-bg-2: #0f1218;
-  --color-bg-card: #151922;
-  --color-border: #232936;
-  --color-text: #f4f4f5;
-  --color-text-muted: #a1a1aa;
-  --color-accent: #f5a524;
-  --color-accent-hover: #ffc24d;
-  --color-accent-rgb: 245 165 36;
+  --color-bg: #0a1628;
+  --color-bg-2: #0d1c33;
+  --color-bg-card: #11223f;
+  --color-border: #1f3557;
+  --color-text: #e8eef7;
+  --color-text-muted: #9fb0c8;
+  --color-accent: #e9b949;
+  --color-accent-hover: #f5cf6e;
+  --color-accent-rgb: 233 185 73;
 
   /* Texto sobre fundo de destaque (botões, filtro ativo). */
-  --color-accent-ink: #0b0d12;
+  --color-accent-ink: #0a1628;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 30%);
-  --color-secondary: #22d3ee;
+  --color-secondary: #7cc4fa;
 
-  /* Anel de foco em ciano: se distingue do âmbar dos botões e tem >= 3:1 sobre os fundos. */
-  --color-focus: #22d3ee;
-  --particles-rgb: 245, 165, 36;
-  --color-header-bg: rgb(11 13 18 / 92%);
-  --gradient-name: linear-gradient(90deg, #f4f4f5 0%, #ffc24d 55%, #f5a524 100%);
+  /* Anel de foco em azul-céu: se distingue do dourado dos botões e tem >= 3:1 sobre os fundos. */
+  --color-focus: #7cc4fa;
+  --particles-rgb: 233, 185, 73;
+  --color-header-bg: rgb(10 22 40 / 92%);
+  --gradient-name: linear-gradient(90deg, #e8eef7 0%, #f5cf6e 55%, #e9b949 100%);
   --color-tag-bg: rgb(var(--color-accent-rgb) / 10%);
   --color-tag-border: rgb(var(--color-accent-rgb) / 25%);
-  --color-overlay: rgb(0 0 0 / 80%);
-  --shadow-card: 0 8px 24px rgb(0 0 0 / 30%);
+  --color-overlay: rgb(2 8 20 / 80%);
+  --shadow-card: 0 8px 24px rgb(2 8 20 / 40%);
   --shadow-card-accent: 0 10px 30px rgb(var(--color-accent-rgb) / 15%);
-  --shadow-modal: 0 20px 60px rgb(0 0 0 / 50%);
+  --shadow-modal: 0 20px 60px rgb(2 8 20 / 55%);
 
   /* Terminal: sempre escuro, nos dois temas, com a mesma paleta. */
-  --color-terminal-bg: #0b0d12;
-  --color-terminal-bar: #151922;
-  --color-terminal-border: #232936;
-  --color-terminal-text: #f4f4f5;
-  --color-terminal-muted: #a1a1aa;
-  --color-terminal-accent: #f5a524;
-  --color-terminal-focus: #22d3ee;
+  --color-terminal-bg: #0a1628;
+  --color-terminal-bar: #11223f;
+  --color-terminal-border: #1f3557;
+  --color-terminal-text: #e8eef7;
+  --color-terminal-muted: #9fb0c8;
+  --color-terminal-accent: #e9b949;
+  --color-terminal-focus: #7cc4fa;
   --color-terminal-error: #f87171;
   --color-terminal-close: #ff5f57;
   --color-terminal-minimize: #febc2e;
   --color-terminal-maximize: #28c840;
 
   /* Linguagem sem cor conhecida nos cards de repositório (as demais seguem o GitHub, em github.js). */
-  --color-lang-fallback: #a1a1aa;
+  --color-lang-fallback: #9fb0c8;
   --font-family: inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', consolas, monospace;
   --font-size-base: 1rem;
@@ -97,27 +97,29 @@
   --radius-lg: 16px;
 }
 
-/* ---- Tema claro ("plataforma de dia") ---- */
+/* ---- Tema claro (gelo-azulado com destaque azul-marinho) ---- */
 [data-theme='light'] {
   color-scheme: light;
 
-  --color-bg: #fafaf7;
-  --color-bg-2: #f2f1ec;
+  --color-bg: #f4f7fb;
+  --color-bg-2: #e9eff7;
   --color-bg-card: #fff;
-  --color-border: #e4e2dc;
-  --color-text: #16181d;
-  --color-text-muted: #52525b;
-  --color-accent: #a14b0a;
-  --color-accent-hover: #7f3b0b;
-  --color-accent-rgb: 161 75 10;
+  --color-border: #d5dfeb;
+  --color-text: #0f1d33;
+  --color-text-muted: #475a75;
+  --color-accent: #1c3d6e;
+  --color-accent-hover: #132b50;
+  --color-accent-rgb: 28 61 110;
   --color-accent-ink: #fff;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 20%);
-  --color-secondary: #0e7490;
-  --color-focus: #0e7490;
-  --particles-rgb: 161, 75, 10;
-  --color-header-bg: rgb(250 250 247 / 92%);
-  --gradient-name: linear-gradient(90deg, #16181d 0%, #7f3b0b 60%, #a14b0a 100%);
-  --shadow-card: 0 8px 24px rgb(22 24 29 / 10%);
+  --color-secondary: #a3700a;
+
+  /* Foco em ouro escuro: se distingue do marinho dos botões e tem >= 3:1 sobre os fundos claros. */
+  --color-focus: #a3700a;
+  --particles-rgb: 28, 61, 110;
+  --color-header-bg: rgb(244 247 251 / 92%);
+  --gradient-name: linear-gradient(90deg, #0f1d33 0%, #1c3d6e 60%, #2f5c9e 100%);
+  --shadow-card: 0 8px 24px rgb(15 29 51 / 10%);
 }
 
 /* ---- Barra de progresso de scroll ---- */
