@@ -35,7 +35,6 @@
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
 | 🎭 | **Animações de Scroll** | Efeitos de revelação com Intersection Observer |
 | 📊 | **Habilidades com Evidências** | Exemplos concretos de uso das tecnologias, sem porcentagens arbitrárias |
-| 🔢 | **Contadores Animados** | Números contam ao entrar na viewport |
 | 🗂️ | **Filtro de Projetos** | Filtragem por categoria (Todos, Web, Backend, Sistemas) |
 | 📅 | **Linha do Tempo** | Timeline visual da jornada profissional |
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
@@ -75,7 +74,7 @@ Portfolio/
 │   ├── typing.js               # Linha de terminal decorativa do hero (comandos digitados)
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
 │   ├── particles.js            # Sistema de partículas em Canvas
-│   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, contadores, filtros
+│   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, filtros
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
 │   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
 ├── scripts/
@@ -136,7 +135,7 @@ cache do navegador após um deploy.
 | Seção | Descrição |
 |---|---|
 | **Hero** | Selo de disponibilidade, nome, cargo, proposta de valor, prova com link (SocialTech), linha de terminal, partículas de fundo, botões de ação |
-| **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade, contadores animados |
+| **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade |
 | **Experiência** | Linha do tempo da jornada profissional |
 | **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
 | **Skills** | Tecnologias acompanhadas de exemplos práticos |
@@ -150,7 +149,6 @@ cache do navegador após um deploy.
 
 Sugestões para tornar a seção "Sobre Mim" ainda mais impactante:
 
-- **Stats Dinâmicos do GitHub** — Substituir contadores fixos por dados reais da API do GitHub (total de repos, commits, contribuições)
 - **Credenciais Verificáveis** — Adicionar links públicos dos certificados de conclusão dos cursos
 - **"Estudando Atualmente"** — Badge ou chip destacando o que você está aprendendo no momento
 - **Lema Pessoal** — Uma frase de impacto curta que defina sua filosofia como dev

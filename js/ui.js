@@ -1,5 +1,5 @@
-// Interações gerais da página: header, menu mobile, scroll-spy, revelação ao rolar,
-// contadores e filtro de projetos.
+// Interações gerais da página: header, menu mobile, scroll-spy, revelação ao rolar
+// e filtro de projetos.
 
 function initHeader() {
   const header = document.getElementById('header');
@@ -109,34 +109,6 @@ function initReveal() {
   revealOnScroll(sections, 'section--revealed', 0);
 }
 
-function initCounters() {
-  const countersSection = document.querySelector('.counters');
-  if (!countersSection) return;
-
-  const DURATION = 1500;
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-
-      countersSection.querySelectorAll('.counter__number').forEach((counter) => {
-        const target = Number(counter.dataset.target);
-        const start = performance.now();
-
-        const tick = (now) => {
-          const progress = Math.min((now - start) / DURATION, 1);
-          counter.textContent = String(Math.floor(progress * target));
-          if (progress < 1) requestAnimationFrame(tick);
-          else counter.textContent = String(target);
-        };
-        requestAnimationFrame(tick);
-      });
-    },
-    { threshold: 0.5 },
-  );
-  observer.observe(countersSection);
-}
-
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.projects__filter');
   const projectCards = document.querySelectorAll('.project-card');
@@ -169,6 +141,5 @@ export function initUI() {
   initHeader();
   initMobileMenu();
   initReveal();
-  initCounters();
   initProjectFilters();
 }
