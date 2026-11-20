@@ -1059,28 +1059,82 @@ select,
 
 .skills__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
-.skill-card {
+.skill-group {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem;
 }
 
-.skill-card__name {
-  display: block;
+.skill-group__title {
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.skill-group__list {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Nome e nível na mesma linha; a evidência (link) logo abaixo. */
+.skill {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.skill__name {
+  font-weight: 600;
   font-size: 0.95rem;
 }
 
-.skill-card__description {
+.skill__level {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid currentcolor;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.skill__level--live {
+  color: var(--color-success);
+}
+
+.skill__level--project {
+  color: var(--color-accent);
+}
+
+.skill__level--learning {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
+}
+
+.skill__evidence {
+  grid-column: 1 / -1;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.skill__evidence:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 760px) {
+  .skills__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Contato ---- */

@@ -39,9 +39,9 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=687b73b0" />
+  <link rel="stylesheet" href="css/styles.css?v=463f10be" />
   <link rel="stylesheet" href="css/animations.css?v=71dbd113" />
-  <script type="module" src="js/main.js?v=3febac4d"></script>
+  <script type="module" src="js/main.js?v=73705722"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -409,32 +409,83 @@
     <section class="skills" id="skills">
       <div class="container">
         <h2 class="section__title" data-i18n="skills.title">Minhas <span>Competências</span></h2>
-        <p class="section__subtitle" data-i18n="skills.subtitle">Exemplos práticos dos meus projetos</p>
+        <p class="section__subtitle" data-i18n="skills.subtitle">Por área, com nível honesto e link para a prova</p>
 
         <div class="skills__grid">
-          <div class="skill-card">
-            <span class="skill-card__name">Java · Spring</span>
-            <p class="skill-card__description" data-i18n="skill1.evidence">API REST com autenticação JWT, depósitos e transferências atômicas.</p>
+          <div class="skill-group">
+            <h3 class="skill-group__title" data-i18n="skills.group.backend">Backend</h3>
+            <ul class="skill-group__list">
+              <li class="skill">
+                <span class="skill__name">Java 21 · Spring Boot</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" data-i18n="skill.java.evidence">Carteira API: JWT, transações ACID e reenvio idempotente</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">PostgreSQL · Flyway</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api/tree/develop/src/main/resources/db/migration" target="_blank" rel="noopener noreferrer" data-i18n="skill.postgres.evidence">Migrations versionadas, constraints e bloqueio pessimista</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name" data-i18n="skill.tests.name">JUnit · testes de integração</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api/tree/develop/src/test/java/com/braga/carteiradigital" target="_blank" rel="noopener noreferrer" data-i18n="skill.tests.evidence">Concorrência, atomicidade e regras de arquitetura sob teste</a>
+              </li>
+            </ul>
           </div>
-          <div class="skill-card">
-            <span class="skill-card__name">PostgreSQL · Flyway</span>
-            <p class="skill-card__description" data-i18n="skill2.evidence">Migrations versionadas, constraints financeiras e bloqueio pessimista.</p>
+          <div class="skill-group">
+            <h3 class="skill-group__title" data-i18n="skills.group.frontend">Front-end</h3>
+            <ul class="skill-group__list">
+              <li class="skill">
+                <span class="skill__name">Astro · TypeScript</span>
+                <span class="skill__level skill__level--live" data-i18n="skills.level.live">no ar</span>
+                <a class="skill__evidence" href="https://blima-p.github.io/SocialTech/" target="_blank" rel="noopener noreferrer" data-i18n="skill.astro.evidence">SocialTech: site no ar, acessado por QR Code</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">HTML · CSS · JavaScript</span>
+                <span class="skill__level skill__level--live" data-i18n="skills.level.live">no ar</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" data-i18n="skill.web.evidence">Este portfólio: bilíngue, acessível e sem frameworks</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">React · Firebase</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/ERP-Academico" target="_blank" rel="noopener noreferrer" data-i18n="skill.react.evidence">ERP acadêmico com autenticação e cadastro de alunos e cursos</a>
+              </li>
+            </ul>
           </div>
-          <div class="skill-card">
-            <span class="skill-card__name">React · Firebase</span>
-            <p class="skill-card__description" data-i18n="skill3.evidence">ERP acadêmico com autenticação e telas de alunos, cursos e matrículas.</p>
+          <div class="skill-group">
+            <h3 class="skill-group__title" data-i18n="skills.group.data">Dados e outras linguagens</h3>
+            <ul class="skill-group__list">
+              <li class="skill">
+                <span class="skill__name">Python · pandas</span>
+                <span class="skill__level skill__level--learning" data-i18n="skills.level.learning">estudando</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/credit-default-prediction" target="_blank" rel="noopener noreferrer" data-i18n="skill.python.evidence">Análise exploratória de inadimplência de crédito, com testes</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">C · threads POSIX</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/Campo-minado" target="_blank" rel="noopener noreferrer" data-i18n="skill.c.evidence">Campo Minado multiplayer com threads e semáforos</a>
+              </li>
+            </ul>
           </div>
-          <div class="skill-card">
-            <span class="skill-card__name">HTML &amp; CSS</span>
-            <p class="skill-card__description" data-i18n="skill4.evidence">Portfólio responsivo e bilíngue com temas e integração com a API do GitHub.</p>
-          </div>
-          <div class="skill-card">
-            <span class="skill-card__name">Python · pandas</span>
-            <p class="skill-card__description" data-i18n="skill5.evidence">Projetos de análise de dados e exploração inicial de dados de inadimplência.</p>
-          </div>
-          <div class="skill-card">
-            <span class="skill-card__name">Git · GitHub Actions</span>
-            <p class="skill-card__description" data-i18n="skill6.evidence">Pull requests, builds automatizados, verificações de arquitetura e testes de integração.</p>
+          <div class="skill-group">
+            <h3 class="skill-group__title" data-i18n="skills.group.devops">DevOps e ferramentas</h3>
+            <ul class="skill-group__list">
+              <li class="skill">
+                <span class="skill__name">Docker · Compose</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api/blob/develop/compose.yaml" target="_blank" rel="noopener noreferrer" data-i18n="skill.docker.evidence">Imagem da API com PostgreSQL e teste de fumaça na CI</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">GitHub Actions</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/Portfolio/actions/workflows/quality.yml" target="_blank" rel="noopener noreferrer" data-i18n="skill.actions.evidence">CI deste site: lint, HTML, i18n, Playwright e Lighthouse</a>
+              </li>
+              <li class="skill">
+                <span class="skill__name">Git · pull requests</span>
+                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
+                <a class="skill__evidence" href="https://github.com/Blima-P/Portfolio/pulls?q=is%3Apr+is%3Amerged" target="_blank" rel="noopener noreferrer" data-i18n="skill.git.evidence">Fluxo issue → branch → PR com revisão e CI obrigatória</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

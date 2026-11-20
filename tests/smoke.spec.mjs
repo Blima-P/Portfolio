@@ -523,6 +523,28 @@ test('faixa de provas do Sobre: 4 links seguros para evidências no GitHub, sem 
   await expect(links.nth(2).locator('strong')).toHaveText('Concurrency');
 });
 
+test('competências: 4 grupos, cada item com nível e link de evidência, nos dois idiomas', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('.skill-group')).toHaveCount(4);
+  const skills = page.locator('.skill');
+  const total = await skills.count();
+  expect(total).toBeGreaterThanOrEqual(8);
+  for (const skill of await skills.all()) {
+    await expect(skill.locator('.skill__level')).toHaveText(/^(no ar|em projeto|estudando)$/);
+    await expect(skill.locator('a.skill__evidence')).toHaveAttribute(
+      'href',
+      /^https:\/\/(github\.com|blima-p\.github\.io)\//,
+    );
+    await expect(skill.locator('a.skill__evidence')).toHaveAttribute('rel', /noopener/);
+  }
+
+  await page.locator('#lang-toggle').click();
+  await expect(page.locator('.skill__level').first()).toHaveText(/^(live|in a project|learning)$/);
+  await expect(page.locator('.skill-group__title').nth(3)).toHaveText('DevOps and tools');
+});
+
 test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
   const errors = trackErrors(page);
   await page.goto('/');

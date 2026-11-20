@@ -138,7 +138,7 @@ cache do navegador após um deploy.
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade |
 | **Experiência** | Linha do tempo da jornada profissional |
 | **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
-| **Skills** | Tecnologias acompanhadas de exemplos práticos |
+| **Competências** | Agrupadas por área (Backend, Front-end, Dados, DevOps), com nível honesto ("no ar", "em projeto", "estudando") e link para a evidência |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |
 | **Contato** | Links diretos para Email, GitHub, LinkedIn, Lattes |

@@ -89,8 +89,8 @@ function initReveal() {
   document.querySelectorAll('.project-card').forEach((card, i) => {
     card.classList.add('animate', `animate--delay-${i + 1}`);
   });
-  document.querySelectorAll('.skill-card').forEach((card, i) => {
-    card.classList.add('animate', `animate--delay-${(i % 3) + 1}`);
+  document.querySelectorAll('.skill-group').forEach((group, i) => {
+    group.classList.add('animate', `animate--delay-${(i % 2) + 1}`);
   });
   revealOnScroll(document.querySelectorAll('.animate'), 'animate--visible', 0.15);
 
