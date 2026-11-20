@@ -1,6 +1,6 @@
 // Terminal (easter egg): Ctrl + ` abre/fecha. Carregado sob demanda pelo main.js.
 
-import { getLanguage } from './i18n.js?v=c24b77ff';
+import { getLanguage } from './i18n.js?v=cea2ddeb';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');
@@ -10,7 +10,8 @@ const commands = {
     help: 'Available commands: about, skills, projects, contact, github, secret, clear, exit',
     about:
       'Pedro Braga de Lima — Software Engineering student at UCB, development intern at CAESB. Focused on Java backend with Spring and PostgreSQL. Expected graduation: late 2027. Open to junior roles in Brasília (hybrid) or remote.',
-    skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
+    skills:
+      'Backend: Java 21 • Spring Boot • PostgreSQL • Flyway • JUnit | Front-end: Astro • TypeScript • HTML/CSS/JS • React | Data & more: Python • pandas • C | DevOps: Docker • GitHub Actions • Git',
     projects:
       '1. Carteira API — Java/Spring digital wallet\n2. Academic ERP — React/Firebase team project\n3. Multiplayer Minesweeper — C/POSIX\n4. Personal Portfolio — HTML/CSS/JavaScript',
     contact: 'Email: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
@@ -23,7 +24,8 @@ const commands = {
     help: 'Comandos disponíveis: about, skills, projects, contact, github, secret, clear, exit',
     about:
       'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL. Conclusão prevista: 2º sem. de 2027. Aberto a vagas júnior em Brasília (híbrido) ou remoto.',
-    skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
+    skills:
+      'Backend: Java 21 • Spring Boot • PostgreSQL • Flyway • JUnit | Front-end: Astro • TypeScript • HTML/CSS/JS • React | Dados e mais: Python • pandas • C | DevOps: Docker • GitHub Actions • Git',
     projects:
       '1. Carteira API — Carteira digital Java/Spring\n2. ERP Acadêmico — Projeto em equipe React/Firebase\n3. Campo Minado Multiplayer — C/POSIX\n4. Portfólio Pessoal — HTML/CSS/JavaScript',
     contact: 'E-mail: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: Pedro Braga de Lima',
