@@ -107,7 +107,8 @@ python -m http.server 8000
 Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages. O deploy é feito
 pelo GitHub Actions **sob demanda**: o push na `main` só roda as verificações; a publicação acontece
 quando o workflow é disparado à mão, e **somente depois** de todas as verificações passarem, com um
-artefato que contém apenas os arquivos públicos (`npm run pack:site`).
+artefato que contém apenas os arquivos públicos (`npm run pack:site`). Nesse passo, o ano e o
+"atualizado em" do rodapé recebem a data do commit publicado.
 
 ```bash
 gh workflow run quality.yml --ref main   # verifica e publica o estado atual da main
@@ -143,12 +144,13 @@ cache do navegador após um deploy.
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |
 | **Contato** | E-mail copiável, GitHub, LinkedIn, currículo (PDF) e Lattes |
+| **Rodapé** | Autoria, "feito à mão, sem frameworks", link do código-fonte e data da última atualização |
 
 <br>
 
 ## 💡 Ideias para a Seção Sobre
 
-Sugestões para tornar a seção "Sobre Mim" ainda mais impactante:
+Sugestões para tornar a seção "Sobre" ainda mais impactante:
 
 - **Credenciais Verificáveis** — Adicionar links públicos dos certificados de conclusão dos cursos
 - **"Estudando Atualmente"** — Badge ou chip destacando o que você está aprendendo no momento

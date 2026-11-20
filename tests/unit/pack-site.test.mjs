@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { after, before, test } from 'node:test';
-import { findMissingRefs } from '../../scripts/pack-site.mjs';
+import { findMissingRefs, stampUpdated } from '../../scripts/pack-site.mjs';
 
 let base;
 let site;
@@ -53,4 +53,21 @@ test('recusa referência que sai do site publicado, mesmo se o arquivo existir',
 test('recusa pasta no lugar de arquivo', async () => {
   await write('index.html', '<a href="css"></a>');
   assert.deepEqual(await findMissingRefs(site), ['index.html → css']);
+});
+
+const FOOTER =
+  '<li>© <span data-updated-year>2025</span> Pedro</li>' +
+  '<time datetime="2025-01" data-updated>01/2025</time>';
+
+test('rodapé recebe o ano e o mês/ano do commit publicado', () => {
+  assert.equal(
+    stampUpdated(FOOTER, '2027-03-09'),
+    '<li>© <span data-updated-year>2027</span> Pedro</li>' +
+      '<time datetime="2027-03" data-updated>03/2027</time>',
+  );
+});
+
+test('rodapé: falha com data inválida ou sem as marcações, em vez de publicar data velha', () => {
+  assert.throws(() => stampUpdated(FOOTER, '09/03/2027'), /Data inválida/);
+  assert.throws(() => stampUpdated('<footer></footer>', '2027-03-09'), /Rodapé sem/);
 });

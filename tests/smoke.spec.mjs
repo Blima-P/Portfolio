@@ -582,6 +582,47 @@ test('terminal lista todos os projetos da página e o LinkedIn canônico', async
   await expect(responses).toContainText('linkedin.com/in/pedrobragadelima');
 });
 
+test('títulos das seções são diretos e iguais ao menu, nos dois idiomas', async ({ page }) => {
+  await page.goto('/');
+  const pairs = () =>
+    page
+      .locator('.nav__link')
+      .evaluateAll((links) =>
+        links.map((a) => [
+          a.textContent.trim(),
+          document.querySelector(`${a.hash} .section__title`).textContent.trim(),
+        ]),
+      );
+  for (const [nav, title] of await pairs()) expect(title).toBe(nav);
+  await page.locator('#lang-toggle').click();
+  await expect(page.locator('#about .section__title')).toHaveText('About');
+  for (const [nav, title] of await pairs()) expect(title).toBe(nav);
+});
+
+test('rodapé: autoria, código-fonte, data de atualização e voltar ao topo', async ({ page }) => {
+  await page.goto('/');
+  const footer = page.locator('.footer');
+  await expect(footer.locator('.footer__meta li')).toHaveText([
+    /^© \d{4} Pedro Braga de Lima$/,
+    'feito à mão, sem frameworks',
+    'código-fonte',
+    /^atualizado em \d{2}\/\d{4}$/,
+  ]);
+  const source = footer.getByRole('link', { name: 'código-fonte' });
+  await expect(source).toHaveAttribute('href', 'https://github.com/Blima-P/Portfolio');
+  await expect(source).toHaveAttribute('rel', 'noopener noreferrer');
+  // O <time> legível por máquina bate com o texto exibido.
+  const time = footer.locator('time[data-updated]');
+  const [year, month] = (await time.getAttribute('datetime')).split('-');
+  await expect(time).toHaveText(`${month}/${year}`);
+
+  await footer.getByRole('link', { name: 'Voltar ao topo' }).click();
+  await expect(page).toHaveURL(/#home$/);
+  await page.locator('#lang-toggle').click();
+  await expect(footer.getByRole('link', { name: 'Back to top' })).toBeVisible();
+  await expect(footer.locator('.footer__meta')).toContainText('handmade, no frameworks');
+});
+
 test('falha na API do GitHub mostra mensagem traduzível', async ({ page }) => {
   await page.unroute(GITHUB_API);
   await page.route(GITHUB_API, (route) => route.fulfill({ status: 403, body: '{}' }));

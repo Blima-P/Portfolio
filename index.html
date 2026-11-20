@@ -39,9 +39,9 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=150de875" />
+  <link rel="stylesheet" href="css/styles.css?v=3f57cd0a" />
   <link rel="stylesheet" href="css/animations.css?v=71dbd113" />
-  <script type="module" src="js/main.js?v=e9ea8252"></script>
+  <script type="module" src="js/main.js?v=8ef5efde"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -165,7 +165,7 @@
     <!-- Sobre Mim -->
     <section class="about" id="about">
       <div class="container">
-        <h2 class="section__title" data-i18n="about.title">Sobre <span>Mim</span></h2>
+        <h2 class="section__title" data-i18n="about.title">Sobre</h2>
         <p class="section__subtitle" data-i18n="about.subtitle">Quem sou eu</p>
 
         <div class="about__content">
@@ -223,7 +223,7 @@
     <!-- Linha do Tempo / Experiência -->
     <section class="timeline" id="experience">
       <div class="container">
-        <h2 class="section__title" data-i18n="timeline.title">Minha <span>Jornada</span></h2>
+        <h2 class="section__title" data-i18n="timeline.title">Experiência</h2>
         <p class="section__subtitle" data-i18n="timeline.subtitle">Por onde passei</p>
 
         <div class="timeline__line">
@@ -270,7 +270,7 @@
     <!-- Projetos -->
     <section class="projects" id="projects">
       <div class="container">
-        <h2 class="section__title" data-i18n="projects.title">Meus <span>Projetos</span></h2>
+        <h2 class="section__title" data-i18n="projects.title">Projetos</h2>
         <p class="section__subtitle" data-i18n="projects.subtitle">O que já construí</p>
 
         <div class="projects__filters">
@@ -408,7 +408,7 @@
     <!-- Skills -->
     <section class="skills" id="skills">
       <div class="container">
-        <h2 class="section__title" data-i18n="skills.title">Minhas <span>Competências</span></h2>
+        <h2 class="section__title" data-i18n="skills.title">Competências</h2>
         <p class="section__subtitle" data-i18n="skills.subtitle">Por área, com nível honesto e link para a prova</p>
 
         <div class="skills__grid">
@@ -495,7 +495,7 @@
     <!-- Certificações -->
     <section class="certifications" id="certifications">
       <div class="container">
-        <h2 class="section__title" data-i18n="certs.title">Cursos e <span>Aprendizado</span></h2>
+        <h2 class="section__title" data-i18n="certs.title">Cursos</h2>
         <p class="section__subtitle" data-i18n="certs.subtitle">Formação complementar, separada de certificações profissionais</p>
 
         <div class="certs__grid">
@@ -522,7 +522,7 @@
     <!-- Atividade no GitHub -->
     <section class="github" id="github">
       <div class="container">
-        <h2 class="section__title" data-i18n="github.title">Repositórios em <span>Destaque</span></h2>
+        <h2 class="section__title" data-i18n="github.title">Repositórios</h2>
         <p class="section__subtitle" data-i18n="github.subtitle">Projetos públicos com informações atualizadas pelo GitHub</p>
 
         <div class="github__grid" id="github-repos">
@@ -539,7 +539,7 @@
     <!-- Contatos -->
     <section class="contact" id="contact">
       <div class="container">
-        <h2 class="section__title" data-i18n="contact.title">Entre em <span>Contato</span></h2>
+        <h2 class="section__title" data-i18n="contact.title">Contato</h2>
         <p class="section__subtitle" data-i18n="contact.subtitle">Vamos conversar</p>
 
         <div class="contact__email">
@@ -596,8 +596,16 @@
   <!-- Rodapé -->
   <footer class="footer">
     <div class="container">
-      <p class="footer__text" data-i18n="footer.text">Desenvolvido por <span>Pedro Braga</span> com HTML, CSS e JavaScript puro.</p>
-      <a href="#home" class="footer__back-top" aria-label="Voltar ao topo" data-i18n="footer.top.label" data-i18n-attr="aria-label">↑</a>
+      <!-- Ano e mês/ano são reescritos pelo scripts/pack-site.mjs com a data do commit publicado. -->
+      <ul class="footer__meta">
+        <li>© <span data-updated-year>2026</span> Pedro Braga de Lima</li>
+        <li data-i18n="footer.made">feito à mão, sem frameworks</li>
+        <li><a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" class="footer__link" data-i18n="footer.source">código-fonte</a></li>
+        <li><span data-i18n="footer.updated">atualizado em</span> <time datetime="2026-11" data-updated>11/2026</time></li>
+      </ul>
+      <a href="#home" class="footer__back-top" aria-label="Voltar ao topo" data-i18n="footer.top.label" data-i18n-attr="aria-label">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+      </a>
     </div>
   </footer>
 </body>
