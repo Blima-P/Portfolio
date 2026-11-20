@@ -3,9 +3,10 @@
 import { t } from './i18n.js?v=18179e22';
 
 const GITHUB_USER = 'Blima-P';
-const SELECTED_REPOS = ['carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
+const SELECTED_REPOS = ['SocialTech', 'carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
 // Cores oficiais das linguagens no GitHub (linguist): são dados, não tema — por isso ficam fora dos tokens.
 const LANG_COLORS = {
+  Astro: '#ff5a03',
   JavaScript: '#f1e05a',
   Python: '#3572A5',
   Java: '#b07219',

@@ -138,7 +138,7 @@ cache do navegador após um deploy.
 | **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
 | **Skills** | Tecnologias acompanhadas de exemplos práticos |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
-| **GitHub** | Cards dos quatro projetos selecionados, com dados atualizados via API do GitHub |
+| **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |
 | **Contato** | Links diretos para Email, GitHub, LinkedIn, Lattes |
 
 <br>

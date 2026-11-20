@@ -1,7 +1,7 @@
 // Smoke test: garante que o site carrega sem erros e que as interações principais funcionam.
 import { expect, test } from '@playwright/test';
 
-const SELECTED = ['carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
+const SELECTED = ['SocialTech', 'carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
 const GITHUB_API = 'https://api.github.com/**';
 
 // Resposta fixa da API do GitHub: evita depender de rede e do limite de requisições no CI.
@@ -9,7 +9,7 @@ const mockRepos = SELECTED.map((name, i) => ({
   name,
   html_url: `https://github.com/Blima-P/${name}`,
   description: i === 0 ? '' : `Descrição de ${name}`,
-  language: 'Java',
+  language: name === 'SocialTech' ? 'Astro' : 'Java',
   stargazers_count: i,
   fork: false,
   archived: false,
@@ -32,6 +32,12 @@ test('carrega sem erros, sem globais novas e com os repositórios', async ({ pag
   const errors = trackErrors(page);
   await page.goto('/');
   await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
+  // SocialTech abre a lista, com a cor oficial do Astro (não o cinza de fallback).
+  await expect(page.locator('.github-card__name')).toHaveText(SELECTED);
+  await expect(page.locator('.github-card').first().locator('.github-card__lang-dot')).toHaveCSS(
+    'background-color',
+    'rgb(255, 90, 3)',
+  );
   // Card sem descrição não deve renderizar parágrafo vazio.
   await expect(page.locator('.github-card').first().locator('.github-card__desc')).toHaveCount(0);
 
