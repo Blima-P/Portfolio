@@ -8,5 +8,5 @@ assets/
 # HTML fica fora: o Prettier quebra tags inline (</a\n>) para preservar espaços e troca o
 # DOCTYPE; o index.html já é validado pelo html-validate.
 index.html
-# Markdown fica fora: o README é reescrito no M6 e as tabelas do plano são editadas à mão.
+# Markdown fica fora: o README é reescrito no M6 e tem tabelas editadas à mão.
 *.md
