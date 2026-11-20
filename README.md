@@ -107,8 +107,13 @@ python -m http.server 8000
 ```
 
 Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages. O deploy é feito
-pelo GitHub Actions, **somente depois** de todas as verificações passarem na `main`, com um artefato
-que contém apenas os arquivos públicos (`npm run pack:site`).
+pelo GitHub Actions **sob demanda**: o push na `main` só roda as verificações; a publicação acontece
+quando o workflow é disparado à mão, e **somente depois** de todas as verificações passarem, com um
+artefato que contém apenas os arquivos públicos (`npm run pack:site`).
+
+```bash
+gh workflow run quality.yml --ref main   # verifica e publica o estado atual da main
+```
 
 ### Verificações de qualidade
 
