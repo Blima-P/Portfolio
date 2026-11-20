@@ -67,6 +67,10 @@
   --gradient-name: linear-gradient(90deg, #e8eef7 0%, #f5cf6e 55%, #e9b949 100%);
   --color-tag-bg: rgb(var(--color-accent-rgb) / 10%);
   --color-tag-border: rgb(var(--color-accent-rgb) / 25%);
+
+  /* Ponto "disponível" do selo do hero. */
+  --color-success: #4ade80;
+  --color-success-ring: rgb(74 222 128 / 25%);
   --color-overlay: rgb(2 8 20 / 80%);
   --shadow-card: 0 8px 24px rgb(2 8 20 / 40%);
   --shadow-card-accent: 0 10px 30px rgb(var(--color-accent-rgb) / 15%);
@@ -119,6 +123,8 @@
   --particles-rgb: 28, 61, 110;
   --color-header-bg: rgb(244 247 251 / 92%);
   --gradient-name: linear-gradient(90deg, #0f1d33 0%, #1c3d6e 60%, #2f5c9e 100%);
+  --color-success: #15803d;
+  --color-success-ring: rgb(21 128 61 / 20%);
   --shadow-card: 0 8px 24px rgb(15 29 51 / 10%);
 }
 
@@ -523,24 +529,89 @@ select,
   background-clip: text;
 }
 
-.hero__title {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 400;
+/* Selo de disponibilidade: a primeira coisa que o recrutador precisa saber. */
+.hero__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--color-tag-border);
+  border-radius: 999px;
+  background: var(--color-tag-bg);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.hero__status-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 0 3px var(--color-success-ring);
+}
+
+.hero__role {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.hero__description {
+  font-size: 1.05rem;
   color: var(--color-text-muted);
-  margin-bottom: 1.5rem;
-  display: grid;
+  max-width: 560px;
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
 }
 
-/* Todas as frases do typing ficam invisíveis na mesma célula: o título
-   reserva a altura da mais alta e não "pula" ao quebrar linha. */
-.hero__title > *,
-.hero__title-sizer > * {
-  grid-area: 1 / 1;
+/* Prova com link: o número que sustenta a descrição leva ao card do projeto. */
+.hero__proof {
+  display: inline-block;
+  max-width: 560px;
+  margin-bottom: 1.25rem;
+  padding: 0.6rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  text-decoration: none;
 }
 
-.hero__title-sizer {
-  display: grid;
-  visibility: hidden;
+.hero__proof-name {
+  margin-right: 0.4rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.hero__proof-arrow {
+  display: inline-block;
+  color: var(--color-accent);
+  transition: transform var(--transition);
+}
+
+.hero__proof:hover {
+  color: var(--color-text);
+}
+
+.hero__proof:hover .hero__proof-arrow {
+  transform: translateX(4px);
+}
+
+/* Linha de terminal decorativa: altura fixa de uma linha, então a digitação não desloca o layout. */
+.hero__terminal {
+  margin-bottom: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  height: 1.5em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.hero__prompt {
+  color: var(--color-accent);
 }
 
 .cursor {
@@ -548,12 +619,10 @@ select,
   animation: blink 1s step-end infinite;
 }
 
-.hero__description {
-  font-size: 1.05rem;
-  color: var(--color-text-muted);
-  max-width: 500px;
-  margin-bottom: 2.5rem;
-  line-height: 1.8;
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
 }
 
 .hero__buttons {
@@ -858,6 +927,9 @@ select,
 /* Projeto em destaque: ocupa a linha inteira e traz papel e números com prova. */
 .project-card--featured {
   grid-column: 1 / -1;
+
+  /* Alvo do link de prova do hero: para abaixo do header fixo. */
+  scroll-margin-top: 6rem;
   border-color: var(--color-tag-border);
   background: linear-gradient(135deg, var(--color-tag-bg), transparent 55%), var(--color-bg-card);
 }
@@ -1528,6 +1600,10 @@ select,
 @media (max-width: 640px) {
   .hero__name {
     font-size: 2.2rem;
+  }
+
+  .hero__terminal {
+    margin-bottom: 1.5rem;
   }
 
   .hero__buttons {

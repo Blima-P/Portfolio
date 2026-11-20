@@ -153,6 +153,16 @@ function initProjectFilters() {
       });
     });
   });
+
+  // Link interno para um card escondido pelo filtro (ex.: prova do hero): volta para "Todos" antes de
+  // o navegador rolar até ele, senão o salto não acontece.
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest?.('a[href^="#"]');
+    const target = link && document.getElementById(link.hash.slice(1));
+    if (target?.matches('.project-card.hidden')) {
+      document.querySelector('.projects__filter[data-filter="all"]')?.click();
+    }
+  });
 }
 
 export function initUI() {

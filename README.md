@@ -30,7 +30,7 @@
 |:---:|---|---|
 | 🎨 | **Tema Claro / Escuro** | Alternância com persistência via localStorage |
 | 🌐 | **Bilíngue (PT-BR / EN)** | PT-BR por padrão, detecção pelo idioma do navegador e troca dinâmica de conteúdo |
-| ⌨️ | **Efeito de Digitação** | Texto animado no hero com frases rotativas por idioma |
+| ⌨️ | **Linha de Terminal** | Comandos digitados no hero, decorativos (`aria-hidden`) e parados com movimento reduzido |
 | 🔮 | **Sistema de Partículas** | Canvas com linhas de conexão, densidade proporcional à tela e pausa fora da viewport |
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
 | 🎭 | **Animações de Scroll** | Efeitos de revelação com Intersection Observer |
@@ -72,7 +72,7 @@ Portfolio/
 │   ├── main.js                 # Ponto de entrada: inicializa os módulos
 │   ├── translations.js         # Textos PT-BR / EN (dados puros)
 │   ├── i18n.js                 # Detecção, troca e persistência do idioma
-│   ├── typing.js               # Efeito de digitação no hero, sem deslocar o layout
+│   ├── typing.js               # Linha de terminal decorativa do hero (comandos digitados)
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
 │   ├── particles.js            # Sistema de partículas em Canvas
 │   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, contadores, filtros
@@ -135,7 +135,7 @@ cache do navegador após um deploy.
 
 | Seção | Descrição |
 |---|---|
-| **Hero** | Nome, efeito de digitação, partículas de fundo, botões de ação |
+| **Hero** | Selo de disponibilidade, nome, cargo, proposta de valor, prova com link (SocialTech), linha de terminal, partículas de fundo, botões de ação |
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade, contadores animados |
 | **Experiência** | Linha do tempo da jornada profissional |
 | **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
