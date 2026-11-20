@@ -34,7 +34,7 @@ export const translations = {
     'hero.scroll.label': 'Scroll down',
 
     // Sobre
-    'about.title': 'About <span>Me</span>',
+    'about.title': 'About',
     'about.subtitle': 'Who am I',
     'about.img.alt': 'Photo of Pedro Braga',
     'about.description':
@@ -57,7 +57,7 @@ export const translations = {
     'about.btn.contact': 'Get in touch',
 
     // Linha do tempo
-    'timeline.title': 'My <span>Journey</span>',
+    'timeline.title': 'Experience',
     'timeline.subtitle': "Where I've been",
     'timeline.item1.date': '2025 — Present',
     'timeline.item1.title': 'IT Intern — CAESB',
@@ -76,7 +76,7 @@ export const translations = {
     'timeline.item4.desc': 'Administrative assistant, customer service, and Excel spreadsheets.',
 
     // Projetos
-    'projects.title': 'My <span>Projects</span>',
+    'projects.title': 'Projects',
     'projects.subtitle': "What I've built",
     'project1.title': 'Carteira API',
     'project1.description':
@@ -109,7 +109,7 @@ export const translations = {
     'filter.systems': 'Systems',
 
     // Habilidades
-    'skills.title': 'My <span>Skills</span>',
+    'skills.title': 'Skills',
     'skills.subtitle': 'By area, with an honest level and a link to the proof',
     'skills.level.live': 'live',
     'skills.level.project': 'in a project',
@@ -131,7 +131,7 @@ export const translations = {
     'skill.actions.evidence': "This site's CI: lint, HTML, i18n, Playwright and Lighthouse",
     'skill.git.evidence': 'Issue → branch → PR flow with review and required CI',
     // Certificações
-    'certs.title': 'Courses &amp; <span>Learning</span>',
+    'certs.title': 'Courses',
     'certs.subtitle': 'Complementary training, separate from professional certifications',
     'cert1.name': 'Java Programming',
     'cert1.issuer': 'Udemy',
@@ -141,14 +141,14 @@ export const translations = {
     'cert4.issuer': 'Udemy',
 
     // GitHub
-    'github.title': 'Selected <span>Repositories</span>',
+    'github.title': 'Repositories',
     'github.subtitle': 'Public projects with repository details from GitHub',
     'github.loading': 'Loading repositories…',
     'github.viewprofile': 'View Full Profile',
     'github.error': 'Could not load repositories. Visit my GitHub profile.',
 
     // Contato
-    'contact.title': 'Get in <span>Touch</span>',
+    'contact.title': 'Contact',
     'contact.subtitle': "Let's talk",
     'contact.lead': 'Email is the fastest way to reach me.',
     'contact.copy': 'Copy email',
@@ -158,7 +158,9 @@ export const translations = {
     'contact.cv': 'Resume (PDF, PT-BR)',
 
     // Rodapé
-    'footer.text': 'Built by <span>Pedro Braga</span> with HTML, CSS, and vanilla JavaScript.',
+    'footer.made': 'handmade, no frameworks',
+    'footer.source': 'source code',
+    'footer.updated': 'updated',
     'footer.top.label': 'Back to top',
   },
 
@@ -193,7 +195,7 @@ export const translations = {
     'hero.scroll.label': 'Rolar para baixo',
 
     // Sobre
-    'about.title': 'Sobre <span>Mim</span>',
+    'about.title': 'Sobre',
     'about.subtitle': 'Quem sou eu',
     'about.img.alt': 'Foto de Pedro Braga',
     'about.description':
@@ -216,7 +218,7 @@ export const translations = {
     'about.btn.contact': 'Entre em contato',
 
     // Linha do tempo
-    'timeline.title': 'Minha <span>Jornada</span>',
+    'timeline.title': 'Experiência',
     'timeline.subtitle': 'Por onde passei',
     'timeline.item1.date': '2025 — Presente',
     'timeline.item1.title': 'Estagiário de TI — CAESB',
@@ -235,7 +237,7 @@ export const translations = {
     'timeline.item4.desc': 'Assistente administrativo, atendimento ao público e planilhas Excel.',
 
     // Projetos
-    'projects.title': 'Meus <span>Projetos</span>',
+    'projects.title': 'Projetos',
     'projects.subtitle': 'O que já construí',
     'project1.title': 'Carteira API',
     'project1.description':
@@ -268,7 +270,7 @@ export const translations = {
     'filter.systems': 'Sistemas',
 
     // Habilidades
-    'skills.title': 'Minhas <span>Competências</span>',
+    'skills.title': 'Competências',
     'skills.subtitle': 'Por área, com nível honesto e link para a prova',
     'skills.level.live': 'no ar',
     'skills.level.project': 'em projeto',
@@ -290,7 +292,7 @@ export const translations = {
     'skill.actions.evidence': 'CI deste site: lint, HTML, i18n, Playwright e Lighthouse',
     'skill.git.evidence': 'Fluxo issue → branch → PR com revisão e CI obrigatória',
     // Certificações
-    'certs.title': 'Cursos e <span>Aprendizado</span>',
+    'certs.title': 'Cursos',
     'certs.subtitle': 'Formação complementar, separada de certificações profissionais',
     'cert1.name': 'Programação Java',
     'cert1.issuer': 'Udemy',
@@ -300,14 +302,14 @@ export const translations = {
     'cert4.issuer': 'Udemy',
 
     // GitHub
-    'github.title': 'Repositórios em <span>Destaque</span>',
+    'github.title': 'Repositórios',
     'github.subtitle': 'Projetos públicos com informações atualizadas pelo GitHub',
     'github.loading': 'Carregando repositórios…',
     'github.viewprofile': 'Ver Perfil Completo',
     'github.error': 'Não foi possível carregar repositórios. Visite meu perfil no GitHub.',
 
     // Contato
-    'contact.title': 'Entre em <span>Contato</span>',
+    'contact.title': 'Contato',
     'contact.subtitle': 'Vamos conversar',
     'contact.lead': 'O jeito mais rápido de falar comigo é por e-mail.',
     'contact.copy': 'Copiar e-mail',
@@ -317,20 +319,13 @@ export const translations = {
     'contact.cv': 'Currículo (PDF)',
 
     // Rodapé
-    'footer.text': 'Desenvolvido por <span>Pedro Braga</span> com HTML, CSS e JavaScript puro.',
+    'footer.made': 'feito à mão, sem frameworks',
+    'footer.source': 'código-fonte',
+    'footer.updated': 'atualizado em',
     'footer.top.label': 'Voltar ao topo',
   },
 };
 
-// Únicas chaves cujo valor contém marcação HTML (aplicadas com innerHTML).
+// Únicas chaves cujo valor pode conter marcação HTML (aplicadas com innerHTML) — hoje, nenhuma.
 // As demais são aplicadas com textContent e não podem conter "<" nem entidades "&".
-export const HTML_KEYS = Object.freeze([
-  'about.title',
-  'timeline.title',
-  'projects.title',
-  'skills.title',
-  'certs.title',
-  'github.title',
-  'contact.title',
-  'footer.text',
-]);
+export const HTML_KEYS = Object.freeze([]);
