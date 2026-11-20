@@ -9,16 +9,26 @@ const AREA_PER_PARTICLE = 30000;
 const MIN_PARTICLES = 15;
 const MAX_PARTICLES = 35;
 const FALLBACK_RGB = '245, 165, 36';
+// Área livre de partículas em volta do texto e dos botões: um miolo sólido com folga e, depois
+// dele, uma borda esmaecida.
+const MASK_CORE_PADDING = 16;
+const MASK_PADDING = 32;
+const MASK_FEATHER = 48;
 
 export function initParticles() {
   const canvas = document.getElementById('particles-canvas');
   const ctx = canvas?.getContext('2d');
   if (!ctx) return null;
 
+  const content = document.querySelector('.hero__content');
+  const mask = document.createElement('canvas');
+  const maskCtx = mask.getContext('2d');
+
   let particles = [];
   let color = FALLBACK_RGB;
   let animationId = null;
   let isVisible = true;
+  let hasMask = false;
 
   // A cor vem do token CSS --particles-rgb, definido por tema.
   function refreshColor() {
@@ -29,6 +39,48 @@ export function initParticles() {
   function resizeCanvas() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+    buildMask();
+  }
+
+  // A máscara é desenhada uma vez por mudança de layout e "apaga" (destination-out) a região do
+  // conteúdo a cada quadro. A borda suave vem de shadowBlur, que funciona também no Safari antigo
+  // (ctx.filter não).
+  function buildMask() {
+    hasMask = false;
+    if (!content || !maskCtx) return;
+    mask.width = canvas.width;
+    mask.height = canvas.height;
+    maskCtx.clearRect(0, 0, mask.width, mask.height);
+
+    const box = content.getBoundingClientRect();
+    const origin = canvas.getBoundingClientRect();
+    const left = box.left - origin.left;
+    const top = box.top - origin.top;
+    if (box.width <= 0 || box.height <= 0) return;
+
+    // Borda esmaecida: o retângulo fica fora da tela e só a sombra borrada cai sobre o conteúdo.
+    const offset = mask.width + MASK_FEATHER * 4;
+    // Na máscara só o alfa importa (destination-out): '#000' não é cor visível nem vira token.
+    maskCtx.fillStyle = '#000';
+    maskCtx.shadowColor = '#000';
+    maskCtx.shadowBlur = MASK_FEATHER;
+    maskCtx.shadowOffsetX = offset;
+    maskCtx.fillRect(
+      left - MASK_PADDING - offset,
+      top - MASK_PADDING,
+      box.width + MASK_PADDING * 2,
+      box.height + MASK_PADDING * 2,
+    );
+    // O blur deixa a sombra semitransparente perto da borda: o miolo sólido garante que nada
+    // atravesse o texto.
+    maskCtx.shadowColor = 'transparent';
+    maskCtx.fillRect(
+      Math.floor(left - MASK_CORE_PADDING),
+      Math.floor(top - MASK_CORE_PADDING),
+      Math.ceil(box.width + MASK_CORE_PADDING * 2) + 1,
+      Math.ceil(box.height + MASK_CORE_PADDING * 2) + 1,
+    );
+    hasMask = true;
   }
 
   function createParticles() {
@@ -81,6 +133,12 @@ export function initParticles() {
         }
       }
     }
+
+    if (hasMask) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.drawImage(mask, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+    }
   }
 
   function frame() {
@@ -126,6 +184,11 @@ export function initParticles() {
       createParticles();
     }
   });
+
+  // Troca de idioma muda a altura do conteúdo (e às vezes a do hero) sem redimensionar a janela.
+  if (content && 'ResizeObserver' in window) {
+    new ResizeObserver(resizeCanvas).observe(content);
+  }
 
   return { refreshColor };
 }
