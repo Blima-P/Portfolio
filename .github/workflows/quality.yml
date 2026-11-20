@@ -11,7 +11,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: quality-${{ github.ref }}
+  # Grupo por evento: um push na main não substitui um deploy manual que ainda está na fila.
+  group: quality-${{ github.event_name }}-${{ github.ref }}
   # Em PR, um push novo cancela a execução antiga; na main, nenhum deploy é interrompido.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
@@ -72,9 +73,10 @@ jobs:
       - name: Montar o site publicado (_site)
         run: npm run pack:site
 
-      # Só a main publica: o site sai do mesmo commit que passou em todas as verificações acima.
+      # Só um disparo manual na main publica (deploy sob demanda, juntando vários merges num deploy só).
+      # O site sai do mesmo commit que passou em todas as verificações acima.
       - name: Enviar artefato do GitHub Pages
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@v5
         with:
           path: _site/
@@ -82,7 +84,7 @@ jobs:
   deploy:
     name: deploy
     needs: quality
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
