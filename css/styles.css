@@ -40,57 +40,61 @@
 }
 
 /* ---- Variáveis globais ----
- * Paleta "Marinho & Ouro": azul-marinho profundo nos fundos, dourado nos destaques e azul-céu no
- * anel de foco. Contrastes (WCAG 2.2) conferidos no PR que introduziu a paleta (#52). */
+ * Paleta "Ciano Neon": fundos azul-noite, destaque azul-céu vibrante com degradê até o índigo e anel
+ * de foco âmbar (se distingue dos botões). Contrastes (WCAG 2.2) conferidos no PR que a introduziu. */
 :root {
   color-scheme: dark;
 
-  --color-bg: #0a1628;
-  --color-bg-2: #0d1c33;
-  --color-bg-card: #11223f;
-  --color-border: #1f3557;
-  --color-text: #e8eef7;
-  --color-text-muted: #9fb0c8;
-  --color-accent: #e9b949;
-  --color-accent-hover: #f5cf6e;
-  --color-accent-rgb: 233 185 73;
+  --color-bg: #050a18;
+  --color-bg-2: #081127;
+  --color-bg-card: #0d1834;
+  --color-border: #1b2a50;
+  --color-text: #e6f0ff;
+  --color-text-muted: #94a8cc;
+  --color-accent: #38bdf8;
+  --color-accent-hover: #7dd3fc;
+  --color-accent-rgb: 56 189 248;
 
   /* Texto sobre fundo de destaque (botões, filtro ativo). */
-  --color-accent-ink: #0a1628;
+  --color-accent-ink: #04111f;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 30%);
-  --color-secondary: #7cc4fa;
+  --color-secondary: #818cf8;
 
-  /* Anel de foco em azul-céu: se distingue do dourado dos botões e tem >= 3:1 sobre os fundos. */
-  --color-focus: #7cc4fa;
-  --particles-rgb: 233, 185, 73;
-  --color-header-bg: rgb(10 22 40 / 92%);
-  --gradient-name: linear-gradient(90deg, #e8eef7 0%, #f5cf6e 55%, #e9b949 100%);
+  /* Anel de foco âmbar: se distingue do azul dos botões e tem >= 3:1 sobre os fundos. */
+  --color-focus: #fcd34d;
+  --particles-rgb: 56, 189, 248;
+  --color-header-bg: rgb(5 10 24 / 92%);
+  --gradient-name: linear-gradient(90deg, #e0f2fe 0%, #38bdf8 50%, #818cf8 100%);
   --color-tag-bg: rgb(var(--color-accent-rgb) / 10%);
   --color-tag-border: rgb(var(--color-accent-rgb) / 25%);
+
+  /* Brilho difuso atrás do hero: azul-céu de um lado, índigo do outro. */
+  --hero-glow-1: rgb(56 189 248 / 14%);
+  --hero-glow-2: rgb(129 140 248 / 14%);
 
   /* Ponto "disponível" do selo do hero. */
   --color-success: #4ade80;
   --color-success-ring: rgb(74 222 128 / 25%);
-  --color-overlay: rgb(2 8 20 / 80%);
-  --shadow-card: 0 8px 24px rgb(2 8 20 / 40%);
+  --color-overlay: rgb(2 6 18 / 80%);
+  --shadow-card: 0 8px 24px rgb(2 6 18 / 45%);
   --shadow-card-accent: 0 10px 30px rgb(var(--color-accent-rgb) / 15%);
-  --shadow-modal: 0 20px 60px rgb(2 8 20 / 55%);
+  --shadow-modal: 0 20px 60px rgb(2 6 18 / 60%);
 
   /* Terminal: sempre escuro, nos dois temas, com a mesma paleta. */
-  --color-terminal-bg: #0a1628;
-  --color-terminal-bar: #11223f;
-  --color-terminal-border: #1f3557;
-  --color-terminal-text: #e8eef7;
-  --color-terminal-muted: #9fb0c8;
-  --color-terminal-accent: #e9b949;
-  --color-terminal-focus: #7cc4fa;
+  --color-terminal-bg: #070d1f;
+  --color-terminal-bar: #0d1834;
+  --color-terminal-border: #1b2a50;
+  --color-terminal-text: #e6f0ff;
+  --color-terminal-muted: #94a8cc;
+  --color-terminal-accent: #38bdf8;
+  --color-terminal-focus: #fcd34d;
   --color-terminal-error: #f87171;
   --color-terminal-close: #ff5f57;
   --color-terminal-minimize: #febc2e;
   --color-terminal-maximize: #28c840;
 
   /* Linguagem sem cor conhecida nos cards de repositório (as demais seguem o GitHub, em github.js). */
-  --color-lang-fallback: #9fb0c8;
+  --color-lang-fallback: #94a8cc;
   --font-family: inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', consolas, monospace;
   --font-size-base: 1rem;
@@ -101,31 +105,33 @@
   --radius-lg: 16px;
 }
 
-/* ---- Tema claro (gelo-azulado com destaque azul-marinho) ---- */
+/* ---- Tema claro (gelo-azulado com destaque azul-oceano) ---- */
 [data-theme='light'] {
   color-scheme: light;
 
-  --color-bg: #f4f7fb;
-  --color-bg-2: #e9eff7;
+  --color-bg: #f3f9ff;
+  --color-bg-2: #e6f3fd;
   --color-bg-card: #fff;
-  --color-border: #d5dfeb;
-  --color-text: #0f1d33;
-  --color-text-muted: #475a75;
-  --color-accent: #1c3d6e;
-  --color-accent-hover: #132b50;
-  --color-accent-rgb: 28 61 110;
+  --color-border: #cfe3f5;
+  --color-text: #062037;
+  --color-text-muted: #3f5a75;
+  --color-accent: #0369a1;
+  --color-accent-hover: #075985;
+  --color-accent-rgb: 3 105 161;
   --color-accent-ink: #fff;
   --color-accent-glow: rgb(var(--color-accent-rgb) / 20%);
-  --color-secondary: #a3700a;
+  --color-secondary: #4f46e5;
 
-  /* Foco em ouro escuro: se distingue do marinho dos botões e tem >= 3:1 sobre os fundos claros. */
-  --color-focus: #946500;
-  --particles-rgb: 28, 61, 110;
-  --color-header-bg: rgb(244 247 251 / 92%);
-  --gradient-name: linear-gradient(90deg, #0f1d33 0%, #1c3d6e 60%, #2f5c9e 100%);
+  /* Foco em âmbar escuro: se distingue do azul dos botões e tem >= 3:1 sobre os fundos claros. */
+  --color-focus: #b45309;
+  --particles-rgb: 3, 105, 161;
+  --color-header-bg: rgb(243 249 255 / 92%);
+  --gradient-name: linear-gradient(90deg, #062037 0%, #0369a1 55%, #4f46e5 100%);
+  --hero-glow-1: rgb(56 189 248 / 16%);
+  --hero-glow-2: rgb(129 140 248 / 12%);
   --color-success: #15803d;
   --color-success-ring: rgb(21 128 61 / 20%);
-  --shadow-card: 0 8px 24px rgb(15 29 51 / 10%);
+  --shadow-card: 0 8px 24px rgb(6 32 55 / 10%);
 }
 
 /* ---- Barra de progresso de scroll ---- */
@@ -488,6 +494,18 @@ select,
 
   /* Reserva a faixa da seta de rolagem: os ícones sociais nunca encostam nela. */
   padding-bottom: 6rem;
+}
+
+/* Glow difuso da paleta, abaixo das partículas e do conteúdo. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 32rem at 12% 18%, var(--hero-glow-1), transparent 70%),
+    radial-gradient(38rem 30rem at 88% 78%, var(--hero-glow-2), transparent 70%);
 }
 
 .hero__particles {

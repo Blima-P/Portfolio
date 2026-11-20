@@ -171,11 +171,11 @@ test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-col
   const button = page.locator('#theme-toggle');
   const themeColor = page.locator('meta[name="theme-color"]');
   await expect(button).toHaveAttribute('aria-label', 'Ativar o tema claro');
-  await expect(themeColor).toHaveAttribute('content', '#0a1628');
+  await expect(themeColor).toHaveAttribute('content', '#050a18');
 
   await button.click();
   await expect(button).toHaveAttribute('aria-label', 'Ativar o tema escuro');
-  await expect(themeColor).toHaveAttribute('content', '#f4f7fb');
+  await expect(themeColor).toHaveAttribute('content', '#f3f9ff');
 
   // Trocar o idioma traduz o rótulo da ação atual, não o da ação inicial.
   await page.locator('#lang-toggle').click();
@@ -187,7 +187,7 @@ test('tema claro salvo já pinta o theme-color certo antes dos módulos carregar
   await page.route('**/js/**', (route) => route.abort());
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f7fb');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
 });
 
 test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tela', async ({ page }) => {
