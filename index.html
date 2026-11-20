@@ -39,9 +39,9 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=c81f8f4e" />
-  <link rel="stylesheet" href="css/animations.css?v=50eb103a" />
-  <script type="module" src="js/main.js?v=adba02ff"></script>
+  <link rel="stylesheet" href="css/styles.css?v=fcea8308" />
+  <link rel="stylesheet" href="css/animations.css?v=71dbd113" />
+  <script type="module" src="js/main.js?v=913ce05b"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -110,16 +110,20 @@
       <canvas class="hero__particles" id="particles-canvas" aria-hidden="true"></canvas>
 
       <div class="hero__content container">
+        <p class="hero__status"><span class="hero__status-dot" aria-hidden="true"></span><span data-i18n="hero.status">Disponível para vagas júnior · Brasília · híbrido ou remoto</span></p>
         <p class="hero__greeting" data-i18n="hero.greeting">Olá, me chamo</p>
         <h1 class="hero__name"><span class="hero__name-gradient">Pedro Braga</span></h1>
+        <p class="hero__role" data-i18n="hero.role">Desenvolvedor Backend Java</p>
 
-        <!-- Efeito de digitação — feito pelo typing.js -->
-        <h2 class="hero__title">
-          <span class="hero__title-text"><span data-i18n="hero.iam">Eu sou</span> <span id="typing-text">desenvolvedor backend Java</span><span class="cursor">|</span></span>
-          <span class="hero__title-sizer" id="typing-sizer" aria-hidden="true"></span>
-        </h2>
+        <p class="hero__description" data-i18n="hero.description">Construo APIs REST com Java, Spring e PostgreSQL. Estagiário de desenvolvimento na CAESB e estudante de Engenharia de Software na UCB, com formatura prevista para 2027/2.</p>
 
-        <p class="hero__description" data-i18n="hero.description">Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL, buscando oportunidades como desenvolvedor de software júnior.</p>
+        <a href="#socialtech" class="hero__proof">
+          <span class="hero__proof-name">SocialTech</span>
+          <span data-i18n="hero.proof">mantenedor · 111 PRs meus mergeados · time de 10 estudantes</span>&nbsp;<span class="hero__proof-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <!-- Detalhe decorativo: comandos digitados pelo typing.js (ignorado por leitores de tela) -->
+        <p class="hero__terminal" aria-hidden="true"><span class="hero__prompt">$</span> <span id="typing-text">mvn spring-boot:run</span><span class="cursor">▍</span></p>
 
         <div class="hero__buttons">
           <a href="#projects" class="btn btn--primary" data-i18n="hero.btn.projects">Ver Projetos</a>
@@ -275,7 +279,7 @@
 
         <div class="projects__grid">
 
-          <article class="project-card project-card--featured" data-category="web">
+          <article class="project-card project-card--featured" id="socialtech" data-category="web">
             <div class="project-card__header">
               <span class="project-card__tag">Astro · TypeScript</span>
               <div class="project-card__links">

@@ -306,19 +306,19 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
-  const iam = page.locator('[data-i18n="hero.iam"]');
+  const role = page.locator('[data-i18n="hero.role"]');
   await expect(html).toHaveAttribute('lang', 'pt-BR');
-  await expect(iam).toHaveText('Eu sou');
+  await expect(role).toHaveText('Desenvolvedor Backend Java');
 
   await page.locator('#lang-toggle').click();
   await expect(html).toHaveAttribute('lang', 'en');
-  await expect(iam).toHaveText('I am');
+  await expect(role).toHaveText('Java Backend Developer');
   await expect(page).toHaveTitle('Pedro Braga | Portfolio');
   await expect(page.locator('#lang-toggle')).toHaveText('PT-BR');
 
   await page.reload();
   await expect(html).toHaveAttribute('lang', 'en');
-  await expect(iam).toHaveText('I am');
+  await expect(role).toHaveText('Java Backend Developer');
 });
 
 test.describe('navegador em inglês', () => {
@@ -327,7 +327,7 @@ test.describe('navegador em inglês', () => {
   test('detecta o idioma do navegador na primeira visita', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.locator('[data-i18n="hero.iam"]')).toHaveText('I am');
+    await expect(page.locator('[data-i18n="hero.role"]')).toHaveText('Java Backend Developer');
   });
 });
 
@@ -399,6 +399,62 @@ test('animação de digitação escreve e muda o texto', async ({ page }) => {
   const typing = page.locator('#typing-text');
   const first = await typing.textContent();
   await expect(typing).not.toHaveText(first ?? '', { timeout: 5000 });
+});
+
+test.describe('movimento reduzido', () => {
+  test.use({ reducedMotion: 'reduce' });
+
+  test('a linha de terminal do hero fica parada', async ({ page }) => {
+    await page.goto('/');
+    const typing = page.locator('#typing-text');
+    await page.waitForTimeout(3000);
+    await expect(typing).toHaveText('mvn spring-boot:run');
+    await expect(page.locator('.hero__terminal .cursor')).toHaveCSS('animation-name', 'none');
+  });
+});
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 1366, height: 768 },
+]) {
+  test(`primeira dobra (${viewport.width}×${viewport.height}): quem, cargo, proposta, prova e CTA sem rolar`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.locator('.hero__content').evaluate((el) =>
+      Promise.all(
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.effect.getTiming().iterations !== Infinity)
+          .map((a) => a.finished),
+      ),
+    );
+    for (const selector of [
+      '.hero__status',
+      '.hero__name',
+      '.hero__role',
+      '.hero__description',
+      '.hero__proof',
+      '.hero__buttons .btn--primary',
+    ]) {
+      const box = await page.locator(selector).boundingBox();
+      expect(box.y + box.height, selector).toBeLessThanOrEqual(viewport.height);
+    }
+  });
+}
+
+test('prova do hero leva ao card do SocialTech, mesmo com outro filtro de projetos ativo', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.locator('.projects__filter[data-filter="backend"]').click();
+  await expect(page.locator('#socialtech')).toBeHidden();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.locator('.hero__proof').click();
+  await expect(page.locator('.projects__filter[data-filter="all"]')).toHaveClass(/active/);
+  await expect(page).toHaveURL(/#socialtech$/);
+  await expect(page.locator('#socialtech .project-card__title')).toBeInViewport();
 });
 
 test('filtro de projetos esconde e mostra cards', async ({ page }) => {

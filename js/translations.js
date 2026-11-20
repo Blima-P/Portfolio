@@ -22,10 +22,12 @@ export const translations = {
     'nav.menu.label': 'Open menu',
 
     // Hero
+    'hero.status': 'Open to junior roles · Brasília, Brazil · hybrid or remote',
     'hero.greeting': "Hello, I'm",
-    'hero.iam': 'I am',
+    'hero.role': 'Java Backend Developer',
     'hero.description':
-      'Software Engineering student at UCB and development intern at CAESB. Focused on Java backend development with Spring and PostgreSQL, looking for junior software development opportunities.',
+      'I build REST APIs with Java, Spring and PostgreSQL. Development intern at CAESB and Software Engineering student at UCB, expected to graduate in late 2027.',
+    'hero.proof': 'maintainer · 111 of my PRs merged · team of 10 students',
     'hero.btn.projects': 'View Projects',
     'hero.btn.contact': 'Get in touch',
     'hero.btn.cv': 'Resume (PDF, in Portuguese)',
@@ -158,10 +160,12 @@ export const translations = {
     'nav.menu.label': 'Abrir menu',
 
     // Hero
+    'hero.status': 'Disponível para vagas júnior · Brasília · híbrido ou remoto',
     'hero.greeting': 'Olá, me chamo',
-    'hero.iam': 'Eu sou',
+    'hero.role': 'Desenvolvedor Backend Java',
     'hero.description':
-      'Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL, buscando oportunidades como desenvolvedor de software júnior.',
+      'Construo APIs REST com Java, Spring e PostgreSQL. Estagiário de desenvolvimento na CAESB e estudante de Engenharia de Software na UCB, com formatura prevista para 2027/2.',
+    'hero.proof': 'mantenedor · 111 PRs meus mergeados · time de 10 estudantes',
     'hero.btn.projects': 'Ver Projetos',
     'hero.btn.contact': 'Entrar em contato',
     'hero.btn.cv': 'Currículo (PDF)',
