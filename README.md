@@ -83,8 +83,6 @@ Portfolio/
 │   └── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS
 ├── tests/
 │   └── smoke.spec.mjs          # Smoke test (Playwright, desktop e mobile)
-├── docs/
-│   └── plano-implementacao.md  # Plano de melhorias com milestones
 └── assets/
     ├── favicon.svg             # Favicon do site
     ├── fonts/                  # Inter e JetBrains Mono (woff2, latin, OFL)

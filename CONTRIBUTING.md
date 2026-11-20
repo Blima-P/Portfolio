@@ -51,5 +51,5 @@ vermelho.
    (o check `pr-title` valida), porque vira o assunto do commit no squash merge.
 5. Merge somente por squash, com `quality` e `pr-title` verdes.
 
-O planejamento completo, com milestones e critérios de pronto, está em
-[`docs/plano-implementacao.md`](docs/plano-implementacao.md).
+O andamento público fica nas [issues](https://github.com/Blima-P/Portfolio/issues) e nos
+[milestones](https://github.com/Blima-P/Portfolio/milestones), com critérios de pronto em cada um.

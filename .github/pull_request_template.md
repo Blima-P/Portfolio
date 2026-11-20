@@ -24,5 +24,5 @@
 - [ ] Testado em 390 / 820 / 1440 px, nos 2 temas e nos 2 idiomas
 - [ ] Zero erros no console e zero requisições 404
 - [ ] Nenhum conteúdo inventado e nenhum dado confidencial
-- [ ] Tabela de status e DOD do milestone atualizados em `docs/plano-implementacao.md`
+- [ ] Status e DOD do milestone atualizados no plano local (fora do Git)
 - [ ] Revisão rubber-duck com outra IA realizada e registrada
