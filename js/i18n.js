@@ -1,6 +1,6 @@
 // Alternador de idioma (PT-BR padrão / EN).
 
-import { HTML_KEYS, translations } from './translations.js?v=2b4a2bb5';
+import { HTML_KEYS, translations } from './translations.js?v=0098a98e';
 
 const DEFAULT_LANG = 'pt-br';
 // Chave nova: a versão anterior salvava 'lang' = 'en' em toda visita, sem escolha do usuário.

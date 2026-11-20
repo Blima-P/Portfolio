@@ -48,9 +48,6 @@ export const translations = {
     'about.availability.title': 'Availability',
     'about.availability.desc': 'Open to opportunities',
     'about.btn.contact': 'Get in touch',
-    'counter.projects': 'Featured Projects',
-    'counter.technologies': 'Skill Areas',
-    'counter.years': 'Years Coding',
 
     // Linha do tempo
     'timeline.title': 'My <span>Journey</span>',
@@ -186,9 +183,6 @@ export const translations = {
     'about.availability.title': 'Disponibilidade',
     'about.availability.desc': 'Aberto a oportunidades',
     'about.btn.contact': 'Entre em contato',
-    'counter.projects': 'Projetos em destaque',
-    'counter.technologies': 'Áreas de prática',
-    'counter.years': 'Anos programando',
 
     // Linha do tempo
     'timeline.title': 'Minha <span>Jornada</span>',
