@@ -504,6 +504,25 @@ test('SocialTech abre a grade em destaque, com código, site no ar e prova linka
   await expect(featured.locator('.project-card__badge')).toHaveText('Completed · live');
 });
 
+test('faixa de provas do Sobre: 4 links seguros para evidências no GitHub, sem vazar no celular', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/');
+  const links = page.locator('.about__proofs a');
+  await expect(links).toHaveCount(4);
+  for (const link of await links.all()) {
+    await expect(link).toHaveAttribute('href', /^https:\/\/github\.com\/Blima-P\//);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
+
+  await page.locator('#lang-toggle').click();
+  await expect(page.locator('.about__proofs-title')).toHaveText('Proof in the code');
+  await expect(links.nth(2).locator('strong')).toHaveText('Concurrency');
+});
+
 test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
   const errors = trackErrors(page);
   await page.goto('/');

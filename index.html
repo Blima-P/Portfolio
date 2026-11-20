@@ -39,9 +39,9 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=0ed38daf" />
+  <link rel="stylesheet" href="css/styles.css?v=687b73b0" />
   <link rel="stylesheet" href="css/animations.css?v=71dbd113" />
-  <script type="module" src="js/main.js?v=7691f1e0"></script>
+  <script type="module" src="js/main.js?v=3febac4d"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -179,7 +179,7 @@
             <div class="about__data">
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.location.title">Localização</span>
-                <span class="about__data-desc" data-i18n="about.location.desc">Brasília, DF</span>
+                <span class="about__data-desc" data-i18n="about.location.desc">Brasília, DF · híbrido ou remoto</span>
               </div>
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.internship.title">Estágio</span>
@@ -188,12 +188,29 @@
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.degree.title">Graduação</span>
                 <span class="about__data-desc" data-i18n="about.degree.desc">Eng. de Software — UCB</span>
+                <span class="about__data-note" data-i18n="about.degree.note">Conclusão prevista: 2º sem. de 2027</span>
               </div>
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.availability.title">Disponibilidade</span>
-                <span class="about__data-desc" data-i18n="about.availability.desc">Aberto a oportunidades</span>
+                <span class="about__data-desc" data-i18n="about.availability.desc">Aberto a vagas júnior</span>
               </div>
             </div>
+
+            <h3 class="about__proofs-title" data-i18n="about.proofs.title">Provas no código</h3>
+            <ul class="about__proofs">
+              <li>
+                <a href="https://github.com/Blima-P/SocialTech/pulls?q=is%3Apr+is%3Amerged+author%3ABlima-P" target="_blank" rel="noopener noreferrer"><strong>111</strong> <span data-i18n="about.proofs.prs">PRs meus mergeados no SocialTech</span></a>
+              </li>
+              <li>
+                <a href="https://github.com/Blima-P/carteira-api/tree/develop/docs/adr" target="_blank" rel="noopener noreferrer"><strong>7</strong> <span data-i18n="about.proofs.adrs">ADRs documentando a Carteira API</span></a>
+              </li>
+              <li>
+                <a href="https://github.com/Blima-P/carteira-api/blob/b060250e0c2928c75452acf0a45c1cd6771ccf03/src/test/java/com/braga/carteiradigital/transacao/TransferenciaIntegracaoTest.java#L246" target="_blank" rel="noopener noreferrer"><strong data-i18n="about.proofs.concurrency.value">Concorrência</strong> <span data-i18n="about.proofs.concurrency">transferências simultâneas testadas, sem deadlock</span></a>
+              </li>
+              <li>
+                <a href="https://github.com/Blima-P/carteira-api/actions/workflows/ci.yml" target="_blank" rel="noopener noreferrer"><strong>CI/CD</strong> <span data-i18n="about.proofs.ci">testes e imagem Docker a cada PR</span></a>
+              </li>
+            </ul>
 
 
             <a href="#contact" class="btn btn--primary" data-i18n="about.btn.contact">Entre em contato</a>

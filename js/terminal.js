@@ -1,6 +1,6 @@
 // Terminal (easter egg): Ctrl + ` abre/fecha. Carregado sob demanda pelo main.js.
 
-import { getLanguage } from './i18n.js?v=9da5399e';
+import { getLanguage } from './i18n.js?v=c24b77ff';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');
@@ -9,7 +9,7 @@ const commands = {
   en: {
     help: 'Available commands: about, skills, projects, contact, github, secret, clear, exit',
     about:
-      'Pedro Braga de Lima — Software Engineering student at UCB, development intern at CAESB. Focused on Java backend with Spring and PostgreSQL.',
+      'Pedro Braga de Lima — Software Engineering student at UCB, development intern at CAESB. Focused on Java backend with Spring and PostgreSQL. Expected graduation: late 2027. Open to junior roles in Brasília (hybrid) or remote.',
     skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
     projects:
       '1. Carteira API — Java/Spring digital wallet\n2. Academic ERP — React/Firebase team project\n3. Multiplayer Minesweeper — C/POSIX\n4. Personal Portfolio — HTML/CSS/JavaScript',
@@ -22,7 +22,7 @@ const commands = {
   'pt-br': {
     help: 'Comandos disponíveis: about, skills, projects, contact, github, secret, clear, exit',
     about:
-      'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL.',
+      'Pedro Braga de Lima — Estudante de Eng. de Software na UCB, estagiário de desenvolvimento na CAESB. Foco em backend Java com Spring e PostgreSQL. Conclusão prevista: 2º sem. de 2027. Aberto a vagas júnior em Brasília (híbrido) ou remoto.',
     skills: 'Java • Spring • PostgreSQL • React • HTML/CSS • Python • pandas • Git • GitHub Actions',
     projects:
       '1. Carteira API — Carteira digital Java/Spring\n2. ERP Acadêmico — Projeto em equipe React/Firebase\n3. Campo Minado Multiplayer — C/POSIX\n4. Portfólio Pessoal — HTML/CSS/JavaScript',

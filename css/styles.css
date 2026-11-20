@@ -774,6 +774,66 @@ select,
   color: var(--color-text);
 }
 
+.about__data-note {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Faixa de provas: cada item é um link para a evidência no GitHub. */
+.about__proofs-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+.about__proofs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.about__proofs a {
+  display: block;
+  height: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.about__proofs strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.about__proofs span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.about__proofs a:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.about__proofs a:hover strong {
+  color: var(--color-accent);
+}
+
 /* ---- Projetos ---- */
 .projects {
   padding: var(--section-padding);
@@ -1535,6 +1595,17 @@ select,
 
   .about__data {
     justify-items: center;
+  }
+
+  .about__proofs {
+    text-align: left;
+  }
+}
+
+/* Celulares estreitos: "Concorrência" em destaque não cabe em meia coluna. */
+@media (max-width: 420px) {
+  .about__proofs {
+    grid-template-columns: 1fr;
   }
 }
 
