@@ -150,7 +150,12 @@ export const translations = {
     // Contato
     'contact.title': 'Get in <span>Touch</span>',
     'contact.subtitle': "Let's talk",
-    'contact.email': 'Email',
+    'contact.lead': 'Email is the fastest way to reach me.',
+    'contact.copy': 'Copy email',
+    'contact.copy.done': 'Email copied to the clipboard.',
+    'contact.copy.manual': 'Could not copy automatically: the email is selected, press Ctrl+C.',
+    'contact.where': 'Brasília, Brazil · hybrid or remote',
+    'contact.cv': 'Resume (PDF, PT-BR)',
 
     // Rodapé
     'footer.text': 'Built by <span>Pedro Braga</span> with HTML, CSS, and vanilla JavaScript.',
@@ -304,7 +309,12 @@ export const translations = {
     // Contato
     'contact.title': 'Entre em <span>Contato</span>',
     'contact.subtitle': 'Vamos conversar',
-    'contact.email': 'E-mail',
+    'contact.lead': 'O jeito mais rápido de falar comigo é por e-mail.',
+    'contact.copy': 'Copiar e-mail',
+    'contact.copy.done': 'E-mail copiado para a área de transferência.',
+    'contact.copy.manual': 'Não deu para copiar sozinho: o e-mail está selecionado, use Ctrl+C.',
+    'contact.where': 'Brasília, DF · híbrido ou remoto',
+    'contact.cv': 'Currículo (PDF)',
 
     // Rodapé
     'footer.text': 'Desenvolvido por <span>Pedro Braga</span> com HTML, CSS e JavaScript puro.',

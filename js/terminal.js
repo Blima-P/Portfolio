@@ -1,6 +1,6 @@
 // Terminal (easter egg): Ctrl + ` abre/fecha. Carregado sob demanda pelo main.js.
 
-import { getLanguage } from './i18n.js?v=cea2ddeb';
+import { getLanguage } from './i18n.js?v=2420bdfd';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');
