@@ -906,11 +906,11 @@ rubber-duck com OUTRA IA sobre o conjunto da entrega e registre na seção 11.
 
 - **Pair Extraordinaire:** todo PR deste plano tem commits com `Co-authored-by` (seção 7.2). Só conta
   coautor **diferente de você** (7 PRs antigos do SocialTech tinham você como coautor de si mesmo e não
-  contam). Recomendado: parear de verdade com colegas do SocialTech em pelo menos alguns PRs (coautor humano).
+  contam). Recomendado: parear de verdade com colegas (ex.: do time do SocialTech, já concluído, em projetos novos) em pelo menos alguns PRs (coautor humano).
 - **Pull Shark:** 66 PRs neste plano (60 no Portfolio + 6 em outros repositórios). PRs abertos pelo
   **Dependabot** não contam (o autor é o bot). O ouro (1.024) exige ~850 PRs a mais — **não é atingível de forma
   honesta só com o portfólio**. Caminho sustentável: manter a granularidade "1 fatia = 1 PR" em
-  **todos** os seus projetos (SocialTech, carteira-api, InvestStart), e contribuir para projetos open
+  seus projetos em desenvolvimento (carteira-api, InvestStart), e contribuir para projetos open
   source que você usa (documentação, testes, *good first issues* de Astro, Spring, Playwright,
   html-validate…). Contribuição externa vale mais para o recrutador do que qualquer selo.
 - **Galaxy Brain:** responder dúvidas reais em Discussions de projetos que você domina (ex.: Spring Boot,
