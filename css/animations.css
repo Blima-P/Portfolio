@@ -39,6 +39,16 @@
   }
 }
 
+@keyframes rise-in {
+  from {
+    transform: translateY(16px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 /* ---- Classes de animação (aplicadas pelo Intersection Observer em ui.js) ---- */
 
 .animate {
@@ -70,21 +80,23 @@
   animation-delay: 0.5s;
 }
 
-/* ---- Animações do Hero (carregam com a página, sem esperar scroll) ---- */
+/* ---- Animações do Hero (carregam com a página, sem esperar scroll) ----
+   O texto entra só com deslocamento, sem opacidade: fica visível no primeiro paint e a descrição
+   vira o LCP logo de cara (com opacity: 0, o LCP passava a ser a frase digitada, segundos depois). */
 .hero__greeting {
-  animation: fade-in-up 0.6s ease 0.1s both;
+  animation: rise-in 0.6s ease 0.1s both;
 }
 
 .hero__name {
-  animation: fade-in-up 0.6s ease 0.2s both;
+  animation: rise-in 0.6s ease 0.2s both;
 }
 
 .hero__title {
-  animation: fade-in-up 0.6s ease 0.3s both;
+  animation: rise-in 0.6s ease 0.3s both;
 }
 
 .hero__description {
-  animation: fade-in-up 0.6s ease 0.4s both;
+  animation: rise-in 0.6s ease 0.4s both;
 }
 
 .hero__buttons {
