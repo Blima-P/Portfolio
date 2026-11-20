@@ -4,7 +4,7 @@
 
 ### Desenvolvedor Backend Java · Spring · PostgreSQL · Estagiário de desenvolvimento @ CAESB
 
-[![Demo ao Vivo](https://img.shields.io/badge/▶_Demo_ao_Vivo-F5A524?style=for-the-badge&labelColor=0B0D12)](https://blima-p.github.io/Portfolio/)
+[![Demo ao Vivo](https://img.shields.io/badge/▶_Demo_ao_Vivo-E9B949?style=for-the-badge&labelColor=0A1628)](https://blima-p.github.io/Portfolio/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Blima-P)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedrobragadelima/)
 

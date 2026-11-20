@@ -115,7 +115,7 @@
   --color-secondary: #a3700a;
 
   /* Foco em ouro escuro: se distingue do marinho dos botões e tem >= 3:1 sobre os fundos claros. */
-  --color-focus: #a3700a;
+  --color-focus: #946500;
   --particles-rgb: 28, 61, 110;
   --color-header-bg: rgb(244 247 251 / 92%);
   --gradient-name: linear-gradient(90deg, #0f1d33 0%, #1c3d6e 60%, #2f5c9e 100%);
