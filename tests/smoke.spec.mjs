@@ -563,6 +563,25 @@ test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) 
   expect(errors).toEqual([]);
 });
 
+test('terminal lista todos os projetos da página e o LinkedIn canônico', async ({ page }) => {
+  await page.goto('/');
+  const titles = await page
+    .locator('.project-card__title')
+    .evaluateAll((els) => els.map((el) => el.firstChild.textContent.trim()));
+  expect(titles.length).toBeGreaterThan(0);
+
+  await page.keyboard.press('Control+Backquote');
+  const input = page.locator('.terminal__input');
+  const responses = page.locator('.terminal__body');
+  await input.fill('projects');
+  await input.press('Enter');
+  for (const title of titles) await expect(responses).toContainText(title);
+
+  await input.fill('contact');
+  await input.press('Enter');
+  await expect(responses).toContainText('linkedin.com/in/pedrobragadelima');
+});
+
 test('falha na API do GitHub mostra mensagem traduzível', async ({ page }) => {
   await page.unroute(GITHUB_API);
   await page.route(GITHUB_API, (route) => route.fulfill({ status: 403, body: '{}' }));
