@@ -2,7 +2,7 @@
 
 import { initGithub } from './github.js?v=1e709518';
 import { initI18n } from './i18n.js?v=37279b5a';
-import { initParticles } from './particles.js?v=67e63a84';
+import { initParticles } from './particles.js?v=56945b69';
 import { initTheme } from './theme.js?v=b5315470';
 import { initTyping } from './typing.js?v=182c0b34';
 import { initUI } from './ui.js?v=af319ae6';
