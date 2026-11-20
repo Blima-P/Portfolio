@@ -55,6 +55,90 @@ test('canvas de partículas não intercepta cliques nem o menu de contexto', asy
   expect(target).not.toBe('CANVAS');
 });
 
+test('partículas não passam sob o texto nem os botões do hero', async ({ page }) => {
+  await page.goto('/');
+  // Várias amostras: as partículas se movem e a máscara precisa valer em todo quadro.
+  for (let i = 0; i < 6; i++) {
+    const { inside, total } = await page.evaluate(async () => {
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      const origin = canvas.getBoundingClientRect();
+      const box = document.querySelector('.hero__content').getBoundingClientRect();
+      const alpha = (x, y, w, h) => {
+        const data = ctx.getImageData(Math.round(x), Math.round(y), Math.round(w), Math.round(h)).data;
+        let sum = 0;
+        for (let p = 3; p < data.length; p += 4) sum += data[p];
+        return sum;
+      };
+      return {
+        inside: alpha(box.left - origin.left, box.top - origin.top, box.width, box.height),
+        total: alpha(0, 0, canvas.width, canvas.height),
+      };
+    });
+    expect(total, 'o canvas desenha partículas').toBeGreaterThan(0);
+    expect(inside, `amostra ${i}`).toBe(0);
+    await page.waitForTimeout(150);
+  }
+});
+
+test('hero no celular: dois CTAs, currículo como link e ícones longe da seta, nos dois idiomas', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const buttons = await page.locator('.hero__buttons').boundingBox();
+  for (const lang of ['pt-br', 'en']) {
+    if (lang === 'en') await page.locator('#lang-toggle').click();
+    // Mede a posição final, não o meio da animação de entrada.
+    await page.locator('.hero__content').evaluate((el) =>
+      Promise.all(
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.effect.getTiming().iterations !== Infinity)
+          .map((a) => a.finished),
+      ),
+    );
+    for (const selector of ['.hero__buttons .btn--primary', '.hero__buttons a[href="#contact"]']) {
+      expect(Math.round((await page.locator(selector).boundingBox()).width), `${lang} ${selector}`).toBe(
+        Math.round(buttons.width),
+      );
+    }
+    const cv = page.locator('.hero__cv');
+    expect((await cv.boundingBox()).width, `${lang} CV`).toBeLessThan(buttons.width - 40);
+    expect((await cv.boundingBox()).height, `${lang} CV`).toBeGreaterThanOrEqual(44);
+    expect(await cv.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe('rgba(0, 0, 0, 0)');
+
+    const arrow = await page.locator('.hero__scroll-down').boundingBox();
+    for (const link of await page.locator('.hero__social .social__link').all()) {
+      const box = await link.boundingBox();
+      expect(box.width, `${lang} social`).toBeGreaterThanOrEqual(44);
+      expect(box.y + box.height, `${lang} social × seta`).toBeLessThanOrEqual(arrow.y - 16);
+    }
+  }
+});
+
+test('tablet (820 px): Sobre em 2 colunas, contato em 2 × 2 e nada vaza na horizontal', async ({ page }) => {
+  await page.setViewportSize({ width: 820, height: 1180 });
+  await page.goto('/');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(820);
+
+  const [photo, info] = await Promise.all([
+    page.locator('.about__img-wrapper').boundingBox(),
+    page.locator('.about__info').boundingBox(),
+  ]);
+  expect(photo.x + photo.width).toBeLessThanOrEqual(info.x);
+
+  const cards = await page.locator('.contact__card').evaluateAll((els) =>
+    els.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { x: Math.round(r.x), y: Math.round(r.y) };
+    }),
+  );
+  expect(new Set(cards.map((c) => c.y)).size).toBe(2);
+  expect(new Set(cards.map((c) => c.x)).size).toBe(2);
+});
+
 test('tema alterna e persiste após recarregar', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
