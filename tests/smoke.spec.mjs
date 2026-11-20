@@ -344,7 +344,7 @@ test('SocialTech abre a grade em destaque, com código, site no ar e prova linka
   expect(Math.round(card.width)).toBe(Math.round(grid.width));
 
   await page.locator('#lang-toggle').click();
-  await expect(featured.locator('.project-card__badge')).toHaveText('Live');
+  await expect(featured.locator('.project-card__badge')).toHaveText('Completed · live');
 });
 
 test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
