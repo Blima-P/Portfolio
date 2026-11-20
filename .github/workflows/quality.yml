@@ -11,7 +11,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: quality-${{ github.ref }}
+  # Grupo por evento: um push na main não substitui um deploy manual que ainda está na fila.
+  group: quality-${{ github.event_name }}-${{ github.ref }}
   # Em PR, um push novo cancela a execução antiga; na main, nenhum deploy é interrompido.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
