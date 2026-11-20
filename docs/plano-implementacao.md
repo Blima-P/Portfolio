@@ -107,7 +107,7 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 | M0–M2 | Fundação, integridade e refatoração (plano v2) | 6 | ✅ Concluído (#5–#10) | — | 10/11/2026 |
 | M3 | Plano v3 + hotfix dos títulos invisíveis | 3 | ✅ Concluído (#12, #15, #16) | — | 18/11/2026 |
 | M4 | Governança do repositório e portão de deploy | 6 (+1 ajuste) | ✅ Concluído (#18–#31) | M3 | 18/11/2026 |
-| M5 | Identidade visual "Metrô Noturno" | 6 | ⬜ Pendente | M4 | |
+| M5 | Identidade visual "Metrô Noturno" | 6 (+3 extras) | ✅ Concluído (#33–#49) | M4 | 19/11/2026 |
 | M6 | Conteúdo orientado a recrutador | 9 | ⛔ Bloqueado (análise §7) | M5 | |
 | M7 | Projetos como estudos de caso | 5 | ⬜ Pendente | M6 | |
 | M8 | Interações com propósito (terminal, tema, impressão, 404) | 6 | ⬜ Pendente | M7 | |
@@ -239,12 +239,15 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
 
 | PR | Branch | Título | Status |
 |---|---|---|---|
-| 5.1 | `refactor/m5-tokens` | `refactor(css): centraliza cores em tokens semânticos` | ⬜ |
-| 5.2 | `feat/m5-paleta` | `feat(theme): aplica a paleta Metrô Noturno nos dois temas` | ⬜ |
-| 5.3 | `perf/m5-fontes-locais` | `perf(fonts): hospeda Inter e JetBrains Mono localmente` | ⬜ |
-| 5.4 | `fix/m5-header` | `fix(header): agrupa ações, alvos de 44 px e theme-color` | ⬜ |
-| 5.5 | `feat/m5-botoes-e-foco` | `feat(ui): botões acessíveis e foco visível` | ⬜ |
-| 5.6 | `fix/m5-hero-layout` | `fix(hero): partículas fora do texto e hierarquia de CTAs no mobile` | ⬜ |
+| 5.1 | `refactor/m5-tokens` | `refactor(css): centraliza cores em tokens semânticos` | ✅ #33 |
+| 5.2 | `feat/m5-paleta` | `feat(theme): aplica a paleta Metrô Noturno nos dois temas` | ✅ #35 |
+| 5.3 | `perf/m5-fontes-locais` | `perf(fonts): hospeda Inter e JetBrains Mono localmente` | ✅ #37 |
+| 5.4 | `fix/m5-header` | `fix(header): agrupa ações, alvos de 44 px e theme-color` | ✅ #39 |
+| 5.5 | `feat/m5-botoes-e-foco` | `feat(ui): botões acessíveis e foco visível` | ✅ #45 |
+| 5.6 | `fix/m5-hero-layout` | `fix(hero): partículas fora do texto e hierarquia de CTAs no mobile` | ✅ #49 |
+
+Extras do período (fora da contagem prevista): #43 e #47 (SocialTech em destaque — antecipa parte do 7.1)
+e #44 (âncoras do menu, issue #41).
 
 **Tarefas**
 1. (5.1) Tokens: `--color-accent`, `--color-accent-hover`, `--color-accent-ink`, `--color-accent-rgb`,
@@ -275,11 +278,13 @@ Legenda: ⬜ Pendente · 🟨 Em andamento · ✅ Concluído · ⛔ Bloqueado
    seta (R21); *breakpoint* intermediário em 820 px (R24).
 
 **DOD**
-- [ ] `grep -nE "#[0-9a-fA-F]{3,8}\b|rgba?\(\s*[0-9]" css/*.css js/*.js` só encontra tokens (exceções justificadas no PR).
-- [ ] Contraste ≥ 4,5:1 (texto) e ≥ 3:1 (componentes/foco) nos 2 temas; Lighthouse `color-contrast` aprovado.
-- [ ] Nenhuma requisição a `fonts.googleapis.com`/`fonts.gstatic.com`.
-- [ ] Capturas antes × depois (390/820/1440 × 2 temas) em cada PR visual.
-- [ ] DOD comum atendido, incluindo rubber-duck.
+- [x] `grep -nE "#[0-9a-fA-F]{3,8}\b|rgba?\(\s*[0-9]" css/*.css js/*.js` só encontra tokens. Exceções
+  justificadas: cores oficiais das linguagens em `js/github.js` (#33) e `#000` da máscara das partículas,
+  em que só o alfa importa (#49).
+- [x] Contraste ≥ 4,5:1 (texto) e ≥ 3:1 (componentes/foco) nos 2 temas; Lighthouse `color-contrast` aprovado.
+- [x] Nenhuma requisição a `fonts.googleapis.com`/`fonts.gstatic.com`.
+- [x] Capturas antes × depois (390/820/1440 × 2 temas) em cada PR visual.
+- [x] DOD comum atendido, incluindo rubber-duck.
 
 ---
 
@@ -936,7 +941,7 @@ rubber-duck com OUTRA IA sobre o conjunto da entrega e registre na seção 11.
 | 17/11/2026 | Baseline | 171 | 32 candidatos | Base exibido | Prata |
 | | Após M3 (18/11/2026) | 174 | 35 candidatos | Base exibido | Prata |
 | | Após M4 (18/11/2026) | 181 | 42 candidatos | Base exibido | Prata |
-| | Após M5 | | | | |
+| | Após M5 (19/11/2026) | 190 | 51 candidatos | Base exibido | Prata |
 | | Após M6 | | | Ouro possível (se os candidatos contarem) | |
 
 Consulta para atualizar (PowerShell):
@@ -966,3 +971,7 @@ gh api "search/issues?q=author:Blima-P+type:pr+is:merged&per_page=1" -q .total_c
 | 18/11/2026 | M4 | **4.3 (#22):** check visto vermelho com título sem tipo e com assunto em maiúscula, verde após corrigir (runs no comentário do PR). O próprio #24 foi aberto com assunto em maiúscula e corrigido. **4.4:** o Dependabot abriu o #27 (5 pacotes npm agrupados, `chore(deps-dev)`) e passou no `pr-title`; nenhum PR de Actions (todas já na versão mais nova). |
 | 18/11/2026 | M4 | **4.6 (#31):** Pages trocado para `build_type=workflow` imediatamente antes do merge; deploy pelo job `deploy` (`needs: quality`). Desvio do plano: o `if` aceita também `workflow_dispatch` na `main` (republicar sem commit). |
 | 18/11/2026 | M4 | Placar: 181 PRs mergeados por Blima-P (#18–#31, sem contar o #27 do Dependabot); 42 candidatos a coautoria; Pair Extraordinaire ainda no nível base. |
+| 19/11/2026 | M5 | **Rubber-duck em cada PR (outra IA)**, achados tratados no próprio PR: 5.2 (#35) contraste do terminal; 5.4 (#39) header em 320 px e `theme-color` antes dos módulos; 5.5 (#45) anel do terminal cortado, foco em links do menu fechado fora da tela, cobertura do teste de foco, borda do header e anel cortado na borda da viewport (`scroll-margin-block`); #43 filtro com um card só deixava meia grade vazia; #44 `toBeInViewport` ignorava o header fixo; #47 redação do §10.2. Nenhum bloqueante pendente. |
+| 19/11/2026 | M5 | **Extras:** #43/#47 colocam o SocialTech em destaque (concluído e no ar) — antecipa parte do 7.1; #44 (issue #41) remove `content-visibility` das seções, que fazia as âncoras do menu pararem antes da seção, e troca as grades por `minmax(min(100%, N), 1fr)` (sem rolagem horizontal em 320 px). |
+| 19/11/2026 | M5 | **5.6 (#49):** máscara no canvas (`destination-out` com borda via `shadowBlur`, recalculada por `ResizeObserver`) — teste lê o alfa do canvas sobre o conteúdo; no mobile, CV vira link de texto; `padding-bottom` no hero e ícones de 44 px (R21); em 820 px "Sobre" segue em 2 colunas e contato em 2 × 2 (R24). **LCP:** o texto do hero entrava com `opacity: 0` e o LCP virava a frase digitada; com entrada só por `transform`, Lighthouse mobile local foi de **0,75 / LCP 8,3 s** para **0,99 / LCP 1,2 s** (3 amostras cada; elemento = descrição). Testes novos vistos vermelhos no `main` e com mutações (sem `padding-bottom`, sem o estilo de link, ícones de 42 px). |
+| 19/11/2026 | M5 | Placar: 190 PRs mergeados (com o #49); 51 candidatos a coautoria; Pair Extraordinaire ainda no nível base; Pull Shark prata. |
