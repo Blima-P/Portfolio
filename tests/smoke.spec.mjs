@@ -56,6 +56,17 @@ test('canvas de partículas não intercepta cliques nem o menu de contexto', asy
 });
 
 test('partículas não passam sob o texto nem os botões do hero', async ({ page }) => {
+  // Semente fixa: com posições aleatórias, às vezes todas as partículas caíam dentro da máscara e o
+  // canvas ficava legitimamente vazio. Com esta semente há partículas dentro e fora do conteúdo.
+  await page.addInitScript(() => {
+    let seed = 42;
+    Math.random = () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  });
   await page.goto('/');
   // Várias amostras: as partículas se movem e a máscara precisa valer em todo quadro.
   for (let i = 0; i < 6; i++) {
