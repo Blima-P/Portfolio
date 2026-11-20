@@ -477,6 +477,9 @@ select,
   align-items: center;
   overflow: hidden;
   padding-top: 80px;
+
+  /* Reserva a faixa da seta de rolagem: os ícones sociais nunca encostam nela. */
+  padding-bottom: 6rem;
 }
 
 .hero__particles {
@@ -567,8 +570,8 @@ select,
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
@@ -1451,7 +1454,19 @@ select,
 }
 
 /* ---- Responsividade ---- */
+
+/* Tablet (ex.: 820 px): "Sobre" continua em 2 colunas, só com menos respiro; contato em 2 × 2. */
 @media (max-width: 900px) {
+  .about__content {
+    gap: 2.5rem;
+  }
+
+  .contact__content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
   .about__content {
     grid-template-columns: 1fr;
     text-align: center;
@@ -1468,10 +1483,6 @@ select,
 
   .about__data {
     justify-items: center;
-  }
-
-  .contact__content {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -1526,6 +1537,26 @@ select,
     justify-content: center;
   }
 
+  /* No mobile: um CTA primário, um secundário e o currículo como link de texto. */
+  .hero__buttons .hero__cv {
+    width: auto;
+    align-self: center;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .hero__buttons .hero__cv:hover {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-accent-hover);
+    transform: none;
+    box-shadow: none;
+  }
+
   .section__title {
     font-size: 1.8rem;
   }
@@ -1541,7 +1572,8 @@ select,
   }
 }
 
-/* Telas muito estreitas (320 px): menos respiro lateral para caber logo e as três ações de 44 px. */
+/* Telas muito estreitas (320 px): menos respiro lateral para caber logo e as três ações de 44 px;
+   os cartões de contato voltam para 1 coluna. */
 @media (max-width: 360px) {
   .header .container {
     padding: 0 0.75rem;
@@ -1550,5 +1582,9 @@ select,
   .nav,
   .nav__actions {
     gap: 0.25rem;
+  }
+
+  .contact__content {
+    grid-template-columns: 1fr;
   }
 }
