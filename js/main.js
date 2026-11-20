@@ -24,7 +24,7 @@ document.addEventListener('keydown', (event) => {
   if (!event.ctrlKey || event.key !== '`' || event.repeat) return;
   event.preventDefault();
   // A mesma promessa atende pressionamentos rápidos: os toggles ficam na ordem certa.
-  terminal ??= import('./terminal.js?v=af143410');
+  terminal ??= import('./terminal.js?v=ad1e06f2');
   terminal
     .then(({ toggleTerminal }) => toggleTerminal())
     .catch((err) => {
