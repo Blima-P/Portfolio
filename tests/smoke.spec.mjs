@@ -568,38 +568,57 @@ test('SocialTech abre a grade em destaque, com código, site no ar e prova linka
   await expect(featured.locator('.project-card__badge')).toHaveText('Completed · live');
 });
 
-test('estudo de caso da Carteira API: card leva à página, diagrama acessível e volta aos projetos', async ({
-  page,
-}) => {
-  await page.goto('./');
-  const card = page.locator('.project-card', { hasText: 'Carteira API' });
-  await card.getByRole('link', { name: 'Ver estudo de caso da Carteira API' }).click();
-  await expect(page).toHaveURL(/\/Portfolio\/projetos\/carteira-api\.html$/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Carteira API');
-  await expect(page.getByRole('img', { name: 'Arquitetura da Carteira API' })).toBeVisible();
+const CASE_STUDIES = [
+  {
+    title: 'Carteira API',
+    file: 'carteira-api.html',
+    link: 'Ver estudo de caso da Carteira API',
+    diagram: ['Arquitetura da Carteira API', 'Carteira API architecture'],
+    links: /^https:\/\/github\.com\/Blima-P\/carteira-api(\/|#|$)/,
+  },
+  {
+    title: 'SocialTech',
+    file: 'socialtech.html',
+    link: 'Ver estudo de caso do SocialTech',
+    diagram: ['Fluxo de entrega do SocialTech', 'SocialTech delivery flow'],
+    links: /^https:\/\/(github\.com\/Blima-P\/SocialTech|blima-p\.github\.io\/SocialTech)(\/|#|\?|$)/,
+  },
+];
 
-  // Toda evidência aponta para o próprio repositório, em nova aba segura.
-  const external = await page
-    .locator('main a[href^="http"]')
-    .evaluateAll((links) => links.map((a) => ({ href: a.href, target: a.target, rel: a.rel })));
-  expect(external.length).toBeGreaterThan(10);
-  for (const link of external) {
-    expect(link.href).toMatch(/^https:\/\/github\.com\/Blima-P\/carteira-api(\/|#|$)/);
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toContain('noopener');
-  }
+for (const study of CASE_STUDIES) {
+  test(`estudo de caso ${study.title}: card leva à página, diagrama acessível e volta aos projetos`, async ({
+    page,
+  }) => {
+    await page.goto('./');
+    const card = page.locator('.project-card', { hasText: study.title });
+    await card.getByRole('link', { name: study.link }).click();
+    await expect(page).toHaveURL(new RegExp(`/Portfolio/projetos/${study.file.replace('.', '\\.')}$`));
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(study.title);
+    await expect(page.getByRole('img', { name: study.diagram[0] })).toBeVisible();
 
-  // Nada vaza na horizontal, em nenhum dos viewports testados.
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-  expect(overflow).toBeLessThanOrEqual(0);
+    // Toda evidência aponta para o próprio projeto, em nova aba segura.
+    const external = await page
+      .locator('main a[href^="http"]')
+      .evaluateAll((links) => links.map((a) => ({ href: a.href, target: a.target, rel: a.rel })));
+    expect(external.length).toBeGreaterThan(10);
+    for (const link of external) {
+      expect(link.href).toMatch(study.links);
+      expect(link.target).toBe('_blank');
+      expect(link.rel).toContain('noopener');
+    }
 
-  await page.locator('#lang-toggle').click();
-  await expect(page.getByRole('img', { name: 'Carteira API architecture' })).toBeVisible();
-  await page.locator('#lang-toggle').click();
+    // Nada vaza na horizontal, em nenhum dos viewports testados.
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
 
-  await page.locator('.case__back').first().click();
-  await expect(page).toHaveURL(/\/Portfolio\/(index\.html)?#projects$/);
-});
+    await page.locator('#lang-toggle').click();
+    await expect(page.getByRole('img', { name: study.diagram[1] })).toBeVisible();
+    await page.locator('#lang-toggle').click();
+
+    await page.locator('.case__back').first().click();
+    await expect(page).toHaveURL(/\/Portfolio\/(index\.html)?#projects$/);
+  });
+}
 
 test('faixa de provas do Sobre: 4 links seguros para evidências no GitHub, sem vazar no celular', async ({
   page,

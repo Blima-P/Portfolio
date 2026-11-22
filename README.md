@@ -65,7 +65,8 @@ Qualidade       ESLint · Stylelint · Prettier · html-validate · Playwright �
 Portfolio/
 ├── index.html                  # Página principal (home)
 ├── projetos/
-│   └── carteira-api.html       # Estudo de caso da Carteira API (decisões, diagrama, provas)
+│   ├── carteira-api.html       # Estudo de caso da Carteira API (decisões, diagrama, provas)
+│   └── socialtech.html         # Estudo de caso do SocialTech (papel, decisões, fluxo de entrega)
 ├── css/
 │   ├── styles.css              # Estilos principais, layout, componentes, responsivo
 │   ├── case.css                # Estilos dos estudos de caso (projetos/*.html)
@@ -152,7 +153,7 @@ cache do navegador após um deploy.
 | **Hero** | Selo de disponibilidade, nome, cargo, proposta de valor, prova com link (SocialTech), linha de terminal, partículas de fundo, botões de ação |
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade |
 | **Experiência** | Linha do tempo da jornada profissional |
-| **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API (com estudo de caso em página própria), ERP Acadêmico, Campo-minado e Painel Semanal (PWA offline), com contexto e participação |
+| **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova e estudo de caso), Carteira API (com estudo de caso em página própria), ERP Acadêmico, Campo-minado e Painel Semanal (PWA offline), com contexto e participação |
 | **Competências** | Agrupadas por área (Backend, Front-end, Dados, DevOps), com nível honesto ("no ar", "em projeto", "estudando") e link para a evidência |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |

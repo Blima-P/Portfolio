@@ -11,6 +11,9 @@ export const translations = {
     'page.carteira-api.title': 'Carteira API — case study | Pedro Braga',
     'page.carteira-api.description':
       'Carteira API case study: ACID transfers, idempotency, ordered pessimistic locking, cursor pagination and Spring Modulith, with concurrency tests and 7 ADRs.',
+    'page.socialtech.title': 'SocialTech — case study | Pedro Braga',
+    'page.socialtech.description':
+      'SocialTech case study: a mobile-first site opened by the QR Code on the UCB compost bin. Static Astro site, progressive enhancement, content editable without code, CI with accessibility checks; 111 of my PRs merged.',
 
     // Navegação
     'nav.about': 'About',
@@ -111,6 +114,7 @@ export const translations = {
     'project.live': 'Live',
     'project.case': 'Read the case study',
     'project1.case.label': 'Read the case study: Carteira API',
+    'project5.case.label': 'Read the case study: SocialTech',
     // Habilidades
     'skills.title': 'Skills',
     'skills.subtitle': 'By area, with an honest level and a link to the proof',
@@ -176,6 +180,9 @@ export const translations = {
     'case.section.proofs': 'Proof',
     'case.section.stack': 'Stack',
     'case.section.next': 'Limits and next steps',
+    'case.section.role': 'My role',
+    'case.section.delivery': 'From commit to QR Code',
+    'case.live': 'See the live site',
     'case.carteira.eyebrow': 'Case study · personal project',
     'case.carteira.lead':
       'Digital wallet REST API in Java 21: sign-up and login with JWT, deposits, transfers between users and a statement. The goal is to show, with tests, the essential requirements of financial systems.',
@@ -257,6 +264,87 @@ export const translations = {
     'case.carteira.next.outbox': 'Notify the recipient of a transfer through a Spring Modulith event outbox.',
     'case.carteira.next.deploy':
       'Real cloud deployment: today it is simulated, and only the deployment step would change.',
+    'case.socialtech.eyebrow': 'Case study · extension project (UCB + Enactus)',
+    'case.socialtech.lead':
+      'Mobile-first educational site, opened by the QR Code on the UCB compost bin, that shows what can and cannot be thrown away there. I was one of the two maintainers of a team of 10 students.',
+    'case.socialtech.metric.prs': 'of my PRs merged, out of 131 in the repository',
+    'case.socialtech.metric.team': 'students on the team, 2 of them maintainers',
+    'case.socialtech.metric.a11y': 'in Lighthouse Accessibility, mobile mode, on the published site',
+    'case.socialtech.context':
+      'Extension project of the Catholic University of Brasília (Taguatinga campus) with Enactus UCB, in the second half of 2026. Organic waste thrown in the wrong place contaminates recyclables and adds to overcrowded landfills in the Federal District. The idea: whoever is standing at the bin scans the QR Code and finds out, on their phone, what can go in it.',
+    'case.socialtech.problem.intro': 'The quality goals, in priority order, were:',
+    'case.socialtech.problem.speed':
+      'whoever scans the QR decides “yes or no” within 10 seconds, on a phone with 4G;',
+    'case.socialtech.problem.a11y': 'accessible (WCAG 2.1 AA) and usable with one hand at 360 px;',
+    'case.socialtech.problem.privacy': 'no personal data collected;',
+    'case.socialtech.problem.editing':
+      'the coordinating professor edits the content alone, without programming and without breaking the site;',
+    'case.socialtech.problem.review': 'code simple enough for students to review AI-generated code.',
+    'case.socialtech.role.intro':
+      'Of the 10 students, 4 had access to GitHub. I was one of the two maintainers and took care of:',
+    'case.socialtech.role.architecture':
+      'architecture and its decision records (ADRs), following Spec-Driven Development;',
+    'case.socialtech.role.ci': 'CI/CD: checks on every PR and deploy to GitHub Pages on every push to main;',
+    'case.socialtech.role.review':
+      'PR review as code owner: every PR to develop needs a maintainer’s approval, and whoever pushed last cannot approve;',
+    'case.socialtech.role.a11y':
+      'accessibility: WCAG 2.1 AA as a goal, accessibility rules in ESLint and browser tests.',
+    'case.socialtech.decision.static.title': 'Astro and TypeScript, 100% static',
+    'case.socialtech.decision.static.text':
+      'HTML and CSS generated at build time and published on GitHub Pages: no server, database or API. Astro ships zero JavaScript by default, and strict TypeScript helps review AI-generated code.',
+    'case.socialtech.decision.progressive.title': 'Progressive enhancement',
+    'case.socialtech.decision.progressive.text':
+      'The HTML carries all the content; component scripts only add search, the step-by-step cycle and the quiz. Without JavaScript, the guide still shows in full. Scripts never use innerHTML.',
+    'case.socialtech.decision.single.title': 'A single page',
+    'case.socialtech.decision.single.text':
+      'Each extra page would be another load on 4G, right when the person is standing at the bin. All sections live on one page, reached by anchors.',
+    'case.socialtech.decision.cms.title': 'Content editable without code',
+    'case.socialtech.decision.cms.text':
+      'The professor edits through Pages CMS, and each “Save” becomes a commit. The content lives in JSON validated by a zod schema: invalid data fails the build and the previous site stays live.',
+    'case.socialtech.decision.privacy.title': 'Visit counting without cookies',
+    'case.socialtech.decision.privacy.text':
+      'GoatCounter, only in the production build, with no personal data. The QR address carries the campaign=lixeira parameter, which separates visits coming from the bin.',
+    'case.socialtech.decision.font.title': 'No third parties beyond counting',
+    'case.socialtech.decision.font.text':
+      'Self-hosted Roboto (about 44 KB, Latin only) instead of Google Fonts. The Content-Security-Policy allows only the site itself and GoatCounter, without unsafe-inline.',
+    'case.socialtech.diagram.title': 'SocialTech delivery flow',
+    'case.socialtech.diagram.desc':
+      'Students open PRs from feature branches. Every PR goes through CI (formatting, lint with accessibility rules, types, build, generated-site checks, browser tests and links) and needs a maintainer’s approval before reaching develop. A release takes develop to main with a merge commit. The professor edits the content in Pages CMS, which commits straight to main. Every push to main builds and publishes the site on GitHub Pages. The QR Code on the bin opens the site, and GoatCounter counts the visit without cookies.',
+    'case.socialtech.diagram.team': 'team',
+    'case.socialtech.diagram.cms': 'professor edits content',
+    'case.socialtech.diagram.ci': 'CI + review',
+    'case.socialtech.diagram.checks': 'lint, types, build, tests',
+    'case.socialtech.diagram.approval': 'maintainer approval',
+    'case.socialtech.diagram.direct': 'direct commit',
+    'case.socialtech.diagram.site': 'live site',
+    'case.socialtech.diagram.bin': 'on the compost bin',
+    'case.socialtech.diagram.visits': 'visits, no cookies',
+    'case.socialtech.diagram.caption':
+      'Branches and publishing, as recorded in the architecture document. Only PRs from develop or fix/* can reach main.',
+    'case.socialtech.proofs.intro': 'Each claim points to the file or record that proves it.',
+    'case.socialtech.proof.prs': '111 of the 131 PRs merged in the repository are mine.',
+    'case.socialtech.proof.ci':
+      'On every PR: Prettier, ESLint with accessibility rules, astro check, build, generated-site checks, Playwright tests and broken links.',
+    'case.socialtech.proof.checker':
+      'Checks the generated site: home page under 350 KB, a single h1, alt on every image, internal paths under /SocialTech/ and GoatCounter as the only external script.',
+    'case.socialtech.proof.e2e':
+      'Playwright at 360 and 1366 px: search, cycle, quiz, theme, reduced motion, no JavaScript and the 404 page; the test fails if any interaction breaks the CSP.',
+    'case.socialtech.proof.lighthouse':
+      'Three Lighthouse runs, mobile mode, on the published site: Performance 99 to 100; Accessibility, Best Practices and SEO 100; LCP 1.5 to 1.9 s; 279 KiB transferred.',
+    'case.socialtech.proof.sdd':
+      'Constitution, specification, clarifications, task plan and review, consolidated after the MVP.',
+    'case.socialtech.next.intro':
+      'What is still open, as recorded in the architecture document and the homologation log:',
+    'case.socialtech.next.goals':
+      'Usage goals (visits through the QR, form answers) do not yet have consolidated evidence in the homologation log.',
+    'case.socialtech.next.manual': 'Screen reader and real-phone tests are still manual.',
+    'case.socialtech.next.lighthouse':
+      'Lighthouse does not run in CI; in its place, CI enforces the 350 KB budget and checks h1 and alt.',
+    'case.socialtech.next.cms':
+      'CMS edits go straight to main without review, so develop has to receive them before each release.',
+    'case.socialtech.next.qr':
+      'The QR Code is static: renaming the repository or changing the domain means reprinting the sticker.',
+    'case.socialtech.next.adblock': 'Ad blockers can stop GoatCounter, so the visit count is a minimum.',
   },
 
   'pt-br': {
@@ -267,6 +355,9 @@ export const translations = {
     'page.carteira-api.title': 'Carteira API — estudo de caso | Pedro Braga',
     'page.carteira-api.description':
       'Estudo de caso da Carteira API: transferências ACID, idempotência, lock pessimista ordenado, paginação por cursor e Spring Modulith, com testes de concorrência e 7 ADRs.',
+    'page.socialtech.title': 'SocialTech — estudo de caso | Pedro Braga',
+    'page.socialtech.description':
+      'Estudo de caso do SocialTech: site mobile-first aberto pelo QR Code da lixeira de compostagem da UCB. Astro estático, aprimoramento progressivo, conteúdo editável sem programar e CI com acessibilidade; 111 PRs meus mergeados.',
 
     // Navegação
     'nav.about': 'Sobre',
@@ -367,6 +458,7 @@ export const translations = {
     'project.live': 'Site',
     'project.case': 'Ver estudo de caso',
     'project1.case.label': 'Ver estudo de caso da Carteira API',
+    'project5.case.label': 'Ver estudo de caso do SocialTech',
     // Habilidades
     'skills.title': 'Competências',
     'skills.subtitle': 'Por área, com nível honesto e link para a prova',
@@ -432,6 +524,9 @@ export const translations = {
     'case.section.proofs': 'Provas',
     'case.section.stack': 'Stack',
     'case.section.next': 'Limites e próximos passos',
+    'case.section.role': 'Meu papel',
+    'case.section.delivery': 'Do commit ao QR Code',
+    'case.live': 'Ver o site no ar',
     'case.carteira.eyebrow': 'Estudo de caso · projeto pessoal',
     'case.carteira.lead':
       'API REST de carteira digital em Java 21: cadastro e login com JWT, depósitos, transferências entre usuários e extrato. O foco é demonstrar, com testes, os requisitos essenciais de sistemas financeiros.',
@@ -516,6 +611,89 @@ export const translations = {
       'Avisar quem recebeu uma transferência com um outbox de eventos do Spring Modulith.',
     'case.carteira.next.deploy':
       'Deploy real em nuvem: hoje ele é simulado, e só o passo de implantação mudaria.',
+    'case.socialtech.eyebrow': 'Estudo de caso · projeto de extensão (UCB + Enactus)',
+    'case.socialtech.lead':
+      'Site educativo mobile-first, aberto pelo QR Code da lixeira de compostagem da UCB, que mostra o que pode e o que não pode ser descartado ali. Fui um dos dois mantenedores de um time de 10 estudantes.',
+    'case.socialtech.metric.prs': 'PRs meus mergeados, de 131 no repositório',
+    'case.socialtech.metric.team': 'estudantes no time, 2 deles mantenedores',
+    'case.socialtech.metric.a11y': 'em Acessibilidade no Lighthouse, modo celular, no site publicado',
+    'case.socialtech.context':
+      'Projeto de extensão da Universidade Católica de Brasília (Campus Taguatinga) com o Enactus UCB, no segundo semestre de 2026. O descarte errado de resíduos orgânicos contamina recicláveis e contribui para a superlotação dos aterros do Distrito Federal. A ideia: quem está na frente da lixeira escaneia o QR Code e descobre, pelo celular, o que pode ser descartado ali.',
+    'case.socialtech.problem.intro': 'Os objetivos de qualidade, em ordem de prioridade, eram:',
+    'case.socialtech.problem.speed':
+      'quem escaneia o QR decide “pode ou não pode” em até 10 segundos, num celular com 4G;',
+    'case.socialtech.problem.a11y': 'acessível (WCAG 2.1 AA) e usável com uma mão em 360 px;',
+    'case.socialtech.problem.privacy': 'nenhum dado pessoal coletado;',
+    'case.socialtech.problem.editing':
+      'o professor coordenador edita o conteúdo sozinho, sem programar e sem quebrar o site;',
+    'case.socialtech.problem.review':
+      'código simples o bastante para estudantes revisarem código gerado por IA.',
+    'case.socialtech.role.intro':
+      'Dos 10 estudantes, 4 tinham acesso ao GitHub. Fui um dos dois mantenedores e cuidei de:',
+    'case.socialtech.role.architecture':
+      'arquitetura e registros de decisão (ADRs), seguindo Spec-Driven Development;',
+    'case.socialtech.role.ci': 'CI/CD: verificações em todo PR e deploy no GitHub Pages a cada push na main;',
+    'case.socialtech.role.review':
+      'revisão de PRs como code owner: todo PR para a develop precisa da aprovação de um mantenedor, e quem fez o último push não pode aprovar;',
+    'case.socialtech.role.a11y':
+      'acessibilidade: WCAG 2.1 AA como meta, regras de acessibilidade no ESLint e testes no navegador.',
+    'case.socialtech.decision.static.title': 'Astro e TypeScript, 100% estático',
+    'case.socialtech.decision.static.text':
+      'HTML e CSS gerados no build e publicados no GitHub Pages: sem servidor, banco de dados nem API. O Astro não envia JavaScript por padrão, e o TypeScript strict ajuda a revisar código gerado por IA.',
+    'case.socialtech.decision.progressive.title': 'Aprimoramento progressivo',
+    'case.socialtech.decision.progressive.text':
+      'O HTML traz todo o conteúdo; os scripts dos componentes só acrescentam a busca, o ciclo passo a passo e o quiz. Sem JavaScript, o guia aparece completo. Os scripts nunca usam innerHTML.',
+    'case.socialtech.decision.single.title': 'Página única',
+    'case.socialtech.decision.single.text':
+      'Cada página a mais seria outro carregamento no 4G, justo quando a pessoa está na frente da lixeira. Todas as seções ficam numa página só, com acesso por âncoras.',
+    'case.socialtech.decision.cms.title': 'Conteúdo editável sem programar',
+    'case.socialtech.decision.cms.text':
+      'O professor edita pelo Pages CMS, e cada “Salvar” vira um commit. O conteúdo fica em JSON validado por schema zod: dado inválido faz o build falhar e o site anterior continua no ar.',
+    'case.socialtech.decision.privacy.title': 'Contagem de acessos sem cookies',
+    'case.socialtech.decision.privacy.text':
+      'GoatCounter, só no build de produção, sem dado pessoal. O endereço do QR leva o parâmetro campaign=lixeira, que separa as visitas vindas da lixeira.',
+    'case.socialtech.decision.font.title': 'Nada de terceiros além da contagem',
+    'case.socialtech.decision.font.text':
+      'Roboto auto-hospedada (cerca de 44 KB, só caracteres latinos) no lugar do Google Fonts. A Content-Security-Policy libera só o próprio site e o GoatCounter, sem unsafe-inline.',
+    'case.socialtech.diagram.title': 'Fluxo de entrega do SocialTech',
+    'case.socialtech.diagram.desc':
+      'Os estudantes abrem PRs a partir de branches feature. Todo PR passa pelo CI (formatação, lint com regras de acessibilidade, tipos, build, verificação do site gerado, testes no navegador e links) e precisa da aprovação de um mantenedor antes de entrar na develop. A release leva a develop para a main com merge commit. O professor edita o conteúdo no Pages CMS, que grava direto na main. Cada push na main gera e publica o site no GitHub Pages. O QR Code da lixeira abre o site, e o GoatCounter conta a visita sem cookies.',
+    'case.socialtech.diagram.team': 'equipe',
+    'case.socialtech.diagram.cms': 'professor edita o conteúdo',
+    'case.socialtech.diagram.ci': 'CI + revisão',
+    'case.socialtech.diagram.checks': 'lint, tipos, build, testes',
+    'case.socialtech.diagram.approval': 'aprovação de mantenedor',
+    'case.socialtech.diagram.direct': 'commit direto',
+    'case.socialtech.diagram.site': 'site no ar',
+    'case.socialtech.diagram.bin': 'na lixeira de compostagem',
+    'case.socialtech.diagram.visits': 'visitas sem cookies',
+    'case.socialtech.diagram.caption':
+      'Branches e publicação, como registrado no documento de arquitetura. A main só aceita PR vindo da develop ou de fix/*.',
+    'case.socialtech.proofs.intro': 'Cada afirmação aponta para o arquivo ou registro que a prova.',
+    'case.socialtech.proof.prs': '111 dos 131 PRs mergeados no repositório são meus.',
+    'case.socialtech.proof.ci':
+      'Em todo PR: Prettier, ESLint com regras de acessibilidade, astro check, build, verificação do site gerado, testes com Playwright e links quebrados.',
+    'case.socialtech.proof.checker':
+      'Confere o site gerado: página inicial abaixo de 350 KB, um único h1, alt em toda imagem, caminhos internos com /SocialTech/ e o GoatCounter como único script externo.',
+    'case.socialtech.proof.e2e':
+      'Playwright em 360 e 1366 px: busca, ciclo, quiz, tema, movimento reduzido, sem JavaScript e a página 404; o teste falha se alguma interação violar a CSP.',
+    'case.socialtech.proof.lighthouse':
+      'Três execuções do Lighthouse, modo celular, no site publicado: Desempenho de 99 a 100; Acessibilidade, Boas práticas e SEO 100; LCP de 1,5 a 1,9 s; 279 KiB transferidos.',
+    'case.socialtech.proof.sdd':
+      'Constituição, especificação, clarificações, plano de tarefas e revisão, consolidados depois do MVP.',
+    'case.socialtech.next.intro':
+      'O que ainda está em aberto, registrado no documento de arquitetura e no registro de homologação:',
+    'case.socialtech.next.goals':
+      'As metas de uso (acessos pelo QR, respostas ao formulário) ainda não têm evidência consolidada no registro de homologação.',
+    'case.socialtech.next.manual': 'Os testes com leitor de tela e em celulares reais continuam manuais.',
+    'case.socialtech.next.lighthouse':
+      'O Lighthouse não roda no CI; no lugar, o CI cobra o orçamento de 350 KB e confere h1 e alt.',
+    'case.socialtech.next.cms':
+      'As edições do painel vão direto para a main, sem revisão; por isso a develop precisa recebê-las antes de cada release.',
+    'case.socialtech.next.qr':
+      'O QR Code é estático: renomear o repositório ou trocar de domínio exige reimprimir o adesivo.',
+    'case.socialtech.next.adblock':
+      'Bloqueadores de anúncio podem impedir o GoatCounter, então a contagem de acessos é um mínimo.',
   },
 };
 
