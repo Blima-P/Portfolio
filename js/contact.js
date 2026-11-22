@@ -1,7 +1,7 @@
 // Contato: botão "Copiar" do e-mail, com fallback para navegadores sem Clipboard API
 // (ou sem permissão) e anúncio do resultado para leitores de tela via aria-live.
 
-import { t } from './i18n.js?v=81d09409';
+import { t } from './i18n.js?v=645bbf2a';
 
 const RESET_MS = 4000;
 

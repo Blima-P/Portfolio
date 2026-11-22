@@ -1,10 +1,10 @@
 // Testes do empacotamento do site (node --test, sem navegador).
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { after, before, test } from 'node:test';
-import { findMissingRefs, stampUpdated } from '../../scripts/pack-site.mjs';
+import { PUBLIC, findMissingRefs, packSite, stampUpdated } from '../../scripts/pack-site.mjs';
 
 let base;
 let site;
@@ -67,7 +67,48 @@ test('rodapé recebe o ano e o mês/ano do commit publicado', () => {
   );
 });
 
+test('rodapé: marcadores com outros atributos e em outra ordem também recebem a data', () => {
+  const html =
+    '<span class="ano" data-updated-year>2025</span>' +
+    '<time class="data" data-updated datetime="2025-01">01/2025</time>';
+  assert.equal(
+    stampUpdated(html, '2027-03-09'),
+    '<span class="ano" data-updated-year>2027</span>' +
+      '<time datetime="2027-03" class="data" data-updated>03/2027</time>',
+  );
+});
+
 test('rodapé: falha com data inválida ou sem as marcações, em vez de publicar data velha', () => {
   assert.throws(() => stampUpdated(FOOTER, '09/03/2027'), /Data inválida/);
   assert.throws(() => stampUpdated('<footer></footer>', '2027-03-09'), /Rodapé sem/);
+});
+
+test('páginas de projetos/ entram no artefato sozinhas e também recebem a data do rodapé', async () => {
+  const root = path.join(base, 'repo');
+  const put = async (file, text = '') => {
+    await mkdir(path.dirname(path.join(root, file)), { recursive: true });
+    await writeFile(path.join(root, file), text);
+  };
+  for (const item of PUBLIC) await put(item.includes('.') ? item : `${item}/.keep`);
+  await put('index.html', `<a href="projetos/caso.html"></a>${FOOTER}`);
+  await put('projetos/caso.html', `<a href="../index.html"></a>${FOOTER}`);
+  await put('projetos/sem-rodape.html', '<a href="caso.html"></a>');
+  await put('docs/plano.md', 'local');
+
+  const out = path.join(base, 'repo-site');
+  const { missing } = await packSite(root, out, { updated: '2027-03-09' });
+  assert.deepEqual(missing, []);
+  assert.match(await readFile(path.join(out, 'projetos/caso.html'), 'utf8'), /datetime="2027-03"/);
+  assert.equal(
+    await readFile(path.join(out, 'projetos/sem-rodape.html'), 'utf8'),
+    '<a href="caso.html"></a>',
+  );
+  await assert.rejects(readFile(path.join(out, 'docs/plano.md')), { code: 'ENOENT' });
+
+  // Página com só um dos marcadores: falha nomeando a página, em vez de publicar data velha.
+  await put('projetos/meio-rodape.html', '<time data-updated datetime="2025-01">01/2025</time>');
+  await assert.rejects(
+    packSite(root, out, { updated: '2027-03-09' }),
+    /projetos\/meio-rodape\.html: Rodapé sem/,
+  );
 });

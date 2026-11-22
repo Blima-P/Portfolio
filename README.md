@@ -79,10 +79,14 @@ Portfolio/
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
 │   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
 ├── scripts/
-│   ├── check-i18n.mjs          # Verifica paridade e uso das chaves de tradução
-│   └── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS
+│   ├── pages.mjs               # Lista única das páginas (index.html, projetos/*.html, 404.html)
+│   ├── check-i18n.mjs          # Paridade e uso das chaves; textos e metadados de cada página
+│   ├── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS de todas as páginas
+│   ├── pack-site.mjs           # Monta _site/ (só o que vai ao ar) e confere referências locais
+│   └── serve-site.mjs          # Servidor local sob /Portfolio/, igual ao GitHub Pages
 ├── tests/
-│   └── smoke.spec.mjs          # Smoke test (Playwright, desktop e mobile)
+│   ├── smoke.spec.mjs          # Smoke test (Playwright, desktop e mobile, sob /Portfolio/)
+│   └── unit/                   # Testes dos scripts (node --test)
 └── assets/
     ├── favicon.svg             # Favicon do site
     ├── fonts/                  # Inter e JetBrains Mono (woff2, latin, OFL)
@@ -99,10 +103,15 @@ git clone https://github.com/Blima-P/Portfolio.git
 cd Portfolio
 
 # Sirva por HTTP (os ES Modules não carregam via file://)
-npx serve .
-# ou
-python -m http.server 8000
+npm ci
+npm run serve    # http://localhost:3000/Portfolio/
 ```
+
+O `npm run serve` imita o GitHub Pages: o site fica sob `/Portfolio/` e só os arquivos publicados
+são servidos, então um caminho absoluto (`/css/…`) ou um arquivo fora do artefato dá 404 já na
+máquina local. Páginas novas em `projetos/` entram sozinhas em todas as verificações
+(`scripts/pages.mjs`) e declaram `<html data-page="id">`, com título e descrição traduzidos nas
+chaves `page.<id>.title` e `page.<id>.description`.
 
 Não há etapa de build: o que está no repositório é o que vai para o GitHub Pages. O deploy é feito
 pelo GitHub Actions **sob demanda**: o push na `main` só roda as verificações; a publicação acontece

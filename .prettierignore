@@ -6,7 +6,7 @@ playwright-report/
 _site/
 assets/
 # HTML fica fora: o Prettier quebra tags inline (</a\n>) para preservar espaços e troca o
-# DOCTYPE; o index.html já é validado pelo html-validate.
-index.html
+# DOCTYPE; as páginas já são validadas pelo html-validate.
+*.html
 # Markdown fica fora: o README é reescrito no M6 e tem tabelas editadas à mão.
 *.md

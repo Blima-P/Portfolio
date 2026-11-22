@@ -1,6 +1,6 @@
 // Alternador de idioma (PT-BR padrão / EN).
 
-import { HTML_KEYS, translations } from './translations.js?v=e382f0b7';
+import { HTML_KEYS, translations } from './translations.js?v=0ea3e4dd';
 
 const DEFAULT_LANG = 'pt-br';
 // Chave nova: a versão anterior salvava 'lang' = 'en' em toda visita, sem escolha do usuário.
@@ -75,9 +75,15 @@ function setLanguage(lang, { persist = false } = {}) {
 
   document.querySelectorAll('[data-i18n]').forEach(translateElement);
 
-  document.documentElement.lang = lang === 'pt-br' ? 'pt-BR' : 'en';
-  document.title = dict['meta.title'];
-  document.querySelector('meta[name="description"]')?.setAttribute('content', dict['meta.description']);
+  // Cada página declara <html data-page="id"> e tem título e descrição próprios (page.<id>.*);
+  // sem o atributo, a página mantém o que veio no HTML em vez de herdar os da home.
+  const root = document.documentElement;
+  root.lang = lang === 'pt-br' ? 'pt-BR' : 'en';
+  const page = root.dataset.page;
+  const title = page && lookup(lang, `page.${page}.title`);
+  const description = page && lookup(lang, `page.${page}.description`);
+  if (title) document.title = title;
+  if (description) document.querySelector('meta[name="description"]')?.setAttribute('content', description);
 
   // O botão mostra o idioma para o qual vai trocar.
   const toggleBtn = document.getElementById('lang-toggle');

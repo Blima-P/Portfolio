@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
+// Mesmo prefixo do GitHub Pages: um caminho absoluto ("/css/x.css") dá 404 aqui, como daria no ar.
+const BASE_URL = `http://localhost:${PORT}/Portfolio/`;
 
 export default defineConfig({
   testDir: 'tests',
@@ -11,7 +13,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: BASE_URL,
     // Idioma principal do site; o teste de detecção troca o locale explicitamente.
     locale: 'pt-BR',
     trace: 'retain-on-failure',
@@ -21,8 +23,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: `npx serve . -l ${PORT} --no-port-switching`,
-    url: `http://localhost:${PORT}`,
+    command: `node scripts/serve-site.mjs --port ${PORT}`,
+    url: BASE_URL,
     reuseExistingServer: !process.env.CI,
   },
 });

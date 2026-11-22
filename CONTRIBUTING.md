@@ -14,7 +14,7 @@ git clone https://github.com/Blima-P/Portfolio.git
 cd Portfolio
 npm ci
 npx playwright install chromium   # só na primeira vez, para os testes
-npm run serve                     # http://localhost:3000
+npm run serve                     # http://localhost:3000/Portfolio/ (igual ao GitHub Pages)
 ```
 
 O site é HTML, CSS e JavaScript puro, **sem etapa de build**: o que está no repositório é o que vai
