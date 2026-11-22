@@ -109,37 +109,8 @@ function initReveal() {
   revealOnScroll(sections, 'section--revealed', 0);
 }
 
-function initProjectFilters() {
-  const filterBtns = document.querySelectorAll('.projects__filter');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.toggle('active', b === btn));
-
-      const { filter } = btn.dataset;
-      projectCards.forEach((card) => {
-        const visible = filter === 'all' || card.dataset.category.includes(filter);
-        card.classList.toggle('hidden', !visible);
-        if (visible) card.style.animation = 'fade-in-up 0.4s ease forwards';
-      });
-    });
-  });
-
-  // Link interno para um card escondido pelo filtro (ex.: prova do hero): volta para "Todos" antes de
-  // o navegador rolar até ele, senão o salto não acontece.
-  document.addEventListener('click', (event) => {
-    const link = event.target.closest?.('a[href^="#"]');
-    const target = link && document.getElementById(link.hash.slice(1));
-    if (target?.matches('.project-card.hidden')) {
-      document.querySelector('.projects__filter[data-filter="all"]')?.click();
-    }
-  });
-}
-
 export function initUI() {
   initHeader();
   initMobileMenu();
   initReveal();
-  initProjectFilters();
 }

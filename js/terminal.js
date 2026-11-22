@@ -1,6 +1,6 @@
 // Terminal (easter egg): Ctrl + ` abre/fecha. Carregado sob demanda pelo main.js.
 
-import { getLanguage } from './i18n.js?v=325add0b';
+import { getLanguage } from './i18n.js?v=81d09409';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');
@@ -13,7 +13,7 @@ const commands = {
     skills:
       'Backend: Java 21 • Spring Boot • PostgreSQL • Flyway • JUnit | Front-end: Astro • TypeScript • HTML/CSS/JS • React | Data & more: Python • pandas • C | DevOps: Docker • GitHub Actions • Git',
     projects:
-      '1. SocialTech — Astro/TypeScript site, live on the UCB campus (maintainer)\n2. Carteira API — Java/Spring digital wallet\n3. Academic ERP — React/Firebase team project\n4. Multiplayer Minesweeper — C/POSIX\n5. Personal Portfolio — HTML/CSS/JavaScript',
+      '1. SocialTech — Astro/TypeScript site, live on the UCB campus (maintainer)\n2. Carteira API — Java/Spring digital wallet\n3. Academic ERP — React/Firebase team project\n4. Multiplayer Minesweeper — C/POSIX\n5. Weekly Dashboard — offline PWA in vanilla JavaScript',
     contact:
       'Email: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: linkedin.com/in/pedrobragadelima',
     github: 'Check out my repos → https://github.com/Blima-P',
@@ -28,7 +28,7 @@ const commands = {
     skills:
       'Backend: Java 21 • Spring Boot • PostgreSQL • Flyway • JUnit | Front-end: Astro • TypeScript • HTML/CSS/JS • React | Dados e mais: Python • pandas • C | DevOps: Docker • GitHub Actions • Git',
     projects:
-      '1. SocialTech — Site Astro/TypeScript no ar no campus da UCB (mantenedor)\n2. Carteira API — Carteira digital Java/Spring\n3. ERP Acadêmico — Projeto em equipe React/Firebase\n4. Campo Minado Multiplayer — C/POSIX\n5. Portfólio Pessoal — HTML/CSS/JavaScript',
+      '1. SocialTech — Site Astro/TypeScript no ar no campus da UCB (mantenedor)\n2. Carteira API — Carteira digital Java/Spring\n3. ERP Acadêmico — Projeto em equipe React/Firebase\n4. Campo Minado Multiplayer — C/POSIX\n5. Painel Semanal — PWA offline em JavaScript puro',
     contact:
       'E-mail: pbl0812@gmail.com\nGitHub: github.com/Blima-P\nLinkedIn: linkedin.com/in/pedrobragadelima',
     github: 'Confira meus repos → https://github.com/Blima-P',
