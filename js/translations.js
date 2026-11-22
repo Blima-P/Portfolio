@@ -36,7 +36,8 @@ export const translations = {
     'hero.proof': 'maintainer · 111 of my PRs merged · team of 10 students',
     'hero.btn.projects': 'View Projects',
     'hero.btn.contact': 'Get in touch',
-    'hero.btn.cv': 'Resume (PDF, in Portuguese)',
+    'hero.btn.cv': 'Resume (PDF)',
+    'cv.href': 'assets/cv/pedro-braga-cv-en.pdf',
     'hero.scroll.label': 'Scroll down',
 
     // Sobre
@@ -162,7 +163,7 @@ export const translations = {
     'contact.copy.done': 'Email copied to the clipboard.',
     'contact.copy.manual': 'Could not copy automatically: the email is selected, press Ctrl+C.',
     'contact.where': 'Brasília, Brazil · hybrid or remote',
-    'contact.cv': 'Resume (PDF, PT-BR)',
+    'contact.cv': 'Resume (PDF)',
 
     // Rodapé
     'footer.made': 'handmade, no frameworks',
@@ -381,6 +382,7 @@ export const translations = {
     'hero.btn.projects': 'Ver Projetos',
     'hero.btn.contact': 'Entrar em contato',
     'hero.btn.cv': 'Currículo (PDF)',
+    'cv.href': 'assets/cv/pedro-braga-cv-ptbr.pdf',
     'hero.scroll.label': 'Rolar para baixo',
 
     // Sobre
