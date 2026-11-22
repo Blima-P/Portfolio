@@ -1,7 +1,8 @@
 // Interações gerais da página: header, menu mobile, scroll-spy, revelação ao rolar
 // e filtro de projetos.
 
-function initHeader() {
+// Também usado pelas páginas de estudo de caso (case.js), que não têm links de seção no menu.
+export function initHeader() {
   const header = document.getElementById('header');
   const scrollProgress = document.getElementById('scroll-progress');
   const navLinks = document.querySelectorAll('.nav__link[href^="#"]');
