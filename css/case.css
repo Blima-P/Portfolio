@@ -1,0 +1,349 @@
+/* ---- Estudos de caso (projetos/*.html) ----
+ * Leitura longa: texto em até 72 caracteres, seções numeradas, decisões em cartões e o diagrama de
+ * arquitetura em SVG inline (cores dos tokens, então acompanha o tema). Usa os tokens de styles.css. */
+.case {
+  counter-reset: case-section;
+  padding-top: 7.5rem;
+  padding-bottom: 4rem;
+}
+
+.case__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.case__back:hover {
+  color: var(--color-accent);
+}
+
+.case__hero {
+  margin: 1rem 0 3.5rem;
+}
+
+.case__eyebrow {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case__title {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.case__lead {
+  max-width: 68ch;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.case__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.case__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.case__metrics li {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.case__metrics strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.case__section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: 5rem;
+}
+
+.case__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+/* Número da seção: decorativo, com texto alternativo vazio para leitores de tela. */
+.case__section-title::before {
+  counter-increment: case-section;
+  content: counter(case-section, decimal-leading-zero);
+  content: counter(case-section, decimal-leading-zero) / '';
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.case__subtitle {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.case__text {
+  max-width: 72ch;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+.case__list {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 72ch;
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  list-style: disc;
+}
+
+.case__list li::marker {
+  color: var(--color-accent);
+}
+
+.case__decisions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1rem;
+}
+
+.case__decision {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+}
+
+.case__decision h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.case__decision p {
+  flex: 1;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.case__evidence,
+.case__proof a {
+  align-self: flex-start;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.case__evidence:hover,
+.case__proof a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* ---- Diagrama ---- */
+.case__figure {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.case__figure figcaption {
+  max-width: 72ch;
+  margin: 1.25rem auto 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.diagram__box {
+  fill: var(--color-bg-2);
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.diagram__module {
+  fill: var(--color-tag-bg);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.diagram__frame {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-dasharray: 6 5;
+  stroke-opacity: 0.6;
+}
+
+.diagram__name {
+  fill: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.diagram__note {
+  fill: var(--color-text-muted);
+  font-family: var(--font-family);
+  font-size: 14px;
+}
+
+.diagram__label {
+  fill: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.diagram__arrow {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 1.5;
+}
+
+.diagram__arrow--event {
+  stroke-dasharray: 5 4;
+}
+
+.diagram__head {
+  fill: var(--color-text-muted);
+}
+
+/* ---- Provas ---- */
+.case__proofs {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.case__proof {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--color-bg-card);
+}
+
+.case__proof p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.case__adrs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+}
+
+.case__adrs a {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  min-height: 24px;
+  padding: 0.35rem 0;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tag-border);
+  text-underline-offset: 3px;
+}
+
+.case__adrs a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentcolor;
+}
+
+.case__adr-number {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.case__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.case__tags li {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-tag-border);
+  border-radius: 50px;
+  background: var(--color-tag-bg);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.case__end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 640px) {
+  .case {
+    padding-top: 6rem;
+  }
+
+  .case__figure {
+    padding: 1rem 0.5rem;
+  }
+
+  .case__section-title {
+    font-size: 1.4rem;
+  }
+}

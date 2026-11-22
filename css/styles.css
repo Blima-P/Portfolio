@@ -939,6 +939,33 @@ select,
   color: var(--color-accent);
 }
 
+/* Link para o estudo de caso (projetos/*.html): texto sublinhado + seta, alvo de 44 px. */
+.project-card__case {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+  min-height: 44px;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition);
+}
+
+.project-card__case:hover {
+  color: var(--color-accent-hover);
+}
+
+.project-card__case svg {
+  transition: transform var(--transition);
+}
+
+.project-card__case:hover svg {
+  transform: translateX(3px);
+}
+
 /* Projeto em destaque: ocupa a linha inteira e traz papel e números com prova. */
 .project-card--featured {
   grid-column: 1 / -1;
