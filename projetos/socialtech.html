@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-page="socialtech">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050a18" />
+  <meta name="description"
+    content="Estudo de caso do SocialTech: site mobile-first aberto pelo QR Code da lixeira de compostagem da UCB. Astro estático, aprimoramento progressivo, conteúdo editável sem programar e CI com acessibilidade; 111 PRs meus mergeados." />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="SocialTech — estudo de caso | Pedro Braga" />
+  <meta property="og:description" content="Estudo de caso do SocialTech: site mobile-first aberto pelo QR Code da lixeira de compostagem da UCB. Astro estático, aprimoramento progressivo, conteúdo editável sem programar e CI com acessibilidade; 111 PRs meus mergeados." />
+  <meta property="og:url" content="https://blima-p.github.io/Portfolio/projetos/socialtech.html" />
+  <meta property="og:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
+  <meta property="og:image:alt" content="Pedro Braga de Lima" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="SocialTech — estudo de caso | Pedro Braga" />
+  <meta name="twitter:description" content="Estudo de caso do SocialTech: site mobile-first aberto pelo QR Code da lixeira de compostagem da UCB. Astro estático, aprimoramento progressivo, conteúdo editável sem programar e CI com acessibilidade; 111 PRs meus mergeados." />
+  <meta name="twitter:image" content="https://blima-p.github.io/Portfolio/Profile.jpg.png" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="canonical" href="https://blima-p.github.io/Portfolio/projetos/socialtech.html" />
+  <title>SocialTech — estudo de caso | Pedro Braga</title>
+  <script>
+    // Aplica o tema salvo antes da primeira pintura (evita o "flash" do tema escuro).
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+      if (savedTheme === 'light') {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f3f9ff');
+      }
+    } catch {
+      // Armazenamento indisponível: fica o tema padrão.
+    }
+  </script>
+  <link rel="preload" href="../assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../css/styles.css?v=93247924" />
+  <link rel="stylesheet" href="../css/case.css?v=2e314a5a" />
+  <script type="module" src="../js/case.js?v=c80496c8"></script>
+</head>
+
+<body>
+
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav__logo">pedro<span class="nav__logo-dot">.</span>braga</a>
+
+      <div class="nav__actions">
+        <button type="button" class="nav__lang" id="lang-toggle" aria-label="EN: ver o site em inglês" data-i18n="nav.lang.label" data-i18n-attr="aria-label">EN</button>
+
+        <button type="button" class="nav__theme" id="theme-toggle" aria-label="Ativar o tema claro" data-i18n="nav.theme.toLight" data-i18n-attr="aria-label">
+          <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="case container" id="top">
+    <a href="../index.html#projects" class="case__back">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+      <span data-i18n="case.back">Voltar aos projetos</span>
+    </a>
+
+    <div class="case__hero">
+      <p class="case__eyebrow" data-i18n="case.socialtech.eyebrow">Estudo de caso · projeto de extensão (UCB + Enactus)</p>
+      <h1 class="case__title">SocialTech</h1>
+      <p class="case__lead" data-i18n="case.socialtech.lead">Site educativo mobile-first, aberto pelo QR Code da lixeira de compostagem da UCB, que mostra o que pode e o que não pode ser descartado ali. Fui um dos dois mantenedores de um time de 10 estudantes.</p>
+      <div class="case__actions">
+        <a href="https://blima-p.github.io/SocialTech/" target="_blank" rel="noopener noreferrer" class="btn btn--primary" data-i18n="case.live">Ver o site no ar</a>
+        <a href="https://github.com/Blima-P/SocialTech" target="_blank" rel="noopener noreferrer" class="btn btn--outline" data-i18n="case.code">Ver o código</a>
+      </div>
+      <ul class="case__metrics">
+        <li><strong>111</strong> <span data-i18n="case.socialtech.metric.prs">PRs meus mergeados, de 131 no repositório</span></li>
+        <li><strong>10</strong> <span data-i18n="case.socialtech.metric.team">estudantes no time, 2 deles mantenedores</span></li>
+        <li><strong>100</strong> <span data-i18n="case.socialtech.metric.a11y">em Acessibilidade no Lighthouse, modo celular, no site publicado</span></li>
+      </ul>
+    </div>
+
+    <section class="case__section" id="contexto" aria-labelledby="contexto-titulo">
+      <h2 class="case__section-title" id="contexto-titulo" data-i18n="case.section.context">Contexto</h2>
+      <p class="case__text" data-i18n="case.socialtech.context">Projeto de extensão da Universidade Católica de Brasília (Campus Taguatinga) com o Enactus UCB, no segundo semestre de 2026. O descarte errado de resíduos orgânicos contamina recicláveis e contribui para a superlotação dos aterros do Distrito Federal. A ideia: quem está na frente da lixeira escaneia o QR Code e descobre, pelo celular, o que pode ser descartado ali.</p>
+    </section>
+
+    <section class="case__section" id="problema" aria-labelledby="problema-titulo">
+      <h2 class="case__section-title" id="problema-titulo" data-i18n="case.section.problem">Problema</h2>
+      <p class="case__text" data-i18n="case.socialtech.problem.intro">Os objetivos de qualidade, em ordem de prioridade, eram:</p>
+      <ol class="case__list">
+        <li data-i18n="case.socialtech.problem.speed">quem escaneia o QR decide “pode ou não pode” em até 10 segundos, num celular com 4G;</li>
+        <li data-i18n="case.socialtech.problem.a11y">acessível (WCAG 2.1 AA) e usável com uma mão em 360 px;</li>
+        <li data-i18n="case.socialtech.problem.privacy">nenhum dado pessoal coletado;</li>
+        <li data-i18n="case.socialtech.problem.editing">o professor coordenador edita o conteúdo sozinho, sem programar e sem quebrar o site;</li>
+        <li data-i18n="case.socialtech.problem.review">código simples o bastante para estudantes revisarem código gerado por IA.</li>
+      </ol>
+    </section>
+
+    <section class="case__section" id="papel" aria-labelledby="papel-titulo">
+      <h2 class="case__section-title" id="papel-titulo" data-i18n="case.section.role">Meu papel</h2>
+      <p class="case__text" data-i18n="case.socialtech.role.intro">Dos 10 estudantes, 4 tinham acesso ao GitHub. Fui um dos dois mantenedores e cuidei de:</p>
+      <ul class="case__list">
+        <li data-i18n="case.socialtech.role.architecture">arquitetura e registros de decisão (ADRs), seguindo Spec-Driven Development;</li>
+        <li data-i18n="case.socialtech.role.ci">CI/CD: verificações em todo PR e deploy no GitHub Pages a cada push na main;</li>
+        <li data-i18n="case.socialtech.role.review">revisão de PRs como code owner: todo PR para a develop precisa da aprovação de um mantenedor, e quem fez o último push não pode aprovar;</li>
+        <li data-i18n="case.socialtech.role.a11y">acessibilidade: WCAG 2.1 AA como meta, regras de acessibilidade no ESLint e testes no navegador.</li>
+      </ul>
+    </section>
+
+    <section class="case__section" id="decisoes" aria-labelledby="decisoes-titulo">
+      <h2 class="case__section-title" id="decisoes-titulo" data-i18n="case.section.decisions">Decisões</h2>
+      <div class="case__decisions">
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.static.title">Astro e TypeScript, 100% estático</h3>
+          <p data-i18n="case.socialtech.decision.static.text">HTML e CSS gerados no build e publicados no GitHub Pages: sem servidor, banco de dados nem API. O Astro não envia JavaScript por padrão, e o TypeScript strict ajuda a revisar código gerado por IA.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-001--stack-astro--typescript--css-puro-site-est%C3%A1tico" target="_blank" rel="noopener noreferrer">ADR-001</a>
+        </article>
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.progressive.title">Aprimoramento progressivo</h3>
+          <p data-i18n="case.socialtech.decision.progressive.text">O HTML traz todo o conteúdo; os scripts dos componentes só acrescentam a busca, o ciclo passo a passo e o quiz. Sem JavaScript, o guia aparece completo. Os scripts nunca usam innerHTML.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-008--interatividade-com-aprimoramento-progressivo" target="_blank" rel="noopener noreferrer">ADR-008</a>
+        </article>
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.single.title">Página única</h3>
+          <p data-i18n="case.socialtech.decision.single.text">Cada página a mais seria outro carregamento no 4G, justo quando a pessoa está na frente da lixeira. Todas as seções ficam numa página só, com acesso por âncoras.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-005--p%C3%A1gina-%C3%BAnica" target="_blank" rel="noopener noreferrer">ADR-005</a>
+        </article>
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.cms.title">Conteúdo editável sem programar</h3>
+          <p data-i18n="case.socialtech.decision.cms.text">O professor edita pelo Pages CMS, e cada “Salvar” vira um commit. O conteúdo fica em JSON validado por schema zod: dado inválido faz o build falhar e o site anterior continua no ar.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-002--edi%C3%A7%C3%A3o-de-conte%C3%BAdo-pelo-pages-cms" target="_blank" rel="noopener noreferrer">ADR-002</a>
+        </article>
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.privacy.title">Contagem de acessos sem cookies</h3>
+          <p data-i18n="case.socialtech.decision.privacy.text">GoatCounter, só no build de produção, sem dado pessoal. O endereço do QR leva o parâmetro campaign=lixeira, que separa as visitas vindas da lixeira.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-003--contagem-de-acessos-com-goatcounter" target="_blank" rel="noopener noreferrer">ADR-003</a>
+        </article>
+        <article class="case__decision">
+          <h3 data-i18n="case.socialtech.decision.font.title">Nada de terceiros além da contagem</h3>
+          <p data-i18n="case.socialtech.decision.font.text">Roboto auto-hospedada (cerca de 44 KB, só caracteres latinos) no lugar do Google Fonts. A Content-Security-Policy libera só o próprio site e o GoatCounter, sem unsafe-inline.</p>
+          <a class="case__evidence" href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#adr-004--fonte-roboto-auto-hospedada-revisado" target="_blank" rel="noopener noreferrer">ADR-004</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="case__section" id="entrega" aria-labelledby="entrega-titulo">
+      <h2 class="case__section-title" id="entrega-titulo" data-i18n="case.section.delivery">Do commit ao QR Code</h2>
+      <figure class="case__figure">
+        <svg class="diagram" viewBox="0 0 480 660" role="img" aria-labelledby="diagrama-titulo diagrama-descricao" xmlns="http://www.w3.org/2000/svg">
+          <title id="diagrama-titulo" data-i18n="case.socialtech.diagram.title">Fluxo de entrega do SocialTech</title>
+          <desc id="diagrama-descricao" data-i18n="case.socialtech.diagram.desc">Os estudantes abrem PRs a partir de branches feature. Todo PR passa pelo CI (formatação, lint com regras de acessibilidade, tipos, build, verificação do site gerado, testes no navegador e links) e precisa da aprovação de um mantenedor antes de entrar na develop. A release leva a develop para a main com merge commit. O professor edita o conteúdo no Pages CMS, que grava direto na main. Cada push na main gera e publica o site no GitHub Pages. O QR Code da lixeira abre o site, e o GoatCounter conta a visita sem cookies.</desc>
+          <defs>
+            <marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path class="diagram__head" d="M0 0L10 5L0 10z" />
+            </marker>
+          </defs>
+
+          <rect class="diagram__box" x="16" y="8" width="212" height="56" rx="10" />
+          <text class="diagram__name" x="122" y="32" text-anchor="middle" data-i18n="case.socialtech.diagram.team">equipe</text>
+          <text class="diagram__note" x="122" y="52" text-anchor="middle">feature/* → PR</text>
+
+          <rect class="diagram__box" x="252" y="8" width="212" height="56" rx="10" />
+          <text class="diagram__name" x="358" y="32" text-anchor="middle">Pages CMS</text>
+          <text class="diagram__note" x="358" y="52" text-anchor="middle" data-i18n="case.socialtech.diagram.cms">professor edita o conteúdo</text>
+
+          <path class="diagram__arrow" d="M122 64V98" marker-end="url(#seta)" />
+
+          <rect class="diagram__module" x="16" y="104" width="212" height="76" rx="10" />
+          <text class="diagram__name" x="122" y="128" text-anchor="middle" data-i18n="case.socialtech.diagram.ci">CI + revisão</text>
+          <text class="diagram__note" x="122" y="150" text-anchor="middle" data-i18n="case.socialtech.diagram.checks">lint, tipos, build, testes</text>
+          <text class="diagram__note" x="122" y="169" text-anchor="middle" data-i18n="case.socialtech.diagram.approval">aprovação de mantenedor</text>
+
+          <path class="diagram__arrow" d="M122 180V210" marker-end="url(#seta)" />
+          <text class="diagram__label" x="132" y="200">squash</text>
+
+          <rect class="diagram__module" x="16" y="216" width="212" height="48" rx="10" />
+          <text class="diagram__name" x="122" y="246" text-anchor="middle">develop</text>
+
+          <path class="diagram__arrow" d="M122 264V306" marker-end="url(#seta)" />
+          <text class="diagram__label" x="132" y="290">release · merge commit</text>
+
+          <path class="diagram__arrow" d="M358 64V306" marker-end="url(#seta)" />
+          <text class="diagram__label" x="368" y="190" data-i18n="case.socialtech.diagram.direct">commit direto</text>
+
+          <rect class="diagram__module" x="16" y="312" width="448" height="48" rx="10" />
+          <text class="diagram__name" x="240" y="342" text-anchor="middle">main</text>
+
+          <path class="diagram__arrow" d="M240 360V394" marker-end="url(#seta)" />
+
+          <rect class="diagram__box" x="90" y="400" width="300" height="64" rx="10" />
+          <text class="diagram__name" x="240" y="426" text-anchor="middle">Deploy GitHub Pages</text>
+          <text class="diagram__note" x="240" y="448" text-anchor="middle">npm ci → astro build</text>
+
+          <path class="diagram__arrow" d="M240 464V496" marker-end="url(#seta)" />
+
+          <rect class="diagram__module" x="90" y="502" width="300" height="64" rx="10" />
+          <text class="diagram__name" x="240" y="528" text-anchor="middle" data-i18n="case.socialtech.diagram.site">site no ar</text>
+          <text class="diagram__note" x="240" y="550" text-anchor="middle">blima-p.github.io/SocialTech</text>
+
+          <path class="diagram__arrow" d="M122 596V572" marker-end="url(#seta)" />
+          <path class="diagram__arrow diagram__arrow--event" d="M358 566V590" marker-end="url(#seta)" />
+
+          <rect class="diagram__box" x="16" y="596" width="212" height="56" rx="10" />
+          <text class="diagram__name" x="122" y="620" text-anchor="middle">QR Code</text>
+          <text class="diagram__note" x="122" y="640" text-anchor="middle" data-i18n="case.socialtech.diagram.bin">na lixeira de compostagem</text>
+
+          <rect class="diagram__box" x="252" y="596" width="212" height="56" rx="10" />
+          <text class="diagram__name" x="358" y="620" text-anchor="middle">GoatCounter</text>
+          <text class="diagram__note" x="358" y="640" text-anchor="middle" data-i18n="case.socialtech.diagram.visits">visitas sem cookies</text>
+        </svg>
+        <figcaption data-i18n="case.socialtech.diagram.caption">Branches e publicação, como registrado no documento de arquitetura. A main só aceita PR vindo da develop ou de fix/*.</figcaption>
+      </figure>
+    </section>
+
+    <section class="case__section" id="provas" aria-labelledby="provas-titulo">
+      <h2 class="case__section-title" id="provas-titulo" data-i18n="case.section.proofs">Provas</h2>
+      <p class="case__text" data-i18n="case.socialtech.proofs.intro">Cada afirmação aponta para o arquivo ou registro que a prova.</p>
+      <ul class="case__proofs">
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/pulls?q=is%3Apr+is%3Amerged+author%3ABlima-P" target="_blank" rel="noopener noreferrer">Pull requests</a>
+          <p data-i18n="case.socialtech.proof.prs">111 dos 131 PRs mergeados no repositório são meus.</p>
+        </li>
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/blob/develop/.github/workflows/ci.yml" target="_blank" rel="noopener noreferrer">ci.yml</a>
+          <p data-i18n="case.socialtech.proof.ci">Em todo PR: Prettier, ESLint com regras de acessibilidade, astro check, build, verificação do site gerado, testes com Playwright e links quebrados.</p>
+        </li>
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/blob/develop/scripts/verificar-site.mjs" target="_blank" rel="noopener noreferrer">verificar-site.mjs</a>
+          <p data-i18n="case.socialtech.proof.checker">Confere o site gerado: página inicial abaixo de 350 KB, um único h1, alt em toda imagem, caminhos internos com /SocialTech/ e o GoatCounter como único script externo.</p>
+        </li>
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/tree/develop/tests/e2e" target="_blank" rel="noopener noreferrer">tests/e2e</a>
+          <p data-i18n="case.socialtech.proof.e2e">Playwright em 360 e 1366 px: busca, ciclo, quiz, tema, movimento reduzido, sem JavaScript e a página 404; o teste falha se alguma interação violar a CSP.</p>
+        </li>
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/blob/develop/docs/arquitetura.md#101-estrat%C3%A9gia-de-testes" target="_blank" rel="noopener noreferrer">Lighthouse</a>
+          <p data-i18n="case.socialtech.proof.lighthouse">Três execuções do Lighthouse, modo celular, no site publicado: Desempenho de 99 a 100; Acessibilidade, Boas práticas e SEO 100; LCP de 1,5 a 1,9 s; 279 KiB transferidos.</p>
+        </li>
+        <li class="case__proof">
+          <a href="https://github.com/Blima-P/SocialTech/tree/develop/docs/sdd" target="_blank" rel="noopener noreferrer">Spec-Driven Development</a>
+          <p data-i18n="case.socialtech.proof.sdd">Constituição, especificação, clarificações, plano de tarefas e revisão, consolidados depois do MVP.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="case__section" id="stack" aria-labelledby="stack-titulo">
+      <h2 class="case__section-title" id="stack-titulo" data-i18n="case.section.stack">Stack</h2>
+      <ul class="case__tags">
+        <li>Astro</li>
+        <li>TypeScript</li>
+        <li>CSS</li>
+        <li>zod</li>
+        <li>Pages CMS</li>
+        <li>GoatCounter</li>
+        <li>Playwright</li>
+        <li>ESLint · jsx-a11y</li>
+        <li>lychee</li>
+        <li>GitHub Actions</li>
+        <li>GitHub Pages</li>
+      </ul>
+    </section>
+
+    <section class="case__section" id="proximos-passos" aria-labelledby="proximos-passos-titulo">
+      <h2 class="case__section-title" id="proximos-passos-titulo" data-i18n="case.section.next">Limites e próximos passos</h2>
+      <p class="case__text" data-i18n="case.socialtech.next.intro">O que ainda está em aberto, registrado no documento de arquitetura e no registro de homologação:</p>
+      <ul class="case__list">
+        <li data-i18n="case.socialtech.next.goals">As metas de uso (acessos pelo QR, respostas ao formulário) ainda não têm evidência consolidada no registro de homologação.</li>
+        <li data-i18n="case.socialtech.next.manual">Os testes com leitor de tela e em celulares reais continuam manuais.</li>
+        <li data-i18n="case.socialtech.next.lighthouse">O Lighthouse não roda no CI; no lugar, o CI cobra o orçamento de 350 KB e confere h1 e alt.</li>
+        <li data-i18n="case.socialtech.next.cms">As edições do painel vão direto para a main, sem revisão; por isso a develop precisa recebê-las antes de cada release.</li>
+        <li data-i18n="case.socialtech.next.qr">O QR Code é estático: renomear o repositório ou trocar de domínio exige reimprimir o adesivo.</li>
+        <li data-i18n="case.socialtech.next.adblock">Bloqueadores de anúncio podem impedir o GoatCounter, então a contagem de acessos é um mínimo.</li>
+      </ul>
+    </section>
+
+    <div class="case__end">
+      <a href="../index.html#projects" class="case__back">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+        <span data-i18n="case.back">Voltar aos projetos</span>
+      </a>
+      <a href="https://blima-p.github.io/SocialTech/" target="_blank" rel="noopener noreferrer" class="btn btn--primary" data-i18n="case.live">Ver o site no ar</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <!-- Ano e mês/ano são reescritos pelo scripts/pack-site.mjs com a data do commit publicado. -->
+      <ul class="footer__meta">
+        <li>© <span data-updated-year>2026</span> Pedro Braga de Lima</li>
+        <li data-i18n="footer.made">feito à mão, sem frameworks</li>
+        <li><a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" class="footer__link" data-i18n="footer.source">código-fonte</a></li>
+        <li><span data-i18n="footer.updated">atualizado em</span> <time datetime="2026-11" data-updated>11/2026</time></li>
+      </ul>
+      <a href="#top" class="footer__back-top" aria-label="Voltar ao topo" data-i18n="footer.top.label" data-i18n-attr="aria-label">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+      </a>
+    </div>
+  </footer>
+</body>
+
+</html>
+
