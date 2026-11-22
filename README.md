@@ -39,7 +39,7 @@
 | 📅 | **Linha do Tempo** | Timeline visual da jornada profissional |
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
 | 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
-| ✉️ | **Contato** | E-mail visível com botão "Copiar" (Clipboard API com fallback e anúncio para leitor de tela) e cards para GitHub, LinkedIn, currículo e Lattes |
+| ✉️ | **Contato** | E-mail visível com botão "Copiar" (Clipboard API com fallback e anúncio para leitor de tela) e cards para GitHub, LinkedIn, currículo (PT ou EN, conforme o idioma) e Lattes |
 | 💻 | **Terminal (Easter Egg)** | Terminal oculto (Ctrl + \`), carregado só quando aberto |
 | 📱 | **Totalmente Responsivo** | Menu hambúrguer para mobile + layouts adaptativos |
 
@@ -95,7 +95,7 @@ Portfolio/
 └── assets/
     ├── favicon.svg             # Favicon do site
     ├── fonts/                  # Inter e JetBrains Mono (woff2, latin, OFL)
-    └── cv/                     # Currículo (PDF)
+    └── cv/                     # Currículo em PDF (PT e EN, conforme o idioma do site)
 ```
 
 <br>

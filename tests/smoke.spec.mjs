@@ -749,12 +749,25 @@ test('falha na API do GitHub mostra mensagem traduzível', async ({ page }) => {
   await expect(fallback).toContainText('Could not load repositories');
 });
 
-test('currículo em PDF está disponível', async ({ page, request }) => {
+test('currículo em PDF acompanha o idioma e está disponível', async ({ page, request }) => {
   await page.goto('./');
-  const href = await page.locator('a[href$=".pdf"]').first().getAttribute('href');
-  const res = await request.get(href);
-  expect(res.status()).toBe(200);
-  expect(res.headers()['content-type']).toContain('application/pdf');
+  const cvLinks = page.locator('a[data-i18n="cv.href"]');
+  await expect(cvLinks).toHaveCount(2);
+
+  for (const [lang, file] of [
+    ['pt-BR', 'pedro-braga-cv-ptbr.pdf'],
+    ['en', 'pedro-braga-cv-en.pdf'],
+  ]) {
+    if (lang === 'en') await page.locator('#lang-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('lang', lang);
+    const hrefs = await cvLinks.evaluateAll((links) => links.map((a) => a.getAttribute('href')));
+    expect(hrefs, lang).toEqual([`assets/cv/${file}`, `assets/cv/${file}`]);
+    for (const href of new Set(hrefs)) {
+      const res = await request.get(href);
+      expect(res.status(), href).toBe(200);
+      expect(res.headers()['content-type']).toContain('application/pdf');
+    }
+  }
 });
 
 test('e-mail visível copia para a área de transferência e anuncia o resultado', async ({ page, context }) => {
