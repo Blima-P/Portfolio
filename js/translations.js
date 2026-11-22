@@ -4,9 +4,9 @@
 
 export const translations = {
   en: {
-    // Meta
-    'meta.title': 'Pedro Braga | Portfolio',
-    'meta.description':
+    // Metadados por página (<html data-page>): page.<id>.title e page.<id>.description
+    'page.home.title': 'Pedro Braga | Portfolio',
+    'page.home.description':
       'Pedro Braga — Java backend developer, Spring and PostgreSQL. Software Engineering student at UCB and development intern at CAESB.',
 
     // Navegação
@@ -163,9 +163,9 @@ export const translations = {
   },
 
   'pt-br': {
-    // Meta
-    'meta.title': 'Pedro Braga | Portfólio',
-    'meta.description':
+    // Metadados por página (<html data-page>): page.<id>.title e page.<id>.description
+    'page.home.title': 'Pedro Braga | Portfólio',
+    'page.home.description':
       'Pedro Braga — Desenvolvedor backend Java, Spring e PostgreSQL. Estudante de Engenharia de Software na UCB e estagiário de desenvolvimento na CAESB.',
 
     // Navegação

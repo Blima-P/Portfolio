@@ -2,7 +2,7 @@
 // e falha se alguma referência local do HTML ou import entre módulos apontar para um arquivo que
 // ficou de fora — o deploy nunca publica um site com 404 interno.
 //
-// Também grava no rodapé do _site/index.html o ano e o mês/ano do commit publicado, então o
+// Também grava no rodapé das páginas o ano e o mês/ano do commit publicado, então o
 // "atualizado em" nunca mente nem depende de alguém lembrar de editar o HTML.
 //
 // Uso: node scripts/pack-site.mjs
@@ -11,8 +11,15 @@ import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promi
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Ao criar páginas ou pastas públicas novas (ex.: 404.html, projetos/), inclua aqui.
-export const PUBLIC = ['index.html', 'Profile.jpg.png', 'css', 'js', 'assets'];
+import { listPages } from './pages.mjs';
+
+// Arquivos e pastas públicos além das páginas HTML, que entram sozinhas (scripts/pages.mjs).
+export const PUBLIC = ['Profile.jpg.png', 'css', 'js', 'assets'];
+
+/** Tudo o que vai ao ar, relativo a `root`: as páginas e a lista PUBLIC. */
+export async function publicEntries(root) {
+  return [...(await listPages(root)), ...PUBLIC];
+}
 
 // href="x" | src="x" locais (sem esquema, âncora ou //host); query e fragmento ficam de fora.
 const HTML_REF = /\s(?:href|src)="(?![a-z][a-z0-9+.-]*:|#|\/\/)([^"?#]+)[^"]*"/gi;
@@ -64,31 +71,46 @@ export async function findMissingRefs(site) {
   return missing;
 }
 
-const UPDATED_YEAR = /(<span data-updated-year>)\d{4}(<\/span>)/;
-const UPDATED_TIME = /<time datetime="[^"]*" data-updated>[^<]*<\/time>/;
+// Marcadores em qualquer ordem e com outros atributos; (?![\w-]) separa data-updated de data-updated-year.
+const UPDATED_YEAR = /(<span\b[^>]*\sdata-updated-year(?![\w-])[^>]*>)\d{4}(<\/span>)/;
+const UPDATED_TIME = /<time\b([^>]*\sdata-updated(?![\w-])[^>]*)>[^<]*<\/time>/;
+const UPDATED_MARKER = /\sdata-updated(?:-year)?(?![\w-])/;
 
 /** Troca o ano e o mês/ano do rodapé pela data `AAAA-MM-DD` informada. */
 export function stampUpdated(html, isoDate) {
   const match = /^(\d{4})-(\d{2})-\d{2}$/.exec(isoDate);
   if (!match) throw new Error(`Data inválida: "${isoDate}" (esperado AAAA-MM-DD)`);
   if (!UPDATED_YEAR.test(html) || !UPDATED_TIME.test(html)) {
-    throw new Error('Rodapé sem data-updated-year ou <time data-updated> no index.html');
+    throw new Error('Rodapé sem data-updated-year ou <time data-updated>');
   }
   const [, year, month] = match;
-  return html
-    .replace(UPDATED_YEAR, `$1${year}$2`)
-    .replace(UPDATED_TIME, `<time datetime="${year}-${month}" data-updated>${month}/${year}</time>`);
+  return html.replace(UPDATED_YEAR, `$1${year}$2`).replace(UPDATED_TIME, (_, attrs) => {
+    const rest = attrs.replace(/\s+datetime\s*=\s*"[^"]*"/i, '');
+    return `<time datetime="${year}-${month}"${rest}>${month}/${year}</time>`;
+  });
 }
 
 export async function packSite(root, out = path.join(root, '_site'), { updated } = {}) {
   await rm(out, { recursive: true, force: true });
   await mkdir(out);
-  for (const item of PUBLIC) {
+  const pages = await listPages(root);
+  for (const item of [...pages, ...PUBLIC]) {
     await cp(path.join(root, item), path.join(out, item), { recursive: true });
   }
   if (updated) {
-    const index = path.join(out, 'index.html');
-    await writeFile(index, stampUpdated(await readFile(index, 'utf8'), updated));
+    // A home precisa ter o rodapé com data; as outras páginas, só se tiverem algum marcador — e,
+    // tendo, precisam dos dois (stampUpdated falha em vez de publicar uma data velha).
+    for (const page of pages) {
+      const file = path.join(out, page);
+      const html = await readFile(file, 'utf8');
+      if (page === 'index.html' || UPDATED_MARKER.test(html)) {
+        try {
+          await writeFile(file, stampUpdated(html, updated));
+        } catch (err) {
+          throw new Error(`${page}: ${err.message}`, { cause: err });
+        }
+      }
+    }
   }
   const files = [];
   for await (const file of walk(out)) files.push(file);

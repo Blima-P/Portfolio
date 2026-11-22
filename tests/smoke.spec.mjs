@@ -1,5 +1,14 @@
 // Smoke test: garante que o site carrega sem erros e que as interações principais funcionam.
+// O servidor (scripts/serve-site.mjs) imita o GitHub Pages: o site fica sob /Portfolio/, então as
+// navegações usam caminhos relativos ao baseURL ('./', não '/').
+import { fileURLToPath } from 'node:url';
+
 import { expect, test } from '@playwright/test';
+
+import { translations } from '../js/translations.js';
+import { listPages } from '../scripts/pages.mjs';
+
+const PAGES = await listPages(fileURLToPath(new URL('..', import.meta.url)));
 
 const SELECTED = ['SocialTech', 'carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];
 const GITHUB_API = 'https://api.github.com/**';
@@ -30,7 +39,7 @@ test.beforeEach(async ({ page }) => {
 
 test('carrega sem erros, sem globais novas e com os repositórios', async ({ page }) => {
   const errors = trackErrors(page);
-  await page.goto('/');
+  await page.goto('./');
   await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
   // SocialTech abre a lista, com a cor oficial do Astro (não o cinza de fallback).
   await expect(page.locator('.github-card__name')).toHaveText(SELECTED);
@@ -53,7 +62,7 @@ test('carrega sem erros, sem globais novas e com os repositórios', async ({ pag
 });
 
 test('canvas de partículas não intercepta cliques nem o menu de contexto', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const target = await page.evaluate(() => {
     const el = document.elementFromPoint(innerWidth / 2, innerHeight / 2);
     return el?.tagName;
@@ -73,7 +82,7 @@ test('partículas não passam sob o texto nem os botões do hero', async ({ page
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   });
-  await page.goto('/');
+  await page.goto('./');
   // Várias amostras: as partículas se movem e a máscara precisa valer em todo quadro.
   for (let i = 0; i < 6; i++) {
     const { inside, total } = await page.evaluate(async () => {
@@ -103,7 +112,7 @@ test('hero no celular: dois CTAs, currículo como link e ícones longe da seta, 
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('./');
   const buttons = await page.locator('.hero__buttons').boundingBox();
   for (const lang of ['pt-br', 'en']) {
     if (lang === 'en') await page.locator('#lang-toggle').click();
@@ -137,7 +146,7 @@ test('hero no celular: dois CTAs, currículo como link e ícones longe da seta, 
 
 test('tablet (820 px): Sobre em 2 colunas, contato em 2 × 2 e nada vaza na horizontal', async ({ page }) => {
   await page.setViewportSize({ width: 820, height: 1180 });
-  await page.goto('/');
+  await page.goto('./');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(820);
 
   const [photo, info] = await Promise.all([
@@ -157,7 +166,7 @@ test('tablet (820 px): Sobre em 2 colunas, contato em 2 × 2 e nada vaza na hori
 });
 
 test('tema alterna e persiste após recarregar', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const html = page.locator('html');
   await expect(html).toHaveAttribute('data-theme', 'dark');
   await page.locator('#theme-toggle').click();
@@ -167,7 +176,7 @@ test('tema alterna e persiste após recarregar', async ({ page }) => {
 });
 
 test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-color', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const button = page.locator('#theme-toggle');
   const themeColor = page.locator('meta[name="theme-color"]');
   await expect(button).toHaveAttribute('aria-label', 'Ativar o tema claro');
@@ -185,14 +194,14 @@ test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-col
 test('tema claro salvo já pinta o theme-color certo antes dos módulos carregarem', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('theme', 'light'));
   await page.route('**/js/**', (route) => route.abort());
-  await page.goto('/');
+  await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
 });
 
 test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tela', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
-  await page.goto('/');
+  await page.goto('./');
   // Nenhuma seção pode alargar a página: no celular isso aumenta a viewport de layout e empurra o header.
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
   for (const lang of ['pt-br', 'en']) {
@@ -226,7 +235,7 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
   const visited = {};
   for (const theme of ['dark', 'light']) {
     await page.addInitScript((t) => localStorage.setItem('theme', t), theme);
-    await page.goto('/');
+    await page.goto('./');
     // Sob carga (4 workers), a cadeia de rolagens suaves do Tab passava dos 5 s do poll. Aqui importa onde o
     // foco para, não a animação. Quando o 9.3 (reduced-motion) entrar, trocar por reducedMotion: 'reduce'.
     await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
@@ -304,7 +313,7 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
   expect(bodyRing.offset).toBeLessThanOrEqual(-bodyRing.width);
 });
 test('idioma alterna, traduz a página e persiste', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const html = page.locator('html');
   const role = page.locator('[data-i18n="hero.role"]');
   await expect(html).toHaveAttribute('lang', 'pt-BR');
@@ -321,11 +330,45 @@ test('idioma alterna, traduz a página e persiste', async ({ page }) => {
   await expect(role).toHaveText('Java Backend Developer');
 });
 
+test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages', () => {
+  for (const file of PAGES) {
+    test(`${file}: sem erro nem 404, com título e descrição próprios nos dois idiomas`, async ({ page }) => {
+      const errors = trackErrors(page);
+      const broken = [];
+      page.on('response', (res) => {
+        if (res.status() >= 400) broken.push(`${res.status()} ${res.url()}`);
+      });
+      page.on('requestfailed', (req) => broken.push(`falhou ${req.url()}`));
+
+      await page.goto(file === 'index.html' ? './' : file);
+      const html = page.locator('html');
+      const id = await html.getAttribute('data-page');
+      expect(id, '<html data-page> ausente').toBeTruthy();
+      const description = page.locator('meta[name="description"]');
+      const expectMeta = async (lang, htmlLang) => {
+        await expect(html).toHaveAttribute('lang', htmlLang);
+        await expect(page).toHaveTitle(translations[lang][`page.${id}.title`]);
+        await expect(description).toHaveAttribute('content', translations[lang][`page.${id}.description`]);
+      };
+
+      await expectMeta('pt-br', 'pt-BR');
+      await page.locator('#lang-toggle').click();
+      await expectMeta('en', 'en');
+      await page.locator('#lang-toggle').click();
+      await expectMeta('pt-br', 'pt-BR');
+
+      await page.waitForLoadState('networkidle');
+      expect(broken).toEqual([]);
+      expect(errors).toEqual([]);
+    });
+  }
+});
+
 test.describe('navegador em inglês', () => {
   test.use({ locale: 'en-US' });
 
   test('detecta o idioma do navegador na primeira visita', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('[data-i18n="hero.role"]')).toHaveText('Java Backend Developer');
   });
@@ -345,7 +388,7 @@ const VISIBLE = { opacity: '1', clipped: false };
 
 test.describe('visibilidade das seções', () => {
   test('título e subtítulo de cada seção aparecem ao rolar', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const ids = await page
       .locator('main section[id]:has(.section__title)')
       .evaluateAll((sections) => sections.map((s) => s.id));
@@ -365,7 +408,7 @@ test.describe('visibilidade das seções', () => {
   });
 
   test('título da seção aparece ao navegar pelo menu', async ({ page, isMobile }) => {
-    await page.goto('/');
+    await page.goto('./');
     const hrefs = await page
       .locator('.nav__link')
       .evaluateAll((links) => links.map((a) => a.getAttribute('href')));
@@ -373,7 +416,7 @@ test.describe('visibilidade das seções', () => {
     // Página nova a cada link: o salto parte do topo, com nenhuma seção ainda renderizada — o caso em que
     // uma altura estimada errada faz o scroll suave parar no lugar errado.
     for (const href of hrefs) {
-      await page.goto('/');
+      await page.goto('./');
       if (isMobile) await page.locator('#nav-toggle').click();
       await page.locator(`.nav__link[href="${href}"]`).click();
       const title = page.locator(`${href} .section__title`);
@@ -395,7 +438,7 @@ test.describe('visibilidade das seções', () => {
 });
 
 test('animação de digitação escreve e muda o texto', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const typing = page.locator('#typing-text');
   const first = await typing.textContent();
   await expect(typing).not.toHaveText(first ?? '', { timeout: 5000 });
@@ -405,7 +448,7 @@ test.describe('movimento reduzido', () => {
   test.use({ reducedMotion: 'reduce' });
 
   test('a linha de terminal do hero fica parada', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const typing = page.locator('#typing-text');
     await page.waitForTimeout(3000);
     await expect(typing).toHaveText('mvn spring-boot:run');
@@ -421,7 +464,7 @@ for (const viewport of [
     page,
   }) => {
     await page.setViewportSize(viewport);
-    await page.goto('/');
+    await page.goto('./');
     await page.locator('.hero__content').evaluate((el) =>
       Promise.all(
         el
@@ -445,7 +488,7 @@ for (const viewport of [
 }
 
 test('prova do hero leva ao card do SocialTech', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   await page.locator('.hero__proof').click();
   await expect(page).toHaveURL(/#socialtech$/);
   await expect(page.locator('#socialtech .project-card__title')).toBeInViewport();
@@ -454,7 +497,7 @@ test('prova do hero leva ao card do SocialTech', async ({ page }) => {
 test('cards de projeto: sem filtros, links com ícone + texto e nome acessível que contém o texto', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('./');
   await expect(page.locator('.projects__filters')).toHaveCount(0);
   const titles = await page
     .locator('.project-card__title')
@@ -502,7 +545,7 @@ test('cards de projeto: sem filtros, links com ícone + texto e nome acessível 
   await check('en');
 });
 test('SocialTech abre a grade em destaque, com código, site no ar e prova linkada', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const featured = page.locator('.project-card').first();
   await expect(featured).toHaveClass(/project-card--featured/);
   await expect(featured.locator('.project-card__title')).toContainText('SocialTech');
@@ -529,7 +572,7 @@ test('faixa de provas do Sobre: 4 links seguros para evidências no GitHub, sem 
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 800 });
-  await page.goto('/');
+  await page.goto('./');
   const links = page.locator('.about__proofs a');
   await expect(links).toHaveCount(4);
   for (const link of await links.all()) {
@@ -547,7 +590,7 @@ test('faixa de provas do Sobre: 4 links seguros para evidências no GitHub, sem 
 test('competências: 4 grupos, cada item com nível e link de evidência, nos dois idiomas', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('./');
   await expect(page.locator('.skill-group')).toHaveCount(4);
   const skills = page.locator('.skill');
   const total = await skills.count();
@@ -568,7 +611,7 @@ test('competências: 4 grupos, cada item com nível e link de evidência, nos do
 
 test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
   const errors = trackErrors(page);
-  await page.goto('/');
+  await page.goto('./');
   await page.keyboard.press('Control+Backquote');
   const overlay = page.locator('.terminal-overlay');
   await expect(overlay).toHaveClass(/terminal-overlay--open/);
@@ -585,7 +628,7 @@ test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) 
 });
 
 test('terminal lista todos os projetos da página e o LinkedIn canônico', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const titles = await page
     .locator('.project-card__title')
     .evaluateAll((els) => els.map((el) => el.firstChild.textContent.trim()));
@@ -604,7 +647,7 @@ test('terminal lista todos os projetos da página e o LinkedIn canônico', async
 });
 
 test('títulos das seções são diretos e iguais ao menu, nos dois idiomas', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const pairs = () =>
     page
       .locator('.nav__link')
@@ -621,7 +664,7 @@ test('títulos das seções são diretos e iguais ao menu, nos dois idiomas', as
 });
 
 test('rodapé: autoria, código-fonte, data de atualização e voltar ao topo', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const footer = page.locator('.footer');
   await expect(footer.locator('.footer__meta li')).toHaveText([
     /^© \d{4} Pedro Braga de Lima$/,
@@ -647,7 +690,7 @@ test('rodapé: autoria, código-fonte, data de atualização e voltar ao topo', 
 test('falha na API do GitHub mostra mensagem traduzível', async ({ page }) => {
   await page.unroute(GITHUB_API);
   await page.route(GITHUB_API, (route) => route.fulfill({ status: 403, body: '{}' }));
-  await page.goto('/');
+  await page.goto('./');
   const fallback = page.locator('.github__fallback');
   await expect(fallback).toContainText('Não foi possível carregar');
   await page.locator('#lang-toggle').click();
@@ -655,16 +698,16 @@ test('falha na API do GitHub mostra mensagem traduzível', async ({ page }) => {
 });
 
 test('currículo em PDF está disponível', async ({ page, request }) => {
-  await page.goto('/');
+  await page.goto('./');
   const href = await page.locator('a[href$=".pdf"]').first().getAttribute('href');
-  const res = await request.get(`/${href}`);
+  const res = await request.get(href);
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toContain('application/pdf');
 });
 
 test('e-mail visível copia para a área de transferência e anuncia o resultado', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/');
+  await page.goto('./');
   await expect(page.locator('#contact-email')).toHaveText('pbl0812@gmail.com');
   await page.locator('#copy-email').click();
   await expect(page.locator('#copy-email-status')).toHaveText('E-mail copiado para a área de transferência.');
@@ -679,7 +722,7 @@ test('sem Clipboard API nem execCommand, o e-mail fica selecionado com instruç�
     Object.defineProperty(navigator, 'clipboard', { value: undefined });
     document.execCommand = () => false;
   });
-  await page.goto('/');
+  await page.goto('./');
   await page.locator('#copy-email').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#copy-email-status')).toContainText('Ctrl+C');
@@ -691,7 +734,7 @@ test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'Menu hambúrguer só existe no mobile');
 
   test('menu abre e fecha ao escolher uma seção', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const list = page.locator('#nav-list');
     await page.locator('#nav-toggle').click();
     await expect(list).toHaveClass(/open/);
