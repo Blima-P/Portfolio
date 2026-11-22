@@ -81,12 +81,6 @@ export const translations = {
     'project1.title': 'Carteira API',
     'project1.description':
       'Personal Java backend project for a digital wallet: registration, JWT login, balance, deposits, transfers and cursor-paginated statements. ACID transactions, idempotent retries, modular architecture and concurrency tests.',
-    'project1.code.label': 'View Carteira API source code',
-    'project2.title': 'Personal Portfolio',
-    'project2.description':
-      'Responsive landing page with dark mode, Canvas animations, typing effect, and scroll-spy. Built from scratch with HTML, CSS, and vanilla JavaScript.',
-    'project2.code.label': 'View portfolio source code',
-    'project2.demo.label': 'View live demo',
     'project3.title': 'Academic ERP',
     'project3.description':
       'Team university project for managing students, courses and enrollments. Contributions include course selection in enrollment and authentication updates with React and Firebase.',
@@ -100,14 +94,18 @@ export const translations = {
     'project5.metric.prs': 'merged PRs authored by me',
     'project5.metric.team': 'students on the team',
     'project5.metric.qr': 'on campus, site live',
-    'project5.code.label': 'View SocialTech source code',
-    'project5.demo.label': 'View SocialTech live',
+    'project1.code.label': 'Code for Carteira API',
+    'project3.code.label': 'Code for Academic ERP',
+    'project4.code.label': 'Code for Multiplayer Minesweeper',
+    'project5.code.label': 'Code for SocialTech',
+    'project5.demo.label': 'Live SocialTech site',
+    'project6.title': 'Weekly Dashboard',
+    'project6.description':
+      'Personal PWA for weekly habits, goals and tasks that I use every day: installs on the phone, works offline and needs no login. Data stays on the device with JSON backup, week-over-week history and an iPhone widget via Scriptable.',
+    'project6.code.label': 'Code for Weekly Dashboard',
+    'project6.demo.label': 'Live Weekly Dashboard site',
     'project.source': 'Code',
-    'filter.all': 'All',
-    'filter.web': 'Web',
-    'filter.backend': 'Backend',
-    'filter.systems': 'Systems',
-
+    'project.live': 'Live',
     // Habilidades
     'skills.title': 'Skills',
     'skills.subtitle': 'By area, with an honest level and a link to the proof',
@@ -242,12 +240,6 @@ export const translations = {
     'project1.title': 'Carteira API',
     'project1.description':
       'Projeto pessoal de backend Java para carteira digital: cadastro, login JWT, saldo, depósitos, transferências e extrato paginado por cursor. Transações ACID, reenvio idempotente, arquitetura modular e testes de concorrência.',
-    'project1.code.label': 'Ver código da Carteira API',
-    'project2.title': 'Portfólio Pessoal',
-    'project2.description':
-      'Landing page responsiva com dark mode, animações em Canvas, efeito typing e scroll-spy. Desenvolvido do zero com HTML, CSS e JavaScript puro.',
-    'project2.code.label': 'Ver código do portfólio',
-    'project2.demo.label': 'Ver demo ao vivo',
     'project3.title': 'ERP Acadêmico',
     'project3.description':
       'Projeto universitário em equipe para gestão de alunos, cursos e matrículas. Contribuições incluem seleção de curso na matrícula e ajustes de autenticação com React e Firebase.',
@@ -261,14 +253,18 @@ export const translations = {
     'project5.metric.prs': 'PRs meus mergeados',
     'project5.metric.team': 'estudantes no time',
     'project5.metric.qr': 'no campus, site no ar',
-    'project5.code.label': 'Ver código do SocialTech',
-    'project5.demo.label': 'Ver o SocialTech no ar',
+    'project1.code.label': 'Código da Carteira API',
+    'project3.code.label': 'Código do ERP Acadêmico',
+    'project4.code.label': 'Código do Campo Minado Multiplayer',
+    'project5.code.label': 'Código do SocialTech',
+    'project5.demo.label': 'Site do SocialTech no ar',
+    'project6.title': 'Painel Semanal',
+    'project6.description':
+      'PWA pessoal de hábitos, metas e tarefas da semana que uso no dia a dia: instala no celular, funciona offline e não pede login. Dados no próprio aparelho com backup em JSON, histórico entre semanas e widget de iPhone via Scriptable.',
+    'project6.code.label': 'Código do Painel Semanal',
+    'project6.demo.label': 'Site do Painel Semanal no ar',
     'project.source': 'Código',
-    'filter.all': 'Todos',
-    'filter.web': 'Web',
-    'filter.backend': 'Backend',
-    'filter.systems': 'Sistemas',
-
+    'project.live': 'Site',
     // Habilidades
     'skills.title': 'Competências',
     'skills.subtitle': 'Por área, com nível honesto e link para a prova',

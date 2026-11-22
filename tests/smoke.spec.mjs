@@ -444,42 +444,63 @@ for (const viewport of [
   });
 }
 
-test('prova do hero leva ao card do SocialTech, mesmo com outro filtro de projetos ativo', async ({
-  page,
-}) => {
+test('prova do hero leva ao card do SocialTech', async ({ page }) => {
   await page.goto('/');
-  await page.locator('.projects__filter[data-filter="backend"]').click();
-  await expect(page.locator('#socialtech')).toBeHidden();
-  await page.evaluate(() => window.scrollTo(0, 0));
   await page.locator('.hero__proof').click();
-  await expect(page.locator('.projects__filter[data-filter="all"]')).toHaveClass(/active/);
   await expect(page).toHaveURL(/#socialtech$/);
   await expect(page.locator('#socialtech .project-card__title')).toBeInViewport();
 });
 
-test('filtro de projetos esconde e mostra cards', async ({ page }) => {
+test('cards de projeto: sem filtros, links com ícone + texto e nome acessível que contém o texto', async ({
+  page,
+}) => {
   await page.goto('/');
-  const cards = page.locator('.project-card');
-  const total = await cards.count();
+  await expect(page.locator('.projects__filters')).toHaveCount(0);
+  const titles = await page
+    .locator('.project-card__title')
+    .evaluateAll((els) => els.map((el) => el.firstChild.textContent.trim()));
+  expect(titles).toEqual([
+    'SocialTech',
+    'Carteira API',
+    'ERP Acadêmico',
+    'Campo Minado Multiplayer',
+    'Painel Semanal',
+  ]);
 
-  await page.locator('.projects__filter[data-filter="backend"]').click();
-  const hidden = await page.locator('.project-card.hidden').count();
-  expect(hidden).toBeGreaterThan(0);
-  expect(hidden).toBeLessThan(total);
+  const check = async (lang) => {
+    const links = await page.locator('.project-card__links a').evaluateAll((els) =>
+      els.map((a) => ({
+        href: a.href,
+        cls: a.className,
+        svg: !!a.querySelector('svg[aria-hidden="true"]'),
+        text: a.querySelector('span')?.textContent.trim() ?? '',
+        label: a.getAttribute('aria-label') ?? '',
+      })),
+    );
+    expect(links.length, lang).toBe(7);
+    for (const link of links) {
+      expect(link.cls, link.href).toBe('project-card__link');
+      expect(link.svg, link.href).toBe(true);
+      expect(link.text, link.href).not.toBe('');
+      // WCAG 2.5.3: o nome acessível começa pelo texto visível.
+      expect(link.label.toLowerCase().startsWith(link.text.toLowerCase()), `${lang} ${link.label}`).toBe(
+        true,
+      );
+    }
+  };
+  await check('pt');
 
-  // Os filtros que deixam um card só não podem deixar meia grade vazia.
-  const gridWidth = (await page.locator('.projects__grid').boundingBox()).width;
-  for (const filter of ['backend', 'systems']) {
-    await page.locator(`.projects__filter[data-filter="${filter}"]`).click();
-    const visible = page.locator('.project-card:not(.hidden)');
-    await expect(visible).toHaveCount(1);
-    expect(Math.round((await visible.boundingBox()).width)).toBe(Math.round(gridWidth));
-  }
+  const painel = page.locator('.project-card').last();
+  const hrefs = await painel.locator('a').evaluateAll((links) => links.map((a) => a.href));
+  expect(hrefs).toEqual([
+    'https://github.com/Blima-P/painel-semanal',
+    'https://blima-p.github.io/painel-semanal/',
+  ]);
 
-  await page.locator('.projects__filter[data-filter="all"]').click();
-  await expect(page.locator('.project-card.hidden')).toHaveCount(0);
+  await page.locator('#lang-toggle').click();
+  await expect(painel.locator('.project-card__title')).toHaveText('Weekly Dashboard');
+  await check('en');
 });
-
 test('SocialTech abre a grade em destaque, com código, site no ar e prova linkada', async ({ page }) => {
   await page.goto('/');
   const featured = page.locator('.project-card').first();

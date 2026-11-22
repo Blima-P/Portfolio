@@ -35,7 +35,7 @@
 | 📜 | **Scroll-Spy** | Destaque automático do link ativo no menu |
 | 🎭 | **Animações de Scroll** | Efeitos de revelação com Intersection Observer |
 | 📊 | **Habilidades com Evidências** | Exemplos concretos de uso das tecnologias, sem porcentagens arbitrárias |
-| 🗂️ | **Filtro de Projetos** | Filtragem por categoria (Todos, Web, Backend, Sistemas) |
+| 🗂️ | **Projetos enxutos** | 5 cards com links padronizados (ícone + texto) para código e site no ar |
 | 📅 | **Linha do Tempo** | Timeline visual da jornada profissional |
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
 | 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
@@ -74,7 +74,7 @@ Portfolio/
 │   ├── typing.js               # Linha de terminal decorativa do hero (comandos digitados)
 │   ├── theme.js                # Alternador de tema claro/escuro com persistência
 │   ├── particles.js            # Sistema de partículas em Canvas
-│   ├── ui.js                   # Header, menu mobile, scroll-spy, revelação, filtros
+│   ├── ui.js                   # Header, menu mobile, scroll-spy e revelação
 │   ├── contact.js              # Copiar e-mail (Clipboard API + fallback, aria-live)
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
 │   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
@@ -139,7 +139,7 @@ cache do navegador após um deploy.
 | **Hero** | Selo de disponibilidade, nome, cargo, proposta de valor, prova com link (SocialTech), linha de terminal, partículas de fundo, botões de ação |
 | **Sobre** | Foto, bio, dados de localização/graduação/disponibilidade |
 | **Experiência** | Linha do tempo da jornada profissional |
-| **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Portfolio, com contexto e participação |
+| **Projetos** | SocialTech em destaque (projeto concluído e no ar: papel, números com link para a prova), Carteira API, ERP Acadêmico, Campo-minado e Painel Semanal (PWA offline), com contexto e participação |
 | **Competências** | Agrupadas por área (Backend, Front-end, Dados, DevOps), com nível honesto ("no ar", "em projeto", "estudando") e link para a evidência |
 | **Cursos** | Formação complementar, distinta de certificações profissionais |
 | **GitHub** | Cards dos cinco repositórios selecionados (SocialTech primeiro), com dados atualizados via API do GitHub |
