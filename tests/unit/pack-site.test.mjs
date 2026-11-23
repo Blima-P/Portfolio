@@ -55,6 +55,16 @@ test('recusa pasta no lugar de arquivo', async () => {
   assert.deepEqual(await findMissingRefs(site), ['index.html → css']);
 });
 
+test('<base> da 404 não conta como arquivo e as referências da página partem da raiz do site', async () => {
+  await write('index.html', '');
+  await write(
+    'erro/404.html',
+    '<base href="/Repo/" /><link href="css/a.css?v=1"><a href="index.html#x"></a><img src="assets/x.png">',
+  );
+  assert.deepEqual(await findMissingRefs(site), ['erro/404.html → assets/x.png']);
+  await rm(path.join(site, 'erro'), { recursive: true });
+});
+
 const FOOTER =
   '<li>© <span data-updated-year>2025</span> Pedro</li>' +
   '<time datetime="2025-01" data-updated>01/2025</time>';

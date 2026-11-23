@@ -24,6 +24,9 @@ export async function publicEntries(root) {
 // href="x" | src="x" locais (sem esquema, âncora ou //host); query e fragmento ficam de fora.
 const HTML_REF = /\s(?:href|src)="(?![a-z][a-z0-9+.-]*:|#|\/\/)([^"?#]+)[^"]*"/gi;
 const JS_IMPORT = /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)['"](\.\.?\/[^'"?#]+)/g;
+// <base href="/Repo/"> (a 404.html, servida em qualquer profundidade) aponta para a raiz publicada:
+// não é um arquivo, e as referências da página passam a ser resolvidas a partir da raiz do site.
+const BASE_TAG = /<base\b[^>]*>/i;
 
 async function isFile(file) {
   try {
@@ -45,10 +48,10 @@ async function* walk(dir) {
 export async function findMissingRefs(site) {
   const missing = [];
   const rel = (file) => path.relative(site, file).replaceAll('\\', '/');
-  const check = async (from, ref) => {
+  const check = async (from, ref, dir) => {
     let target;
     try {
-      target = path.resolve(path.dirname(from), decodeURIComponent(ref));
+      target = path.resolve(dir, decodeURIComponent(ref));
     } catch {
       missing.push(`${rel(from)} → ${ref} (URL inválida)`);
       return;
@@ -65,8 +68,13 @@ export async function findMissingRefs(site) {
   for await (const file of walk(site)) {
     const pattern = file.endsWith('.html') ? HTML_REF : file.endsWith('.js') ? JS_IMPORT : null;
     if (!pattern) continue;
-    const text = await readFile(file, 'utf8');
-    for (const [, ref] of text.matchAll(pattern)) await check(file, ref);
+    let text = await readFile(file, 'utf8');
+    let dir = path.dirname(file);
+    if (pattern === HTML_REF && BASE_TAG.test(text)) {
+      text = text.replace(BASE_TAG, '');
+      dir = site;
+    }
+    for (const [, ref] of text.matchAll(pattern)) await check(file, ref, dir);
   }
   return missing;
 }
