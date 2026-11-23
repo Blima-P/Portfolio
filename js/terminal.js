@@ -1,4 +1,5 @@
 // Terminal (easter egg): Ctrl + ` abre/fecha. Carregado sob demanda pelo main.js.
+// <dialog> modal nativo: foco preso e devolvido a quem abriu, Esc fecha, saída anunciada (aria-live).
 
 import { getLanguage } from './i18n.js?v=6cc5a7b2';
 
@@ -40,22 +41,33 @@ const commands = {
 
 const messages = {
   en: {
-    intro: 'Type "help" for available commands.',
+    title: 'Portfolio terminal',
+    input: 'Command',
+    output: 'Terminal output',
+    intro: 'Type "help" for available commands. ↑/↓ browse history, Tab completes.',
     notFound: (cmd) => `Command not found: "${cmd}". Type "help" for available commands.`,
     close: 'Close terminal',
   },
   'pt-br': {
-    intro: 'Digite "help" para ver os comandos disponíveis.',
+    title: 'Terminal do portfólio',
+    input: 'Comando',
+    output: 'Saída do terminal',
+    intro: 'Digite "help" para ver os comandos disponíveis. ↑/↓ navegam no histórico, Tab completa.',
     notFound: (cmd) => `Comando não encontrado: "${cmd}". Digite "help" para ver os comandos disponíveis.`,
     close: 'Fechar terminal',
   },
 };
 
-let overlay = null;
+let dialog = null;
+let title = null;
 let input = null;
 let output = null;
 let closeBtn = null;
-let isOpen = false;
+let opener = null;
+
+const history = [];
+let historyIndex = 0; // history.length = linha nova (o rascunho)
+let draft = '';
 
 function getLang() {
   const lang = getLanguage();
@@ -96,20 +108,88 @@ function processCommand(cmd) {
   }
 }
 
+function commonPrefix(words) {
+  return words.reduce((acc, word) => {
+    let i = 0;
+    while (i < acc.length && acc[i] === word[i]) i += 1;
+    return acc.slice(0, i);
+  });
+}
+
+/**
+ * Autocompletar do Tab: devolve true só quando agiu (completou ou listou opções). Sem prefixo, sem
+ * correspondência ou com o comando já completo, o Tab segue o foco normal do diálogo.
+ */
+function complete() {
+  const prefix = input.value.toLowerCase();
+  if (!prefix || /\s/.test(prefix)) return false;
+  const names = Object.keys(commands[getLang()]).filter((name) => name.startsWith(prefix));
+  if (!names.length) return false;
+  const common = commonPrefix(names);
+  if (common.length > prefix.length) {
+    input.value = common;
+    return true;
+  }
+  if (names.length === 1) return false;
+  const options = names.join('  ');
+  if (output.lastElementChild?.textContent !== options) addLine(options, 'system');
+  return true;
+}
+
+function browseHistory(step) {
+  const next = historyIndex + step;
+  if (next < 0 || next > history.length) return;
+  if (historyIndex === history.length) draft = input.value;
+  historyIndex = next;
+  input.value = next === history.length ? draft : history[next];
+  input.setSelectionRange(input.value.length, input.value.length);
+}
+
+function onInputKeydown(event) {
+  if (event.isComposing) return;
+  if (event.key === 'Enter') {
+    // Sem isso, o "exit" devolve o foco ao gatilho e o mesmo Enter o aciona.
+    event.preventDefault();
+    const cmd = input.value.trim();
+    if (cmd && history.at(-1) !== cmd) history.push(cmd);
+    historyIndex = history.length;
+    draft = '';
+    input.value = '';
+    if (cmd) processCommand(cmd.toLowerCase());
+  } else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    event.preventDefault();
+    browseHistory(event.key === 'ArrowUp' ? -1 : 1);
+  } else if (
+    event.key === 'Tab' &&
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.altKey &&
+    !event.metaKey &&
+    complete()
+  ) {
+    event.preventDefault();
+  }
+}
+
 function createTerminal() {
-  overlay = el('div', 'terminal-overlay');
-  const terminal = el('div', 'terminal');
+  dialog = el('dialog', 'terminal terminal-dialog');
+  dialog.setAttribute('aria-labelledby', 'terminal-title');
 
   const header = el('div', 'terminal__header');
+  const dots = el('span', 'terminal__dots');
+  dots.setAttribute('aria-hidden', 'true');
   for (const color of ['red', 'yellow', 'green']) {
-    header.append(el('span', `terminal__dot terminal__dot--${color}`));
+    dots.append(el('span', `terminal__dot terminal__dot--${color}`));
   }
-  header.append(el('span', 'terminal__title', 'pbl@portfolio:~$'));
+  title = el('h2', 'terminal__title');
+  title.id = 'terminal-title';
   closeBtn = el('button', 'terminal__close', '✕');
   closeBtn.type = 'button';
-  header.append(closeBtn);
+  header.append(dots, title, closeBtn);
 
   output = el('div', 'terminal__body');
+  output.setAttribute('role', 'log');
+  output.setAttribute('aria-live', 'polite');
   output.append(el('p', 'terminal__line terminal__line--system', messages[getLang()].intro));
 
   const inputLine = el('div', 'terminal__input-line');
@@ -117,43 +197,50 @@ function createTerminal() {
   input.type = 'text';
   input.autocomplete = 'off';
   input.spellcheck = false;
-  input.setAttribute('aria-label', 'Terminal');
-  inputLine.append(el('span', 'terminal__prompt', '→'), input);
+  input.setAttribute('autocapitalize', 'none');
+  input.setAttribute('enterkeyhint', 'send');
+  const prompt = el('span', 'terminal__prompt', '→');
+  prompt.setAttribute('aria-hidden', 'true');
+  inputLine.append(prompt, input);
 
-  terminal.append(header, output, inputLine);
-  overlay.append(terminal);
-  document.body.append(overlay);
+  dialog.append(header, output, inputLine);
+  document.body.append(dialog);
 
-  input.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
-    const cmd = input.value.trim().toLowerCase();
-    if (cmd) processCommand(cmd);
-    input.value = '';
-  });
-
+  input.addEventListener('keydown', onInputKeydown);
   closeBtn.addEventListener('click', closeTerminal);
-  overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) closeTerminal();
+  // O diálogo não tem preenchimento: clique no próprio <dialog> é clique no fundo (::backdrop). O gesto
+  // precisa começar fora também — arrastar uma seleção do texto para fora não fecha o terminal.
+  let pressedOnBackdrop = false;
+  dialog.addEventListener('pointerdown', (event) => {
+    pressedOnBackdrop = event.target === dialog;
   });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && isOpen) closeTerminal();
+  dialog.addEventListener('click', (event) => {
+    if (pressedOnBackdrop && event.target === dialog) closeTerminal();
+    pressedOnBackdrop = false;
+  });
+  dialog.addEventListener('close', () => {
+    if (opener?.isConnected) opener.focus({ preventScroll: true });
+    opener = null;
   });
 }
 
 function openTerminal() {
-  if (!overlay) createTerminal();
-  closeBtn.setAttribute('aria-label', messages[getLang()].close);
-  overlay.classList.add('terminal-overlay--open');
-  isOpen = true;
-  setTimeout(() => input.focus(), 100);
+  if (!dialog) createTerminal();
+  const text = messages[getLang()];
+  title.textContent = text.title;
+  input.setAttribute('aria-label', text.input);
+  output.setAttribute('aria-label', text.output);
+  closeBtn.setAttribute('aria-label', text.close);
+  opener = document.activeElement === document.body ? null : document.activeElement;
+  dialog.showModal();
+  input.focus();
 }
 
 function closeTerminal() {
-  overlay?.classList.remove('terminal-overlay--open');
-  isOpen = false;
+  if (dialog?.open) dialog.close();
 }
 
 export function toggleTerminal() {
-  if (isOpen) closeTerminal();
+  if (dialog?.open) closeTerminal();
   else openTerminal();
 }
