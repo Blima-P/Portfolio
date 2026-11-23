@@ -32,12 +32,10 @@
   color: var(--color-text-muted);
 }
 
-/* A janela do terminal da home abre com escala e altura limitada; aqui fica parada e cresce com o texto. */
+/* A janela do terminal fica parada e cresce com o texto (na home ela tem altura limitada e rola). */
 .not-found__terminal {
   width: 100%;
   max-width: 40rem;
-  max-height: none;
-  transform: none;
   text-align: left;
 }
 

@@ -718,22 +718,103 @@ test('competências: 4 grupos, cada item com nível e link de evidência, nos do
   await expect(page.locator('.skill-group__title').nth(3)).toHaveText('DevOps and tools');
 });
 
-test('terminal abre com Ctrl+`, executa help e fecha com Esc', async ({ page }) => {
+test('terminal abre com Ctrl+`, executa help, fecha com Esc e devolve o foco', async ({ page }) => {
   const errors = trackErrors(page);
   await page.goto('./');
+  const trigger = page.locator('#lang-toggle');
+  await trigger.focus();
   await page.keyboard.press('Control+Backquote');
-  const overlay = page.locator('.terminal-overlay');
-  await expect(overlay).toHaveClass(/terminal-overlay--open/);
+  const dialog = page.getByRole('dialog', { name: 'Terminal do portfólio' });
+  await expect(dialog).toBeVisible();
+  expect(await dialog.evaluate((el) => el.matches(':modal'))).toBe(true);
+  await expect(dialog.getByRole('log')).toHaveAttribute('aria-live', 'polite');
 
-  const input = page.locator('.terminal__input');
+  const input = dialog.getByRole('textbox', { name: 'Comando' });
   await expect(input).toBeFocused();
   await input.fill('help');
   await input.press('Enter');
   await expect(page.locator('.terminal__line--response').first()).toContainText('Comandos disponíveis');
 
   await page.keyboard.press('Escape');
-  await expect(overlay).not.toHaveClass(/terminal-overlay--open/);
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+
+  // Reaberto em inglês, o título e os rótulos acompanham o idioma.
+  await trigger.click();
+  await page.keyboard.press('Control+Backquote');
+  await expect(page.getByRole('dialog', { name: 'Portfolio terminal' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Close terminal' })).toBeVisible();
+  await page.getByRole('button', { name: 'Close terminal' }).click();
+  await expect(dialog).toBeHidden();
   expect(errors).toEqual([]);
+});
+
+test('terminal: histórico com ↑/↓, Tab completa só com correspondência e clique fora fecha', async ({
+  page,
+}) => {
+  await page.goto('./');
+  await page.keyboard.press('Control+Backquote');
+  const dialog = page.getByRole('dialog');
+  const input = dialog.getByRole('textbox');
+  const log = dialog.getByRole('log');
+
+  await input.fill('he');
+  await input.press('Tab');
+  await expect(input).toHaveValue('help');
+  await input.press('Enter');
+  await input.fill('pro');
+  await input.press('Tab');
+  await expect(input).toHaveValue('projects');
+  await input.press('Enter');
+
+  // Prefixo com várias opções: lista as opções e o foco fica no campo.
+  await input.fill('c');
+  await input.press('Tab');
+  await expect(input).toBeFocused();
+  await expect(log.locator('.terminal__line--system').last()).toHaveText('contact  clear');
+
+  await input.fill('rascunho');
+  await input.press('ArrowUp');
+  await expect(input).toHaveValue('projects');
+  await input.press('ArrowUp');
+  await expect(input).toHaveValue('help');
+  await input.press('ArrowUp');
+  await expect(input).toHaveValue('help');
+  await input.press('ArrowDown');
+  await expect(input).toHaveValue('projects');
+  await input.press('ArrowDown');
+  await expect(input).toHaveValue('rascunho');
+
+  // Sem correspondência (ou vazio), Tab e Shift+Tab seguem o foco do diálogo — nada de armadilha.
+  await input.press('Tab');
+  await expect(input).not.toBeFocused();
+  await input.fill('');
+  await input.press('Shift+Tab');
+  await expect(input).not.toBeFocused();
+  await expect(dialog).toBeVisible();
+
+  // Arrastar uma seleção do texto para fora não fecha; clique no fundo fecha.
+  const line = await log.locator('.terminal__line--response').first().boundingBox();
+  await page.mouse.move(line.x + 5, line.y + 5);
+  await page.mouse.down();
+  await page.mouse.move(5, 5, { steps: 5 });
+  await page.mouse.up();
+  await expect(dialog).toBeVisible();
+  await page.mouse.click(5, 5);
+  await expect(dialog).toBeHidden();
+});
+
+test('terminal: "exit" fecha e devolve o foco sem acionar o gatilho', async ({ page }) => {
+  await page.goto('./');
+  const trigger = page.locator('#lang-toggle');
+  await trigger.focus();
+  await page.keyboard.press('Control+Backquote');
+  const input = page.getByRole('dialog').getByRole('textbox');
+  await input.fill('exit');
+  await input.press('Enter');
+  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
 test('terminal lista todos os projetos da página e o LinkedIn canônico', async ({ page }) => {
