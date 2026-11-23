@@ -57,7 +57,8 @@ jobs:
           # O github.com responde 503 (servidor ocupado, não link quebrado) a rajadas vindas do runner,
           # e o lychee só repete em 429: menos requisições por host e 503 aceito. 404 continua falhando.
           # URLs do próprio site (canonical, og:url) são conferidas nos arquivos do commit: uma página
-          # nova ainda não está no ar antes do deploy.
+          # nova ainda não está no ar antes do deploy. Caminhos "/Portfolio/…" (o <base> da 404.html)
+          # também apontam para a raiz do repositório, como no Pages.
           args: >-
             --no-progress
             --host-concurrency 4
@@ -67,7 +68,8 @@ jobs:
             --exclude-path node_modules
             --root-dir ${{ github.workspace }}
             --remap 'https://blima-p\.github\.io/Portfolio/ file://${{ github.workspace }}/'
-            index.html 'projetos/*.html' README.md CONTRIBUTING.md SECURITY.md
+            --remap 'file://${{ github.workspace }}/Portfolio(/|$) file://${{ github.workspace }}/'
+            index.html 404.html 'projetos/*.html' README.md CONTRIBUTING.md SECURITY.md
 
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12

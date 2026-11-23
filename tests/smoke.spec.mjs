@@ -364,6 +364,38 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
   }
 });
 
+test('endereço inexistente mostra a 404 do site em qualquer profundidade, com caminho de volta', async ({
+  page,
+}) => {
+  const errors = trackErrors(page);
+  const broken = [];
+  page.on('response', (res) => {
+    if (res.status() >= 400 && res.request().resourceType() !== 'document') broken.push(res.url());
+  });
+
+  const res = await page.goto('projetos/nao-existe/de-verdade');
+  expect(res.status()).toBe(404);
+  await expect(page.locator('h1')).toHaveText('Página não encontrada');
+  await expect(page.locator('[data-missing-path]').first()).toHaveText(
+    '/Portfolio/projetos/nao-existe/de-verdade',
+  );
+  // Estilos e módulos carregados apesar do caminho profundo (o <base> resolve a partir de /Portfolio/).
+  expect(await page.locator('.not-found__terminal').evaluate((el) => getComputedStyle(el).borderRadius)).toBe(
+    '12px',
+  );
+
+  await page.locator('#lang-toggle').click();
+  await expect(page.locator('h1')).toHaveText('Page not found');
+  await expect(page).toHaveTitle(translations.en['page.404.title']);
+
+  await page.locator('.not-found__link[href="index.html#projects"]').click();
+  await expect(page).toHaveURL(/\/Portfolio\/index\.html#projects$/);
+  await expect(page.locator('#projects .section__title')).toBeVisible();
+
+  expect(broken).toEqual([]);
+  expect(errors.filter((e) => !e.includes('404'))).toEqual([]);
+});
+
 test.describe('navegador em inglês', () => {
   test.use({ locale: 'en-US' });
 

@@ -64,16 +64,19 @@ Qualidade       ESLint · Stylelint · Prettier · html-validate · Playwright �
 ```
 Portfolio/
 ├── index.html                  # Página principal (home)
+├── 404.html                    # Página não encontrada no estilo do terminal (<base href="/Portfolio/">)
 ├── projetos/
 │   ├── carteira-api.html       # Estudo de caso da Carteira API (decisões, diagrama, provas)
 │   └── socialtech.html         # Estudo de caso do SocialTech (papel, decisões, fluxo de entrega)
 ├── css/
 │   ├── styles.css              # Estilos principais, layout, componentes, responsivo
 │   ├── case.css                # Estilos dos estudos de caso (projetos/*.html)
+│   ├── not-found.css           # Estilos da 404.html
 │   └── animations.css          # Keyframes e classes utilitárias de animação
 ├── js/                         # ES Modules, sem variáveis globais
 │   ├── main.js                 # Ponto de entrada da home: inicializa os módulos
 │   ├── case.js                 # Ponto de entrada dos estudos de caso: tema, idioma e header
+│   ├── not-found.js            # Ponto de entrada da 404: case.js + caminho pedido no terminal
 │   ├── translations.js         # Textos PT-BR / EN (dados puros)
 │   ├── i18n.js                 # Detecção, troca e persistência do idioma
 │   ├── typing.js               # Linha de terminal decorativa do hero (comandos digitados)

@@ -14,6 +14,16 @@ export const translations = {
     'page.socialtech.title': 'SocialTech — case study | Pedro Braga',
     'page.socialtech.description':
       'SocialTech case study: a mobile-first site opened by the QR Code on the UCB compost bin. Static Astro site, progressive enhancement, content editable without code, CI with accessibility checks; 111 of my PRs merged.',
+    'page.404.title': 'Page not found | Pedro Braga',
+    'page.404.description':
+      'This address does not exist in this portfolio. Go back to the home page or see the projects.',
+    'notfound.eyebrow': 'Error 404',
+    'notfound.title': 'Page not found',
+    'notfound.lead': 'The address may have changed or been mistyped.',
+    'notfound.error': 'No such file or directory',
+    'notfound.hint': '# try one of these paths:',
+    'notfound.home': 'Back to the home page',
+    'notfound.projects': 'See the projects',
 
     // Navegação
     'nav.about': 'About',
@@ -359,6 +369,15 @@ export const translations = {
     'page.socialtech.title': 'SocialTech — estudo de caso | Pedro Braga',
     'page.socialtech.description':
       'Estudo de caso do SocialTech: site mobile-first aberto pelo QR Code da lixeira de compostagem da UCB. Astro estático, aprimoramento progressivo, conteúdo editável sem programar e CI com acessibilidade; 111 PRs meus mergeados.',
+    'page.404.title': 'Página não encontrada | Pedro Braga',
+    'page.404.description': 'O endereço não existe neste portfólio. Volte ao início ou veja os projetos.',
+    'notfound.eyebrow': 'Erro 404',
+    'notfound.title': 'Página não encontrada',
+    'notfound.lead': 'O endereço pode ter mudado ou ter sido digitado errado.',
+    'notfound.error': 'arquivo ou diretório não encontrado',
+    'notfound.hint': '# tente um destes caminhos:',
+    'notfound.home': 'Voltar ao início',
+    'notfound.projects': 'Ver os projetos',
 
     // Navegação
     'nav.about': 'Sobre',

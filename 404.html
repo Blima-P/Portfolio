@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-page="404">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- O GitHub Pages serve esta página no endereço pedido (ex.: /Portfolio/a/b/c): sem a base,
+       os caminhos relativos apontariam para pastas que não existem. -->
+  <base href="/Portfolio/" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#050a18" />
+  <meta name="description" content="O endereço não existe neste portfólio. Volte ao início ou veja os projetos." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <title>Página não encontrada | Pedro Braga</title>
+  <script>
+    // Aplica o tema salvo antes da primeira pintura (evita o "flash" do tema escuro).
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+      if (savedTheme === 'light') {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f3f9ff');
+      }
+    } catch {
+      // Armazenamento indisponível: fica o tema padrão.
+    }
+  </script>
+  <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/styles.css?v=7c6d97a7" />
+  <link rel="stylesheet" href="css/not-found.css?v=a54e787e" />
+  <script type="module" src="js/not-found.js?v=93f8c1d9"></script>
+</head>
+
+<body>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html" class="nav__logo">pedro<span class="nav__logo-dot">.</span>braga</a>
+
+      <div class="nav__actions">
+        <button type="button" class="nav__lang" id="lang-toggle" aria-label="EN: ver o site em inglês" data-i18n="nav.lang.label" data-i18n-attr="aria-label">EN</button>
+
+        <button type="button" class="nav__theme" id="theme-toggle" aria-label="Ativar o tema claro" data-i18n="nav.theme.toLight" data-i18n-attr="aria-label">
+          <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="not-found container">
+    <p class="not-found__eyebrow" data-i18n="notfound.eyebrow">Erro 404</p>
+    <h1 class="not-found__title" data-i18n="notfound.title">Página não encontrada</h1>
+    <p class="not-found__lead" data-i18n="notfound.lead">O endereço pode ter mudado ou ter sido digitado errado.</p>
+
+    <div class="terminal not-found__terminal">
+      <div class="terminal__header" aria-hidden="true">
+        <span class="terminal__dot terminal__dot--red"></span>
+        <span class="terminal__dot terminal__dot--yellow"></span>
+        <span class="terminal__dot terminal__dot--green"></span>
+        <span class="terminal__title">bash</span>
+      </div>
+      <div class="terminal__body">
+        <p class="terminal__line terminal__line--command"><span aria-hidden="true">$ </span>cd <span data-missing-path>/Portfolio/…</span></p>
+        <p class="terminal__line terminal__line--error">bash: cd: <span data-missing-path>/Portfolio/…</span>: <span data-i18n="notfound.error">arquivo ou diretório não encontrado</span></p>
+        <p class="terminal__line terminal__line--system" data-i18n="notfound.hint"># tente um destes caminhos:</p>
+        <ul class="not-found__links">
+          <li><a href="index.html" class="not-found__link"><span aria-hidden="true">$ cd ~ </span><span data-i18n="notfound.home">Voltar ao início</span></a></li>
+          <li><a href="index.html#projects" class="not-found__link"><span aria-hidden="true">$ cd ~/projetos </span><span data-i18n="notfound.projects">Ver os projetos</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <!-- Ano e mês/ano são reescritos pelo scripts/pack-site.mjs com a data do commit publicado. -->
+      <ul class="footer__meta">
+        <li>© <span data-updated-year>2026</span> Pedro Braga de Lima</li>
+        <li data-i18n="footer.made">feito à mão, sem frameworks</li>
+        <li><a href="https://github.com/Blima-P/Portfolio" target="_blank" rel="noopener noreferrer" class="footer__link" data-i18n="footer.source">código-fonte</a></li>
+        <li><span data-i18n="footer.updated">atualizado em</span> <time datetime="2026-11" data-updated>11/2026</time></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+
+</html>
