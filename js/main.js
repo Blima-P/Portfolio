@@ -4,7 +4,7 @@ import { initContact } from './contact.js?v=de30e2d8';
 import { initGithub } from './github.js?v=0dd72f82';
 import { initI18n } from './i18n.js?v=c19252bf';
 import { initParticles } from './particles.js?v=56945b69';
-import { initTheme } from './theme.js?v=729d6e1a';
+import { initTheme } from './theme.js?v=cb75a91e';
 import { initTyping } from './typing.js?v=182c0b34';
 import { initUI } from './ui.js?v=bec50259';
 
@@ -23,7 +23,7 @@ initGithub();
 let terminal;
 function toggleTerminal() {
   // A mesma promessa atende pressionamentos rápidos: os toggles ficam na ordem certa.
-  terminal ??= import('./terminal.js?v=42d4030f');
+  terminal ??= import('./terminal.js?v=11bace8b');
   terminal
     .then((module) => module.toggleTerminal())
     .catch((err) => {

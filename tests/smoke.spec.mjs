@@ -175,6 +175,82 @@ test('tema alterna e persiste após recarregar', async ({ page }) => {
   await expect(html).toHaveAttribute('data-theme', 'light');
 });
 
+// Registra as View Transitions e as animações de pseudo-elemento que a troca de tema dispara.
+async function spyThemeTransition(page) {
+  await page.addInitScript(() => {
+    window.__vt = { transitions: 0, animations: [] };
+    const start = document.startViewTransition?.bind(document);
+    if (start) {
+      document.startViewTransition = (cb) => {
+        window.__vt.transitions += 1;
+        return start(cb);
+      };
+    }
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (keyframes, options) {
+      if (options?.pseudoElement) window.__vt.animations.push({ pseudo: options.pseudoElement, keyframes });
+      return animate.call(this, keyframes, options);
+    };
+  });
+}
+
+test('troca de tema revela o tema novo em círculo a partir do botão (View Transitions)', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await spyThemeTransition(page);
+  await page.goto('./');
+  const html = page.locator('html');
+  const button = page.locator('#theme-toggle');
+  const box = await button.boundingBox();
+  await button.click();
+  await expect(html).toHaveAttribute('data-theme', 'light');
+  await expect.poll(() => page.evaluate(() => window.__vt.animations.length)).toBe(1);
+  const vt = await page.evaluate(() => window.__vt);
+  expect(vt.transitions).toBe(1);
+  expect(vt.animations[0].pseudo).toBe('::view-transition-new(root)');
+  const [x, y] = vt.animations[0].keyframes.clipPath[0]
+    .match(/at ([\d.]+)px ([\d.]+)px/)
+    .slice(1)
+    .map(Number);
+  expect(x).toBeCloseTo(box.x + box.width / 2, 0);
+  expect(y).toBeCloseTo(box.y + box.height / 2, 0);
+  // Ao terminar, as transições de cor voltam a valer.
+  await expect(html).not.toHaveClass(/theme-switching/);
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
+});
+
+test('com movimento reduzido, a troca de tema é instantânea (sem View Transition)', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await spyThemeTransition(page);
+  await page.goto('./');
+  // Clique e contagem na mesma tarefa: nenhuma transição de cor do CSS chega a começar.
+  const cssTransitions = await page.evaluate(() => {
+    document.getElementById('theme-toggle').click();
+    return document.getAnimations().filter((a) => a instanceof CSSTransition).length;
+  });
+  expect(cssTransitions).toBe(0);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).not.toHaveClass(/theme-switching/);
+  expect(await page.evaluate(() => window.__vt)).toEqual({ transitions: 0, animations: [] });
+});
+
+test('cliques rápidos durante a View Transition alternam o tema sem se atropelar', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('./');
+  const themes = await page.evaluate(async () => {
+    const button = document.getElementById('theme-toggle');
+    const frame = () => new Promise(requestAnimationFrame);
+    const seen = [];
+    for (let i = 0; i < 5; i += 1) {
+      button.click();
+      await frame();
+      seen.push(localStorage.getItem('theme'));
+    }
+    return seen;
+  });
+  expect(themes).toEqual(['light', 'dark', 'light', 'dark', 'light']);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).not.toHaveClass(/theme-switching/);
+});
 test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-color', async ({ page }) => {
   await page.goto('./');
   const button = page.locator('#theme-toggle');

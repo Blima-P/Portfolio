@@ -148,6 +148,21 @@
   pointer-events: none;
 }
 
+/* Troca de tema (theme.js): o tema novo é revelado em círculo sobre o antigo, sem cross-fade, e as
+   transições de cor ficam desligadas para o tema novo já entrar pronto (sem flash nem esmaecimento). */
+:root.theme-switching::view-transition-old(root),
+:root.theme-switching::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
 /* ---- Reset ---- */
 *,
 *::before,
