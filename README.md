@@ -42,6 +42,7 @@
 | ✉️ | **Contato** | E-mail visível com botão "Copiar" (Clipboard API com fallback e anúncio para leitor de tela) e cards para GitHub, LinkedIn, currículo (PT ou EN, conforme o idioma) e Lattes |
 | 💻 | **Terminal** | Botão `>_` no menu, Ctrl + K ou Ctrl + \` (funciona no ABNT2); diálogo acessível com foco preso e devolvido, histórico (↑/↓) e Tab que completa comandos e argumentos. Comandos `open <projeto>`, `cv`, `email`, `theme`, `lang`, `whoami`; carregado só quando aberto |
 | 📱 | **Totalmente Responsivo** | Menu hambúrguer para mobile + layouts adaptativos |
+| 🖨️ | **Versão impressa** | Imprimir ou salvar como PDF (A4) gera um currículo de até 2 folhas: fundo branco, sem header, partículas, botões nem terminal, com as URLs dos projetos e contatos |
 
 <br>
 
