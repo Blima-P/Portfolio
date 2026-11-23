@@ -1,6 +1,6 @@
 // Alternador de idioma (PT-BR padrão / EN).
 
-import { HTML_KEYS, translations } from './translations.js?v=81698469';
+import { HTML_KEYS, translations } from './translations.js?v=d4595cab';
 
 const DEFAULT_LANG = 'pt-br';
 // Chave nova: a versão anterior salvava 'lang' = 'en' em toda visita, sem escolha do usuário.
@@ -101,4 +101,9 @@ export function initI18n({ onChange } = {}) {
   });
 
   setLanguage(detectLanguage());
+}
+
+/** Troca e salva o idioma, como o botão (usado pelo terminal, que deixa o botão inerte). */
+export function changeLanguage(lang) {
+  setLanguage(lang, { persist: true });
 }

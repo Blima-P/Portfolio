@@ -1,12 +1,12 @@
 // Ponto de entrada (ES Module). Nenhuma variável global: cada funcionalidade expõe init*().
 
-import { initContact } from './contact.js?v=24c265e9';
-import { initGithub } from './github.js?v=9dd44aa6';
-import { initI18n } from './i18n.js?v=6cc5a7b2';
+import { initContact } from './contact.js?v=de30e2d8';
+import { initGithub } from './github.js?v=0dd72f82';
+import { initI18n } from './i18n.js?v=c19252bf';
 import { initParticles } from './particles.js?v=56945b69';
-import { initTheme } from './theme.js?v=f813f550';
+import { initTheme } from './theme.js?v=729d6e1a';
 import { initTyping } from './typing.js?v=182c0b34';
-import { initUI } from './ui.js?v=0af5611f';
+import { initUI } from './ui.js?v=bec50259';
 
 const particles = initParticles();
 initTheme({ onChange: () => particles?.refreshColor() });
@@ -18,17 +18,35 @@ initUI();
 initContact();
 initGithub();
 
-// Terminal (easter egg): o módulo só é baixado no primeiro Ctrl + `.
+// Terminal (easter egg): o módulo só é baixado na primeira abertura — botão >_ do menu, Ctrl + K
+// (como no GitHub) ou Ctrl + ` (tecla morta no ABNT2, por isso o K).
 let terminal;
-document.addEventListener('keydown', (event) => {
-  if (!event.ctrlKey || event.key !== '`' || event.repeat) return;
-  event.preventDefault();
+function toggleTerminal() {
   // A mesma promessa atende pressionamentos rápidos: os toggles ficam na ordem certa.
-  terminal ??= import('./terminal.js?v=613ec5e7');
+  terminal ??= import('./terminal.js?v=42d4030f');
   terminal
-    .then(({ toggleTerminal }) => toggleTerminal())
+    .then((module) => module.toggleTerminal())
     .catch((err) => {
       terminal = undefined; // permite tentar de novo (ex.: rede instável)
       console.warn('Não foi possível abrir o terminal:', err);
     });
+}
+
+// Ctrl + K não rouba o atalho de quem digita num campo (exceto no próprio terminal, onde fecha).
+function isTextField(el) {
+  return Boolean(
+    el?.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])') &&
+    !el.closest('.terminal-dialog'),
+  );
+}
+
+document.getElementById('terminal-toggle')?.addEventListener('click', toggleTerminal);
+document.addEventListener('keydown', (event) => {
+  if (event.altKey || event.shiftKey) return;
+  const backquote = event.ctrlKey && event.key === '`';
+  const k = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
+  if (!backquote && !(k && !isTextField(event.target))) return;
+  // Segurar a tecla não reabre o terminal, mas também não deixa o navegador levar o atalho (busca na barra).
+  event.preventDefault();
+  if (!event.repeat) toggleTerminal();
 });
