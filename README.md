@@ -28,7 +28,7 @@
 
 | | Funcionalidade | Detalhes |
 |:---:|---|---|
-| 🎨 | **Tema Claro / Escuro** | Alternância com persistência via localStorage |
+| 🎨 | **Tema Claro / Escuro** | Alternância com persistência via localStorage; o tema novo é revelado em círculo a partir do botão (View Transitions), instantâneo com movimento reduzido |
 | 🌐 | **Bilíngue (PT-BR / EN)** | PT-BR por padrão, detecção pelo idioma do navegador e troca dinâmica de conteúdo |
 | ⌨️ | **Linha de Terminal** | Comandos digitados no hero, decorativos (`aria-hidden`) e parados com movimento reduzido |
 | 🔮 | **Sistema de Partículas** | Canvas com linhas de conexão, densidade proporcional à tela e pausa fora da viewport |
@@ -80,7 +80,7 @@ Portfolio/
 │   ├── translations.js         # Textos PT-BR / EN (dados puros)
 │   ├── i18n.js                 # Detecção, troca e persistência do idioma
 │   ├── typing.js               # Linha de terminal decorativa do hero (comandos digitados)
-│   ├── theme.js                # Alternador de tema claro/escuro com persistência
+│   ├── theme.js                # Tema claro/escuro: persistência e troca com View Transitions
 │   ├── particles.js            # Sistema de partículas em Canvas
 │   ├── ui.js                   # Header, menu mobile, scroll-spy e revelação
 │   ├── contact.js              # Copiar e-mail (Clipboard API + fallback, aria-live)

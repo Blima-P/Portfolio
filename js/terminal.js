@@ -3,7 +3,7 @@
 
 import { copyText } from './contact.js?v=de30e2d8';
 import { changeLanguage, getLanguage, t } from './i18n.js?v=c19252bf';
-import { setTheme } from './theme.js?v=729d6e1a';
+import { setTheme } from './theme.js?v=cb75a91e';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');
