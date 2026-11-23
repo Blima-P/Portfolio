@@ -3,7 +3,7 @@
 
 import { initI18n } from './i18n.js?v=9a888827';
 import { initTheme } from './theme.js?v=9f960f60';
-import { initHeader } from './ui.js?v=d0ef7114';
+import { initHeader } from './ui.js?v=0af5611f';
 
 initTheme();
 initI18n();
