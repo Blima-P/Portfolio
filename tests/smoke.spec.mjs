@@ -70,6 +70,115 @@ test('canvas de partículas não intercepta cliques nem o menu de contexto', asy
   expect(target).not.toBe('CANVAS');
 });
 
+test('partículas: ~60 desenhos/s em qualquer taxa de atualização, com a mesma velocidade', async ({
+  page,
+}) => {
+  // Relógio de quadros manual: o teste decide a taxa de atualização e conta os desenhos do canvas.
+  await page.addInitScript(() => {
+    const pending = new Map();
+    let id = 0;
+    let clock = 1000;
+    let now = clock;
+    window.requestAnimationFrame = (cb) => {
+      pending.set(++id, cb);
+      return id;
+    };
+    window.cancelAnimationFrame = (handle) => pending.delete(handle);
+    // jitter: timestamps alternam ± esse valor em volta do quadro ideal (clock), como num navegador real.
+    window.__runFrames = (count, interval, jitter = 0) => {
+      for (let i = 1; i <= count; i++) {
+        clock += interval;
+        now = clock + (i % 2 ? jitter : -jitter);
+        const callbacks = [...pending.values()];
+        pending.clear();
+        callbacks.forEach((cb) => cb(now));
+      }
+    };
+    window.__draws = [];
+    const { clearRect, arc } = CanvasRenderingContext2D.prototype;
+    CanvasRenderingContext2D.prototype.clearRect = function (...args) {
+      if (this.canvas.id === 'particles-canvas') window.__draws.push({ time: now });
+      return clearRect.apply(this, args);
+    };
+    // Posição da primeira partícula em cada desenho.
+    CanvasRenderingContext2D.prototype.arc = function (x, y, ...rest) {
+      const last = window.__draws.at(-1);
+      if (this.canvas.id === 'particles-canvas' && last && last.x === undefined)
+        Object.assign(last, { x, y });
+      return arc.call(this, x, y, ...rest);
+    };
+  });
+  await page.goto('./');
+
+  // Um segundo de quadros na taxa pedida (depois de um segundo de aquecimento).
+  const measure = (hz, jitter = 0) =>
+    page.evaluate(
+      ([rate, jit]) => {
+        window.__runFrames(rate, 1000 / rate, jit);
+        window.__draws = [];
+        window.__runFrames(rate, 1000 / rate, jit);
+        const [a, b] = window.__draws;
+        return { draws: window.__draws.length, speed: Math.hypot(b.x - a.x, b.y - a.y) / (b.time - a.time) };
+      },
+      [hz, jitter],
+    );
+
+  const at60 = await measure(60);
+  expect(at60.draws, 'em 60 Hz desenha todo quadro').toBe(60);
+  expect((await measure(60, 1)).draws, '60 Hz com timestamps imprecisos').toBe(60);
+  for (const [hz, jitter] of [[75], [90], [120], [144], [144, 0.5]]) {
+    const result = await measure(hz, jitter);
+    expect(result.draws, `${hz} Hz`).toBeGreaterThanOrEqual(58);
+    expect(result.draws, `${hz} Hz`).toBeLessThanOrEqual(62);
+    if (!jitter) expect(result.speed, `velocidade em ${hz} Hz`).toBeCloseTo(at60.speed, 4);
+  }
+});
+
+test('rolagem não anima propriedades de layout (scroll-spy e revelação)', async ({ page }) => {
+  await page.goto('./');
+  // Começa com o header já compacto: a transição dele acontece uma vez, ao sair do topo.
+  await page.evaluate(() => window.scrollTo(0, 200));
+  await page.waitForTimeout(500);
+  const { props, hidden } = await page.evaluate(async () => {
+    const props = new Set();
+    let sampling = true;
+    const sample = () => {
+      for (const animation of document.getAnimations()) {
+        if (animation.transitionProperty) {
+          props.add(animation.transitionProperty.replace(/-([a-z])/g, (_, c) => c.toUpperCase()));
+        } else {
+          for (const frame of animation.effect.getKeyframes()) {
+            for (const key of Object.keys(frame)) {
+              if (!['offset', 'computedOffset', 'easing', 'composite'].includes(key)) props.add(key);
+            }
+          }
+        }
+      }
+      if (sampling) requestAnimationFrame(sample);
+    };
+    sample();
+    // Rolagem instantânea (sem o scroll-behavior: smooth do html): cada passo chega mesmo ao destino.
+    const step = innerHeight / 3;
+    for (let y = 200; y < document.documentElement.scrollHeight; y += step) {
+      window.scrollTo({ top: y, behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    sampling = false;
+    const hidden = [...document.querySelectorAll('.text-reveal')]
+      .filter((el) => !el.closest('.section--revealed'))
+      .map((el) => el.closest('section').id);
+    return { props: [...props], hidden };
+  });
+  expect(hidden, 'a rolagem passou por todas as seções').toEqual([]);
+  const animated = props;
+  // Garante que a amostragem pegou as animações de rolagem (revelação de títulos e cards).
+  expect(animated).toEqual(expect.arrayContaining(['opacity', 'clipPath']));
+  const layout =
+    /^(width|height|(min|max)[A-Z]|letterSpacing|wordSpacing|padding|margin|top|left|right|bottom|inset|fontSize|lineHeight|gap|border\w*Width)/;
+  expect(animated.filter((prop) => layout.test(prop))).toEqual([]);
+});
+
 test('partículas não passam sob o texto nem os botões do hero', async ({ page }) => {
   // Semente fixa: com posições aleatórias, às vezes todas as partículas caíam dentro da máscara e o
   // canvas ficava legitimamente vazio. Com esta semente há partículas dentro e fora do conteúdo.
@@ -550,11 +659,12 @@ test('menu marca só a seção atual, mesmo com o mouse parado sobre outro link'
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('./');
   const current = page.locator('.nav__link[aria-current="location"]');
+  // O sublinhado cresce com transform: scaleX (0 = oculto).
   const underlined = () =>
     page
       .locator('.nav__link')
       .evaluateAll((links) =>
-        links.filter((a) => parseFloat(getComputedStyle(a, '::after').width) > 0).map((a) => a.hash),
+        links.filter((a) => new DOMMatrix(getComputedStyle(a, '::after').transform).a > 0).map((a) => a.hash),
       );
 
   await page.locator('.nav__link[href="#projects"]').click();

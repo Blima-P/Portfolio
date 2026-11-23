@@ -375,16 +375,20 @@ select,
 }
 
 /* Linha animada embaixo do link da seção atual. Só ele ganha a linha: no hover muda apenas a cor,
-   senão o link sob o mouse parado e o da seção atual ficariam sublinhados juntos ao rolar. */
+   senão o link sob o mouse parado e o da seção atual ficariam sublinhados juntos ao rolar.
+   Cresce com transform (compositor): o scroll-spy troca o link várias vezes durante a rolagem e
+   animar width custava um layout por quadro. */
 .nav__link::after {
   content: '';
   position: absolute;
   bottom: 8px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 2px;
   background: var(--color-accent);
-  transition: width var(--transition);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
 }
 
 .nav__link:hover,
@@ -393,7 +397,7 @@ select,
 }
 
 .nav__link[aria-current]::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 /* Botão do terminal: último item do menu — ícone ">_" no header do desktop; no painel do celular,

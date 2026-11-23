@@ -123,20 +123,6 @@
   }
 }
 
-@keyframes subtitle-reveal-in {
-  from {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0;
-    letter-spacing: 0.3em;
-  }
-
-  to {
-    clip-path: inset(0 0% 0 0);
-    opacity: 1;
-    letter-spacing: 0.05em;
-  }
-}
-
 /* A seção recebe .section--revealed ao entrar na tela (js/ui.js). O estado final é declarado
    explicitamente: a animação é só enfeite e o texto fica visível mesmo se ela não rodar. */
 .text-reveal,
@@ -155,6 +141,8 @@
   animation: text-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+/* O subtítulo usa a mesma revelação do título (sem animar letter-spacing, que refazia o layout da
+   página a cada quadro), só que um pouco depois. */
 .section--revealed .subtitle-reveal {
-  animation: subtitle-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+  animation: text-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
 }

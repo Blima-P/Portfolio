@@ -3,7 +3,7 @@
 import { initContact } from './contact.js?v=de30e2d8';
 import { initGithub } from './github.js?v=0dd72f82';
 import { initI18n } from './i18n.js?v=c19252bf';
-import { initParticles } from './particles.js?v=56945b69';
+import { initParticles } from './particles.js?v=67d436f3';
 import { initTheme } from './theme.js?v=cb75a91e';
 import { initTyping } from './typing.js?v=182c0b34';
 import { initUI } from './ui.js?v=bec50259';

@@ -2,7 +2,14 @@
 
 const MAX_DISTANCE = 120;
 const MAX_DISTANCE_SQ = MAX_DISTANCE * MAX_DISTANCE;
+// Velocidade em px por quadro de 60 Hz; o movimento é por tempo, igual em qualquer taxa de atualização.
 const SPEED = 0.3;
+const FRAME_MS = 1000 / 60;
+// Telas de 75/90/120/144 Hz chamam o rAF mais vezes que 60/s: o canvas desenha no máximo ~60 vezes
+// por segundo (metade do trabalho em 120/144 Hz). A folga absorve a variação dos timestamps em 60 Hz.
+const DRAW_TOLERANCE_MS = 2;
+// Depois de uma pausa (aba oculta, hero fora da tela), não "teleporta" as partículas.
+const MAX_STEPS = 3;
 const RADIUS = 1.5;
 // Densidade: uma partícula a cada ~30.000 px², entre 15 e 35.
 const AREA_PER_PARTICLE = 30000;
@@ -27,6 +34,8 @@ export function initParticles() {
   let particles = [];
   let color = FALLBACK_RGB;
   let animationId = null;
+  let lastTime = 0;
+  let nextDraw = 0;
   let isVisible = true;
   let hasMask = false;
 
@@ -94,10 +103,10 @@ export function initParticles() {
     }));
   }
 
-  function update() {
+  function update(steps) {
     for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
+      p.x += p.vx * steps;
+      p.y += p.vy * steps;
       // Quique pela direção (não só inverter): se o canvas encolher, a partícula volta para dentro
       // em vez de ficar oscilando do lado de fora.
       if (p.x < 0) p.vx = Math.abs(p.vx);
@@ -141,18 +150,27 @@ export function initParticles() {
     }
   }
 
-  function frame() {
+  function frame(time) {
     if (!isVisible) {
       animationId = null;
       return;
     }
-    update();
-    draw();
     animationId = requestAnimationFrame(frame);
+    if (time < nextDraw - DRAW_TOLERANCE_MS) return;
+    // O próximo prazo conta a partir do anterior, não do quadro atual: assim a média fica em ~60
+    // desenhos/s em qualquer taxa (com "agora + 16,7 ms", 90 Hz cairia para 45/s).
+    nextDraw += FRAME_MS;
+    if (nextDraw <= time) nextDraw = time + FRAME_MS;
+    update(lastTime ? Math.min((time - lastTime) / FRAME_MS, MAX_STEPS) : 1);
+    lastTime = time;
+    draw();
   }
 
   function start() {
-    if (!animationId) animationId = requestAnimationFrame(frame);
+    if (animationId) return;
+    lastTime = 0;
+    nextDraw = 0;
+    animationId = requestAnimationFrame(frame);
   }
 
   function stop() {
