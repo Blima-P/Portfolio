@@ -40,7 +40,7 @@
 | 🏅 | **Cursos e Aprendizado** | Formação complementar, sem apresentar cursos como certificações profissionais |
 | 🐙 | **Integração GitHub** | Seleção explícita de projetos com dados atualizados via GitHub REST API |
 | ✉️ | **Contato** | E-mail visível com botão "Copiar" (Clipboard API com fallback e anúncio para leitor de tela) e cards para GitHub, LinkedIn, currículo (PT ou EN, conforme o idioma) e Lattes |
-| 💻 | **Terminal (Easter Egg)** | Terminal oculto (Ctrl + \`) em diálogo acessível: foco preso e devolvido, histórico (↑/↓), Tab completa; carregado só quando aberto |
+| 💻 | **Terminal** | Botão `>_` no menu, Ctrl + K ou Ctrl + \` (funciona no ABNT2); diálogo acessível com foco preso e devolvido, histórico (↑/↓) e Tab que completa comandos e argumentos. Comandos `open <projeto>`, `cv`, `email`, `theme`, `lang`, `whoami`; carregado só quando aberto |
 | 📱 | **Totalmente Responsivo** | Menu hambúrguer para mobile + layouts adaptativos |
 
 <br>
@@ -85,7 +85,7 @@ Portfolio/
 │   ├── ui.js                   # Header, menu mobile, scroll-spy e revelação
 │   ├── contact.js              # Copiar e-mail (Clipboard API + fallback, aria-live)
 │   ├── github.js               # API do GitHub — busca e renderiza repositórios
-│   └── terminal.js             # Terminal easter egg (Ctrl + `), carregado sob demanda
+│   └── terminal.js             # Terminal (botão >_, Ctrl + K), carregado sob demanda
 ├── scripts/
 │   ├── pages.mjs               # Lista única das páginas (index.html, projetos/*.html, 404.html)
 │   ├── check-i18n.mjs          # Paridade e uso das chaves; textos e metadados de cada página

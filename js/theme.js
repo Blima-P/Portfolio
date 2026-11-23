@@ -2,7 +2,7 @@
 // inline no <head>, antes da primeira pintura; aqui ficam o botão, a persistência e a cor da
 // barra do navegador (meta theme-color), lida do token --color-bg para não duplicar a paleta.
 
-import { translateElement } from './i18n.js?v=6cc5a7b2';
+import { translateElement } from './i18n.js?v=c19252bf';
 
 const THEME_KEY = 'theme';
 
@@ -36,6 +36,9 @@ function updateThemeColor() {
   if (meta && color) meta.setAttribute('content', color);
 }
 
+// Definida pelo initTheme, que conhece o botão e o onChange.
+let setThemeImpl = () => {};
+
 export function initTheme({ onChange } = {}) {
   let current = readTheme();
   const button = document.getElementById('theme-toggle');
@@ -48,11 +51,17 @@ export function initTheme({ onChange } = {}) {
     onChange?.(theme);
   }
 
-  button?.addEventListener('click', () => {
-    const next = current === 'dark' ? 'light' : 'dark';
-    saveTheme(next);
-    apply(next);
-  });
+  setThemeImpl = (theme) => {
+    saveTheme(theme);
+    apply(theme);
+  };
+
+  button?.addEventListener('click', () => setThemeImpl(current === 'dark' ? 'light' : 'dark'));
 
   apply(current);
+}
+
+/** Troca e salva o tema, como o botão (usado pelo terminal, que deixa o botão inerte). */
+export function setTheme(theme) {
+  if (theme === 'light' || theme === 'dark') setThemeImpl(theme);
 }

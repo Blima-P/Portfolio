@@ -79,7 +79,8 @@ function initMobileMenu() {
   document.querySelectorAll('.nav__link').forEach((link) => link.addEventListener('click', close));
 
   document.addEventListener('click', (event) => {
-    if (!event.target.closest('.nav')) close();
+    // Cliques no terminal (aberto pelo botão do menu) não fecham o menu: o foco volta para ele.
+    if (!event.target.closest('.nav, .terminal-dialog')) close();
   });
 }
 

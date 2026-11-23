@@ -1,20 +1,21 @@
 // Contato: botão "Copiar" do e-mail, com fallback para navegadores sem Clipboard API
 // (ou sem permissão) e anúncio do resultado para leitores de tela via aria-live.
 
-import { t } from './i18n.js?v=6cc5a7b2';
+import { t } from './i18n.js?v=c19252bf';
 
 const RESET_MS = 4000;
 
 // Fallback síncrono: copia por um textarea temporário (execCommand ainda funciona onde a
-// Clipboard API não existe, como páginas sem HTTPS).
-function copyWithTextarea(text) {
+// Clipboard API não existe, como páginas sem HTTPS). `container` precisa estar fora de áreas
+// inertes — com um <dialog> modal aberto, o próprio diálogo.
+function copyWithTextarea(text, container) {
   const previousFocus = document.activeElement;
   const area = document.createElement('textarea');
   area.value = text;
   area.setAttribute('readonly', '');
   area.style.position = 'fixed';
   area.style.opacity = '0';
-  document.body.append(area);
+  container.append(area);
   area.select();
   let ok;
   try {
@@ -37,7 +38,8 @@ function selectText(el) {
   selection.addRange(range);
 }
 
-async function copy(text) {
+/** Copia `text` (Clipboard API → textarea); devolve se deu certo. Também usado pelo terminal. */
+export async function copyText(text, container = document.body) {
   try {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
@@ -46,7 +48,7 @@ async function copy(text) {
   } catch {
     // Permissão negada ou contexto inseguro: tenta o fallback abaixo.
   }
-  return copyWithTextarea(text);
+  return copyWithTextarea(text, container);
 }
 
 export function initContact() {
@@ -57,7 +59,7 @@ export function initContact() {
 
   let timer;
   button.addEventListener('click', async () => {
-    const ok = await copy(address.textContent.trim());
+    const ok = await copyText(address.textContent.trim());
     if (!ok) selectText(address);
     status.textContent = t(ok ? 'contact.copy.done' : 'contact.copy.manual');
     button.classList.toggle('is-copied', ok);

@@ -771,7 +771,7 @@ test('terminal: histórico com ↑/↓, Tab completa só com correspondência e 
   await input.fill('c');
   await input.press('Tab');
   await expect(input).toBeFocused();
-  await expect(log.locator('.terminal__line--system').last()).toHaveText('contact  clear');
+  await expect(log.locator('.terminal__line--system').last()).toHaveText('contact  cv  clear');
 
   await input.fill('rascunho');
   await input.press('ArrowUp');
@@ -817,6 +817,140 @@ test('terminal: "exit" fecha e devolve o foco sem acionar o gatilho', async ({ p
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
+test('terminal abre pelo botão >_ (no menu do celular, inclusive em 320 px) e devolve o foco a ele', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('./');
+  await page.locator('#nav-toggle').click();
+  const button = page.getByRole('button', { name: 'Abrir o terminal' });
+  await expect(button).toHaveText('>_Terminal');
+  // O painel desliza da direita: espera ele parar antes de medir.
+  await expect
+    .poll(async () => {
+      const b = await button.boundingBox();
+      return b.x + b.width;
+    })
+    .toBeLessThanOrEqual(320);
+  expect((await button.boundingBox()).height).toBeGreaterThanOrEqual(44);
+  await button.click();
+  const dialog = page.getByRole('dialog', { name: 'Terminal do portfólio' });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('textbox').fill('whoami');
+  await dialog.getByRole('textbox').press('Enter');
+  await expect(dialog.getByRole('log')).toContainText('visitante');
+  // Clicar dentro do terminal não fecha o menu por trás, então o foco tem para onde voltar.
+  await dialog.getByRole('log').click();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(button).toBeFocused();
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.reload();
+  await expect(page.locator('#terminal-toggle')).toBeVisible();
+  await expect(page.locator('#terminal-toggle .nav__terminal-text')).toBeHidden();
+});
+
+test('menu do celular em tela baixa (320×568): nenhum item fica atrás do header', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('./');
+  await page.locator('#nav-toggle').click();
+  const items = page.locator('.nav__list > li > :is(a, button)');
+  await expect(items).toHaveCount(7);
+  await expect
+    .poll(async () => (await page.locator('.nav__list').boundingBox()).x)
+    .toBeLessThanOrEqual(320 - 213);
+  for (const item of await items.all()) {
+    await item.scrollIntoViewIfNeeded();
+    const hit = await item.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+    });
+    expect(hit, await item.textContent()).toBe(true);
+  }
+});
+test('Ctrl+K abre e fecha o terminal, mas não rouba o atalho de um campo de texto da página', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const dialog = page.getByRole('dialog');
+  await page.keyboard.press('Control+k');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('textbox')).toBeFocused();
+  await page.keyboard.press('Control+k');
+  await expect(dialog).toBeHidden();
+
+  await page.evaluate(() => {
+    const field = document.createElement('input');
+    field.id = 'campo-teste';
+    document.body.prepend(field);
+  });
+  await page.locator('#campo-teste').focus();
+  await page.keyboard.press('Control+k');
+  await expect(dialog).toBeHidden();
+});
+
+test('terminal: whoami, theme, lang, email, cv e open com Tab nos argumentos', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('./');
+  await page.keyboard.press('Control+k');
+  const dialog = page.getByRole('dialog');
+  const input = dialog.getByRole('textbox');
+  const log = dialog.getByRole('log');
+  const run = async (cmd) => {
+    await input.fill(cmd);
+    await input.press('Enter');
+  };
+
+  await run('theme');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(log).toContainText('Tema claro ativado.');
+  await run('theme dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await run('theme azul');
+  await expect(log.locator('.terminal__line--error').last()).toHaveText('Uso: theme [light|dark]');
+
+  await run('email');
+  await expect(log).toContainText('E-mail copiado: pbl0812@gmail.com');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('pbl0812@gmail.com');
+
+  await run('lang en');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.getByRole('dialog', { name: 'Portfolio terminal' })).toBeVisible();
+  await expect(log).toContainText('Language: English.');
+  // No Chromium headless o PDF vira download e a URL do popup não muda; vale a requisição feita por ele.
+  const popup = page.waitForEvent('popup');
+  const pdfRequest = context.waitForEvent('request', (req) =>
+    req.url().endsWith('/assets/cv/pedro-braga-cv-en.pdf'),
+  );
+  await run('cv');
+  await pdfRequest;
+  await (await popup).close();
+  await expect(log.getByRole('link', { name: 'Opening the resume (PDF)…' })).toHaveAttribute(
+    'href',
+    'assets/cv/pedro-braga-cv-en.pdf',
+  );
+  await run('lang');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
+
+  await run('open');
+  await expect(log.locator('.terminal__line--system').last()).toContainText('socialtech, carteira-api');
+  await input.fill('op');
+  await input.press('Tab');
+  await expect(input).toHaveValue('open ');
+  await input.type('car');
+  await input.press('Tab');
+  await expect(input).toHaveValue('open carteira-api');
+  await input.press('Enter');
+  await expect(page).toHaveURL(/\/projetos\/carteira-api\.html$/);
+});
+
+test('cada destino do "open" do terminal também está nos cards de projeto', async ({ page }) => {
+  await page.goto('./');
+  const targets = await page.evaluate(async () => Object.values((await import('./js/terminal.js')).PROJECTS));
+  expect(targets.length).toBe(5);
+  for (const url of targets) await expect(page.locator(`#projects a[href="${url}"]`).first()).toBeAttached();
+});
 test('terminal lista todos os projetos da página e o LinkedIn canônico', async ({ page }) => {
   await page.goto('./');
   const titles = await page

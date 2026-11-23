@@ -36,6 +36,7 @@ export const translations = {
     'nav.theme.toDark': 'Switch to dark theme',
     'nav.lang.label': 'PT-BR: view the site in Portuguese',
     'nav.menu.label': 'Open menu',
+    'nav.terminal.label': 'Open the terminal',
 
     // Hero
     'hero.status': 'Open to junior roles · Brasília, Brazil · hybrid or remote',
@@ -390,6 +391,7 @@ export const translations = {
     'nav.theme.toDark': 'Ativar o tema escuro',
     'nav.lang.label': 'EN: ver o site em inglês',
     'nav.menu.label': 'Abrir menu',
+    'nav.terminal.label': 'Abrir o terminal',
 
     // Hero
     'hero.status': 'Disponível para vagas júnior · Brasília · híbrido ou remoto',

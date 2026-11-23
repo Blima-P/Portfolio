@@ -381,6 +381,36 @@ select,
   width: 100%;
 }
 
+/* Botão do terminal: último item do menu — ícone ">_" no header do desktop; no painel do celular,
+   ícone + "Terminal", como os links. */
+.nav__terminal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition:
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.nav__terminal:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.nav__terminal-text {
+  display: none;
+}
+
 /* Idioma, tema e menu ficam juntos, à direita — e acima do painel do menu mobile, para que o
    botão de fechar continue visível com o menu aberto. */
 .nav__actions {
@@ -1709,6 +1739,23 @@ select,
   box-shadow: inset 0 0 0 2px var(--color-focus);
 }
 
+.terminal__link {
+  color: var(--color-terminal-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.terminal__link:hover {
+  color: var(--color-terminal-text);
+}
+
+/* Abaixo de 16 px o Safari do iPhone dá zoom na página ao focar o campo. */
+@media (pointer: coarse) {
+  .terminal__input {
+    font-size: 1rem;
+  }
+}
+
 /* ---- Responsividade ---- */
 
 /* Tablet (ex.: 820 px): "Sobre" continua em 2 colunas, só com menos respiro; contato em 2 × 2. */
@@ -1767,10 +1814,15 @@ select,
     height: 100vh;
     background: var(--color-bg-2);
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 2rem;
     border-left: 1px solid var(--color-border);
+
+    /* O header (logo e botões) fica por cima do painel: reserva a altura dele. Se a lista não couber,
+       rola em vez de cortar — por isso a centralização vem das margens automáticas, não do justify-content. */
+    padding: 5rem 0 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 
     /* Fechado, o painel fica fora da tela: visibility o tira da ordem do Tab. Ao fechar, só some depois de deslizar. */
     visibility: hidden;
@@ -1785,8 +1837,38 @@ select,
     transition: right var(--transition);
   }
 
+  .nav__list > :first-child {
+    margin-top: auto;
+  }
+
+  .nav__list > :last-child {
+    margin-bottom: auto;
+  }
+
   .nav__link {
     font-size: 1.2rem;
+  }
+
+  .nav__terminal {
+    border: none;
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+
+  .nav__terminal-icon {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  .nav__terminal-text {
+    display: inline;
+  }
+}
+
+@media (max-width: 960px) and (max-height: 640px) {
+  .nav__list {
+    gap: 0.75rem;
   }
 }
 
