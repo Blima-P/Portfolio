@@ -437,6 +437,31 @@ test.describe('visibilidade das seções', () => {
   });
 });
 
+test('menu marca só a seção atual, mesmo com o mouse parado sobre outro link', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'no celular o menu fica fechado durante a rolagem');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./');
+  const current = page.locator('.nav__link[aria-current="location"]');
+  const underlined = () =>
+    page
+      .locator('.nav__link')
+      .evaluateAll((links) =>
+        links.filter((a) => parseFloat(getComputedStyle(a, '::after').width) > 0).map((a) => a.hash),
+      );
+
+  await page.locator('.nav__link[href="#projects"]').click();
+  await expect(current).toHaveAttribute('href', '#projects');
+  await expect(current).toHaveCount(1);
+
+  await page.locator('.nav__link[href="#experience"]').hover();
+  await page.locator('#skills').evaluate((el) => el.scrollIntoView());
+  await expect(current).toHaveAttribute('href', '#skills');
+  await expect.poll(underlined).toEqual(['#skills']);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(current).toHaveCount(0);
+});
+
 test('animação de digitação escreve e muda o texto', async ({ page }) => {
   await page.goto('./');
   const typing = page.locator('#typing-text');

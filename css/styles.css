@@ -359,7 +359,8 @@ select,
   position: relative;
 }
 
-/* Linha animada embaixo do link ativo */
+/* Linha animada embaixo do link da seção atual. Só ele ganha a linha: no hover muda apenas a cor,
+   senão o link sob o mouse parado e o da seção atual ficariam sublinhados juntos ao rolar. */
 .nav__link::after {
   content: '';
   position: absolute;
@@ -372,12 +373,11 @@ select,
 }
 
 .nav__link:hover,
-.nav__link.active {
+.nav__link[aria-current] {
   color: var(--color-text);
 }
 
-.nav__link:hover::after,
-.nav__link.active::after {
+.nav__link[aria-current]::after {
   width: 100%;
 }
 

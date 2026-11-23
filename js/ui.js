@@ -5,23 +5,7 @@
 export function initHeader() {
   const header = document.getElementById('header');
   const scrollProgress = document.getElementById('scroll-progress');
-  const navLinks = document.querySelectorAll('.nav__link[href^="#"]');
-  const sections = document.querySelectorAll('main section[id]');
-
-  // Destaca o link da seção que ocupa o terço superior da tela.
-  function updateScrollSpy() {
-    const scrollMid = window.scrollY + window.innerHeight / 3;
-
-    for (const section of sections) {
-      const top = section.offsetTop;
-      const bottom = top + section.offsetHeight;
-      if (scrollMid >= top && scrollMid < bottom) {
-        navLinks.forEach((link) => {
-          link.classList.toggle('active', link.getAttribute('href') === `#${section.id}`);
-        });
-      }
-    }
-  }
+  initScrollSpy();
 
   let ticking = false;
   window.addEventListener(
@@ -38,14 +22,43 @@ export function initHeader() {
           scrollProgress.style.transform = `scaleX(${scrollY / docHeight})`;
         }
 
-        updateScrollSpy();
         ticking = false;
       });
     },
     { passive: true },
   );
+}
 
-  updateScrollSpy();
+// Marca com aria-current o link da seção que cruza a linha a 1/3 da altura da tela. Seções sem
+// link no menu (início, GitHub) não marcam nenhum.
+function initScrollSpy() {
+  const links = new Map(
+    [...document.querySelectorAll('.nav__link[href^="#"]')].map((link) => [link.hash.slice(1), link]),
+  );
+  const sections = [...document.querySelectorAll('main section[id]')];
+  if (!links.size || !sections.length) return;
+
+  const crossing = new Set();
+  const update = () => {
+    const current = sections.findLast((section) => crossing.has(section));
+    if (!current) return;
+    for (const [id, link] of links) {
+      if (id === current.id) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting } of entries) {
+        if (isIntersecting) crossing.add(target);
+        else crossing.delete(target);
+      }
+      update();
+    },
+    { rootMargin: '-33% 0px -66% 0px' },
+  );
+  sections.forEach((section) => observer.observe(section));
 }
 
 function initMobileMenu() {

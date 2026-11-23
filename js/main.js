@@ -6,7 +6,7 @@ import { initI18n } from './i18n.js?v=9a888827';
 import { initParticles } from './particles.js?v=56945b69';
 import { initTheme } from './theme.js?v=9f960f60';
 import { initTyping } from './typing.js?v=182c0b34';
-import { initUI } from './ui.js?v=d0ef7114';
+import { initUI } from './ui.js?v=0af5611f';
 
 const particles = initParticles();
 initTheme({ onChange: () => particles?.refreshColor() });
