@@ -893,6 +893,41 @@ test('terminal: "exit" fecha e devolve o foco sem acionar o gatilho', async ({ p
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
+test('impressão vira currículo de até 2 folhas A4, sem o que é interativo ou decorativo', async ({
+  page,
+}) => {
+  const sheets = async () => {
+    const pdf = await page.pdf({ format: 'A4', preferCSSPageSize: true });
+    return pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g).length;
+  };
+  await page.goto('./');
+  await page.emulateMedia({ media: 'print' });
+  for (const selector of ['#header', '#particles-canvas', '.hero__buttons', '#github', '#copy-email']) {
+    await expect(page.locator(selector), selector).toBeHidden();
+  }
+  // O que só aparece ao rolar (títulos e cards) sai inteiro, e o nome não depende de fundo impresso.
+  await expect(page.locator('#contact .section__title')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.project-card').last()).toHaveCSS('opacity', '1');
+  await expect(page.locator('.hero__name-gradient')).toHaveCSS('-webkit-text-fill-color', 'rgb(17, 24, 39)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  const linkedin = page.locator('.contact__card[href*="linkedin"]');
+  expect(await linkedin.evaluate((el) => getComputedStyle(el, '::after').content)).toContain(
+    'https://www.linkedin.com/in/pedrobragadelima/',
+  );
+  // Selo verde "no ar" com contraste no branco (o verde do tema escuro tinha 1,7:1).
+  await expect(page.locator('.skill__level--live').first()).toHaveCSS('color', 'rgb(21, 128, 61)');
+  expect(await sheets()).toBeLessThanOrEqual(2);
+
+  await page.emulateMedia({ media: 'screen' });
+  await page.locator('#lang-toggle').click();
+  await page.locator('#theme-toggle').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  // O tema troca dentro da View Transition: espera ela terminar antes de imprimir.
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).not.toHaveClass(/theme-switching/);
+  await page.emulateMedia({ media: 'print' }); // o page.pdf respeita a mídia emulada
+  expect(await sheets()).toBeLessThanOrEqual(2);
+});
 test('terminal abre pelo botão >_ (no menu do celular, inclusive em 320 px) e devolve o foco a ele', async ({
   page,
 }) => {

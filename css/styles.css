@@ -1961,3 +1961,384 @@ select,
     grid-template-columns: 1fr;
   }
 }
+
+/* ---- Impressão: a página vira um currículo de até 2 folhas A4 ---- */
+@page {
+  size: a4;
+  margin: 1.2cm 1.4cm;
+}
+
+@media print {
+  :root,
+  [data-theme='light'] {
+    --color-bg: #fff;
+    --color-bg-2: #fff;
+    --color-bg-card: #fff;
+    --color-border: #c5cfda;
+    --color-text: #111827;
+    --color-text-muted: #374151;
+    --color-accent: #075985;
+    --color-secondary: #075985;
+    --color-tag-bg: transparent;
+    --color-tag-border: #c5cfda;
+    --color-success: #15803d;
+    --color-success-ring: rgb(21 128 61 / 20%);
+    --shadow-card: none;
+    --shadow-card-accent: none;
+    --section-padding: 0;
+  }
+
+  html {
+    font-size: 9pt;
+  }
+
+  body {
+    background: #fff;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+
+  /* Interativo ou decorativo: não faz sentido no papel. Os repositórios vêm da API do GitHub, e o
+     link do currículo em PDF sobra quando a própria folha impressa é o currículo. */
+  .scroll-progress,
+  .header,
+  .hero::before,
+  .hero__particles,
+  .hero__status-dot,
+  .hero__greeting,
+  .hero__terminal,
+  .hero__buttons,
+  .hero__social,
+  .hero__scroll-down,
+  .hero__proof-arrow,
+  .about__img-wrapper,
+  .about__info > .btn,
+  .section__subtitle,
+  .project-card__case,
+  .github,
+  .contact__copy,
+  .contact__status,
+  .contact__card[data-i18n='cv.href'],
+  .contact__card-icon,
+  .footer__back-top,
+  .terminal-dialog {
+    display: none !important;
+  }
+
+  section,
+  .hero {
+    min-height: 0;
+    padding: 0;
+    margin: 0 0 1.1rem;
+    background: none;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  /* Sem fundo: com ou sem "gráficos de segundo plano" o botão continua legível (estudos de caso). */
+  .btn--primary {
+    background: none;
+    color: var(--color-accent);
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  img,
+  svg,
+  figure {
+    break-inside: avoid;
+  }
+
+  /* Destinos principais com a URL impressa (as provas têm URLs longas demais para o papel). */
+  .project-card__link[href^='http']::after,
+  .contact__card[href^='http']::after {
+    content: ' ' attr(href);
+    font-size: 0.85em;
+    color: var(--color-text-muted);
+  }
+
+  .section__title {
+    margin: 0 0 0.6rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 1.35rem;
+    text-align: left;
+    break-after: avoid;
+  }
+
+  .section__title::after {
+    display: none;
+  }
+
+  .hero__content {
+    padding: 0;
+    text-align: left;
+  }
+
+  .hero__name {
+    margin: 0;
+    font-size: 2.4rem;
+  }
+
+  .hero__name-gradient {
+    background: none;
+    color: var(--color-text);
+    -webkit-text-fill-color: currentcolor;
+  }
+
+  .hero__status,
+  .hero__proof {
+    margin: 0.3rem 0;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .hero__role {
+    margin: 0.2rem 0;
+    font-size: 1.3rem;
+  }
+
+  .hero__description {
+    max-width: none;
+    margin: 0.3rem 0;
+  }
+
+  .about__content,
+  .projects__grid,
+  .skills__grid,
+  .certs__grid,
+  .contact__content {
+    gap: 0.6rem 1.2rem;
+  }
+
+  .projects__grid,
+  .skills__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-card,
+  .timeline__card,
+  .skill-group,
+  .cert-card,
+  .contact__card {
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--color-border);
+    background: none;
+    box-shadow: none;
+    transform: none;
+    break-inside: avoid;
+  }
+
+  .project-card--featured {
+    grid-column: 1 / -1;
+  }
+
+  .timeline__line {
+    padding: 0;
+  }
+
+  .timeline__line::before,
+  .timeline__dot {
+    display: none;
+  }
+
+  .timeline__item {
+    margin: 0 0 0.4rem;
+    padding: 0;
+    width: auto;
+    left: auto;
+    break-inside: avoid;
+  }
+
+  .footer {
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+  }
+
+  .about__description,
+  .about__data,
+  .about__data-item,
+  .about__proofs-title,
+  .contact__email,
+  .contact__lead,
+  .contact__where {
+    text-align: left;
+  }
+
+  .about__content {
+    display: block;
+  }
+
+  .about__description {
+    margin: 0;
+  }
+
+  .about__data {
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
+    gap: 0.3rem 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .about__proofs {
+    gap: 0.15rem 1.2rem;
+    margin: 0;
+  }
+
+  .about__proofs a,
+  .project-card__metrics li {
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.95rem;
+  }
+
+  .project-card__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.2rem;
+    margin: 0.3rem 0 0;
+  }
+
+  .project-card {
+    gap: 0.25rem;
+  }
+
+  .project-card__links {
+    flex-wrap: wrap;
+    gap: 0.1rem 0.9rem;
+  }
+
+  .project-card__link svg {
+    display: none;
+  }
+
+  .project-card__description,
+  .project-card--featured .project-card__description {
+    max-width: none;
+    line-height: 1.4;
+  }
+
+  .cert-card {
+    text-align: left;
+  }
+
+  .contact__lead {
+    margin: 0 0 0.2rem;
+  }
+
+  .contact__card {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  /* A pilha da linha "Astro · TypeScript" no topo do card já resume as tags. */
+  .project-card__tags {
+    display: none;
+  }
+
+  .project-card__title {
+    margin: 0.2rem 0;
+    font-size: 1.15rem;
+  }
+
+  .project-card__description,
+  .project-card__role {
+    margin: 0.2rem 0 0;
+  }
+
+  .timeline__card {
+    padding: 0;
+    border: none;
+  }
+
+  .timeline__date {
+    margin: 0 0.6rem 0 0;
+  }
+
+  .timeline__card-title {
+    display: inline;
+    font-size: 1.05rem;
+  }
+
+  .timeline__card-desc {
+    margin: 0.1rem 0 0;
+  }
+
+  .skill-group__list {
+    gap: 0.35rem;
+  }
+
+  .skill-group__title {
+    margin-bottom: 0.3rem;
+  }
+
+  .certs__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .contact__content {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: none;
+  }
+
+  .about__proofs-title {
+    margin: 0.4rem 0;
+  }
+
+  .cert-card__icon {
+    display: none;
+  }
+
+  .cert-card__name {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .contact__email {
+    margin: 0 0 0.5rem;
+  }
+
+  .contact__email-row {
+    justify-content: flex-start;
+  }
+
+  .contact__email-address {
+    font-size: 1.2rem;
+  }
+
+  .footer .container {
+    justify-content: flex-start;
+  }
+
+  /* O que entra com a rolagem (ui.js, animations.css) já sai inteiro no papel. */
+  .animate,
+  .text-reveal,
+  .subtitle-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
