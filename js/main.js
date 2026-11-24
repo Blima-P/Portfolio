@@ -1,7 +1,7 @@
 // Ponto de entrada (ES Module). Nenhuma variável global: cada funcionalidade expõe init*().
 
 import { initContact } from './contact.js?v=86da6ebb';
-import { initGithub } from './github.js?v=fcc42a68';
+import { initGithub } from './github.js?v=ac5eb7ff';
 import { initI18n } from './i18n.js?v=9f14586b';
 import { initParticles } from './particles.js?v=7111701c';
 import { initTheme } from './theme.js?v=b78a1f3e';

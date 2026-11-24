@@ -574,6 +574,43 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
       await page.locator('#lang-toggle').click();
       await expect(skip).toHaveText('Skip to content');
     });
+
+    test(`${file}: nova aba sem opener nem referrer; botão de idioma diz o destino e contém o texto visível`, async ({
+      page,
+    }) => {
+      await page.goto(file === 'index.html' ? './' : file);
+      if (file === 'index.html') await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
+      const unsafe = await page
+        .locator('a[target="_blank"]')
+        .evaluateAll((links) =>
+          links
+            .filter((a) => !a.relList.contains('noopener') || !a.relList.contains('noreferrer'))
+            .map((a) => a.outerHTML.slice(0, 120)),
+        );
+      expect(unsafe).toEqual([]);
+
+      // WCAG 2.5.3 (rótulo no nome): quem usa comando de voz fala o que vê ("EN"), então o nome começa por ele.
+      const toggle = page.locator('#lang-toggle');
+      for (const [lang, visible] of [
+        ['pt-br', 'EN'],
+        ['en', 'PT-BR'],
+      ]) {
+        await expect(toggle).toHaveText(visible);
+        await expect(toggle).toHaveAccessibleName(translations[lang]['nav.lang.label']);
+        expect(translations[lang]['nav.lang.label'].startsWith(`${visible}:`)).toBe(true);
+        await toggle.click();
+      }
+      // Texto de terceiros em português (descrições dos repositórios) não herda o lang="en" da página.
+      if (file === 'index.html') {
+        await toggle.click();
+        await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+        const descriptions = page.locator('.github-card__desc');
+        await expect(descriptions).toHaveCount(SELECTED.length - 1);
+        for (const desc of await descriptions.all()) {
+          await expect(desc).toHaveAttribute('lang', 'pt-BR');
+        }
+      }
+    });
   }
 });
 
@@ -1465,6 +1502,8 @@ test('menu hambúrguer pelo teclado: aria-expanded, fechado fora do Tab, Esc dev
   await toggle.click();
   const terminalButton = page.locator('#terminal-toggle');
   await terminalButton.click();
+  // O terminal é carregado sob demanda: sem esperar, o Esc podia chegar antes do diálogo abrir.
+  await expect(page.getByRole('dialog')).toBeVisible();
   await page.setViewportSize({ width: 1280, height: 800 });
   await expect(list).toHaveJSProperty('inert', false);
   await expect(list.getByRole('link', { name: 'About' })).toBeVisible();
