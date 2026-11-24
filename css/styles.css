@@ -248,6 +248,29 @@ body {
   outline-offset: 3px;
 }
 
+/* Primeiro foco da página: pula header e menu. Fica fora da tela até receber foco. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 300;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+  transform: translateY(calc(-100% - 1rem));
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* O <main> recebe foco (tabindex="-1") só como destino do skip link: não é interativo, sem anel. */
+#main:focus {
+  outline: none;
+}
+
 /* Ao rolar até o elemento focado, deixa espaço para o anel (2 px + 3 px de afastamento) não ser cortado. */
 a[href],
 button,
@@ -2004,6 +2027,7 @@ select,
 
   /* Interativo ou decorativo: não faz sentido no papel. Os repositórios vêm da API do GitHub, e o
      link do currículo em PDF sobra quando a própria folha impressa é o currículo. */
+  .skip-link,
   .scroll-progress,
   .header,
   .hero::before,

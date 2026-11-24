@@ -39,9 +39,9 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=5e07056a" />
+  <link rel="stylesheet" href="css/styles.css?v=695d47d4" />
   <link rel="stylesheet" href="css/animations.css?v=42abb835" />
-  <script type="module" src="js/main.js?v=b79d122a"></script>
+  <script type="module" src="js/main.js?v=cdfed358"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,6 +62,8 @@
 </head>
 
 <body>
+
+  <a href="#main" class="skip-link" data-i18n="skip.main">Pular para o conteúdo</a>
 
   <div class="scroll-progress" id="scroll-progress"></div>
 
@@ -105,7 +107,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="hero" id="home">
       <!-- Partículas animadas — renderizadas pelo particles.js -->
       <canvas class="hero__particles" id="particles-canvas" aria-hidden="true"></canvas>

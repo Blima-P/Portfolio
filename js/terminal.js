@@ -1,9 +1,9 @@
 // Terminal (easter egg): botão >_ do menu, Ctrl + K ou Ctrl + `. Carregado sob demanda pelo main.js.
 // <dialog> modal nativo: foco preso e devolvido a quem abriu, Esc fecha, saída anunciada (aria-live).
 
-import { copyText } from './contact.js?v=de30e2d8';
-import { changeLanguage, getLanguage, t } from './i18n.js?v=c19252bf';
-import { setTheme } from './theme.js?v=cb75a91e';
+import { copyText } from './contact.js?v=55594664';
+import { changeLanguage, getLanguage, t } from './i18n.js?v=fb6c1213';
+import { setTheme } from './theme.js?v=84eeef3c';
 
 const CLEAR = Symbol('clear');
 const EXIT = Symbol('exit');

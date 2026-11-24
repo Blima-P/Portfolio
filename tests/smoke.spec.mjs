@@ -546,6 +546,34 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
       expect(broken).toEqual([]);
       expect(errors).toEqual([]);
     });
+
+    test(`${file}: skip link é o primeiro foco, aparece só com foco e leva ao conteúdo`, async ({ page }) => {
+      // A 404 é servida em qualquer caminho (e tem <base>): o pulo não pode sair da página.
+      await page.goto(file === '404.html' ? 'nao/existe' : file === 'index.html' ? './' : file);
+      const path = new URL(page.url()).pathname;
+      const skip = page.locator('.skip-link');
+      const offscreen = async () => {
+        const box = await skip.boundingBox();
+        return box.y + box.height <= 0;
+      };
+      expect(await offscreen(), 'escondido sem foco').toBe(true);
+
+      await page.keyboard.press('Tab');
+      await expect(skip).toBeFocused();
+      await expect(skip).toHaveText('Pular para o conteúdo');
+      expect(await offscreen(), 'visível com foco').toBe(false);
+      await expect(skip).toBeInViewport({ ratio: 1 });
+
+      await page.keyboard.press('Enter');
+      await expect(page.locator('main#main')).toBeFocused();
+      expect(new URL(page.url()).pathname).toBe(path);
+      // O próximo Tab já está dentro do conteúdo, sem passar de novo pelo menu.
+      await page.keyboard.press('Tab');
+      expect(await page.evaluate(() => Boolean(document.activeElement.closest('main')))).toBe(true);
+
+      await page.locator('#lang-toggle').click();
+      await expect(skip).toHaveText('Skip to content');
+    });
   }
 });
 
