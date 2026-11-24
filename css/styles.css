@@ -197,6 +197,24 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Movimento reduzido: nada desliza, aparece nem rola animado — tudo já no estado final. Os reveals usam
+   animation-fill-mode forwards, então terminam visíveis. As partículas e a digitação param no JS. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
 /* ---- Base ---- */
 body {
   font-family: var(--font-family);
@@ -783,6 +801,14 @@ select,
 
 .hero__scroll-down span:nth-child(2) {
   animation-delay: 0.2s;
+}
+
+/* A seta só existe pela animação (opacidade 0 na base e no fim): parada, fica sempre visível. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-down span {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* ---- Sobre ---- */

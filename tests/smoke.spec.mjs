@@ -420,10 +420,10 @@ test('todo elemento alcançado pelo Tab mostra o anel de foco, inteiro na tela, 
   const visited = {};
   for (const theme of ['dark', 'light']) {
     await page.addInitScript((t) => localStorage.setItem('theme', t), theme);
-    await page.goto('./');
     // Sob carga (4 workers), a cadeia de rolagens suaves do Tab passava dos 5 s do poll. Aqui importa onde o
-    // foco para, não a animação. Quando o 9.3 (reduced-motion) entrar, trocar por reducedMotion: 'reduce'.
-    await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
+    // foco para, não a animação.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('./');
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
     await expect(page.locator('.github-card')).toHaveCount(SELECTED.length);
     const ring = await focusColor('html');
@@ -717,13 +717,104 @@ test('animação de digitação escreve e muda o texto', async ({ page }) => {
 
 test.describe('movimento reduzido', () => {
   test.use({ reducedMotion: 'reduce' });
+  const COMMANDS = [
+    'mvn spring-boot:run',
+    'docker compose up -d',
+    'psql -d socialtech',
+    'git push origin main',
+  ];
 
-  test('a linha de terminal do hero fica parada', async ({ page }) => {
+  test('a linha de terminal do hero fica parada, e para na hora se a preferência mudar', async ({ page }) => {
     await page.goto('./');
     const typing = page.locator('#typing-text');
     await page.waitForTimeout(3000);
     await expect(typing).toHaveText('mvn spring-boot:run');
     await expect(page.locator('.hero__terminal .cursor')).toHaveCSS('animation-name', 'none');
+
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await expect(typing).not.toHaveText('mvn spring-boot:run', { timeout: 5000 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    // O change do matchMedia é assíncrono: espera o comando ficar inteiro antes de capturar.
+    await expect.poll(() => typing.textContent()).toMatch(new RegExp(`^(${COMMANDS.join('|')})$`));
+    const stopped = await typing.textContent();
+    await page.waitForTimeout(1000);
+    await expect(typing).toHaveText(stopped);
+  });
+
+  test('partículas: um quadro parado, sem loop; o loop volta e para junto com a preferência', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.__draws = 0;
+      const clear = CanvasRenderingContext2D.prototype.clearRect;
+      CanvasRenderingContext2D.prototype.clearRect = function (...args) {
+        if (this.canvas.id === 'particles-canvas') window.__draws += 1;
+        return clear.apply(this, args);
+      };
+    });
+    await page.goto('./');
+    const draws = () => page.evaluate(() => window.__draws);
+    await page.waitForTimeout(500);
+    const still = await draws();
+    expect(still).toBeGreaterThanOrEqual(1);
+    const painted = await page.locator('#particles-canvas').evaluate((canvas) => {
+      const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+      return data.some((value, i) => i % 4 === 3 && value > 0);
+    });
+    expect(painted, 'o quadro parado tem partículas').toBe(true);
+    await page.waitForTimeout(500);
+    expect(await draws()).toBe(still);
+
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await expect.poll(draws).toBeGreaterThan(still + 10);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.evaluate(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+    );
+    const stopped = await draws();
+    await page.waitForTimeout(500);
+    expect(await draws()).toBe(stopped);
+  });
+
+  test('rolagem instantânea e nada animando: seções aparecem já no estado final', async ({ page }) => {
+    await page.goto('./');
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+    const running = () =>
+      page.evaluate(() =>
+        document
+          .getAnimations()
+          .filter((a) => a.playState === 'running')
+          .map((a) => `${a.animationName ?? a.transitionProperty} em ${a.effect.target?.className}`),
+      );
+    expect(await running()).toEqual([]);
+    for (const arrow of await page.locator('.hero__scroll-down span').all()) {
+      await expect(arrow, 'a seta do hero não pode sumir sem a animação').toHaveCSS('opacity', '1');
+    }
+
+    const jumped = await page.evaluate(() => {
+      document.querySelector('.nav__link[href="#contact"]').click();
+      return window.scrollY;
+    });
+    expect(jumped, 'o link do menu salta direto, sem rolagem suave').toBeGreaterThan(500);
+    const frames = () =>
+      page.evaluate(
+        () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+      );
+    await page.evaluate(() => window.scrollTo(0, 0));
+    for (let i = 0; i < 60; i += 1) {
+      const atEnd = await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight / 2);
+        return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
+      });
+      await frames();
+      expect(await running(), `rolagem em ${await page.evaluate(() => window.scrollY)}`).toEqual([]);
+      if (atEnd) break;
+    }
+    await expect(page.locator('.animate:not(.animate--visible)')).toHaveCount(0);
+    await expect(page.locator('section:has(.section__title):not(.section--revealed)')).toHaveCount(0);
+
+    await page.locator('.project-card').first().hover();
+    expect(await running()).toEqual([]);
   });
 });
 

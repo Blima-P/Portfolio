@@ -1,4 +1,5 @@
-// Partículas decorativas do hero (canvas). Pausam quando o hero sai da tela.
+// Partículas decorativas do hero (canvas). Pausam quando o hero sai da tela e ficam paradas com
+// movimento reduzido.
 
 const MAX_DISTANCE = 120;
 const MAX_DISTANCE_SQ = MAX_DISTANCE * MAX_DISTANCE;
@@ -38,6 +39,7 @@ export function initParticles() {
   let nextDraw = 0;
   let isVisible = true;
   let hasMask = false;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // A cor vem do token CSS --particles-rgb, definido por tema.
   function refreshColor() {
@@ -167,7 +169,7 @@ export function initParticles() {
   }
 
   function start() {
-    if (animationId) return;
+    if (animationId || reduce.matches) return;
     lastTime = 0;
     nextDraw = 0;
     animationId = requestAnimationFrame(frame);
@@ -178,10 +180,25 @@ export function initParticles() {
     animationId = null;
   }
 
+  // Com movimento reduzido não há loop: um quadro parado, redesenhado só quando tamanho ou cor mudam.
+  function drawStatic() {
+    if (reduce.matches) draw();
+  }
+
   refreshColor();
   resizeCanvas();
   createParticles();
   start();
+  drawStatic();
+
+  reduce.addEventListener('change', () => {
+    if (reduce.matches) {
+      stop();
+      draw();
+    } else if (isVisible) {
+      start();
+    }
+  });
 
   const hero = document.getElementById('home');
   if (hero) {
@@ -201,12 +218,21 @@ export function initParticles() {
       lastWidth = canvas.width;
       createParticles();
     }
+    drawStatic();
   });
 
   // Troca de idioma muda a altura do conteúdo (e às vezes a do hero) sem redimensionar a janela.
   if (content && 'ResizeObserver' in window) {
-    new ResizeObserver(resizeCanvas).observe(content);
+    new ResizeObserver(() => {
+      resizeCanvas();
+      drawStatic();
+    }).observe(content);
   }
 
-  return { refreshColor };
+  return {
+    refreshColor() {
+      refreshColor();
+      drawStatic();
+    },
+  };
 }

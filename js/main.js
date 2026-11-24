@@ -3,9 +3,9 @@
 import { initContact } from './contact.js?v=86da6ebb';
 import { initGithub } from './github.js?v=fcc42a68';
 import { initI18n } from './i18n.js?v=9f14586b';
-import { initParticles } from './particles.js?v=67d436f3';
+import { initParticles } from './particles.js?v=7111701c';
 import { initTheme } from './theme.js?v=b78a1f3e';
-import { initTyping } from './typing.js?v=182c0b34';
+import { initTyping } from './typing.js?v=f1b2c871';
 import { initUI } from './ui.js?v=3ce02871';
 
 const particles = initParticles();
