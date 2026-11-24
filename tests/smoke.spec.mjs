@@ -589,7 +589,7 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
         );
       expect(unsafe).toEqual([]);
 
-      // WCAG 2.5.3 (rótulo no nome): quem usa comando de voz fala o que vê ("EN"), então o nome começa por ele.
+      // WCAG 2.5.3 (rótulo no nome): quem usa comando de voz fala o que vê ("EN", "Terminal"), então o nome contém.
       const toggle = page.locator('#lang-toggle');
       for (const [lang, visible] of [
         ['pt-br', 'EN'],
@@ -598,6 +598,12 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
         await expect(toggle).toHaveText(visible);
         await expect(toggle).toHaveAccessibleName(translations[lang]['nav.lang.label']);
         expect(translations[lang]['nav.lang.label'].startsWith(`${visible}:`)).toBe(true);
+        const terminal = page.locator('#terminal-toggle');
+        if (await terminal.count()) {
+          const word = (await terminal.locator('.nav__terminal-text').textContent()).trim().toLowerCase();
+          await expect(terminal).toHaveAttribute('aria-label', translations[lang]['nav.terminal.label']);
+          expect(translations[lang]['nav.terminal.label'].toLowerCase()).toContain(word);
+        }
         await toggle.click();
       }
       // Texto de terceiros em português (descrições dos repositórios) não herda o lang="en" da página.
@@ -783,10 +789,16 @@ test.describe('movimento reduzido', () => {
   }) => {
     await page.addInitScript(() => {
       window.__draws = 0;
+      window.__dots = 0;
       const clear = CanvasRenderingContext2D.prototype.clearRect;
       CanvasRenderingContext2D.prototype.clearRect = function (...args) {
         if (this.canvas.id === 'particles-canvas') window.__draws += 1;
         return clear.apply(this, args);
+      };
+      const arc = CanvasRenderingContext2D.prototype.arc;
+      CanvasRenderingContext2D.prototype.arc = function (...args) {
+        if (this.canvas.id === 'particles-canvas') window.__dots += 1;
+        return arc.apply(this, args);
       };
     });
     await page.goto('./');
@@ -794,11 +806,9 @@ test.describe('movimento reduzido', () => {
     await page.waitForTimeout(500);
     const still = await draws();
     expect(still).toBeGreaterThanOrEqual(1);
-    const painted = await page.locator('#particles-canvas').evaluate((canvas) => {
-      const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
-      return data.some((value, i) => i % 4 === 3 && value > 0);
-    });
-    expect(painted, 'o quadro parado tem partículas').toBe(true);
+    // Conta as partículas desenhadas, não os pixels: no celular o texto cobre quase todo o hero e a
+    // máscara pode esconder, por sorteio, todas as partículas do quadro parado.
+    expect(await page.evaluate(() => window.__dots), 'o quadro parado tem partículas').toBeGreaterThan(0);
     await page.waitForTimeout(500);
     expect(await draws()).toBe(still);
 
