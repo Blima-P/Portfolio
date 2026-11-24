@@ -44,13 +44,18 @@ function renderRepo(repo) {
   const card = el('a', 'github-card');
   card.href = repo.html_url;
   card.target = '_blank';
-  card.rel = 'noopener';
+  card.rel = 'noopener noreferrer';
 
   const header = el('div', 'github-card__header');
   header.append(repoIcon(), el('span', 'github-card__name', repo.name));
   card.append(header);
 
-  if (repo.description) card.append(el('p', 'github-card__desc', repo.description));
+  // As descrições vêm do GitHub, escritas em português: no site em inglês, o leitor de tela troca a pronúncia.
+  if (repo.description) {
+    const desc = el('p', 'github-card__desc', repo.description);
+    desc.lang = 'pt-BR';
+    card.append(desc);
+  }
 
   const footer = el('div', 'github-card__footer');
   if (repo.language) {
