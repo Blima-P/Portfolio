@@ -25,6 +25,7 @@
     "verify": "npm run lint && npm run format:check && npm run validate:html && npm run check:i18n && npm run stamp:check && npm run test:unit && npm run test:smoke"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.65.1",
     "eslint": "10.15.0",
