@@ -1,5 +1,6 @@
 // Linha de terminal decorativa do hero: digita e apaga comandos do dia a dia de um dev backend.
-// É aria-hidden e não depende do idioma; com movimento reduzido, fica parada no primeiro comando.
+// É aria-hidden e não depende do idioma; com movimento reduzido (inclusive ativado com a página aberta),
+// fica parada mostrando o comando inteiro.
 
 const COMMANDS = [
   'mvn spring-boot:run',
@@ -15,30 +16,46 @@ const PAUSE_BEFORE_NEXT = 400;
 
 export function initTyping() {
   const typingEl = document.getElementById('typing-text');
-  if (!typingEl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!typingEl) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // O HTML estático já traz o primeiro comando (visível mesmo sem JavaScript).
   let index = 0;
   let chars = COMMANDS[0].length;
+  let timer = null;
+  const schedule = (fn, delay) => {
+    timer = setTimeout(fn, delay);
+  };
 
   function typeText() {
     if (chars < COMMANDS[index].length) {
       typingEl.textContent = COMMANDS[index].slice(0, ++chars);
-      setTimeout(typeText, TYPING_SPEED);
+      schedule(typeText, TYPING_SPEED);
     } else {
-      setTimeout(eraseText, PAUSE_AFTER_TYPING);
+      schedule(eraseText, PAUSE_AFTER_TYPING);
     }
   }
 
   function eraseText() {
     if (chars > 0) {
       typingEl.textContent = COMMANDS[index].slice(0, --chars);
-      setTimeout(eraseText, ERASING_SPEED);
+      schedule(eraseText, ERASING_SPEED);
     } else {
       index = (index + 1) % COMMANDS.length;
-      setTimeout(typeText, PAUSE_BEFORE_NEXT);
+      schedule(typeText, PAUSE_BEFORE_NEXT);
     }
   }
 
-  setTimeout(eraseText, PAUSE_AFTER_TYPING);
+  function start() {
+    schedule(eraseText, PAUSE_AFTER_TYPING);
+  }
+
+  function stop() {
+    clearTimeout(timer);
+    chars = COMMANDS[index].length;
+    typingEl.textContent = COMMANDS[index];
+  }
+
+  reduce.addEventListener('change', () => (reduce.matches ? stop() : start()));
+  if (!reduce.matches) start();
 }
