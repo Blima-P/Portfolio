@@ -65,22 +65,44 @@ function initMobileMenu() {
   const navToggle = document.getElementById('nav-toggle');
   const navList = document.getElementById('nav-list');
   if (!navToggle || !navList) return;
+  const nav = navToggle.closest('.nav');
+  // Mesmo ponto de quebra do CSS: acima dele a lista fica sempre à vista no header.
+  const mobile = window.matchMedia('(max-width: 960px)');
 
-  const close = () => {
-    navList.classList.remove('open');
-    navToggle.classList.remove('open');
+  const isOpen = () => navList.classList.contains('open');
+  const setOpen = (open) => {
+    navList.classList.toggle('open', open);
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navList.inert = mobile.matches && !open;
   };
+  const close = () => setOpen(false);
+  close();
+  // Na troca de ponto de quebra só recalcula o inert: fechar aqui tiraria o destino do foco do terminal.
+  mobile.addEventListener('change', () => setOpen(isOpen()));
 
   navToggle.addEventListener('click', () => {
-    navList.classList.toggle('open');
-    navToggle.classList.toggle('open');
+    setOpen(!isOpen());
+    // A lista vem antes do botão no DOM: sem isso, o Tab seguinte iria para o conteúdo.
+    if (isOpen()) navList.querySelector('a, button')?.focus();
   });
 
   document.querySelectorAll('.nav__link').forEach((link) => link.addEventListener('click', close));
 
+  // Cliques e foco no terminal (aberto pelo botão do menu) não fecham o menu: o foco volta para ele.
   document.addEventListener('click', (event) => {
-    // Cliques no terminal (aberto pelo botão do menu) não fecham o menu: o foco volta para ele.
     if (!event.target.closest('.nav, .terminal-dialog')) close();
+  });
+
+  nav.addEventListener('focusout', (event) => {
+    const next = event.relatedTarget;
+    if (isOpen() && next && !nav.contains(next) && !next.closest('dialog')) close();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !isOpen() || event.target.closest('dialog')) return;
+    close();
+    navToggle.focus();
   });
 }
 

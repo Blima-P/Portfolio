@@ -35,7 +35,7 @@ export const translations = {
     'nav.theme.toLight': 'Switch to light theme',
     'nav.theme.toDark': 'Switch to dark theme',
     'nav.lang.label': 'PT-BR: view the site in Portuguese',
-    'nav.menu.label': 'Open menu',
+    'nav.menu.label': 'Menu',
     'nav.terminal.label': 'Open the terminal',
     'skip.main': 'Skip to content',
 
@@ -391,7 +391,7 @@ export const translations = {
     'nav.theme.toLight': 'Ativar o tema claro',
     'nav.theme.toDark': 'Ativar o tema escuro',
     'nav.lang.label': 'EN: ver o site em inglês',
-    'nav.menu.label': 'Abrir menu',
+    'nav.menu.label': 'Menu',
     'nav.terminal.label': 'Abrir o terminal',
     'skip.main': 'Pular para o conteúdo',
 
