@@ -1,5 +1,6 @@
 // Acessibilidade automática (axe-core, regras WCAG 2.2 A/AA): todas as páginas nos 2 temas e 2 idiomas,
-// mais os estados abertos (menu do celular e terminal). Qualquer violação falha o teste.
+// mais os estados abertos (menu do celular e terminal). Qualquer violação falha o teste. Também o reflow
+// (WCAG 1.4.10) de cada página, que o axe não mede.
 import { fileURLToPath } from 'node:url';
 
 import AxeBuilder from '@axe-core/playwright';
@@ -66,6 +67,82 @@ async function expectNoViolations(page, include) {
 }
 
 for (const file of PAGES) {
+  // WCAG 1.4.10: zoom de 400% numa janela de 1280×1024 equivale a 320×256 px de CSS; 200%, a 640×512.
+  // Mede cada fragmento de texto renderizado (não a caixa do elemento, que pode caber com o texto
+  // vazando): nada fora da tela nem cortado por um ancestral com overflow. O site não tem conteúdo que
+  // exija layout em 2 dimensões (tabela, código, mapa), então nenhuma área rolável é exceção.
+  for (const lang of LANGS) {
+    test(`reflow: ${file} a 320 px e 640 px de largura, ${lang}`, async ({ page }, testInfo) => {
+      test.skip(testInfo.project.name !== 'desktop', 'a janela é definida aqui; basta um projeto');
+      await page.setViewportSize({ width: 320, height: 256 });
+      await open(page, file, 'dark', lang);
+      for (const [width, height] of [
+        [320, 256],
+        [640, 512],
+      ]) {
+        await page.setViewportSize({ width, height });
+        const result = await page.evaluate((w) => {
+          const found = [];
+          let inMain = 0;
+          const skip = '[inert], [aria-hidden="true"], dialog:not([open]), .skip-link';
+          const fits = (rect, box) => rect.left >= box.left - 1 && rect.right <= box.right + 1;
+          const clippers = (el) => {
+            const boxes = [];
+            for (let a = el; a && a !== document.documentElement; a = a.parentElement) {
+              if (getComputedStyle(a).overflowX === 'visible') continue;
+              const { left } = a.getBoundingClientRect();
+              boxes.push({ left: left + a.clientLeft, right: left + a.clientLeft + a.clientWidth, a });
+            }
+            return boxes;
+          };
+          const check = (rect, el, label) => {
+            if (!rect.width) return;
+            const boxes = [{ left: 0, right: w, a: 'tela' }, ...clippers(el)];
+            const box = boxes.find((b) => !fits(rect, b));
+            if (box) {
+              const where = box.a === 'tela' ? 'tela' : `${box.a.tagName}.${box.a.className}`;
+              found.push(`${label} [${Math.round(rect.left)}, ${Math.round(rect.right)}] fora de ${where}`);
+            }
+          };
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+          const range = document.createRange();
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const el = node.parentElement;
+            if (
+              !node.textContent.trim() ||
+              el.closest(skip) ||
+              !el.checkVisibility({ visibilityProperty: true })
+            )
+              continue;
+            range.selectNodeContents(node);
+            const rects = [...range.getClientRects()].filter((r) => r.width);
+            if (el.closest('main')) inMain += rects.length;
+            for (const rect of rects) check(rect, el, `"${node.textContent.trim().slice(0, 30)}"`);
+          }
+          for (const media of document.querySelectorAll('body img, body svg, body video, body iframe')) {
+            if (media.closest(skip) || media.parentElement.closest('svg')) continue;
+            if (!media.checkVisibility({ visibilityProperty: true })) continue;
+            check(media.getBoundingClientRect(), media.parentElement, `<${media.tagName.toLowerCase()}>`);
+          }
+          const hidden = [
+            ...document.querySelectorAll(
+              '.animate:not(.animate--visible), section:has(.text-reveal, .subtitle-reveal):not(.section--revealed)',
+            ),
+            ...[...document.querySelectorAll('.animate, .text-reveal, .subtitle-reveal')].filter(
+              (el) => getComputedStyle(el).opacity !== '1',
+            ),
+          ].map((el) => `${el.tagName}.${el.className} não revelado`);
+          return { scroll: document.documentElement.scrollWidth, found: [...found, ...hidden], inMain };
+        }, width);
+        expect(result.inMain, `${width}px: texto do main visível`).toBeGreaterThan(5);
+        expect({ scroll: result.scroll, found: result.found }, `${width}px`).toEqual({
+          scroll: width,
+          found: [],
+        });
+      }
+    });
+  }
+
   for (const theme of THEMES) {
     for (const lang of LANGS) {
       test(`axe: ${file}, tema ${theme}, ${lang}`, async ({ page }) => {
