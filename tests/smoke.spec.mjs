@@ -1328,3 +1328,57 @@ test.describe('mobile', () => {
     await expect(list).not.toHaveClass(/open/);
   });
 });
+
+test('menu hambúrguer pelo teclado: aria-expanded, fechado fora do Tab, Esc devolve o foco', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.goto('./');
+  const toggle = page.getByRole('button', { name: 'Menu' });
+  const list = page.locator('#nav-list');
+  const firstLink = list.getByRole('link', { name: 'Sobre' });
+  await expect(toggle).toHaveAttribute('aria-controls', 'nav-list');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(list).toHaveJSProperty('inert', true);
+
+  // Fechado: do logo o Tab vai direto às ações do header, sem passar pelos links escondidos.
+  await page.locator('.nav__logo').focus();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#lang-toggle')).toBeFocused();
+
+  await toggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(list).toHaveJSProperty('inert', false);
+  await expect(firstLink).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(list.getByRole('link', { name: 'Experiência' })).toBeFocused();
+
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(list).not.toHaveClass(/open/);
+  await expect(toggle).toBeFocused();
+
+  // Sair do header com o Tab também fecha: o painel não fica cobrindo o conteúdo focado.
+  await page.keyboard.press('Enter');
+  await expect(firstLink).toBeFocused();
+  await toggle.focus();
+  await page.keyboard.press('Tab');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(list).toHaveJSProperty('inert', true);
+
+  await page.locator('#lang-toggle').click();
+  await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
+
+  // Terminal aberto pelo menu, tela redimensionada através do ponto de quebra: o foco ainda volta ao >_.
+  await toggle.click();
+  const terminalButton = page.locator('#terminal-toggle');
+  await terminalButton.click();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(list).toHaveJSProperty('inert', false);
+  await expect(list.getByRole('link', { name: 'About' })).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(terminalButton).toBeFocused();
+});
