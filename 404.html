@@ -28,12 +28,14 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=5e07056a" />
+  <link rel="stylesheet" href="css/styles.css?v=695d47d4" />
   <link rel="stylesheet" href="css/not-found.css?v=dfb2d4aa" />
-  <script type="module" src="js/not-found.js?v=84b7d8b2"></script>
+  <script type="module" src="js/not-found.js?v=0e9f6732"></script>
 </head>
 
 <body>
+
+  <a href="#main" class="skip-link" data-i18n="skip.main">Pular para o conteúdo</a>
 
   <header class="header" id="header">
     <nav class="nav container">
@@ -58,7 +60,7 @@
     </nav>
   </header>
 
-  <main class="not-found container">
+  <main class="not-found container" id="main" tabindex="-1">
     <p class="not-found__eyebrow" data-i18n="notfound.eyebrow">Erro 404</p>
     <h1 class="not-found__title" data-i18n="notfound.title">Página não encontrada</h1>
     <p class="not-found__lead" data-i18n="notfound.lead">O endereço pode ter mudado ou ter sido digitado errado.</p>
