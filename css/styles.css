@@ -617,6 +617,14 @@ select,
   height: 100%;
   z-index: 0;
   pointer-events: none;
+
+  /* As partículas começam depois do carregamento (particles.js): entram suaves, sem "estalo". */
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero__particles--on {
+  opacity: 1;
 }
 
 .hero__content {

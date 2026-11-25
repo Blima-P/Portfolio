@@ -1,5 +1,5 @@
-// Partículas decorativas do hero (canvas). Pausam quando o hero sai da tela e ficam paradas com
-// movimento reduzido.
+// Partículas decorativas do hero (canvas). Começam depois do carregamento, pausam quando o hero sai
+// da tela, ficam paradas com movimento reduzido e não existem com economia de dados.
 
 const MAX_DISTANCE = 120;
 const MAX_DISTANCE_SQ = MAX_DISTANCE * MAX_DISTANCE;
@@ -22,10 +22,28 @@ const FALLBACK_RGB = '56, 189, 248';
 const MASK_CORE_PADDING = 16;
 const MASK_PADDING = 32;
 const MASK_FEATHER = 48;
+// Prazo para o navegador achar um momento ocioso depois do load.
+const IDLE_TIMEOUT_MS = 1000;
+
+// Enfeite não disputa o carregamento: começa depois do load, quando o navegador fica ocioso
+// (requestIdleCallback; o Safari não tem, e aí vai um setTimeout).
+function whenIdleAfterLoad(fn) {
+  const schedule = () => {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(fn, { timeout: IDLE_TIMEOUT_MS });
+    } else {
+      setTimeout(fn, 0);
+    }
+  };
+  if (document.readyState === 'complete') schedule();
+  else window.addEventListener('load', schedule, { once: true });
+}
 
 export function initParticles() {
   const canvas = document.getElementById('particles-canvas');
-  const ctx = canvas?.getContext('2d');
+  // Economia de dados pede o mínimo: sem enfeite. A API não existe no Firefox/Safari (segue normal).
+  if (!canvas || navigator.connection?.saveData) return null;
+  const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
   const content = document.querySelector('.hero__content');
@@ -39,6 +57,7 @@ export function initParticles() {
   let nextDraw = 0;
   let isVisible = true;
   let hasMask = false;
+  let booted = false;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // A cor vem do token CSS --particles-rgb, definido por tema.
@@ -185,52 +204,60 @@ export function initParticles() {
     if (reduce.matches) draw();
   }
 
-  refreshColor();
-  resizeCanvas();
-  createParticles();
-  start();
-  drawStatic();
-
-  reduce.addEventListener('change', () => {
-    if (reduce.matches) {
-      stop();
-      draw();
-    } else if (isVisible) {
-      start();
-    }
-  });
-
-  const hero = document.getElementById('home');
-  if (hero) {
-    new IntersectionObserver(([entry]) => {
-      isVisible = entry.isIntersecting;
-      if (isVisible) start();
-      else stop();
-    }).observe(hero);
-  }
-
-  // No mobile, a barra de endereço muda só a altura ao rolar: recria as partículas
-  // apenas quando a largura muda, para não "piscar" a animação.
-  let lastWidth = canvas.offsetWidth;
-  window.addEventListener('resize', () => {
+  function boot() {
+    booted = true;
+    refreshColor();
     resizeCanvas();
-    if (canvas.width !== lastWidth) {
-      lastWidth = canvas.width;
-      createParticles();
-    }
+    createParticles();
+    start();
     drawStatic();
-  });
+    canvas.classList.add('hero__particles--on');
 
-  // Troca de idioma muda a altura do conteúdo (e às vezes a do hero) sem redimensionar a janela.
-  if (content && 'ResizeObserver' in window) {
-    new ResizeObserver(() => {
+    reduce.addEventListener('change', () => {
+      if (reduce.matches) {
+        stop();
+        draw();
+      } else if (isVisible) {
+        start();
+      }
+    });
+
+    const hero = document.getElementById('home');
+    if (hero) {
+      new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) start();
+        else stop();
+      }).observe(hero);
+    }
+
+    // No mobile, a barra de endereço muda só a altura ao rolar: recria as partículas
+    // apenas quando a largura muda, para não "piscar" a animação.
+    let lastWidth = canvas.offsetWidth;
+    window.addEventListener('resize', () => {
       resizeCanvas();
+      if (canvas.width !== lastWidth) {
+        lastWidth = canvas.width;
+        createParticles();
+      }
       drawStatic();
-    }).observe(content);
+    });
+
+    // Troca de idioma muda a altura do conteúdo (e às vezes a do hero) sem redimensionar a janela.
+    if (content && 'ResizeObserver' in window) {
+      new ResizeObserver(() => {
+        resizeCanvas();
+        drawStatic();
+      }).observe(content);
+    }
   }
+
+  whenIdleAfterLoad(boot);
 
   return {
+    // Antes de começar não há o que redesenhar: a cor é lida no boot.
     refreshColor() {
+      if (!booted) return;
       refreshColor();
       drawStatic();
     },
