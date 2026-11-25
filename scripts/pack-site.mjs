@@ -23,6 +23,33 @@ export async function publicEntries(root) {
 
 // href="x" | src="x" locais (sem esquema, âncora ou //host); query e fragmento ficam de fora.
 const HTML_REF = /\s(?:href|src)="(?![a-z][a-z0-9+.-]*:|#|\/\/)([^"?#]+)[^"]*"/gi;
+// srcset="a.avif 350w, b.avif 700w": a URL vai até o espaço (pode ter vírgula, como em data:), e o
+// candidato termina na vírgula seguinte (fora de parênteses) ou em vírgulas coladas à URL.
+const HTML_SRCSET = /\ssrcset="([^"]*)"/gi;
+const LOCAL = /^(?![a-z][a-z0-9+.-]*:|#|\/\/)([^?#]+)/i;
+
+/** URLs dos candidatos de um srcset, pelas regras de análise do HTML. */
+function srcsetUrls(value) {
+  const urls = [];
+  let i = 0;
+  while (i < value.length) {
+    while (i < value.length && /[\s,]/.test(value[i])) i += 1;
+    if (i >= value.length) break;
+    const start = i;
+    while (i < value.length && !/\s/.test(value[i])) i += 1;
+    let url = value.slice(start, i);
+    if (url.endsWith(',')) {
+      url = url.replace(/,+$/, '');
+    } else {
+      for (let depth = 0; i < value.length && (value[i] !== ',' || depth); i += 1) {
+        if (value[i] === '(') depth += 1;
+        else if (value[i] === ')') depth = Math.max(0, depth - 1);
+      }
+    }
+    urls.push(url);
+  }
+  return urls;
+}
 const JS_IMPORT = /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)['"](\.\.?\/[^'"?#]+)/g;
 // <base href="/Repo/"> (a 404.html, servida em qualquer profundidade) aponta para a raiz publicada:
 // não é um arquivo, e as referências da página passam a ser resolvidas a partir da raiz do site.
@@ -75,6 +102,13 @@ export async function findMissingRefs(site) {
       dir = site;
     }
     for (const [, ref] of text.matchAll(pattern)) await check(file, ref, dir);
+    if (pattern !== HTML_REF) continue;
+    for (const [, srcset] of text.matchAll(HTML_SRCSET)) {
+      for (const url of srcsetUrls(srcset)) {
+        const local = LOCAL.exec(url);
+        if (local) await check(file, local[1], dir);
+      }
+    }
   }
   return missing;
 }

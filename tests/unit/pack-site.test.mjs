@@ -55,6 +55,21 @@ test('recusa pasta no lugar de arquivo', async () => {
   assert.deepEqual(await findMissingRefs(site), ['index.html → css']);
 });
 
+test('confere cada candidato do srcset, com descritor, query e URL externa', async () => {
+  await write('img/a-350.avif', '');
+  await write(
+    'index.html',
+    '<source srcset="img/a-350.avif 350w, img/a-700.avif?v=1 700w,https://cdn.example/x,y.avif 2x" />' +
+      '<img srcset="data:image/gif;base64,R0lG,AAA 1x, img/a-350.avif 2x" src="img/a-350.avif">' +
+      '<img srcset="img/b.avif,, img/a-350.avif 2x">',
+  );
+  assert.deepEqual((await findMissingRefs(site)).sort(), [
+    'index.html → img/a-700.avif',
+    'index.html → img/b.avif',
+  ]);
+  await rm(path.join(site, 'img'), { recursive: true });
+});
+
 test('<base> da 404 não conta como arquivo e as referências da página partem da raiz do site', async () => {
   await write('index.html', '');
   await write(

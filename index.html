@@ -39,7 +39,7 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=2c6ef6b4" />
+  <link rel="stylesheet" href="css/styles.css?v=e795bd5b" />
   <link rel="stylesheet" href="css/animations.css?v=42abb835" />
   <script type="module" src="js/main.js?v=0a6810c6"></script>
   <script type="application/ld+json">
@@ -173,7 +173,11 @@
 
         <div class="about__content">
           <div class="about__img-wrapper">
-            <img src="Profile.jpg.png" alt="Foto de Pedro Braga" class="about__img" data-i18n="about.img.alt" data-i18n-attr="alt" />
+            <picture class="about__picture">
+              <source type="image/avif" srcset="assets/img/profile-350.avif 350w, assets/img/profile-700.avif 700w, assets/img/profile-896.avif 896w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
+              <source type="image/webp" srcset="assets/img/profile-350.webp 350w, assets/img/profile-700.webp 700w, assets/img/profile-896.webp 896w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
+              <img src="assets/img/profile-700.jpg" width="350" height="364" loading="lazy" decoding="async" alt="Foto de Pedro Braga" class="about__img" data-i18n="about.img.alt" data-i18n-attr="alt" />
+            </picture>
           </div>
 
           <div class="about__info">
