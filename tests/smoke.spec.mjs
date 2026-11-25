@@ -109,6 +109,7 @@ test('partículas: ~60 desenhos/s em qualquer taxa de atualização, com a mesma
     };
   });
   await page.goto('./');
+  await page.locator('.hero__particles--on').waitFor({ state: 'attached' });
 
   // Um segundo de quadros na taxa pedida (depois de um segundo de aquecimento).
   const measure = (hz, jitter = 0) =>
@@ -132,6 +133,97 @@ test('partículas: ~60 desenhos/s em qualquer taxa de atualização, com a mesma
     expect(result.draws, `${hz} Hz`).toBeLessThanOrEqual(62);
     if (!jitter) expect(result.speed, `velocidade em ${hz} Hz`).toBeCloseTo(at60.speed, 4);
   }
+});
+
+// Conta desenhos do canvas das partículas a partir do primeiro script da página.
+const countParticleDraws = () => {
+  window.__draws = 0;
+  const clear = CanvasRenderingContext2D.prototype.clearRect;
+  CanvasRenderingContext2D.prototype.clearRect = function (...args) {
+    if (this.canvas.id === 'particles-canvas') window.__draws += 1;
+    return clear.apply(this, args);
+  };
+};
+
+// Segura as fontes (pré-carregadas) e com elas o evento load, até o teste liberar.
+async function holdFonts(page) {
+  let release;
+  const held = new Promise((resolve) => (release = resolve));
+  await page.route('**/assets/fonts/**', async (route) => {
+    await held;
+    await route.continue();
+  });
+  return release;
+}
+
+test('partículas: só começam depois do load, quando o navegador fica ocioso', async ({ page }) => {
+  await page.addInitScript(countParticleDraws);
+  // O navegador "não fica ocioso" até o teste mandar.
+  await page.addInitScript(() => {
+    window.__idle = [];
+    window.requestIdleCallback = (cb, options) => window.__idle.push({ cb, options });
+  });
+  const releaseFonts = await holdFonts(page);
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.hero__name')).toBeVisible();
+  await page.waitForTimeout(400);
+  expect(await page.evaluate(() => [document.readyState, window.__draws, window.__idle.length])).toEqual([
+    'interactive',
+    0,
+    0,
+  ]);
+
+  releaseFonts();
+  await page.waitForLoadState('load');
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => window.__draws), 'carregado, mas ainda sem momento ocioso').toBe(0);
+  const idle = await page.evaluate(() => window.__idle.map(({ options }) => options));
+  expect(idle).toEqual([{ timeout: expect.any(Number) }]);
+  await expect(page.locator('.hero__particles')).toHaveCSS('opacity', '0');
+
+  await page.evaluate(() => window.__idle[0].cb({ didTimeout: false, timeRemaining: () => 50 }));
+  await expect.poll(() => page.evaluate(() => window.__draws)).toBeGreaterThan(0);
+  await expect(page.locator('.hero__particles')).toHaveCSS('opacity', '1');
+});
+
+test('partículas sem requestIdleCallback (Safari): começam depois do load com setTimeout', async ({
+  page,
+}) => {
+  await page.addInitScript(countParticleDraws);
+  await page.addInitScript(() => {
+    window.requestIdleCallback = undefined;
+    // Registrado depois do listener da página (os módulos rodam antes do DOMContentLoaded): ao fim
+    // dos handlers de load, as partículas ainda não podem ter começado.
+    document.addEventListener('DOMContentLoaded', () =>
+      window.addEventListener('load', () => {
+        window.__startedAtLoad =
+          document.querySelector('.hero__particles--on') !== null || window.__draws > 0;
+      }),
+    );
+  });
+  const releaseFonts = await holdFonts(page);
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(400);
+  releaseFonts();
+  await page.waitForLoadState('load');
+  expect(await page.evaluate(() => window.__startedAtLoad)).toBe(false);
+  await expect.poll(() => page.evaluate(() => window.__draws)).toBeGreaterThan(0);
+});
+
+test('partículas: economia de dados desliga o canvas, e o resto da página segue', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (err) => errors.push(err.message));
+  await page.addInitScript(countParticleDraws);
+  await page.addInitScript(() => {
+    Object.defineProperty(Navigator.prototype, 'connection', { get: () => ({ saveData: true }) });
+  });
+  await page.goto('./');
+  await page.waitForTimeout(1500);
+  await page.locator('#theme-toggle').click();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => window.__draws)).toBe(0);
+  await expect(page.locator('.hero__particles')).toHaveCSS('opacity', '0');
+  expect(errors).toEqual([]);
 });
 
 test('rolagem não anima propriedades de layout (scroll-spy e revelação)', async ({ page }) => {
@@ -192,6 +284,7 @@ test('partículas não passam sob o texto nem os botões do hero', async ({ page
     };
   });
   await page.goto('./');
+  await page.locator('.hero__particles--on').waitFor({ state: 'attached' });
   // Várias amostras: as partículas se movem e a máscara precisa valer em todo quadro.
   for (let i = 0; i < 6; i++) {
     const { inside, total } = await page.evaluate(async () => {
@@ -876,6 +969,7 @@ test.describe('movimento reduzido', () => {
       };
     });
     await page.goto('./');
+    await page.locator('.hero__particles--on').waitFor({ state: 'attached' });
     const draws = () => page.evaluate(() => window.__draws);
     await page.waitForTimeout(500);
     const still = await draws();
