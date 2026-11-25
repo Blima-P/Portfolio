@@ -27,8 +27,9 @@ npm run stamp    # se mudou algum CSS ou JS (atualiza o ?v= que invalida o cache
 npm run verify   # ESLint, Stylelint, Prettier, html-validate, i18n, stamp, testes de scripts e Playwright
 ```
 
-O CI (`quality`) roda o mesmo `verify`, checa links e mede Lighthouse; nada entra na `main` com ele
-vermelho.
+O CI (`quality`) roda o mesmo `verify`, checa links e passa pelo portão do Lighthouse (`lighthouserc.json`:
+desempenho ≥ 90, acessibilidade/boas práticas/SEO = 100, LCP ≤ 2,5 s, CLS ≤ 0,05, peso ≤ 400 KB, na rodada
+mediana de 3); nada entra na `main` com ele vermelho.
 
 ## Padrões
 
