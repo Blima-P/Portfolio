@@ -70,10 +70,9 @@ Portfolio/
 │   ├── carteira-api.html       # Estudo de caso da Carteira API (decisões, diagrama, provas)
 │   └── socialtech.html         # Estudo de caso do SocialTech (papel, decisões, fluxo de entrega)
 ├── css/
-│   ├── styles.css              # Estilos principais, layout, componentes, responsivo
+│   ├── styles.css              # Estilos principais, layout, componentes, animações, responsivo
 │   ├── case.css                # Estilos dos estudos de caso (projetos/*.html)
-│   ├── not-found.css           # Estilos da 404.html
-│   └── animations.css          # Keyframes e classes utilitárias de animação
+│   └── not-found.css           # Estilos da 404.html
 ├── js/                         # ES Modules, sem variáveis globais
 │   ├── main.js                 # Ponto de entrada da home: inicializa os módulos
 │   ├── case.js                 # Ponto de entrada dos estudos de caso: tema, idioma e header
