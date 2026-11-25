@@ -274,6 +274,69 @@ test('tablet (820 px): Sobre em 2 colunas, contato em 2 × 2 e nada vaza na hori
   expect(new Set(cards.map((c) => c.x)).size).toBe(2);
 });
 
+test('foto do Sobre: AVIF/WebP no tamanho da tela, carga preguiçosa e espaço reservado antes de chegar', async ({
+  page,
+}) => {
+  const requested = [];
+  let release;
+  const held = new Promise((resolve) => (release = resolve));
+  page.on('request', (req) => requested.push(new URL(req.url()).pathname));
+  // Segura a foto: o espaço dela tem de existir antes do arquivo chegar (sem salto de layout).
+  await page.route('**/assets/img/**', async (route) => {
+    await held;
+    await route.continue();
+  });
+  await page.goto('./');
+  const img = page.locator('.about__img');
+  await expect(img).toHaveAttribute('loading', 'lazy');
+  await expect(img).toHaveAttribute('decoding', 'async');
+  for (const type of ['image/avif', 'image/webp']) {
+    await expect(page.locator(`.about__picture source[type="${type}"]`)).toHaveAttribute(
+      'srcset',
+      /350w.*700w.*896w/,
+    );
+  }
+  await img.scrollIntoViewIfNeeded();
+  const before = await img.boundingBox();
+  expect(before.height / before.width).toBeCloseTo(931 / 896, 1);
+
+  release();
+  await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+  const after = await img.boundingBox();
+  expect(Math.abs(after.height - before.height)).toBeLessThanOrEqual(1);
+  const { src, need } = await img.evaluate((i) => ({
+    src: i.currentSrc,
+    need: Math.min(896, Math.ceil(i.clientWidth * devicePixelRatio)),
+  }));
+  const [, width, ext] = /profile-(\d+)\.(\w+)$/.exec(src);
+  expect(ext).toBe('avif');
+  expect(Number(width), `${width}px para ${need}px de tela`).toBeGreaterThanOrEqual(need);
+  expect(requested.some((p) => p.endsWith('Profile.jpg.png'))).toBe(false);
+});
+
+test('foto do Sobre: o sizes bate com a largura exibida em cada faixa do layout', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'a janela é definida aqui; basta um projeto');
+  // Com descritores "w", a naturalWidth corrigida pela densidade é o valor do sizes: se ele exagera, o
+  // navegador baixa um arquivo maior que o necessário; se subestima, a foto fica borrada.
+  for (const width of [320, 398, 500, 760, 761, 820, 900, 901, 987, 1100, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('./');
+    const img = page.locator('.about__img');
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+    const { sizes, shown, scrollbar } = await img.evaluate((i) => ({
+      sizes: i.naturalWidth,
+      shown: i.offsetWidth,
+      scrollbar: window.innerWidth - document.documentElement.clientWidth,
+    }));
+    // vw conta a barra de rolagem, que o layout não usa: ela entra na folga.
+    expect(sizes, `${width}px`).toBeGreaterThanOrEqual(shown - 1);
+    expect(sizes - shown, `${width}px`).toBeLessThanOrEqual(scrollbar + 2);
+  }
+});
+
 test('tema alterna e persiste após recarregar', async ({ page }) => {
   await page.goto('./');
   const html = page.locator('html');

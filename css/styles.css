@@ -828,9 +828,15 @@ select,
   position: relative;
 }
 
+/* O <picture> só escolhe o arquivo: a foto se comporta como filha direta do wrapper (flex no celular). */
+.about__picture {
+  display: contents;
+}
+
 .about__img {
   width: 100%;
   max-width: 350px;
+  height: auto;
   border-radius: var(--radius-lg);
   border: 2px solid var(--color-border);
   filter: grayscale(20%);
