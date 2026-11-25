@@ -581,7 +581,10 @@ select,
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ---- Hero ---- */
+/* ---- Hero ----
+   Entrada: carrega com a página, sem esperar scroll. O texto entra só com deslocamento, sem
+   opacidade: fica visível no primeiro paint e a descrição vira o LCP logo de cara (com opacity: 0,
+   o LCP passava a ser a frase digitada, segundos depois). */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -630,6 +633,7 @@ select,
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
+  animation: rise-in 0.6s ease 0.1s both;
 }
 
 .hero__name {
@@ -637,6 +641,7 @@ select,
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1rem;
+  animation: rise-in 0.6s ease 0.2s both;
 }
 
 .hero__name-gradient {
@@ -658,6 +663,7 @@ select,
   color: var(--color-text);
   font-size: 0.85rem;
   line-height: 1.4;
+  animation: rise-in 0.6s ease 0.1s both;
 }
 
 .hero__status-dot {
@@ -674,6 +680,7 @@ select,
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 1rem;
+  animation: rise-in 0.6s ease 0.3s both;
 }
 
 .hero__description {
@@ -682,6 +689,7 @@ select,
   max-width: 560px;
   margin-bottom: 1.25rem;
   line-height: 1.8;
+  animation: rise-in 0.6s ease 0.4s both;
 }
 
 /* Prova com link: o número que sustenta a descrição leva ao card do projeto. */
@@ -693,6 +701,7 @@ select,
   color: var(--color-text-muted);
   font-size: 0.95rem;
   text-decoration: none;
+  animation: rise-in 0.6s ease 0.4s both;
 }
 
 .hero__proof-name {
@@ -724,6 +733,7 @@ select,
   height: 1.5em;
   color: var(--color-text-muted);
   white-space: nowrap;
+  animation: fade-in-up 0.6s ease 0.5s both;
 }
 
 .hero__prompt {
@@ -746,11 +756,13 @@ select,
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 3rem;
+  animation: fade-in-up 0.6s ease 0.5s both;
 }
 
 .hero__social {
   display: flex;
   gap: 1rem;
+  animation: fade-in-up 0.6s ease 0.6s both;
 }
 
 .social__link {
@@ -2021,6 +2033,125 @@ select,
   }
 }
 
+/* ---- Animações: keyframes ---- */
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-arrow {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-5px, -5px);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(16px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ---- Classes de animação (aplicadas pelo Intersection Observer em ui.js) ---- */
+
+.animate {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.animate--visible {
+  animation: fade-in-up 0.6s ease forwards;
+}
+
+.animate--delay-1 {
+  animation-delay: 0.1s;
+}
+
+.animate--delay-2 {
+  animation-delay: 0.2s;
+}
+
+.animate--delay-3 {
+  animation-delay: 0.3s;
+}
+
+.animate--delay-4 {
+  animation-delay: 0.4s;
+}
+
+.animate--delay-5 {
+  animation-delay: 0.5s;
+}
+
+/* ---- Revelação de Texto (clip-path) ---- */
+@keyframes text-reveal-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+
+  to {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+/* A seção recebe .section--revealed ao entrar na tela (js/ui.js). O estado final é declarado
+   explicitamente: a animação é só enfeite e o texto fica visível mesmo se ela não rodar. */
+.text-reveal,
+.subtitle-reveal {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+.section--revealed .text-reveal,
+.section--revealed .subtitle-reveal {
+  opacity: 1;
+  clip-path: inset(0);
+}
+
+.section--revealed .text-reveal {
+  animation: text-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* O subtítulo usa a mesma revelação do título (sem animar letter-spacing, que refazia o layout da
+   página a cada quadro), só que um pouco depois. */
+.section--revealed .subtitle-reveal {
+  animation: text-reveal-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+}
+
 /* ---- Impressão: a página vira um currículo de até 2 folhas A4 ---- */
 @page {
   size: a4;
@@ -2388,7 +2519,7 @@ select,
     justify-content: flex-start;
   }
 
-  /* O que entra com a rolagem (ui.js, animations.css) já sai inteiro no papel. */
+  /* O que entra com a rolagem (ui.js, seção Animações) já sai inteiro no papel. */
   .animate,
   .text-reveal,
   .subtitle-reveal {

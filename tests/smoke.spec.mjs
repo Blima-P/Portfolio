@@ -337,6 +337,17 @@ test('foto do Sobre: o sizes bate com a largura exibida em cada faixa do layout'
   }
 });
 
+test('home: uma folha de estilo só no caminho crítico, com as animações dentro dela', async ({ page }) => {
+  const sheets = [];
+  page.on('request', (r) => {
+    if (r.resourceType() === 'stylesheet') sheets.push(new URL(r.url()).pathname.split('/').pop());
+  });
+  await page.goto('./');
+  await page.waitForLoadState('load');
+  expect(sheets).toEqual(['styles.css']);
+  await expect(page.locator('.hero__name')).toHaveCSS('animation-name', 'rise-in');
+});
+
 test('tema alterna e persiste após recarregar', async ({ page }) => {
   await page.goto('./');
   const html = page.locator('html');
