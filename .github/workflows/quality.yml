@@ -71,9 +71,9 @@ jobs:
             --remap 'file://${{ github.workspace }}/Portfolio(/|$) file://${{ github.workspace }}/'
             index.html 404.html 'projetos/*.html' README.md CONTRIBUTING.md SECURITY.md
 
-      # Portão de desempenho (lighthouserc.json): asserções em erro, pela rodada mediana de 3. A API do
-      # GitHub fica bloqueada na medição: do IP compartilhado do runner ela devolve 403 (limite de 60/h),
-      # o que sujaria o console e Best Practices sem ser defeito do site (o fallback é testado no smoke).
+      # Portão de desempenho (lighthouserc.json): asserções em erro, cada uma pela mediana de 3 rodadas.
+      # A API do GitHub fica bloqueada na medição: do IP compartilhado do runner ela devolve 403 (limite de
+      # 60/h), o que sujaria o console e Best Practices sem ser defeito do site (o fallback é testado no smoke).
       # Action presa ao commit da 12.6.2: ela traz o node_modules, então isso fixa o LHCI e o Lighthouse.
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # 12.6.2

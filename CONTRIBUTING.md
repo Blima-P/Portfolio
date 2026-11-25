@@ -28,8 +28,8 @@ npm run verify   # ESLint, Stylelint, Prettier, html-validate, i18n, stamp, test
 ```
 
 O CI (`quality`) roda o mesmo `verify`, checa links e passa pelo portão do Lighthouse (`lighthouserc.json`:
-desempenho ≥ 90, acessibilidade/boas práticas/SEO = 100, LCP ≤ 2,5 s, CLS ≤ 0,05, peso ≤ 400 KB, na rodada
-mediana de 3); nada entra na `main` com ele vermelho.
+desempenho ≥ 90, acessibilidade/boas práticas/SEO = 100, LCP ≤ 2,5 s, CLS ≤ 0,05, peso ≤ 400 KB, cada um pela
+mediana de 3 rodadas); nada entra na `main` com ele vermelho.
 
 ## Padrões
 
