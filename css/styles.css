@@ -2187,13 +2187,13 @@ select,
   }
 
   html {
-    font-size: 9pt;
+    font-size: 8.5pt;
   }
 
   body {
     background: #fff;
     color: var(--color-text);
-    line-height: 1.4;
+    line-height: 1.35;
   }
 
   /* Interativo ou decorativo: não faz sentido no papel. Os repositórios vêm da API do GitHub, e o
@@ -2228,7 +2228,7 @@ select,
   .hero {
     min-height: 0;
     padding: 0;
-    margin: 0 0 1.1rem;
+    margin: 0 0 0.85rem;
     background: none;
   }
 
@@ -2333,7 +2333,7 @@ select,
   .skill-group,
   .cert-card,
   .contact__card {
-    padding: 0.5rem 0.7rem;
+    padding: 0.4rem 0.65rem;
     border: 1px solid var(--color-border);
     background: none;
     box-shadow: none;

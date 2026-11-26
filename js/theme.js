@@ -3,7 +3,7 @@
 // barra do navegador (meta theme-color), lida do token --color-bg para não duplicar a paleta, e a
 // troca animada (View Transitions; instantânea sem suporte ou com movimento reduzido).
 
-import { translateElement } from './i18n.js?v=9f14586b';
+import { translateElement } from './i18n.js?v=33ce3547';
 
 const THEME_KEY = 'theme';
 
