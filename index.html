@@ -39,8 +39,8 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/styles.css?v=c695e15c" />
-  <script type="module" src="js/main.js?v=b33f344e"></script>
+  <link rel="stylesheet" href="css/styles.css?v=d632fa21" />
+  <script type="module" src="js/main.js?v=d65b4451"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -75,7 +75,7 @@
         <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experiência</a></li>
         <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projetos</a></li>
         <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Competências</a></li>
-        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Cursos</a></li>
+        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Certificações</a></li>
         <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contato</a></li>
         <li class="nav__item"><button type="button" class="nav__terminal" id="terminal-toggle" aria-haspopup="dialog" aria-keyshortcuts="Control+K" title="Terminal (Ctrl + K)" aria-label="Abrir o terminal" data-i18n="nav.terminal.label" data-i18n-attr="aria-label"><span class="nav__terminal-icon" aria-hidden="true">&gt;_</span><span class="nav__terminal-text">Terminal</span></button></li>
       </ul>
@@ -173,23 +173,23 @@
         <div class="about__content">
           <div class="about__img-wrapper">
             <picture class="about__picture">
-              <source type="image/avif" srcset="assets/img/profile-350.avif 350w, assets/img/profile-700.avif 700w, assets/img/profile-896.avif 896w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
-              <source type="image/webp" srcset="assets/img/profile-350.webp 350w, assets/img/profile-700.webp 700w, assets/img/profile-896.webp 896w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
-              <img src="assets/img/profile-700.jpg" width="350" height="364" loading="lazy" decoding="async" alt="Foto de Pedro Braga" class="about__img" data-i18n="about.img.alt" data-i18n-attr="alt" />
+              <source type="image/avif" srcset="assets/img/profile-350.avif 350w, assets/img/profile-700.avif 700w, assets/img/profile-768.avif 768w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
+              <source type="image/webp" srcset="assets/img/profile-350.webp 350w, assets/img/profile-700.webp 700w, assets/img/profile-768.webp 768w" sizes="(max-width: 398px) calc(100vw - 3rem), (max-width: 760px) 350px, (max-width: 900px) calc(40vw - 2.2rem), (max-width: 987px) calc(40vw - 2.8rem), 350px" />
+              <img src="assets/img/profile-700.jpg" width="350" height="467" loading="lazy" decoding="async" alt="Foto de Pedro Braga" class="about__img" data-i18n="about.img.alt" data-i18n-attr="alt" />
             </picture>
           </div>
 
           <div class="about__info">
-            <p class="about__description" data-i18n="about.description">Estudante de Engenharia de Software na Universidade Católica de Brasília, com experiência prática em desenvolvimento e manutenção de sistemas web. Atualmente estagiário de desenvolvimento na CAESB, atuando na melhoria de aplicações com Java, JavaScript, React, XHTML e serviços na Azure. Meu foco principal é backend Java com Spring e PostgreSQL, complementado por projetos web e de análise de dados.</p>
+            <p class="about__description" data-i18n="about.description">Desenvolvedor Java Full Stack em formação e estudante de Engenharia de Software na UCB. Estagiário na CAESB, atuo com Java, Spring, JPA/Hibernate, JSF, SQL Server e integrações REST, atendendo mais de 100 demandas do levantamento de requisitos à entrega. Também estudo cloud, dados e machine learning, com certificações AWS Cloud Practitioner, Stanford Online e análise de dados com Python e Pandas.</p>
 
             <div class="about__data">
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.location.title">Localização</span>
-                <span class="about__data-desc" data-i18n="about.location.desc">Brasília, DF · híbrido ou remoto</span>
+                <span class="about__data-desc" data-i18n="about.location.desc">Brasília, DF · presencial, híbrido ou remoto</span>
               </div>
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.internship.title">Estágio</span>
-                <span class="about__data-desc" data-i18n="about.internship.desc">CAESB — TI</span>
+                <span class="about__data-desc" data-i18n="about.internship.desc">CAESB — Desenvolvimento</span>
               </div>
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.degree.title">Graduação</span>
@@ -198,7 +198,7 @@
               </div>
               <div class="about__data-item">
                 <span class="about__data-title" data-i18n="about.availability.title">Disponibilidade</span>
-                <span class="about__data-desc" data-i18n="about.availability.desc">Aberto a vagas júnior</span>
+                <span class="about__data-desc" data-i18n="about.availability.desc">Vagas júnior e estágio em desenvolvimento</span>
               </div>
             </div>
 
@@ -412,14 +412,14 @@
             <h3 class="skill-group__title" data-i18n="skills.group.backend">Backend</h3>
             <ul class="skill-group__list">
               <li class="skill">
-                <span class="skill__name">Java 21 · Spring Boot</span>
+                <span class="skill__name">Java · Spring</span>
                 <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
-                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" data-i18n="skill.java.evidence">Carteira API: JWT, transações ACID e reenvio idempotente</a>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" data-i18n="skill.java.evidence">CAESB e Carteira API: APIs, regras de negócio e arquitetura em camadas</a>
               </li>
               <li class="skill">
-                <span class="skill__name">PostgreSQL · Flyway</span>
+                <span class="skill__name">JPA/Hibernate · SQL Server</span>
                 <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
-                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api/tree/develop/src/main/resources/db/migration" target="_blank" rel="noopener noreferrer" data-i18n="skill.postgres.evidence">Migrations versionadas, constraints e bloqueio pessimista</a>
+                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" data-i18n="skill.persistence.evidence">Mapeamento ORM, Criteria, SQL nativo e persistência transacional</a>
               </li>
               <li class="skill">
                 <span class="skill__name" data-i18n="skill.tests.name">JUnit · testes de integração</span>
@@ -432,9 +432,9 @@
             <h3 class="skill-group__title" data-i18n="skills.group.frontend">Front-end</h3>
             <ul class="skill-group__list">
               <li class="skill">
-                <span class="skill__name">Astro · TypeScript</span>
+                <span class="skill__name">JSF · PrimeFaces</span>
                 <span class="skill__level skill__level--live" data-i18n="skills.level.live">no ar</span>
-                <a class="skill__evidence" href="https://blima-p.github.io/SocialTech/" target="_blank" rel="noopener noreferrer" data-i18n="skill.astro.evidence">SocialTech: site no ar, acessado por QR Code</a>
+                <a class="skill__evidence" href="https://www.linkedin.com/in/pedrobragadelima/" target="_blank" rel="noopener noreferrer" data-i18n="skill.jsf.evidence">Telas corporativas na CAESB com Ajax, formulários e paginação lazy</a>
               </li>
               <li class="skill">
                 <span class="skill__name">HTML · CSS · JavaScript</span>
@@ -467,9 +467,9 @@
             <h3 class="skill-group__title" data-i18n="skills.group.devops">DevOps e ferramentas</h3>
             <ul class="skill-group__list">
               <li class="skill">
-                <span class="skill__name">Docker · Compose</span>
-                <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
-                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api/blob/develop/compose.yaml" target="_blank" rel="noopener noreferrer" data-i18n="skill.docker.evidence">Imagem da API com PostgreSQL e teste de fumaça na CI</a>
+                <span class="skill__name">AWS Cloud</span>
+                <span class="skill__level skill__level--live" data-i18n="skills.level.certified">certificado</span>
+                <a class="skill__evidence" href="https://www.credly.com/badges/655b6604-f9b6-4058-8620-5f69eaf540bd/linked_in_profile" target="_blank" rel="noopener noreferrer" data-i18n="skill.aws.evidence">AWS Certified Cloud Practitioner: cloud, segurança, custos e arquitetura</a>
               </li>
               <li class="skill">
                 <span class="skill__name">GitHub Actions</span>
@@ -477,9 +477,9 @@
                 <a class="skill__evidence" href="https://github.com/Blima-P/Portfolio/actions/workflows/quality.yml" target="_blank" rel="noopener noreferrer" data-i18n="skill.actions.evidence">CI deste site: lint, HTML, i18n, Playwright e Lighthouse</a>
               </li>
               <li class="skill">
-                <span class="skill__name">Git · pull requests</span>
+                <span class="skill__name">Git · Maven · SVN</span>
                 <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
-                <a class="skill__evidence" href="https://github.com/Blima-P/Portfolio/pulls?q=is%3Apr+is%3Amerged" target="_blank" rel="noopener noreferrer" data-i18n="skill.git.evidence">Fluxo issue → branch → PR com revisão e CI obrigatória</a>
+                <a class="skill__evidence" href="https://github.com/Blima-P" target="_blank" rel="noopener noreferrer" data-i18n="skill.git.evidence">Versionamento, build e fluxo issue → branch → PR</a>
               </li>
             </ul>
           </div>
@@ -491,25 +491,25 @@
     <!-- Certificações -->
     <section class="certifications" id="certifications">
       <div class="container">
-        <h2 class="section__title" data-i18n="certs.title">Cursos</h2>
-        <p class="section__subtitle" data-i18n="certs.subtitle">Formação complementar, separada de certificações profissionais</p>
+        <h2 class="section__title" data-i18n="certs.title">Certificações</h2>
+        <p class="section__subtitle" data-i18n="certs.subtitle">As três certificações mais relevantes para meu desenvolvimento profissional</p>
 
         <div class="certs__grid">
-          <div class="cert-card">
-            <div class="cert-card__icon">☕</div>
-            <h3 class="cert-card__name" data-i18n="cert1.name">Programação Java</h3>
-            <p class="cert-card__issuer" data-i18n="cert1.issuer">Udemy</p>
-          </div>
-          <div class="cert-card">
-            <div class="cert-card__icon">｡🇯‌🇸‌</div>
-            <h3 class="cert-card__name" data-i18n="cert3.name">TypeScript e JavaScript</h3>
-            <p class="cert-card__issuer" data-i18n="cert3.issuer">Udemy</p>
-          </div>
-          <div class="cert-card">
-            <div class="cert-card__icon">⚛️</div>
-            <h3 class="cert-card__name" data-i18n="cert4.name">Desenvolvimento React</h3>
-            <p class="cert-card__issuer" data-i18n="cert4.issuer">Udemy</p>
-          </div>
+          <a class="cert-card" href="https://www.credly.com/badges/655b6604-f9b6-4058-8620-5f69eaf540bd/linked_in_profile" target="_blank" rel="noopener noreferrer">
+            <div class="cert-card__icon">☁️</div>
+            <h3 class="cert-card__name" data-i18n="cert1.name">AWS Certified Cloud Practitioner</h3>
+            <p class="cert-card__issuer" data-i18n="cert1.issuer">AWS · 2026</p>
+          </a>
+          <a class="cert-card" href="https://coursera.org/verify/GWAOD4JYC1WC" target="_blank" rel="noopener noreferrer">
+            <div class="cert-card__icon">🤖</div>
+            <h3 class="cert-card__name" data-i18n="cert3.name">Supervised Machine Learning: Regression and Classification</h3>
+            <p class="cert-card__issuer" data-i18n="cert3.issuer">Stanford Online · 2026</p>
+          </a>
+          <a class="cert-card" href="https://www.udemy.com/certificate/UC-42831794-09f7-4631-b16b-dcc3bab77404/" target="_blank" rel="noopener noreferrer">
+            <div class="cert-card__icon">🐍</div>
+            <h3 class="cert-card__name" data-i18n="cert4.name">Data Analysis with Pandas and Python [2026]</h3>
+            <p class="cert-card__issuer" data-i18n="cert4.issuer">Udemy · 2026</p>
+          </a>
         </div>
       </div>
     </section>

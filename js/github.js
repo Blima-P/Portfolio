@@ -1,6 +1,6 @@
 // Repositórios em destaque, com dados atualizados pela API pública do GitHub.
 
-import { t } from './i18n.js?v=9f14586b';
+import { t } from './i18n.js?v=aea9f406';
 
 const GITHUB_USER = 'Blima-P';
 const SELECTED_REPOS = ['SocialTech', 'carteira-api', 'ERP-Academico', 'Campo-minado', 'Portfolio'];

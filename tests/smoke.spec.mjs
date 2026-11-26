@@ -386,12 +386,12 @@ test('foto do Sobre: AVIF/WebP no tamanho da tela, carga preguiçosa e espaço r
   for (const type of ['image/avif', 'image/webp']) {
     await expect(page.locator(`.about__picture source[type="${type}"]`)).toHaveAttribute(
       'srcset',
-      /350w.*700w.*896w/,
+      /350w.*700w.*768w/,
     );
   }
   await img.scrollIntoViewIfNeeded();
   const before = await img.boundingBox();
-  expect(before.height / before.width).toBeCloseTo(931 / 896, 1);
+  expect(before.height / before.width).toBeCloseTo(1024 / 768, 1);
 
   release();
   await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
@@ -399,7 +399,7 @@ test('foto do Sobre: AVIF/WebP no tamanho da tela, carga preguiçosa e espaço r
   expect(Math.abs(after.height - before.height)).toBeLessThanOrEqual(1);
   const { src, need } = await img.evaluate((i) => ({
     src: i.currentSrc,
-    need: Math.min(896, Math.ceil(i.clientWidth * devicePixelRatio)),
+    need: Math.min(768, Math.ceil(i.clientWidth * devicePixelRatio)),
   }));
   const [, width, ext] = /profile-(\d+)\.(\w+)$/.exec(src);
   expect(ext).toBe('avif');
@@ -1225,16 +1225,16 @@ test('competências: 4 grupos, cada item com nível e link de evidência, nos do
   const total = await skills.count();
   expect(total).toBeGreaterThanOrEqual(8);
   for (const skill of await skills.all()) {
-    await expect(skill.locator('.skill__level')).toHaveText(/^(no ar|em projeto|estudando)$/);
+    await expect(skill.locator('.skill__level')).toHaveText(/^(no ar|em projeto|estudando|certificado)$/);
     await expect(skill.locator('a.skill__evidence')).toHaveAttribute(
       'href',
-      /^https:\/\/(github\.com|blima-p\.github\.io)\//,
+      /^https:\/\/(github\.com|blima-p\.github\.io|www\.credly\.com|www\.linkedin\.com)\//,
     );
     await expect(skill.locator('a.skill__evidence')).toHaveAttribute('rel', /noopener/);
   }
 
   await page.locator('#lang-toggle').click();
-  await expect(page.locator('.skill__level').first()).toHaveText(/^(live|in a project|learning)$/);
+  await expect(page.locator('.skill__level').first()).toHaveText(/^(live|in a project|learning|certified)$/);
   await expect(page.locator('.skill-group__title').nth(3)).toHaveText('DevOps and tools');
 });
 
