@@ -1,10 +1,10 @@
 // Ponto de entrada (ES Module). Nenhuma variável global: cada funcionalidade expõe init*().
 
-import { initContact } from './contact.js?v=76d2f1d5';
-import { initGithub } from './github.js?v=35111874';
-import { initI18n } from './i18n.js?v=aea9f406';
+import { initContact } from './contact.js?v=88498d11';
+import { initGithub } from './github.js?v=0ce751d6';
+import { initI18n } from './i18n.js?v=33ce3547';
 import { initParticles } from './particles.js?v=b9d98b59';
-import { initTheme } from './theme.js?v=230fb53a';
+import { initTheme } from './theme.js?v=5bdcb7c6';
 import { initTyping } from './typing.js?v=f1b2c871';
 import { initUI } from './ui.js?v=3ce02871';
 
@@ -23,7 +23,7 @@ initGithub();
 let terminal;
 function toggleTerminal() {
   // A mesma promessa atende pressionamentos rápidos: os toggles ficam na ordem certa.
-  terminal ??= import('./terminal.js?v=aff59a86');
+  terminal ??= import('./terminal.js?v=061a5321');
   terminal
     .then((module) => module.toggleTerminal())
     .catch((err) => {

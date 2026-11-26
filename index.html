@@ -40,7 +40,7 @@
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/styles.css?v=d632fa21" />
-  <script type="module" src="js/main.js?v=d65b4451"></script>
+  <script type="module" src="js/main.js?v=cc44dcbd"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -75,7 +75,7 @@
         <li class="nav__item"><a href="#experience" class="nav__link" data-i18n="nav.experience">Experiência</a></li>
         <li class="nav__item"><a href="#projects" class="nav__link" data-i18n="nav.projects">Projetos</a></li>
         <li class="nav__item"><a href="#skills" class="nav__link" data-i18n="nav.skills">Competências</a></li>
-        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Certificações</a></li>
+        <li class="nav__item"><a href="#certifications" class="nav__link" data-i18n="nav.certifications">Certificações e cursos</a></li>
         <li class="nav__item"><a href="#contact" class="nav__link" data-i18n="nav.contact">Contato</a></li>
         <li class="nav__item"><button type="button" class="nav__terminal" id="terminal-toggle" aria-haspopup="dialog" aria-keyshortcuts="Control+K" title="Terminal (Ctrl + K)" aria-label="Abrir o terminal" data-i18n="nav.terminal.label" data-i18n-attr="aria-label"><span class="nav__terminal-icon" aria-hidden="true">&gt;_</span><span class="nav__terminal-text">Terminal</span></button></li>
       </ul>
@@ -112,7 +112,7 @@
       <canvas class="hero__particles" id="particles-canvas" aria-hidden="true"></canvas>
 
       <div class="hero__content container">
-        <p class="hero__status"><span class="hero__status-dot" aria-hidden="true"></span><span data-i18n="hero.status">Disponível para vagas júnior · Brasília · híbrido ou remoto</span></p>
+        <p class="hero__status"><span class="hero__status-dot" aria-hidden="true"></span><span data-i18n="hero.status">Disponível para vagas júnior · Brasília · presencial, híbrido ou remoto</span></p>
         <p class="hero__greeting" data-i18n="hero.greeting">Olá, me chamo</p>
         <h1 class="hero__name"><span class="hero__name-gradient">Pedro Braga</span></h1>
         <p class="hero__role" data-i18n="hero.role">Desenvolvedor Backend Java</p>
@@ -419,7 +419,7 @@
               <li class="skill">
                 <span class="skill__name">JPA/Hibernate · SQL Server</span>
                 <span class="skill__level skill__level--project" data-i18n="skills.level.project">em projeto</span>
-                <a class="skill__evidence" href="https://github.com/Blima-P/carteira-api" target="_blank" rel="noopener noreferrer" data-i18n="skill.persistence.evidence">Mapeamento ORM, Criteria, SQL nativo e persistência transacional</a>
+                <a class="skill__evidence" href="https://www.linkedin.com/in/pedrobragadelima/" target="_blank" rel="noopener noreferrer" data-i18n="skill.persistence.evidence">Experiência na CAESB: ORM, Criteria, SQL nativo e persistência transacional</a>
               </li>
               <li class="skill">
                 <span class="skill__name" data-i18n="skill.tests.name">JUnit · testes de integração</span>
@@ -491,24 +491,24 @@
     <!-- Certificações -->
     <section class="certifications" id="certifications">
       <div class="container">
-        <h2 class="section__title" data-i18n="certs.title">Certificações</h2>
-        <p class="section__subtitle" data-i18n="certs.subtitle">As três certificações mais relevantes para meu desenvolvimento profissional</p>
+        <h2 class="section__title" data-i18n="certs.title">Certificações e cursos</h2>
+        <p class="section__subtitle" data-i18n="certs.subtitle">Uma certificação profissional e dois cursos concluídos para aprofundar cloud e dados</p>
 
         <div class="certs__grid">
           <a class="cert-card" href="https://www.credly.com/badges/655b6604-f9b6-4058-8620-5f69eaf540bd/linked_in_profile" target="_blank" rel="noopener noreferrer">
             <div class="cert-card__icon">☁️</div>
             <h3 class="cert-card__name" data-i18n="cert1.name">AWS Certified Cloud Practitioner</h3>
-            <p class="cert-card__issuer" data-i18n="cert1.issuer">AWS · 2026</p>
+            <p class="cert-card__issuer" data-i18n="cert1.issuer">Certificação profissional · AWS · 2026</p>
           </a>
           <a class="cert-card" href="https://coursera.org/verify/GWAOD4JYC1WC" target="_blank" rel="noopener noreferrer">
             <div class="cert-card__icon">🤖</div>
             <h3 class="cert-card__name" data-i18n="cert3.name">Supervised Machine Learning: Regression and Classification</h3>
-            <p class="cert-card__issuer" data-i18n="cert3.issuer">Stanford Online · 2026</p>
+            <p class="cert-card__issuer" data-i18n="cert3.issuer">Curso concluído · Stanford Online · 2026</p>
           </a>
           <a class="cert-card" href="https://www.udemy.com/certificate/UC-42831794-09f7-4631-b16b-dcc3bab77404/" target="_blank" rel="noopener noreferrer">
             <div class="cert-card__icon">🐍</div>
             <h3 class="cert-card__name" data-i18n="cert4.name">Data Analysis with Pandas and Python [2026]</h3>
-            <p class="cert-card__issuer" data-i18n="cert4.issuer">Udemy · 2026</p>
+            <p class="cert-card__issuer" data-i18n="cert4.issuer">Curso concluído · Udemy · 2026</p>
           </a>
         </div>
       </div>
@@ -545,7 +545,7 @@
             <button type="button" class="btn btn--outline contact__copy" id="copy-email" data-i18n="contact.copy">Copiar e-mail</button>
           </div>
           <p class="contact__status" id="copy-email-status" role="status"></p>
-          <p class="contact__where" data-i18n="contact.where">Brasília, DF · híbrido ou remoto</p>
+          <p class="contact__where" data-i18n="contact.where">Brasília, DF · presencial, híbrido ou remoto</p>
         </div>
 
         <div class="contact__content">

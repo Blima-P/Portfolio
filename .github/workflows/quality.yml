@@ -52,8 +52,8 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           fail: true
-          # linkedin.com responde 999 para robôs; lattes.cnpq.br falha no handshake TLS do lychee
-          # (o link funciona no navegador). Ambos são verificados manualmente no roteiro de testes.
+          # Esses sites bloqueiam robôs (999/403/TLS), mas funcionam no navegador. As URLs são
+          # verificadas manualmente no roteiro de testes.
           # O github.com responde 503 (servidor ocupado, não link quebrado) a rajadas vindas do runner,
           # e o lychee só repete em 429: menos requisições por host e 503 aceito. 404 continua falhando.
           # URLs do próprio site (canonical, og:url) são conferidas nos arquivos do commit: uma página
@@ -65,6 +65,7 @@ jobs:
             --accept '100..=103,200..=299,503'
             --exclude 'linkedin\.com'
             --exclude 'lattes\.cnpq\.br'
+            --exclude 'udemy\.com'
             --exclude-path node_modules
             --root-dir ${{ github.workspace }}
             --remap 'https://blima-p\.github\.io/Portfolio/ file://${{ github.workspace }}/'

@@ -30,7 +30,7 @@ export const translations = {
     'nav.experience': 'Experience',
     'nav.projects': 'Projects',
     'nav.skills': 'Skills',
-    'nav.certifications': 'Certifications',
+    'nav.certifications': 'Certification and courses',
     'nav.contact': 'Contact',
     'nav.theme.toLight': 'Switch to light theme',
     'nav.theme.toDark': 'Switch to dark theme',
@@ -40,7 +40,7 @@ export const translations = {
     'skip.main': 'Skip to content',
 
     // Hero
-    'hero.status': 'Open to junior roles · Brasília, Brazil · hybrid or remote',
+    'hero.status': 'Open to junior roles · Brasília, Brazil · on-site, hybrid or remote',
     'hero.greeting': "Hello, I'm",
     'hero.role': 'Java Backend Developer',
     'hero.description':
@@ -140,7 +140,7 @@ export const translations = {
     'skills.group.data': 'Data and other languages',
     'skills.group.devops': 'DevOps and tools',
     'skill.java.evidence': 'CAESB and Carteira API: APIs, business rules and layered architecture',
-    'skill.persistence.evidence': 'ORM mapping, Criteria, native SQL and transactional persistence',
+    'skill.persistence.evidence': 'CAESB experience: ORM, Criteria, native SQL and transactional persistence',
     'skill.tests.name': 'JUnit · integration tests',
     'skill.tests.evidence': 'Concurrency, atomicity and architecture rules under test',
     'skill.jsf.evidence': 'CAESB corporate screens with Ajax, forms and lazy pagination',
@@ -152,14 +152,15 @@ export const translations = {
     'skill.actions.evidence': "This site's CI: lint, HTML, i18n, Playwright and Lighthouse",
     'skill.git.evidence': 'Version control, builds and issue → branch → PR workflow',
     // Certificações
-    'certs.title': 'Certifications',
-    'certs.subtitle': 'My three most relevant certifications for professional development',
+    'certs.title': 'Certification and courses',
+    'certs.subtitle':
+      'One professional certification and two completed courses to deepen cloud and data skills',
     'cert1.name': 'AWS Certified Cloud Practitioner',
-    'cert1.issuer': 'AWS · 2026',
+    'cert1.issuer': 'Professional certification · AWS · 2026',
     'cert3.name': 'Supervised Machine Learning: Regression and Classification',
-    'cert3.issuer': 'Stanford Online · 2026',
+    'cert3.issuer': 'Completed course · Stanford Online · 2026',
     'cert4.name': 'Data Analysis with Pandas and Python [2026]',
-    'cert4.issuer': 'Udemy · 2026',
+    'cert4.issuer': 'Completed course · Udemy · 2026',
 
     // GitHub
     'github.title': 'Repositories',
@@ -175,7 +176,7 @@ export const translations = {
     'contact.copy': 'Copy email',
     'contact.copy.done': 'Email copied to the clipboard.',
     'contact.copy.manual': 'Could not copy automatically: the email is selected, press Ctrl+C.',
-    'contact.where': 'Brasília, Brazil · hybrid or remote',
+    'contact.where': 'Brasília, Brazil · on-site, hybrid or remote',
     'contact.cv': 'Resume (PDF)',
 
     // Rodapé
@@ -387,7 +388,7 @@ export const translations = {
     'nav.experience': 'Experiência',
     'nav.projects': 'Projetos',
     'nav.skills': 'Competências',
-    'nav.certifications': 'Certificações',
+    'nav.certifications': 'Certificações e cursos',
     'nav.contact': 'Contato',
     'nav.theme.toLight': 'Ativar o tema claro',
     'nav.theme.toDark': 'Ativar o tema escuro',
@@ -397,7 +398,7 @@ export const translations = {
     'skip.main': 'Pular para o conteúdo',
 
     // Hero
-    'hero.status': 'Disponível para vagas júnior · Brasília · híbrido ou remoto',
+    'hero.status': 'Disponível para vagas júnior · Brasília · presencial, híbrido ou remoto',
     'hero.greeting': 'Olá, me chamo',
     'hero.role': 'Desenvolvedor Backend Java',
     'hero.description':
@@ -497,7 +498,8 @@ export const translations = {
     'skills.group.data': 'Dados e outras linguagens',
     'skills.group.devops': 'DevOps e ferramentas',
     'skill.java.evidence': 'CAESB e Carteira API: APIs, regras de negócio e arquitetura em camadas',
-    'skill.persistence.evidence': 'Mapeamento ORM, Criteria, SQL nativo e persistência transacional',
+    'skill.persistence.evidence':
+      'Experiência na CAESB: ORM, Criteria, SQL nativo e persistência transacional',
     'skill.tests.name': 'JUnit · testes de integração',
     'skill.tests.evidence': 'Concorrência, atomicidade e regras de arquitetura sob teste',
     'skill.jsf.evidence': 'Telas corporativas na CAESB com Ajax, formulários e paginação lazy',
@@ -509,14 +511,14 @@ export const translations = {
     'skill.actions.evidence': 'CI deste site: lint, HTML, i18n, Playwright e Lighthouse',
     'skill.git.evidence': 'Versionamento, build e fluxo issue → branch → PR',
     // Certificações
-    'certs.title': 'Certificações',
-    'certs.subtitle': 'As três certificações mais relevantes para meu desenvolvimento profissional',
+    'certs.title': 'Certificações e cursos',
+    'certs.subtitle': 'Uma certificação profissional e dois cursos concluídos para aprofundar cloud e dados',
     'cert1.name': 'AWS Certified Cloud Practitioner',
-    'cert1.issuer': 'AWS · 2026',
+    'cert1.issuer': 'Certificação profissional · AWS · 2026',
     'cert3.name': 'Supervised Machine Learning: Regression and Classification',
-    'cert3.issuer': 'Stanford Online · 2026',
+    'cert3.issuer': 'Curso concluído · Stanford Online · 2026',
     'cert4.name': 'Data Analysis with Pandas and Python [2026]',
-    'cert4.issuer': 'Udemy · 2026',
+    'cert4.issuer': 'Curso concluído · Udemy · 2026',
 
     // GitHub
     'github.title': 'Repositórios',
@@ -532,7 +534,7 @@ export const translations = {
     'contact.copy': 'Copiar e-mail',
     'contact.copy.done': 'E-mail copiado para a área de transferência.',
     'contact.copy.manual': 'Não deu para copiar sozinho: o e-mail está selecionado, use Ctrl+C.',
-    'contact.where': 'Brasília, DF · híbrido ou remoto',
+    'contact.where': 'Brasília, DF · presencial, híbrido ou remoto',
     'contact.cv': 'Currículo (PDF)',
 
     // Rodapé
