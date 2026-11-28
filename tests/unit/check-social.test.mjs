@@ -12,9 +12,12 @@ import { checkSocial, collectImages } from '../../scripts/check-social.mjs';
 
 const IMG = 'assets/img/og.png';
 const ALT = 'Cartão com nome e cargo';
+const DESC = 'D'.repeat(100);
 
 function tagsFor(overrides = {}) {
   const tags = {
+    'og:description': DESC,
+    'twitter:description': DESC,
     'og:image': SITE_URL + IMG,
     'og:image:type': 'image/png',
     'og:image:width': '1200',
@@ -111,6 +114,28 @@ test('reprova card pequeno, metatags divergentes ou alt ausente', () => {
   const otherImage = page('index.html', { 'twitter:image': `${SITE_URL}assets/img/outra.png` });
   assert.deepEqual(checkSocial({ pages: [otherImage], images: okImages() }), [
     `index.html: twitter:image "${SITE_URL}assets/img/outra.png" ≠ "${SITE_URL + IMG}"`,
+  ]);
+});
+
+test('reprova descrição curta (o LinkedIn pede ≥ 100 caracteres), ausente ou divergente no Twitter', () => {
+  // 99 caracteres úteis: espaços nas pontas não contam.
+  const short = ` ${'D'.repeat(99)} `;
+  assert.deepEqual(
+    checkSocial({
+      pages: [page('index.html', { 'og:description': short, 'twitter:description': short })],
+      images: okImages(),
+    }),
+    ['index.html: og:description tem 99 caracteres (mínimo 100)'],
+  );
+
+  const missing = page('index.html', { 'og:description': undefined, 'twitter:description': undefined });
+  assert.deepEqual(checkSocial({ pages: [missing], images: okImages() }), [
+    'index.html: og:description tem 0 caracteres (mínimo 100)',
+  ]);
+
+  const other = page('index.html', { 'twitter:description': 'E'.repeat(100) });
+  assert.deepEqual(checkSocial({ pages: [other], images: okImages() }), [
+    `index.html: twitter:description "${'E'.repeat(100)}" ≠ "${DESC}"`,
   ]);
 });
 

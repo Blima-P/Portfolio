@@ -1,6 +1,7 @@
 // Verifica a prévia de compartilhamento (Open Graph / Twitter) de cada página publicada, menos a
 // 404: og:image é um PNG do próprio site, publicado, decodificável, com 1200×630 e no máximo 150 KB,
-// e as metatags que o descrevem (tipo, largura, altura, alt e as do Twitter) batem com ele.
+// e as metatags que o descrevem (tipo, largura, altura, alt e as do Twitter) batem com ele;
+// og:description tem pelo menos 100 caracteres e twitter:description é igual a ela.
 // Uso: node scripts/check-social.mjs
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -14,6 +15,8 @@ import { listPages } from './pages.mjs';
 
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_MAX_BYTES = 150 * 1024;
+// Abaixo disso o LinkedIn Post Inspector avisa "A descrição deve ter pelo menos 100 caracteres".
+export const OG_MIN_DESCRIPTION = 100;
 
 const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 // Só a forma canônica: sem query, fragmento, "." / ".." ou barra final, que o navegador resolveria
@@ -104,6 +107,13 @@ export function checkSocial({ pages, images }) {
       const actual = meta(html, key);
       if (actual !== value) where(`${key} "${actual}" ≠ "${value}"`);
     }
+
+    const description = meta(html, 'og:description');
+    const length = [...(description?.trim() ?? '')].length;
+    if (length < OG_MIN_DESCRIPTION)
+      where(`og:description tem ${length} caracteres (mínimo ${OG_MIN_DESCRIPTION})`);
+    else if (meta(html, 'twitter:description') !== description)
+      where(`twitter:description "${meta(html, 'twitter:description')}" ≠ "${description}"`);
   }
   return problems;
 }

@@ -89,7 +89,7 @@ Portfolio/
 ├── scripts/
 │   ├── pages.mjs               # Lista única das páginas (index.html, projetos/*.html, 404.html)
 │   ├── check-i18n.mjs          # Paridade e uso das chaves; textos e metadados de cada página
-│   ├── check-social.mjs        # Prévia de compartilhamento: og:image 1200×630 e metatags coerentes
+│   ├── check-social.mjs        # Prévia de compartilhamento: og:image 1200×630, descrição ≥ 100 caracteres e metatags coerentes
 │   ├── build-images.mjs        # Foto do Sobre em AVIF/WebP responsivos (npm run images)
 │   ├── build-og.mjs            # Imagens de compartilhamento da home e dos estudos de caso (npm run og)
 │   ├── stamp-assets.mjs        # Cache-busting (?v=<hash>) e hashes da CSP dos scripts inline
