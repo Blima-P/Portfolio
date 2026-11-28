@@ -1,14 +1,19 @@
-// Testes do verificador da prévia de compartilhamento (node --test, sem navegador).
+// Testes do verificador da prévia de compartilhamento (node --test; o sharp decodifica as imagens).
 import assert from 'node:assert/strict';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { test } from 'node:test';
 
+import sharp from 'sharp';
+
 import { SITE_URL } from '../../scripts/check-i18n.mjs';
-import { checkSocial, pngSize } from '../../scripts/check-social.mjs';
+import { checkSocial, collectImages } from '../../scripts/check-social.mjs';
 
 const IMG = 'assets/img/og.png';
 const ALT = 'Cartão com nome e cargo';
 
-function page(file, overrides = {}) {
+function tagsFor(overrides = {}) {
   const tags = {
     'og:image': SITE_URL + IMG,
     'og:image:type': 'image/png',
@@ -20,7 +25,7 @@ function page(file, overrides = {}) {
     'twitter:image:alt': ALT,
     ...overrides,
   };
-  const head = Object.entries(tags)
+  return Object.entries(tags)
     .filter(([, value]) => value !== undefined)
     .map(([key, value]) =>
       key.startsWith('twitter:')
@@ -28,9 +33,8 @@ function page(file, overrides = {}) {
         : `<meta content="${value}" property="${key}" />`,
     )
     .join('');
-  return { file, html: `<html><head>${head}</head></html>` };
 }
-
+const page = (file, overrides) => ({ file, html: `<html><head>${tagsFor(overrides)}</head></html>` });
 const okImages = () => new Map([[IMG, { bytes: 100 * 1024, size: { width: 1200, height: 630 } }]]);
 
 test('aceita imagem 1200×630 do próprio site com metatags coerentes; a 404 fica de fora', () => {
@@ -38,28 +42,55 @@ test('aceita imagem 1200×630 do próprio site com metatags coerentes; a 404 fic
   assert.deepEqual(checkSocial({ pages, images: okImages() }), []);
 });
 
-test('reprova imagem externa, ausente do site publicado, fora do tamanho ou pesada demais', () => {
+test('reprova imagem externa, fora do site publicado, fora do tamanho, pesada ou inválida', () => {
   const external = page('index.html', { 'og:image': 'https://example.com/x.png' });
   assert.deepEqual(checkSocial({ pages: [external], images: okImages() }), [
-    `index.html: og:image "https://example.com/x.png" não é uma imagem de ${SITE_URL}`,
+    `index.html: og:image "https://example.com/x.png" não é um PNG de ${SITE_URL} com caminho canônico`,
   ]);
 
   // Como era antes: a foto retrato na raiz, fora do artefato publicado.
-  const missing = page('index.html', { 'og:image': `${SITE_URL}Profile.jpg.png` });
-  assert.deepEqual(checkSocial({ pages: [missing], images: okImages() }), [
-    'index.html: og:image aponta para Profile.jpg.png, que não existe no site publicado',
+  const old = page('index.html', { 'og:image': `${SITE_URL}Profile.jpg.png` });
+  assert.match(
+    checkSocial({ pages: [old], images: okImages() })[0],
+    /não é um PNG de .* com caminho canônico/,
+  );
+
+  // Existe no repositório, mas fora da lista PUBLIC do pack-site.
+  const images = new Map([['design/og.png', okImages().get(IMG)]]);
+  const unpublished = page('index.html', { 'og:image': `${SITE_URL}design/og.png` });
+  assert.deepEqual(checkSocial({ pages: [unpublished], images }), [
+    'index.html: og:image aponta para design/og.png, que não existe no site publicado',
   ]);
 
-  const images = new Map([[IMG, { bytes: 151 * 1024, size: { width: 896, height: 931 } }]]);
-  assert.deepEqual(checkSocial({ pages: [page('index.html')], images }), [
+  const wrong = new Map([[IMG, { bytes: 151 * 1024, size: { width: 896, height: 931 } }]]);
+  assert.deepEqual(checkSocial({ pages: [page('index.html')], images: wrong }), [
     `index.html: ${IMG} tem 896×931, não 1200×630`,
     `index.html: ${IMG} tem 151 KB (máximo 150 KB)`,
   ]);
 
-  const notPng = new Map([[IMG, { bytes: 1024, size: null }]]);
-  assert.deepEqual(checkSocial({ pages: [page('index.html')], images: notPng }), [
-    `index.html: ${IMG} não é PNG`,
+  const invalid = new Map([[IMG, { bytes: 1024, size: null }]]);
+  assert.deepEqual(checkSocial({ pages: [page('index.html')], images: invalid }), [
+    `index.html: ${IMG} não é um PNG válido`,
   ]);
+});
+
+test('reprova URL não canônica que o disco resolveria, mas o navegador não', () => {
+  for (const suffix of ['/.', '/', '?v=1', '#x']) {
+    const odd = page('index.html', { 'og:image': SITE_URL + IMG + suffix });
+    assert.match(checkSocial({ pages: [odd], images: okImages() })[0], /com caminho canônico$/, suffix);
+  }
+  const dotted = page('index.html', { 'og:image': `${SITE_URL}assets/../assets/img/og.png` });
+  assert.match(checkSocial({ pages: [dotted], images: okImages() })[0], /com caminho canônico$/);
+});
+
+test('metatags comentadas ou em data-property não contam', () => {
+  const commented = { file: 'index.html', html: `<html><head><!-- ${tagsFor()} --></head></html>` };
+  assert.deepEqual(checkSocial({ pages: [commented], images: okImages() }), [
+    'index.html: og:image "undefined" não é um PNG de https://blima-p.github.io/Portfolio/ com caminho canônico',
+  ]);
+
+  const dataAttrs = { file: 'index.html', html: tagsFor().replaceAll('property=', 'data-property=') };
+  assert.equal(checkSocial({ pages: [dataAttrs], images: okImages() }).length, 1);
 });
 
 test('reprova card pequeno, metatags divergentes ou alt ausente', () => {
@@ -83,12 +114,48 @@ test('reprova card pequeno, metatags divergentes ou alt ausente', () => {
   ]);
 });
 
-test('pngSize lê o IHDR e recusa o que não é PNG', () => {
-  const png = Buffer.alloc(24);
-  Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex').copy(png);
-  png.writeUInt32BE(1200, 16);
-  png.writeUInt32BE(630, 20);
-  assert.deepEqual(pngSize(png), { width: 1200, height: 630 });
-  assert.equal(pngSize(Buffer.from([0xff, 0xd8, 0xff, 0xe0, ...Array(20).fill(0)])), null);
-  assert.equal(pngSize(Buffer.alloc(4)), null);
+test('collectImages decodifica o PNG inteiro, recusa truncado, JPEG ou diretório e ignora a 404', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'check-social-'));
+  try {
+    await mkdir(path.join(root, 'assets', 'img', 'pasta.png'), { recursive: true });
+    const png = await sharp({ create: { width: 1200, height: 630, channels: 3, background: '#050a18' } })
+      .png()
+      .toBuffer();
+    await writeFile(path.join(root, IMG), png);
+    // Cabeçalho íntegro (metadata lê 300×200), mas os dados param no meio: só a decodificação acusa.
+    const noisy = await sharp({
+      create: {
+        width: 300,
+        height: 200,
+        channels: 3,
+        background: '#000',
+        noise: { type: 'gaussian', mean: 128, sigma: 30 },
+      },
+    })
+      .png()
+      .toBuffer();
+    await writeFile(path.join(root, 'assets/img/cortado.png'), noisy.subarray(0, noisy.length / 2));
+    await writeFile(path.join(root, 'assets/img/so-404.png'), png);
+    const jpeg = await sharp(png).jpeg().toBuffer();
+    await writeFile(path.join(root, 'assets/img/foto.png'), jpeg);
+
+    const pages = [
+      page('index.html'),
+      page('projetos/a.html', { 'og:image': `${SITE_URL}assets/img/cortado.png` }),
+      page('projetos/b.html', { 'og:image': `${SITE_URL}assets/img/foto.png` }),
+      // A 404 é isenta: a imagem citada só por ela nem é lida.
+      page('404.html', { 'og:image': `${SITE_URL}assets/img/so-404.png` }),
+    ];
+    const images = await collectImages(root, pages);
+    assert.deepEqual([...images.keys()], [IMG, 'assets/img/cortado.png', 'assets/img/foto.png']);
+    assert.deepEqual(images.get(IMG), { bytes: png.length, size: { width: 1200, height: 630 } });
+    assert.equal(images.get('assets/img/cortado.png').size, null);
+    assert.equal(images.get('assets/img/foto.png').size, null);
+
+    // Diretório com nome de PNG numa página comum: tratado como ausente, sem EISDIR.
+    const dir = [page('index.html', { 'og:image': `${SITE_URL}assets/img/pasta.png` })];
+    assert.equal((await collectImages(root, dir)).size, 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
