@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { listPages } from './pages.mjs';
 
 // Arquivos e pastas públicos além das páginas HTML, que entram sozinhas (scripts/pages.mjs).
-export const PUBLIC = ['Profile.jpg.png', 'css', 'js', 'assets'];
+export const PUBLIC = ['css', 'js', 'assets'];
 
 /** Tudo o que vai ao ar, relativo a `root`: as páginas e a lista PUBLIC. */
 export async function publicEntries(root) {
