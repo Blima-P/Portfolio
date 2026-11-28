@@ -4,7 +4,14 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { after, before, test } from 'node:test';
-import { PUBLIC, findMissingRefs, packSite, stampUpdated } from '../../scripts/pack-site.mjs';
+import {
+  PUBLIC,
+  buildSitemap,
+  findMissingRefs,
+  isNoindex,
+  packSite,
+  stampUpdated,
+} from '../../scripts/pack-site.mjs';
 
 let base;
 let site;
@@ -136,4 +143,60 @@ test('páginas de projetos/ entram no artefato sozinhas e também recebem a data
     packSite(root, out, { updated: '2027-03-09' }),
     /projetos\/meio-rodape\.html: Rodapé sem/,
   );
+});
+
+test('sitemap.xml: URL canônica de cada página indexável, sem a 404 nem páginas noindex', async () => {
+  assert.equal(
+    buildSitemap(['index.html', 'projetos/a-b_1.html']),
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      '  <url>\n    <loc>https://blima-p.github.io/Portfolio/</loc>\n  </url>\n' +
+      '  <url>\n    <loc>https://blima-p.github.io/Portfolio/projetos/a-b_1.html</loc>\n  </url>\n' +
+      '</urlset>\n',
+  );
+  for (const bad of ['projetos/caso#1.html', 'projetos/a b.html', 'projetos/a&b.html']) {
+    assert.throws(() => buildSitemap([bad]), /fora do padrão/, bad);
+  }
+
+  const root = path.join(base, 'repo-sitemap');
+  const put = async (file, text = '') => {
+    await mkdir(path.dirname(path.join(root, file)), { recursive: true });
+    await writeFile(path.join(root, file), text);
+  };
+  for (const item of PUBLIC) await put(`${item}/.keep`);
+  await put('index.html', '<!-- <meta name="robots" content="noindex"> -->');
+  await put('404.html', '<meta name="robots" content="noindex" />');
+  await put('projetos/caso.html');
+  await put('projetos/rascunho.html', '<meta content="noindex, nofollow" name="robots">');
+
+  const out = path.join(base, 'repo-sitemap-site');
+  await packSite(root, out);
+  assert.equal(
+    await readFile(path.join(out, 'sitemap.xml'), 'utf8'),
+    buildSitemap(['index.html', 'projetos/caso.html']),
+  );
+});
+
+test('noindex: robots ou googlebot, noindex ou none, com qualquer aspa, ordem e espaçamento', () => {
+  for (const html of [
+    '<meta name="robots" content="noindex" />',
+    '<meta content="noindex, nofollow" name="robots">',
+    '<meta name="googlebot" content="noindex">',
+    '<meta name="robots" content="none">',
+    '<meta name=robots content=noindex>',
+    '<meta name = "ROBOTS" content = " NoIndex ">',
+    // Atributo repetido: vale o primeiro, como no navegador.
+    '<meta name="robots" content="noindex" content="index">',
+  ]) {
+    assert.equal(isNoindex(html), true, html);
+  }
+  for (const html of [
+    '<!-- <meta name="robots" content="noindex"> -->',
+    `<meta name="robots" content="index" data-note='content="noindex"'>`,
+    '<meta name="robots" content="nofollow">',
+    '<meta name="description" content="noindex">',
+    '<meta name="robots" content="noindexed">',
+  ]) {
+    assert.equal(isNoindex(html), false, html);
+  }
 });

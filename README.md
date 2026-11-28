@@ -93,7 +93,7 @@ Portfolio/
 │   ├── build-images.mjs        # Foto do Sobre em AVIF/WebP responsivos (npm run images)
 │   ├── build-og.mjs            # Imagens de compartilhamento da home e dos estudos de caso (npm run og)
 │   ├── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS de todas as páginas
-│   ├── pack-site.mjs           # Monta _site/ (só o que vai ao ar) e confere referências locais
+│   ├── pack-site.mjs           # Monta _site/ (só o que vai ao ar), gera o sitemap e confere referências
 │   └── serve-site.mjs          # Servidor local sob /Portfolio/, igual ao GitHub Pages
 ├── design/
 │   └── profile.jpg             # Original da foto (não é publicado; fonte do images e do og)
@@ -131,7 +131,8 @@ Não há etapa de build: o que está no repositório é o que vai para o GitHub 
 pelo GitHub Actions **sob demanda**: o push na `main` só roda as verificações; a publicação acontece
 quando o workflow é disparado à mão, e **somente depois** de todas as verificações passarem, com um
 artefato que contém apenas os arquivos públicos (`npm run pack:site`). Nesse passo, o ano e o
-"atualizado em" do rodapé recebem a data do commit publicado.
+"atualizado em" do rodapé recebem a data do commit publicado, e o `sitemap.xml` é gerado com a URL
+canônica de cada página indexável (as com `noindex`, como a 404, ficam de fora).
 
 ```bash
 gh workflow run quality.yml --ref main   # verifica e publica o estado atual da main
