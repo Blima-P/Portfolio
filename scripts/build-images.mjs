@@ -1,7 +1,7 @@
-// Gera as versões responsivas da foto do Sobre a partir do original (Profile.jpg.png, 768×1024):
-// AVIF e WebP em 3 larguras e um JPEG de reserva. A foto aparece com no máximo 350 px de
-// CSS, então 350/700/768 cobrem telas de densidade 1, 2 e acima sem ampliar a imagem original.
-// Os arquivos gerados vão para o repositório; rode de novo só quando a foto mudar.
+// Gera as versões responsivas da foto do Sobre a partir do original (design/profile.jpg, 1200×1600,
+// fora do que é publicado): AVIF e WebP em 3 larguras e um JPEG de reserva. A foto aparece com no
+// máximo 350 px de CSS, então 350/700/768 cobrem telas de densidade 1, 2 e um pouco acima.
+// Os arquivos gerados vão para o repositório; rode de novo só quando a foto mudar (e o npm run og).
 //
 // Uso: npm run images
 import { mkdir } from 'node:fs/promises';
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const SOURCE = path.join(ROOT, 'Profile.jpg.png');
+const SOURCE = path.join(ROOT, 'design', 'profile.jpg');
 const OUT = path.join(ROOT, 'assets', 'img');
 export const WIDTHS = [350, 700, 768];
 export const FALLBACK_WIDTH = 700;

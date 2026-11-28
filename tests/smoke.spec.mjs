@@ -370,10 +370,8 @@ test('tablet (820 px): Sobre em 2 colunas, contato em 2 × 2 e nada vaza na hori
 test('foto do Sobre: AVIF/WebP no tamanho da tela, carga preguiçosa e espaço reservado antes de chegar', async ({
   page,
 }) => {
-  const requested = [];
   let release;
   const held = new Promise((resolve) => (release = resolve));
-  page.on('request', (req) => requested.push(new URL(req.url()).pathname));
   // Segura a foto: o espaço dela tem de existir antes do arquivo chegar (sem salto de layout).
   await page.route('**/assets/img/**', async (route) => {
     await held;
@@ -404,7 +402,6 @@ test('foto do Sobre: AVIF/WebP no tamanho da tela, carga preguiçosa e espaço r
   const [, width, ext] = /profile-(\d+)\.(\w+)$/.exec(src);
   expect(ext).toBe('avif');
   expect(Number(width), `${width}px para ${need}px de tela`).toBeGreaterThanOrEqual(need);
-  expect(requested.some((p) => p.endsWith('Profile.jpg.png'))).toBe(false);
 });
 
 test('foto do Sobre: o sizes bate com a largura exibida em cada faixa do layout', async ({

@@ -89,15 +89,21 @@ Portfolio/
 ├── scripts/
 │   ├── pages.mjs               # Lista única das páginas (index.html, projetos/*.html, 404.html)
 │   ├── check-i18n.mjs          # Paridade e uso das chaves; textos e metadados de cada página
+│   ├── check-social.mjs        # Prévia de compartilhamento: og:image 1200×630 e metatags coerentes
+│   ├── build-images.mjs        # Foto do Sobre em AVIF/WebP responsivos (npm run images)
+│   ├── build-og.mjs            # Imagens de compartilhamento da home e dos estudos de caso (npm run og)
 │   ├── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS de todas as páginas
 │   ├── pack-site.mjs           # Monta _site/ (só o que vai ao ar) e confere referências locais
 │   └── serve-site.mjs          # Servidor local sob /Portfolio/, igual ao GitHub Pages
+├── design/
+│   └── profile.jpg             # Original da foto (não é publicado; fonte do images e do og)
 ├── tests/
 │   ├── smoke.spec.mjs          # Smoke test (Playwright, desktop e mobile, sob /Portfolio/)
 │   └── unit/                   # Testes dos scripts (node --test)
 └── assets/
     ├── favicon.svg             # Favicon do site
     ├── fonts/                  # Inter e JetBrains Mono (woff2, latin, OFL)
+    ├── img/                    # Foto do Sobre (gerada) e imagens de compartilhamento 1200×630
     └── cv/                     # Currículo em PDF (PT e EN, conforme o idioma do site)
 ```
 
@@ -139,7 +145,7 @@ Requer Node.js 22+.
 npm ci
 npx playwright install chromium   # uma vez, para o smoke test
 
-npm run verify    # lint, formatação, HTML, i18n, versões dos assets, testes de scripts e smoke test
+npm run verify    # lint, formatação, HTML, i18n, prévia social, versões dos assets, testes e smoke test
 npm run format    # formata com Prettier e atualiza o ?v=<hash> dos assets
 ```
 
