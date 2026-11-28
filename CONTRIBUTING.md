@@ -23,7 +23,7 @@ ao ar. Abra sempre por HTTP — os ES Modules não carregam via `file://`.
 ## Antes de abrir o PR
 
 ```bash
-npm run stamp    # se mudou algum CSS ou JS (atualiza o ?v= que invalida o cache)
+npm run stamp    # se mudou algum CSS, JS ou script inline (?v= do cache e hashes da CSP)
 npm run verify   # ESLint, Stylelint, Prettier, html-validate, i18n, stamp, testes de scripts e Playwright
 ```
 
@@ -36,7 +36,8 @@ mediana de 3 rodadas); nada entra na `main` com ele vermelho.
 - **Idioma:** textos da interface, commits e PRs em PT-BR com acentuação; identificadores em ASCII.
   Todo texto novo precisa da versão em inglês (`npm run check:i18n` confere a paridade).
 - **Formato:** UTF-8, LF e 2 espaços (`.editorconfig`); o Prettier decide o resto.
-- **Segurança:** dados externos entram no DOM por `textContent`, nunca interpolados em HTML.
+- **Segurança:** dados externos entram no DOM por `textContent`, nunca interpolados em HTML. A CSP
+  só libera o próprio site (e a API do GitHub no `connect-src`): nada de CDN, `onclick=` ou `style=` no HTML.
 - **Acessibilidade:** nada essencial depende de animação; tudo respeita `prefers-reduced-motion`.
 - **Conteúdo:** toda afirmação sobre experiência ou projeto precisa de fonte verificável.
 
