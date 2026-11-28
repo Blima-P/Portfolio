@@ -28,16 +28,16 @@
     "verify": "npm run lint && npm run format:check && npm run validate:html && npm run check:i18n && npm run check:social && npm run stamp:check && npm run test:unit && npm run test:smoke"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.14.0",
+    "@axe-core/playwright": "4.14.1",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.65.1",
     "eslint": "10.15.0",
     "globals": "17.14.0",
-    "html-validate": "11.21.1",
+    "html-validate": "11.22.1",
     "prettier": "3.10.1",
     "sharp": "0.35.5",
-    "stylelint": "18.0.0",
-    "stylelint-config-standard": "41.0.0"
+    "stylelint": "18.1.0",
+    "stylelint-config-standard": "41.1.0"
   },
   "overrides": {
     "eslint": {
