@@ -5,12 +5,16 @@
 // Também grava no rodapé das páginas o ano e o mês/ano do commit publicado, então o
 // "atualizado em" nunca mente nem depende de alguém lembrar de editar o HTML.
 //
+// E gera o sitemap.xml a partir da mesma lista de páginas: página nova entra sozinha, e a URL é a
+// canônica (a mesma que o check-i18n exige no <link rel="canonical">).
+//
 // Uso: node scripts/pack-site.mjs
 import { execFileSync } from 'node:child_process';
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { pageUrl } from './check-i18n.mjs';
 import { listPages } from './pages.mjs';
 
 // Arquivos e pastas públicos além das páginas HTML, que entram sozinhas (scripts/pages.mjs).
@@ -132,6 +136,42 @@ export function stampUpdated(html, isoDate) {
   });
 }
 
+const META_TAG = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/gi;
+const ATTR = /([^\s"'=<>/`]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+
+/** A página pede para não ser indexada? (meta robots/googlebot com noindex ou none, fora de comentários) */
+export function isNoindex(html) {
+  for (const [, attrs] of html.replace(/<!--[\s\S]*?-->/g, '').matchAll(META_TAG)) {
+    const map = new Map();
+    for (const [, name, dq, sq, bare] of attrs.matchAll(ATTR)) {
+      const key = name.toLowerCase();
+      if (!map.has(key)) map.set(key, dq ?? sq ?? bare ?? '');
+    }
+    if (!['robots', 'googlebot'].includes(map.get('name')?.trim().toLowerCase())) continue;
+    const directives = (map.get('content') ?? '')
+      .toLowerCase()
+      .split(',')
+      .map((d) => d.trim());
+    if (directives.includes('noindex') || directives.includes('none')) return true;
+  }
+  return false;
+}
+
+// Só nomes que viram URL sem codificação (um "#" ou espaço no arquivo publicaria uma URL errada).
+const SAFE_PAGE = /^(?:[\w-]+\/)*[\w-]+\.html$/;
+
+/** Conteúdo do sitemap.xml: a URL canônica de cada página, na ordem recebida. */
+export function buildSitemap(pages) {
+  const urls = pages.map((page) => {
+    if (!SAFE_PAGE.test(page)) throw new Error(`Nome de página fora do padrão [\\w-]: "${page}"`);
+    return `  <url>\n    <loc>${pageUrl(page)}</loc>\n  </url>\n`;
+  });
+  return (
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('')}</urlset>\n`
+  );
+}
+
 export async function packSite(root, out = path.join(root, '_site'), { updated } = {}) {
   await rm(out, { recursive: true, force: true });
   await mkdir(out);
@@ -154,6 +194,12 @@ export async function packSite(root, out = path.join(root, '_site'), { updated }
       }
     }
   }
+  // Sem lastmod: uma data igual para todas as páginas (a do commit publicado) seria falsa.
+  const indexable = [];
+  for (const page of pages) {
+    if (!isNoindex(await readFile(path.join(out, page), 'utf8'))) indexable.push(page);
+  }
+  await writeFile(path.join(out, 'sitemap.xml'), buildSitemap(indexable));
   const files = [];
   for await (const file of walk(out)) files.push(file);
   return { count: files.length, missing: await findMissingRefs(out) };
@@ -168,5 +214,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.error('  Inclua o arquivo ou a pasta na lista PUBLIC de scripts/pack-site.mjs.');
     process.exit(1);
   }
-  console.log(`✓ _site/ montado: ${count} arquivos, referências locais conferidas, rodapé de ${updated}.`);
+  console.log(
+    `✓ _site/ montado: ${count} arquivos, referências locais conferidas, sitemap.xml gerado, rodapé de ${updated}.`,
+  );
 }

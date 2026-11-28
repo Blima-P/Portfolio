@@ -135,3 +135,9 @@ test('imagens citadas no JSON-LD são do site e existem no repositório', async 
     }
   }
 });
+
+test('home mantém a verificação do Google Search Console (sem ela, a propriedade perde o acesso)', () => {
+  const tags = [...html['index.html'].matchAll(/<meta\b[^>]*\sname="google-site-verification"[^>]*>/g)];
+  assert.equal(tags.length, 1);
+  assert.match(tags[0][0], /\scontent="fyLltp4c-h4i7gykqVaSgGO0mHZHAP6G0SKR6MiHir8"/);
+});
