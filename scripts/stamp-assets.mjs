@@ -8,6 +8,11 @@
 // depende só do conteúdo), então nunca é instanciado duas vezes, nem quando páginas em pastas
 // diferentes o referenciam por caminhos relativos diferentes ("css/x.css" e "../css/x.css").
 //
+// Também mantém a Content-Security-Policy de cada página: o script-src recebe o hash SHA-256 de
+// cada <script> inline executável (o tema aplicado antes da primeira pintura). Editar o script sem
+// rodar o stamp deixa o hash velho, e o --check (no CI) reprova, em vez de o navegador bloquear o
+// script em silêncio.
+//
 // Uso: node scripts/stamp-assets.mjs           grava as referências atualizadas
 //      node scripts/stamp-assets.mjs --check   falha se alguma referência estiver desatualizada
 import { createHash } from 'node:crypto';
@@ -15,12 +20,64 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { elements } from './html.mjs';
 import { listPages } from './pages.mjs';
 
 // from './x.js' | import './x.js' | import('./x.js'), com ou sem ?v= anterior.
 const JS_IMPORT = /(\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(['"])(\.\.?\/[^'"?]+\.js)(?:\?v=[0-9a-f]*)?\2/g;
 // href="css/x.css" | src="../js/x.js" (somente arquivos locais, relativos ao HTML).
 const HTML_ASSET = /(\s(?:href|src)=")((?:\.\.?\/)*(?:css|js)\/[^"?#]+\.(?:css|js))(?:\?v=[0-9a-f]*)?"/g;
+
+// type de script que executa: ausente/vazio, "module" ou MIME de JavaScript (JSON-LD não executa).
+const JS_TYPE = /^(?:|module|(?:text|application)\/(?:x-)?(?:java|ecma)script)$/i;
+const HASH_SOURCE = /^'sha256-[A-Za-z0-9+/]+={0,2}'$/;
+
+/** Fontes CSP ('sha256-…') dos scripts inline executáveis do HTML, na ordem em que aparecem. */
+export function inlineScriptHashes(html) {
+  const hashes = [];
+  for (const { tag, attrs, body } of elements(html)) {
+    if (tag !== 'script' || attrs.has('src')) continue;
+    if (!JS_TYPE.test((attrs.get('type')?.value ?? '').trim())) continue;
+    // O navegador calcula sobre o texto já normalizado pelo parser HTML (CRLF e CR sozinho → LF).
+    const digest = createHash('sha256').update(body.replace(/\r\n?/g, '\n'), 'utf8').digest('base64');
+    hashes.push(`'sha256-${digest}'`);
+  }
+  return [...new Set(hashes)];
+}
+
+const isCspMeta = ({ tag, attrs }) =>
+  tag === 'meta' && attrs.get('http-equiv')?.value.trim().toLowerCase() === 'content-security-policy';
+
+/** Grava no script-src da CSP (meta) os hashes dos scripts inline; falha se a CSP não comportar. */
+export function stampCsp(html) {
+  const metas = [...elements(html)].filter(isCspMeta);
+  const hashes = inlineScriptHashes(html);
+  if (metas.length === 0) {
+    if (hashes.length) throw new Error('script inline sem <meta http-equiv="Content-Security-Policy">');
+    return html;
+  }
+  if (metas.length > 1) throw new Error('mais de uma <meta http-equiv="Content-Security-Policy">');
+  const [meta] = metas;
+  const content = meta.attrs.get('content');
+  if (content?.quote !== '"') throw new Error('CSP precisa de content="…" (aspas duplas)');
+
+  const directives = content.value
+    .split(';')
+    .map((d) => d.trim())
+    .filter(Boolean);
+  const names = directives.map((d) => d.split(/\s+/)[0].toLowerCase());
+  const repeated = names.find((name, i) => names.indexOf(name) !== i);
+  // O navegador usa só a primeira ocorrência: a segunda não valeria nada.
+  if (repeated) throw new Error(`CSP com a diretiva ${repeated} repetida`);
+  const at = names.indexOf('script-src');
+  const sources = at === -1 ? [] : directives[at].split(/\s+/).slice(1);
+  if (sources[0] !== "'self'" || !sources.slice(1).every((s) => HASH_SOURCE.test(s))) {
+    throw new Error(`CSP sem "script-src 'self'" (só com hashes) para receber os hashes: ${content.value}`);
+  }
+  directives[at] = ['script-src', "'self'", ...hashes].join(' ');
+  const from = meta.attrStart + content.index;
+  return `${html.slice(0, from)}content="${directives.join('; ')}"${html.slice(from + content.raw.length)}`;
+}
 
 /**
  * Calcula (e, sem `check`, grava) as versões de todas as páginas de `root` e dos módulos que elas
@@ -72,12 +129,19 @@ export async function stampSite(root, { check = false } = {}) {
     );
 
     let i = 0;
-    const updated = text.replace(pattern, (...m) => {
+    let updated = text.replace(pattern, (...m) => {
       const version = versions[i++];
       return file.endsWith('.html')
         ? `${m[1]}${m[2]}?v=${version}"`
         : `${m[1]}${m[2]}${m[3]}?v=${version}${m[2]}`;
     });
+    if (file.endsWith('.html')) {
+      try {
+        updated = stampCsp(updated);
+      } catch (err) {
+        throw new Error(`${rel(file)}: ${err.message}`, { cause: err });
+      }
+    }
     return { file, text, updated };
   }
 
@@ -118,7 +182,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
   if (check) {
     if (stale.length) {
-      console.error(`✗ Versões de assets desatualizadas em: ${stale.join(', ')}`);
+      console.error(`✗ Versões de assets ou hashes da CSP desatualizados em: ${stale.join(', ')}`);
       console.error('  Rode "npm run stamp" e faça commit do resultado.');
       process.exit(1);
     }

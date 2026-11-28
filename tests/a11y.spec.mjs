@@ -179,12 +179,11 @@ for (const theme of THEMES) {
         // No CSS a primeira camada listada fica por cima: compõe de baixo para cima.
         let base = rgba('var(--color-bg)');
         for (const token of [...tokens].reverse()) base = over(rgba(`var(${token})`), base);
-        document.getElementById('axe-glow')?.remove();
-        const style = document.createElement('style');
-        style.id = 'axe-glow';
-        style.textContent = `.hero::before, .timeline__line::before, .hero__particles { display: none !important; }
-          .hero { background: rgb(${base.r} ${base.g} ${base.b}) !important; }`;
-        document.head.append(style);
+        // Folha construída pelo CSSOM: a CSP da página (style-src 'self') bloqueia <style> injetado.
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(`.hero::before, .timeline__line::before, .hero__particles { display: none !important; }
+          .hero { background: rgb(${base.r} ${base.g} ${base.b}) !important; }`);
+        document.adoptedStyleSheets = [sheet];
 
         const luminance = (c) =>
           ['r', 'g', 'b']

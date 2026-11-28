@@ -15,6 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { pageUrl } from './check-i18n.mjs';
+import { elements } from './html.mjs';
 import { listPages } from './pages.mjs';
 
 // Arquivos e pastas públicos além das páginas HTML, que entram sozinhas (scripts/pages.mjs).
@@ -136,19 +137,12 @@ export function stampUpdated(html, isoDate) {
   });
 }
 
-const META_TAG = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/gi;
-const ATTR = /([^\s"'=<>/`]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
-
 /** A página pede para não ser indexada? (meta robots/googlebot com noindex ou none, fora de comentários) */
 export function isNoindex(html) {
-  for (const [, attrs] of html.replace(/<!--[\s\S]*?-->/g, '').matchAll(META_TAG)) {
-    const map = new Map();
-    for (const [, name, dq, sq, bare] of attrs.matchAll(ATTR)) {
-      const key = name.toLowerCase();
-      if (!map.has(key)) map.set(key, dq ?? sq ?? bare ?? '');
-    }
-    if (!['robots', 'googlebot'].includes(map.get('name')?.trim().toLowerCase())) continue;
-    const directives = (map.get('content') ?? '')
+  for (const { tag, attrs } of elements(html)) {
+    if (tag !== 'meta') continue;
+    if (!['robots', 'googlebot'].includes(attrs.get('name')?.value.trim().toLowerCase())) continue;
+    const directives = (attrs.get('content')?.value ?? '')
       .toLowerCase()
       .split(',')
       .map((d) => d.trim());

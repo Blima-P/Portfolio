@@ -92,7 +92,8 @@ Portfolio/
 │   ├── check-social.mjs        # Prévia de compartilhamento: og:image 1200×630 e metatags coerentes
 │   ├── build-images.mjs        # Foto do Sobre em AVIF/WebP responsivos (npm run images)
 │   ├── build-og.mjs            # Imagens de compartilhamento da home e dos estudos de caso (npm run og)
-│   ├── stamp-assets.mjs        # Cache-busting: ?v=<hash> nos CSS/JS de todas as páginas
+│   ├── stamp-assets.mjs        # Cache-busting (?v=<hash>) e hashes da CSP dos scripts inline
+│   ├── html.mjs                # Leitura mínima de HTML: comentários, <script>, <meta> e atributos
 │   ├── pack-site.mjs           # Monta _site/ (só o que vai ao ar), gera o sitemap e confere referências
 │   └── serve-site.mjs          # Servidor local sob /Portfolio/, igual ao GitHub Pages
 ├── design/
@@ -152,7 +153,9 @@ npm run format    # formata com Prettier e atualiza o ?v=<hash> dos assets
 
 Ao editar qualquer CSS ou JS, rode `npm run stamp` (ou `npm run format`) antes do commit: o CI
 falha se o `?v=<hash>` estiver desatualizado, o que evita misturar HTML novo com CSS/JS antigos do
-cache do navegador após um deploy.
+cache do navegador após um deploy. O mesmo comando grava no `script-src` da Content-Security-Policy
+(meta no `<head>` de cada página) o hash SHA-256 de cada script inline; editar o script sem rodá-lo
+reprova no CI, em vez de o navegador bloquear o script em silêncio.
 
 <br>
 

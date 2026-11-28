@@ -540,13 +540,18 @@ test('botão de tema descreve a ação, nos dois idiomas, e atualiza o theme-col
   await expect(button).toHaveAttribute('aria-label', 'Switch to dark theme');
 });
 
-test('tema claro salvo já pinta o theme-color certo antes dos módulos carregarem', async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('theme', 'light'));
-  await page.route('**/js/**', (route) => route.abort());
-  await page.goto('./');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
-});
+// Sem os módulos, só o script inline pode aplicar o tema: prova também que a CSP o libera pelo hash.
+for (const file of PAGES) {
+  test(`${file}: tema claro salvo já pinta o theme-color certo antes dos módulos carregarem`, async ({
+    page,
+  }) => {
+    await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+    await page.route('**/js/**', (route) => route.abort());
+    await page.goto(file === 'index.html' ? './' : file);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
+  });
+}
 
 test('header cabe em 320 px nos dois idiomas, com alvos de 44 px inteiros na tela', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
@@ -709,6 +714,27 @@ test.describe('todas as páginas, servidas sob /Portfolio/ como no GitHub Pages'
       await page.waitForLoadState('networkidle');
       expect(broken).toEqual([]);
       expect(errors).toEqual([]);
+    });
+
+    test(`${file}: CSP aplicada sem bloquear nada na carga normal`, async ({ page }) => {
+      const violations = [];
+      page.on('console', (msg) => {
+        if (/Content Security Policy/i.test(msg.text())) violations.push(msg.text());
+      });
+      await page.addInitScript(() => {
+        localStorage.setItem('theme', 'light');
+        document.addEventListener('securitypolicyviolation', (e) =>
+          console.error(`Content Security Policy: ${e.violatedDirective} ${e.blockedURI}`),
+        );
+      });
+      await page.goto(file === 'index.html' ? './' : file);
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+      await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f3f9ff');
+      const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+      expect(csp).toContain("object-src 'none'");
+      await page.locator('#lang-toggle').click();
+      await page.waitForLoadState('networkidle');
+      expect(violations).toEqual([]);
     });
 
     test(`${file}: skip link é o primeiro foco, aparece só com foco e leva ao conteúdo`, async ({ page }) => {
